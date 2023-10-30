@@ -1,0 +1,152 @@
+{
+  "description": "BackupVolume is where Longhorn stores backup volume object.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "BackupVolume"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "BackupVolumeSpec defines the desired state of the Longhorn backup volume",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "syncRequestedAt": {
+          "description": "The time to request run sync the remote backup volume.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "BackupVolumeStatus defines the observed state of the Longhorn backup volume",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "backingImageChecksum": {
+          "description": "the backing image checksum.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "backingImageName": {
+          "description": "The backing image name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "createdAt": {
+          "description": "The backup volume creation time.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dataStored": {
+          "description": "The backup volume block count.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "labels": {
+          "description": "The backup volume labels.",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "lastBackupAt": {
+          "description": "The latest volume backup time.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastBackupName": {
+          "description": "The latest volume backup name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastModificationTime": {
+          "description": "The backup volume config last modification time.",
+          "format": "date-time"
+        },
+        "lastSyncedAt": {
+          "description": "The last time that the backup volume was synced into the cluster.",
+          "format": "date-time"
+        },
+        "messages": {
+          "description": "The error messages when call longhorn engine on list or inspect backup volumes.",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "ownerID": {
+          "description": "The node ID on which the controller is responsible to reconcile this backup volume CR.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "description": "The backup volume size.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageClassName": {
+          "description": "the storage class name of pv/pvc binding with the volume.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "BackupVolume",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

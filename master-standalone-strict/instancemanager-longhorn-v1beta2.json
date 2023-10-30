@@ -1,0 +1,401 @@
+{
+  "description": "InstanceManager is where Longhorn stores instance manager object.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "InstanceManager"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "InstanceManagerSpec defines the desired state of the Longhorn instancer manager",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nodeID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "aio",
+            "engine",
+            "replica"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "InstanceManagerStatus defines the observed state of the Longhorn instance manager",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "apiMinVersion": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "apiVersion": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "currentState": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "instanceEngines": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "spec": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "backendStoreDriver": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "status": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "errorMsg": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "listen": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "portEnd": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "portStart": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "resourceVersion": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "state": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "instanceReplicas": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "spec": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "backendStoreDriver": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "status": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "errorMsg": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "listen": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "portEnd": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "portStart": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "resourceVersion": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "state": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "instances": {
+          "description": "Deprecated: Replaced by InstanceEngines and InstanceReplicas",
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "spec": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "backendStoreDriver": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "status": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "errorMsg": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "listen": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "portEnd": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "portStart": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  },
+                  "resourceVersion": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64"
+                  },
+                  "state": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "ip": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ownerID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "proxyApiMinVersion": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "proxyApiVersion": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "InstanceManager",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

@@ -1,0 +1,136 @@
+{
+  "description": "RecurringJob is where Longhorn stores recurring job object.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "RecurringJob"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "RecurringJobSpec defines the desired state of the Longhorn recurring job",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "concurrency": {
+          "description": "The concurrency of taking the snapshot/backup.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cron": {
+          "description": "The cron setting.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "groups": {
+          "description": "The recurring job group.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "labels": {
+          "description": "The label of the snapshot/backup.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "name": {
+          "description": "The recurring job name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retain": {
+          "description": "The retain count of the snapshot/backup.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "task": {
+          "description": "The recurring job task. Can be \"snapshot\", \"snapshot-force-create\", \"snapshot-cleanup\", \"snapshot-delete\", \"backup\", \"backup-force-create\" or \"filesystem-trim\"",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "snapshot",
+            "snapshot-force-create",
+            "snapshot-cleanup",
+            "snapshot-delete",
+            "backup",
+            "backup-force-create",
+            "filesystem-trim"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "RecurringJobStatus defines the observed state of the Longhorn recurring job",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "ownerID": {
+          "description": "The owner ID which is responsible to reconcile this recurring job CR.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "RecurringJob",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

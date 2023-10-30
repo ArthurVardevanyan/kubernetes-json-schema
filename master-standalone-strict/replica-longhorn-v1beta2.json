@@ -1,0 +1,251 @@
+{
+  "description": "Replica is where Longhorn stores replica object.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Replica"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "ReplicaSpec defines the desired state of the Longhorn replica",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "active": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "backendStoreDriver": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "v1",
+            "v2"
+          ]
+        },
+        "backingImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dataDirectoryName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "desireState": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "diskID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "diskPath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "engineImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "engineName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "failedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hardNodeAffinity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "healthyAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logRequested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "nodeID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rebuildRetryCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "revisionCounterDisabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "salvageRequested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "unmapMarkDiskChainRemovedEnabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "volumeName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "volumeSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ReplicaStatus defines the observed state of the Longhorn replica",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {},
+        "currentImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "currentState": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evictionRequested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "instanceManagerName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ip": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logFetched": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ownerID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "port": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "salvageExecuted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "started": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "storageIP": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "Replica",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

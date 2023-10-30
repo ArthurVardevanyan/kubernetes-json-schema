@@ -1,0 +1,94 @@
+{
+  "description": "MiddlewareTCP is the CRD implementation of a Traefik TCP middleware. More info: https://doc.traefik.io/traefik/v2.10/middlewares/overview/",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "traefik.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "MiddlewareTCP"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "MiddlewareTCPSpec defines the desired state of a MiddlewareTCP.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "inFlightConn": {
+          "description": "InFlightConn defines the InFlightConn middleware configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "amount": {
+              "description": "Amount defines the maximum amount of allowed simultaneous connections. The middleware closes the connection if there are already amount connections opened.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
+            }
+          },
+          "additionalProperties": false
+        },
+        "ipWhiteList": {
+          "description": "IPWhiteList defines the IPWhiteList middleware configuration.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "sourceRange": {
+              "description": "SourceRange defines the allowed IPs (or ranges of allowed IPs by using CIDR notation).",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "traefik.io",
+      "kind": "MiddlewareTCP",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

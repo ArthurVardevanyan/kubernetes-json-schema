@@ -1,0 +1,160 @@
+{
+  "description": "Auth is the Schema for the auths API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "artifactregistry.arthurvardevanyan.com/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Auth"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "Contains the Fields Related to configuring GCP Workload Identity Federation",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "registryLocation",
+        "secretName",
+        "wifConfig"
+      ],
+      "properties": {
+        "registryLocation": {
+          "description": "Location of GCP Artifact Registry Being Used.",
+          "type": "string",
+          "enum": [
+            "us",
+            "asia",
+            "europe",
+            "northamerica-northeast1",
+            "northamerica-northeast2",
+            "us-central1",
+            "us-east1",
+            "us-east4",
+            "us-east5",
+            "us-south1",
+            "us-west1",
+            "us-west2",
+            "us-west3",
+            "us-west4",
+            "southamerica-east1",
+            "southamerica-west1",
+            "europe-central2",
+            "europe-north1",
+            "europe-southwest1",
+            "europe-west1",
+            "europe-west2",
+            "europe-west3",
+            "europe-west4",
+            "europe-west6",
+            "europe-west8",
+            "europe-west9",
+            "europe-west12",
+            "me-central1",
+            "me-west1",
+            "asia-east1",
+            "asia-east2",
+            "asia-northeast1",
+            "asia-northeast2",
+            "asia-northeast3",
+            "asia-south1",
+            "asia-south2",
+            "asia-southeast1",
+            "asia-southeast2",
+            "australia-southeast1",
+            "australia-southeast2"
+          ]
+        },
+        "secretName": {
+          "description": "Name of the Secret to Save the Image Pull Secrt Too",
+          "type": "string"
+        },
+        "wifConfig": {
+          "description": "Contains the Fields Related to configuring GCP Workload Identity Federation",
+          "type": "object",
+          "required": [
+            "fileName",
+            "objectName",
+            "serviceAccount",
+            "type"
+          ],
+          "properties": {
+            "fileName": {
+              "description": "The Name of the File Within the Object, Generally: credentials_config.json",
+              "type": "string"
+            },
+            "objectName": {
+              "description": "The Name of the Kubernetes Objec Containing the Workload Identity Json Config",
+              "type": "string"
+            },
+            "serviceAccount": {
+              "description": "The Kubernetes Service Account That is Bound to a Google Service Account with Artifact Registry Reader",
+              "type": "string"
+            },
+            "type": {
+              "description": "Object Type, must be ConfigMap",
+              "type": "string",
+              "enum": [
+                "configMap"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "AuthStatus defines the observed state of Auth",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "error": {
+          "description": "Output of Any Errors",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tokenExpiration": {
+          "description": "When the Current Token Expires",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "artifactregistry.arthurvardevanyan.com",
+      "kind": "Auth",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

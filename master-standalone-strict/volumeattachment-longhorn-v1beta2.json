@@ -1,0 +1,162 @@
+{
+  "description": "VolumeAttachment stores attachment information of a Longhorn volume",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "VolumeAttachment"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "VolumeAttachmentSpec defines the desired state of Longhorn VolumeAttachment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "volume"
+      ],
+      "properties": {
+        "attachmentTickets": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "generation": {
+                "description": "A sequence number representing a specific generation of the desired state. Populated by the system. Read-only.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "id": {
+                "description": "The unique ID of this attachment. Used to differentiate different attachments of the same volume.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "nodeID": {
+                "description": "The node that this attachment is requesting",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "parameters": {
+                "description": "Optional additional parameter for this attachment",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "volume": {
+          "description": "The name of Longhorn volume of this VolumeAttachment",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "VolumeAttachmentStatus defines the observed state of Longhorn VolumeAttachment",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "attachmentTicketStatuses": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "satisfied"
+            ],
+            "properties": {
+              "conditions": {
+                "description": "Record any error when trying to fulfill this attachment"
+              },
+              "generation": {
+                "description": "A sequence number representing a specific generation of the desired state. Populated by the system. Read-only.",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "id": {
+                "description": "The unique ID of this attachment. Used to differentiate different attachments of the same volume.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "satisfied": {
+                "description": "Indicate whether this attachment ticket has been satisfied",
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "VolumeAttachment",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

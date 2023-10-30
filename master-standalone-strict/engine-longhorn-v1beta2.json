@@ -1,0 +1,608 @@
+{
+  "description": "Engine is where Longhorn stores engine object.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "longhorn.io/v1beta2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Engine"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "EngineSpec defines the desired state of the Longhorn engine",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "active": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "backendStoreDriver": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "v1",
+            "v2"
+          ]
+        },
+        "backupVolume": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "desireState": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disableFrontend": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "engineImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "frontend": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "blockdev",
+            "iscsi",
+            "nvmf",
+            ""
+          ]
+        },
+        "logRequested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "nodeID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "replicaAddressMap": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "requestedBackupRestore": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "requestedDataSource": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revisionCounterDisabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "salvageRequested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "unmapMarkSnapChainRemovedEnabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "upgradedReplicaAddressMap": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "volumeName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "volumeSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "EngineStatus defines the observed state of the Longhorn engine",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "backupStatus": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "backupURL": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "error": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "progress": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "replicaAddress": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "snapshotName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "state": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "cloneStatus": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "error": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fromReplicaAddress": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isCloning": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "progress": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "snapshotName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "state": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "conditions": {},
+        "currentImage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "currentReplicaAddressMap": {
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "currentSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "currentState": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "endpoint": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "instanceManagerName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ip": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "isExpanding": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "lastExpansionError": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastExpansionFailedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastRestoredBackup": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "logFetched": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ownerID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "port": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "purgeStatus": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "error": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isPurging": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "progress": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "state": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rebuildStatus": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "error": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fromReplicaAddress": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isRebuilding": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "progress": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "state": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "replicaModeMap": {
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "restoreStatus": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "backupURL": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "currentRestoringBackup": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "error": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "filename": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "isRestoring": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "lastRestored": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "progress": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "state": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "salvageExecuted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "snapshots": {
+          "additionalProperties": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "children": {
+                "additionalProperties": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "created": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "labels": {
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "parent": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "removed": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "size": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "usercreated": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "snapshotsError": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "started": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "storageIP": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unmapMarkSnapChainRemovedEnabled": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "longhorn.io",
+      "kind": "Engine",
+      "version": "v1beta2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
