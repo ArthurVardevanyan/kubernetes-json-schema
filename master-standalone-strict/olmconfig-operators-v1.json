@@ -49,6 +49,14 @@
                 "boolean",
                 "null"
               ]
+            },
+            "packageServerSyncInterval": {
+              "description": "PackageServerSyncInterval is used to define the sync interval for packagerserver pods. Packageserver pods periodically check the status of CatalogSources; this specifies the period using duration format (e.g. \"60m\"). For this parameter, only hours (\"h\"), minutes (\"m\"), and seconds (\"s\") may be specified. When not specified, the period defaults to the value specified within the packageserver.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^([0-9]+(\\.[0-9]+)?(s|m|h))+$"
             }
           },
           "additionalProperties": false

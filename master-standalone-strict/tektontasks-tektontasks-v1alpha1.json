@@ -1,0 +1,188 @@
+{
+  "description": "TektonTasks is the Schema for the tektontasks API",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "tektontasks.kubevirt.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "TektonTasks"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "TektonTasksSpec defines the desired state of TektonTasks",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "featureGates": {
+          "description": "FeatureGates defines feature gate for tto operator",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "deployTektonTaskResources": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "pipelines": {
+          "description": "Pipelines defines variables for configuration of pipelines",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "namespace": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "TektonTasksStatus defines the observed state of TektonTasks",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "conditions": {
+          "description": "A list of current conditions of the resource",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Condition represents the state of the operator's reconciliation functionality.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "status",
+              "type"
+            ],
+            "properties": {
+              "lastHeartbeatTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "lastTransitionTime": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "message": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "type": {
+                "description": "ConditionType is the state of the operator's reconciliation functionality.",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is the latest generation observed by the operator.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "observedVersion": {
+          "description": "The observed version of the resource",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operatorVersion": {
+          "description": "The version of the resource as defined by the operator",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paused": {
+          "description": "Paused is true when the operator notices paused annotation.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "phase": {
+          "description": "Phase is the current phase of the deployment",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "targetVersion": {
+          "description": "The desired version of the resource",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "tektontasks.kubevirt.io",
+      "kind": "TektonTasks",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

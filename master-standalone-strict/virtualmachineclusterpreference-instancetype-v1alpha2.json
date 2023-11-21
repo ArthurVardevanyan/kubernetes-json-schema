@@ -1,0 +1,936 @@
+{
+  "description": "VirtualMachineClusterPreference is a cluster scoped version of the VirtualMachinePreference resource.",
+  "type": "object",
+  "required": [
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "instancetype.kubevirt.io/v1alpha2"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "VirtualMachineClusterPreference"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "Required spec describing the preferences",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "clock": {
+          "description": "Clock optionally defines preferences associated with the Clock attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredClockOffset": {
+              "description": "ClockOffset allows specifying the UTC offset or the timezone of the guest clock.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "timezone": {
+                  "description": "Timezone sets the guest clock to the specified timezone. Zone name follows the TZ environment variable format (e.g. 'America/New_York').",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "utc": {
+                  "description": "UTC sets the guest clock to UTC on each boot. If an offset is specified, guest changes to the clock will be kept during reboots and are not reset.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "offsetSeconds": {
+                      "description": "OffsetSeconds specifies an offset in seconds, relative to UTC. If set, guest changes to the clock will be kept during reboots and not reset.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredTimer": {
+              "description": "Timer specifies whih timers are attached to the vmi.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "hpet": {
+                  "description": "HPET (High Precision Event Timer) - multiple timers with periodic interrupts.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "present": {
+                      "description": "Enabled set to false makes sure that the machine type or a preset can't add the timer. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "tickPolicy": {
+                      "description": "TickPolicy determines what happens when QEMU misses a deadline for injecting a tick to the guest. One of \"delay\", \"catchup\", \"merge\", \"discard\".",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "hyperv": {
+                  "description": "Hyperv (Hypervclock) - lets guests read the host\u2019s wall clock time (paravirtualized). For windows guests.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "present": {
+                      "description": "Enabled set to false makes sure that the machine type or a preset can't add the timer. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "kvm": {
+                  "description": "KVM \t(KVM clock) - lets guests read the host\u2019s wall clock time (paravirtualized). For linux guests.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "present": {
+                      "description": "Enabled set to false makes sure that the machine type or a preset can't add the timer. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "pit": {
+                  "description": "PIT (Programmable Interval Timer) - a timer with periodic interrupts.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "present": {
+                      "description": "Enabled set to false makes sure that the machine type or a preset can't add the timer. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "tickPolicy": {
+                      "description": "TickPolicy determines what happens when QEMU misses a deadline for injecting a tick to the guest. One of \"delay\", \"catchup\", \"discard\".",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "rtc": {
+                  "description": "RTC (Real Time Clock) - a continuously running timer with periodic interrupts.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "present": {
+                      "description": "Enabled set to false makes sure that the machine type or a preset can't add the timer. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "tickPolicy": {
+                      "description": "TickPolicy determines what happens when QEMU misses a deadline for injecting a tick to the guest. One of \"delay\", \"catchup\".",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "track": {
+                      "description": "Track the guest or the wall clock.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "cpu": {
+          "description": "CPU optionally defines preferences associated with the CPU attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredCPUTopology": {
+              "description": "PreferredCPUTopology optionally defines the preferred guest visible CPU topology, defaults to PreferSockets.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "devices": {
+          "description": "Devices optionally defines preferences associated with the Devices attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredAutoattachGraphicsDevice": {
+              "description": "PreferredAutoattachGraphicsDevice optionally defines the preferred value of AutoattachGraphicsDevice",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredAutoattachInputDevice": {
+              "description": "PreferredAutoattachInputDevice optionally defines the preferred value of AutoattachInputDevice",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredAutoattachMemBalloon": {
+              "description": "PreferredAutoattachMemBalloon optionally defines the preferred value of AutoattachMemBalloon",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredAutoattachPodInterface": {
+              "description": "PreferredAutoattachPodInterface optionally defines the preferred value of AutoattachPodInterface",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredAutoattachSerialConsole": {
+              "description": "PreferredAutoattachSerialConsole optionally defines the preferred value of AutoattachSerialConsole",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredBlockMultiQueue": {
+              "description": "PreferredBlockMultiQueue optionally enables the vhost multiqueue feature for virtio disks.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredCdromBus": {
+              "description": "PreferredCdromBus optionally defines the preferred bus for Cdrom Disk devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredDisableHotplug": {
+              "description": "PreferredDisableHotplug optionally defines the preferred value of DisableHotplug",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredDiskBlockSize": {
+              "description": "PreferredBlockSize optionally defines the block size of Disk devices.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "custom": {
+                  "description": "CustomBlockSize represents the desired logical and physical block size for a VM disk.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "logical",
+                    "physical"
+                  ],
+                  "properties": {
+                    "logical": {
+                      "type": "integer"
+                    },
+                    "physical": {
+                      "type": "integer"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "matchVolume": {
+                  "description": "Represents if a feature is enabled or disabled.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredDiskBus": {
+              "description": "PreferredDiskBus optionally defines the preferred bus for Disk Disk devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredDiskCache": {
+              "description": "PreferredCache optionally defines the DriverCache to be used by Disk devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredDiskDedicatedIoThread": {
+              "description": "PreferredDedicatedIoThread optionally enables dedicated IO threads for Disk devices.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredDiskIO": {
+              "description": "PreferredIo optionally defines the QEMU disk IO mode to be used by Disk devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredInputBus": {
+              "description": "PreferredInputBus optionally defines the preferred bus for Input devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredInputType": {
+              "description": "PreferredInputType optionally defines the preferred type for Input devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredInterfaceModel": {
+              "description": "PreferredInterfaceModel optionally defines the preferred model to be used by Interface devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredLunBus": {
+              "description": "PreferredLunBus optionally defines the preferred bus for Lun Disk devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredNetworkInterfaceMultiQueue": {
+              "description": "PreferredNetworkInterfaceMultiQueue optionally enables the vhost multiqueue feature for virtio interfaces.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredRng": {
+              "description": "PreferredRng optionally defines the preferred rng device to be used.",
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "preferredSoundModel": {
+              "description": "PreferredSoundModel optionally defines the preferred model for Sound devices.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "preferredTPM": {
+              "description": "PreferredTPM optionally defines the preferred TPM device to be used.",
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "preferredUseVirtioTransitional": {
+              "description": "PreferredUseVirtioTransitional optionally defines the preferred value of UseVirtioTransitional",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredVirtualGPUOptions": {
+              "description": "PreferredVirtualGPUOptions optionally defines the preferred value of VirtualGPUOptions",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "display": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if a display addapter backed by a vGPU should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "ramFB": {
+                      "description": "Enables a boot framebuffer, until the guest OS loads a real GPU driver Defaults to true.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "enabled": {
+                          "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "features": {
+          "description": "Features optionally defines preferences associated with the Features attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredAcpi": {
+              "description": "PreferredAcpi optionally enables the ACPI feature",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "enabled": {
+                  "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredApic": {
+              "description": "PreferredApic optionally enables and configures the APIC feature",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "enabled": {
+                  "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "endOfInterrupt": {
+                  "description": "EndOfInterrupt enables the end of interrupt notification in the guest. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredHyperv": {
+              "description": "PreferredHyperv optionally enables and configures HyperV features",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "evmcs": {
+                  "description": "EVMCS Speeds up L2 vmexits, but disables other virtualization features. Requires vapic. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "frequencies": {
+                  "description": "Frequencies improves the TSC clock source handling for Hyper-V on KVM. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "ipi": {
+                  "description": "IPI improves performances in overcommited environments. Requires vpindex. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "reenlightenment": {
+                  "description": "Reenlightenment enables the notifications on TSC frequency changes. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "relaxed": {
+                  "description": "Relaxed instructs the guest OS to disable watchdog timeouts. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "reset": {
+                  "description": "Reset enables Hyperv reboot/reset for the vmi. Requires synic. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "runtime": {
+                  "description": "Runtime improves the time accounting to improve scheduling in the guest. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "spinlocks": {
+                  "description": "Spinlocks allows to configure the spinlock retry attempts.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "spinlocks": {
+                      "description": "Retries indicates the number of retries. Must be a value greater or equal 4096. Defaults to 4096.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "synic": {
+                  "description": "SyNIC enables the Synthetic Interrupt Controller. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "synictimer": {
+                  "description": "SyNICTimer enables Synthetic Interrupt Controller Timers, reducing CPU load. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "direct": {
+                      "description": "Represents if a feature is enabled or disabled.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "enabled": {
+                          "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "enabled": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "tlbflush": {
+                  "description": "TLBFlush improves performances in overcommited environments. Requires vpindex. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "vapic": {
+                  "description": "VAPIC improves the paravirtualized handling of interrupts. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "vendorid": {
+                  "description": "VendorID allows setting the hypervisor vendor id. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "vendorid": {
+                      "description": "VendorID sets the hypervisor vendor id, visible to the vmi. String up to twelve characters.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "vpindex": {
+                  "description": "VPIndex enables the Virtual Processor Index to help windows identifying virtual processors. Defaults to the machine type setting.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredKvm": {
+              "description": "PreferredKvm optionally enables and configures KVM features",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "hidden": {
+                  "description": "Hide the KVM hypervisor from standard MSR based discovery. Defaults to false",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredPvspinlock": {
+              "description": "PreferredPvspinlock optionally enables the Pvspinlock feature",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "enabled": {
+                  "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "preferredSmm": {
+              "description": "PreferredSmm optionally enables the SMM feature",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "enabled": {
+                  "description": "Enabled determines if the feature should be enabled or disabled on the guest. Defaults to true.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "firmware": {
+          "description": "Firmware optionally defines preferences associated with the Firmware attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredUseBios": {
+              "description": "PreferredUseBios optionally enables BIOS",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredUseBiosSerial": {
+              "description": "PreferredUseBiosSerial optionally transmitts BIOS output over the serial. \n Requires PreferredUseBios to be enabled.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredUseEfi": {
+              "description": "PreferredUseEfi optionally enables EFI",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "preferredUseSecureBoot": {
+              "description": "PreferredUseSecureBoot optionally enables SecureBoot and the OVMF roms will be swapped for SecureBoot-enabled ones. \n Requires PreferredUseEfi and PreferredSmm to be enabled.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "machine": {
+          "description": "Machine optionally defines preferences associated with the Machine attribute of a VirtualMachineInstance DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredMachineType": {
+              "description": "PreferredMachineType optionally defines the preferred machine type to use.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "volumes": {
+          "description": "Volumes optionally defines preferences associated with the Volumes attribute of a VirtualMachineInstace DomainSpec",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "preferredStorageClassName": {
+              "description": "PreffereedStorageClassName optionally defines the preferred storageClass",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "instancetype.kubevirt.io",
+      "kind": "VirtualMachineClusterPreference",
+      "version": "v1alpha2"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
