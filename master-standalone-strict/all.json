@@ -820,10 +820,184 @@
       "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.PackageManifestStatus"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.redhat.quay.secscan.v1alpha1.ImageManifestVuln"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.redhat.quay.secscan.v1alpha1.ImageManifestVulnList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.redhat.quay.v1.QuayRegistry"
     },
     {
       "$ref": "_definitions.json#/definitions/com.redhat.quay.v1.QuayRegistryList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1.Broker"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1.BrokerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1.Trigger"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1.TriggerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1beta1.EventType"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1beta1.EventTypeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1beta2.EventType"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.eventing.v1beta2.EventTypeList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.flows.v1.Parallel"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.flows.v1.ParallelList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.flows.v1.Sequence"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.flows.v1.SequenceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.autoscaling.v1alpha1.Metric"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.autoscaling.v1alpha1.MetricList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.autoscaling.v1alpha1.PodAutoscaler"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.autoscaling.v1alpha1.PodAutoscalerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.caching.v1alpha1.Image"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.caching.v1alpha1.ImageList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.Certificate"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.CertificateList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.ClusterDomainClaim"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.ClusterDomainClaimList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.Ingress"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.IngressList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.ServerlessService"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.internal.networking.v1alpha1.ServerlessServiceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.Channel"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.ChannelList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.InMemoryChannel"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.InMemoryChannelList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.Subscription"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.messaging.v1.SubscriptionList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.operator.v1beta1.KnativeEventing"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.operator.v1beta1.KnativeEventingList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.operator.v1beta1.KnativeServing"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.operator.v1beta1.KnativeServingList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.Configuration"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.ConfigurationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.Revision"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.RevisionList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.Route"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.RouteList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.Service"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1.ServiceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1beta1.DomainMapping"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.serving.v1beta1.DomainMappingList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.ApiServerSource"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.ApiServerSourceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.ContainerSource"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.ContainerSourceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.PingSource"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.PingSourceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.SinkBinding"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1.SinkBindingList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1beta2.PingSource"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/dev.knative.sources.v1beta2.PingSourceList"
     },
     {
       "$ref": "_definitions.json#/definitions/dev.tekton.dashboard.v1alpha1.ExtensionList"
@@ -973,6 +1147,12 @@
       "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.ArgoCDList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.argoproj.v1beta1.ArgoCD"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.argoproj.v1beta1.ArgoCDList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.cert-manager.acme.v1.Challenge"
     },
     {
@@ -1025,6 +1205,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.cncf.cni.whereabouts.v1alpha1.OverlappingRangeIPReservationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.Kepler"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.devfile.controller.v1alpha1.DevWorkspaceOperatorConfig"
