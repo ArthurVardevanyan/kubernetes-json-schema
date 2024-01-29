@@ -4974,6 +4974,68 @@
                 "null"
               ],
               "properties": {
+                "advancedAuthorization": {
+                  "description": "Advance authorization settings. Determines which users and groups are allowed to access Che. User is allowed to access Che if he/she is either in the `allowUsers` list or is member of group from `allowGroups` list and not in neither the `denyUsers` list nor is member of group from `denyGroups` list. If `allowUsers` and `allowGroups` are empty, then all users are allowed to access Che. if `denyUsers` and `denyGroups` are empty, then no users are denied to access Che.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "allowGroups": {
+                      "description": "List of groups allowed to access Che (currently supported in OpenShift only).",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "allowUsers": {
+                      "description": "List of users allowed to access Che.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "denyGroups": {
+                      "description": "List of groups denied to access Che (currently supported in OpenShift only).",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "denyUsers": {
+                      "description": "List of users denied to access Che.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "gateway": {
                   "description": "Gateway settings.",
                   "type": [

@@ -70,7 +70,9 @@
                   "MachineAPI",
                   "Build",
                   "DeploymentConfig",
-                  "ImageRegistry"
+                  "ImageRegistry",
+                  "OperatorLifecycleManager",
+                  "CloudCredential"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -87,6 +89,7 @@
                 "v4.12",
                 "v4.13",
                 "v4.14",
+                "v4.15",
                 "vCurrent"
               ]
             }
@@ -198,7 +201,14 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "kind",
+            "group",
+            "namespace",
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "upstream": {
           "description": "upstream may be used to specify the preferred update server. By default it will use the appropriate update server for the cluster and region.",
@@ -223,7 +233,8 @@
       ],
       "properties": {
         "availableUpdates": {
-          "description": "availableUpdates contains updates recommended for this cluster. Updates which appear in conditionalUpdates but not in availableUpdates may expose this cluster to known issues. This list may be empty if no updates are recommended, if the update service is unavailable, or if an invalid channel has been specified."
+          "description": "availableUpdates contains updates recommended for this cluster. Updates which appear in conditionalUpdates but not in availableUpdates may expose this cluster to known issues. This list may be empty if no updates are recommended, if the update service is unavailable, or if an invalid channel has been specified.",
+          "x-kubernetes-list-type": "atomic"
         },
         "capabilities": {
           "description": "capabilities describes the state of optional, core cluster components.",
@@ -256,7 +267,9 @@
                   "MachineAPI",
                   "Build",
                   "DeploymentConfig",
-                  "ImageRegistry"
+                  "ImageRegistry",
+                  "OperatorLifecycleManager",
+                  "CloudCredential"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -285,7 +298,9 @@
                   "MachineAPI",
                   "Build",
                   "DeploymentConfig",
-                  "ImageRegistry"
+                  "ImageRegistry",
+                  "OperatorLifecycleManager",
+                  "CloudCredential"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -394,7 +409,8 @@
                         "string",
                         "null"
                       ]
-                    }
+                    },
+                    "x-kubernetes-list-type": "set"
                   },
                   "image": {
                     "description": "image is a container image location that contains the update. When this field is part of spec, image is optional if version is specified and the availableUpdates field contains a matching version.",
@@ -557,7 +573,11 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "type"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "desired": {
           "description": "desired is the version that the cluster is reconciling towards. If the cluster is not yet fully initialized desired will be set with the information available, which may be an image or a tag.",
@@ -574,7 +594,8 @@
                   "string",
                   "null"
                 ]
-              }
+              },
+              "x-kubernetes-list-type": "set"
             },
             "image": {
               "description": "image is a container image location that contains the update. When this field is part of spec, image is optional if version is specified and the availableUpdates field contains a matching version.",
@@ -656,7 +677,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         },
         "observedGeneration": {
           "description": "observedGeneration reports which version of the spec is being synced. If this value is not equal to metadata.generation, then the desired and conditions fields may represent a previous version.",
@@ -682,6 +704,10 @@
     {
       "message": "the `baremetal` capability requires the `MachineAPI` capability, which is neither explicitly or implicitly enabled in this cluster, please enable the `MachineAPI` capability",
       "rule": "has(self.spec.capabilities) && has(self.spec.capabilities.additionalEnabledCapabilities) && self.spec.capabilities.baselineCapabilitySet == 'None' && 'baremetal' in self.spec.capabilities.additionalEnabledCapabilities ? 'MachineAPI' in self.spec.capabilities.additionalEnabledCapabilities || (has(self.status) && has(self.status.capabilities) && has(self.status.capabilities.enabledCapabilities) && 'MachineAPI' in self.status.capabilities.enabledCapabilities) : true"
+    },
+    {
+      "message": "the `marketplace` capability requires the `OperatorLifecycleManager` capability, which is neither explicitly or implicitly enabled in this cluster, please enable the `OperatorLifecycleManager` capability",
+      "rule": "has(self.spec.capabilities) && has(self.spec.capabilities.additionalEnabledCapabilities) && self.spec.capabilities.baselineCapabilitySet == 'None' && 'marketplace' in self.spec.capabilities.additionalEnabledCapabilities ? 'OperatorLifecycleManager' in self.spec.capabilities.additionalEnabledCapabilities || (has(self.status) && has(self.status.capabilities) && has(self.status.capabilities.enabledCapabilities) && 'OperatorLifecycleManager' in self.status.capabilities.enabledCapabilities) : true"
     }
   ],
   "additionalProperties": false,

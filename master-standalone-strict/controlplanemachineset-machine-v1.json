@@ -333,6 +333,15 @@
                           "zone"
                         ],
                         "properties": {
+                          "subnet": {
+                            "description": "subnet is the name of the network subnet in which the VM will be created. When omitted, the subnet value from the machine providerSpec template will be used.",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "maxLength": 80,
+                            "pattern": "^[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9_])?$"
+                          },
                           "zone": {
                             "description": "Availability Zone for the virtual machine. If nil, the virtual machine should be deployed to no zone.",
                             "type": "string"
@@ -364,6 +373,37 @@
                         },
                         "additionalProperties": false
                       }
+                    },
+                    "nutanix": {
+                      "description": "nutanix configures failure domain information for the Nutanix platform.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "NutanixFailureDomainReference refers to the failure domain of the Nutanix platform.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "name"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "name of the failure domain in which the nutanix machine provider will create the VM. Failure domains are defined in a cluster's config.openshift.io/Infrastructure resource.",
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
                     },
                     "openstack": {
                       "description": "OpenStack configures failure domain information for the OpenStack platform.",
@@ -429,7 +469,7 @@
                       }
                     },
                     "platform": {
-                      "description": "Platform identifies the platform for which the FailureDomain represents. Currently supported values are AWS, Azure, and GCP.",
+                      "description": "Platform identifies the platform for which the FailureDomain represents. Currently supported values are AWS, Azure, GCP, OpenStack, VSphere and Nutanix.",
                       "type": "string",
                       "enum": [
                         "",
@@ -468,6 +508,10 @@
                     {
                       "message": "openstack configuration is required when platform is OpenStack, and forbidden otherwise",
                       "rule": "has(self.platform) && self.platform == 'OpenStack' ?  has(self.openstack) : !has(self.openstack)"
+                    },
+                    {
+                      "message": "nutanix configuration is required when platform is Nutanix, and forbidden otherwise",
+                      "rule": "has(self.platform) && self.platform == 'Nutanix' ?  has(self.nutanix) : !has(self.nutanix)"
                     }
                   ],
                   "additionalProperties": false

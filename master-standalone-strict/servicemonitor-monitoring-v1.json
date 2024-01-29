@@ -36,19 +36,18 @@
         "null"
       ],
       "required": [
-        "endpoints",
         "selector"
       ],
       "properties": {
         "attachMetadata": {
-          "description": "Attaches node metadata to discovered targets. Requires Prometheus v2.37.0 and above.",
+          "description": "`attachMetadata` defines additional metadata which is added to the discovered targets. \n It requires Prometheus >= v2.37.0.",
           "type": [
             "object",
             "null"
           ],
           "properties": {
             "node": {
-              "description": "When set to true, Prometheus must have permissions to get Nodes.",
+              "description": "When set to true, Prometheus must have the `get` permission on the `Nodes` objects.",
               "type": [
                 "boolean",
                 "null"
@@ -58,17 +57,20 @@
           "additionalProperties": false
         },
         "endpoints": {
-          "description": "A list of endpoints allowed as part of this ServiceMonitor.",
-          "type": "array",
+          "description": "List of endpoints part of this ServiceMonitor.",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
-            "description": "Endpoint defines a scrapeable endpoint serving Prometheus metrics.",
+            "description": "Endpoint defines an endpoint serving Prometheus metrics to be scraped by Prometheus.",
             "type": [
               "object",
               "null"
             ],
             "properties": {
               "authorization": {
-                "description": "Authorization section for this endpoint",
+                "description": "`authorization` configures the Authorization header credentials to use when scraping the target. \n Cannot be set at the same time as `basicAuth`, or `oauth2`.",
                 "type": [
                   "object",
                   "null"
@@ -117,14 +119,14 @@
                 "additionalProperties": false
               },
               "basicAuth": {
-                "description": "BasicAuth allow an endpoint to authenticate over basic authentication More info: https://prometheus.io/docs/operating/configuration/#endpoints",
+                "description": "`basicAuth` configures the Basic Authentication credentials to use when scraping the target. \n Cannot be set at the same time as `authorization`, or `oauth2`.",
                 "type": [
                   "object",
                   "null"
                 ],
                 "properties": {
                   "password": {
-                    "description": "The secret in the service monitor namespace that contains the password for authentication.",
+                    "description": "`password` specifies a key of a Secret containing the password for authentication.",
                     "type": [
                       "object",
                       "null"
@@ -156,7 +158,7 @@
                     "additionalProperties": false
                   },
                   "username": {
-                    "description": "The secret in the service monitor namespace that contains the username for authentication.",
+                    "description": "`username` specifies a key of a Secret containing the username for authentication.",
                     "type": [
                       "object",
                       "null"
@@ -191,14 +193,14 @@
                 "additionalProperties": false
               },
               "bearerTokenFile": {
-                "description": "File to read bearer token for scraping targets.",
+                "description": "File to read bearer token for scraping the target. \n Deprecated: use `authorization` instead.",
                 "type": [
                   "string",
                   "null"
                 ]
               },
               "bearerTokenSecret": {
-                "description": "Secret to mount to read bearer token for scraping targets. The secret needs to be in the same namespace as the service monitor and accessible by the Prometheus Operator.",
+                "description": "`bearerTokenSecret` specifies a key of a Secret containing the bearer token for scraping targets. The secret needs to be in the same namespace as the ServiceMonitor object and readable by the Prometheus Operator. \n Deprecated: use `authorization` instead.",
                 "type": [
                   "object",
                   "null"
@@ -230,42 +232,42 @@
                 "additionalProperties": false
               },
               "enableHttp2": {
-                "description": "Whether to enable HTTP2.",
+                "description": "`enableHttp2` can be used to disable HTTP2 when scraping the target.",
                 "type": [
                   "boolean",
                   "null"
                 ]
               },
               "filterRunning": {
-                "description": "Drop pods that are not running. (Failed, Succeeded). Enabled by default. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase",
+                "description": "When true, the pods which are not running (e.g. either in Failed or Succeeded state) are dropped during the target discovery. \n If unset, the filtering is enabled. \n More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase",
                 "type": [
                   "boolean",
                   "null"
                 ]
               },
               "followRedirects": {
-                "description": "FollowRedirects configures whether scrape requests follow HTTP 3xx redirects.",
+                "description": "`followRedirects` defines whether the scrape requests should follow HTTP 3xx redirects.",
                 "type": [
                   "boolean",
                   "null"
                 ]
               },
               "honorLabels": {
-                "description": "HonorLabels chooses the metric's labels on collisions with target labels.",
+                "description": "When true, `honorLabels` preserves the metric's labels when they collide with the target's labels.",
                 "type": [
                   "boolean",
                   "null"
                 ]
               },
               "honorTimestamps": {
-                "description": "HonorTimestamps controls whether Prometheus respects the timestamps present in scraped data.",
+                "description": "`honorTimestamps` controls whether Prometheus preserves the timestamps when exposed by the target.",
                 "type": [
                   "boolean",
                   "null"
                 ]
               },
               "interval": {
-                "description": "Interval at which metrics should be scraped If not specified Prometheus' global scrape interval is used.",
+                "description": "Interval at which Prometheus scrapes the metrics from the target. \n If empty, Prometheus uses the global scrape interval.",
                 "type": [
                   "string",
                   "null"
@@ -273,7 +275,7 @@
                 "pattern": "^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$"
               },
               "metricRelabelings": {
-                "description": "MetricRelabelConfigs to apply to samples before ingestion.",
+                "description": "`metricRelabelings` configures the relabeling rules to apply to the samples before ingestion.",
                 "type": [
                   "array",
                   "null"
@@ -372,7 +374,7 @@
                 }
               },
               "oauth2": {
-                "description": "OAuth2 for the URL. Only valid in Prometheus versions 2.27.0 and newer.",
+                "description": "`oauth2` configures the OAuth2 settings to use when scraping the target. \n It requires Prometheus >= 2.27.0. \n Cannot be set at the same time as `authorization`, or `basicAuth`.",
                 "type": [
                   "object",
                   "null"
@@ -384,7 +386,7 @@
                 ],
                 "properties": {
                   "clientId": {
-                    "description": "The secret or configmap containing the OAuth2 client id",
+                    "description": "`clientId` specifies a key of a Secret or ConfigMap containing the OAuth2 client's ID.",
                     "type": "object",
                     "properties": {
                       "configMap": {
@@ -455,7 +457,7 @@
                     "additionalProperties": false
                   },
                   "clientSecret": {
-                    "description": "The secret containing the OAuth2 client secret",
+                    "description": "`clientSecret` specifies a key of a Secret containing the OAuth2 client's secret.",
                     "type": "object",
                     "required": [
                       "key"
@@ -484,7 +486,7 @@
                     "additionalProperties": false
                   },
                   "endpointParams": {
-                    "description": "Parameters to append to the token URL",
+                    "description": "`endpointParams` configures the HTTP parameters to append to the token URL.",
                     "type": [
                       "object",
                       "null"
@@ -497,7 +499,7 @@
                     }
                   },
                   "scopes": {
-                    "description": "OAuth2 scopes used for the token request",
+                    "description": "`scopes` defines the OAuth2 scopes used for the token request.",
                     "type": [
                       "array",
                       "null"
@@ -510,7 +512,7 @@
                     }
                   },
                   "tokenUrl": {
-                    "description": "The URL to fetch the token from",
+                    "description": "`tokenURL` configures the URL to fetch the token from.",
                     "type": "string",
                     "minLength": 1
                   }
@@ -518,7 +520,7 @@
                 "additionalProperties": false
               },
               "params": {
-                "description": "Optional HTTP URL parameters",
+                "description": "params define optional HTTP URL parameters.",
                 "type": [
                   "object",
                   "null"
@@ -537,28 +539,28 @@
                 }
               },
               "path": {
-                "description": "HTTP path to scrape for metrics. If empty, Prometheus uses the default value (e.g. `/metrics`).",
+                "description": "HTTP path from which to scrape for metrics. \n If empty, Prometheus uses the default value (e.g. `/metrics`).",
                 "type": [
                   "string",
                   "null"
                 ]
               },
               "port": {
-                "description": "Name of the service port this endpoint refers to. Mutually exclusive with targetPort.",
+                "description": "Name of the Service port which this endpoint refers to. \n It takes precedence over `targetPort`.",
                 "type": [
                   "string",
                   "null"
                 ]
               },
               "proxyUrl": {
-                "description": "ProxyURL eg http://proxyserver:2195 Directs scrapes to proxy through this endpoint.",
+                "description": "`proxyURL` configures the HTTP Proxy URL (e.g. \"http://proxyserver:2195\") to go through when scraping the target.",
                 "type": [
                   "string",
                   "null"
                 ]
               },
               "relabelings": {
-                "description": "RelabelConfigs to apply to samples before scraping. Prometheus Operator automatically adds relabelings for a few standard Kubernetes fields. The original scrape job's name is available via the `__tmp_prometheus_job_name` label. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config",
+                "description": "`relabelings` configures the relabeling rules to apply the target's metadata labels. \n The Operator automatically adds relabelings for a few standard Kubernetes fields. \n The original scrape job's name is available via the `__tmp_prometheus_job_name` label. \n More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config",
                 "type": [
                   "array",
                   "null"
@@ -657,7 +659,7 @@
                 }
               },
               "scheme": {
-                "description": "HTTP scheme to use for scraping. `http` and `https` are the expected values unless you rewrite the `__scheme__` label via relabeling. If empty, Prometheus uses the default value `http`.",
+                "description": "HTTP scheme to use for scraping. \n `http` and `https` are the expected values unless you rewrite the `__scheme__` label via relabeling. \n If empty, Prometheus uses the default value `http`.",
                 "type": [
                   "string",
                   "null"
@@ -668,7 +670,7 @@
                 ]
               },
               "scrapeTimeout": {
-                "description": "Timeout after which the scrape is ended If not specified, the Prometheus global scrape timeout is used unless it is less than `Interval` in which the latter is used.",
+                "description": "Timeout after which Prometheus considers the scrape to be failed. \n If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.",
                 "type": [
                   "string",
                   "null"
@@ -676,11 +678,11 @@
                 "pattern": "^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$"
               },
               "targetPort": {
-                "description": "Name or number of the target port of the Pod behind the Service, the port must be specified with container port property. Mutually exclusive with port.",
+                "description": "Name or number of the target port of the `Pod` object behind the Service, the port must be specified with container port property. \n Deprecated: use `port` instead.",
                 "x-kubernetes-int-or-string": true
               },
               "tlsConfig": {
-                "description": "TLS configuration to use when scraping the endpoint",
+                "description": "TLS configuration to use when scraping the target.",
                 "type": [
                   "object",
                   "null"
@@ -903,20 +905,35 @@
                   }
                 },
                 "additionalProperties": false
+              },
+              "trackTimestampsStaleness": {
+                "description": "`trackTimestampsStaleness` defines whether Prometheus tracks staleness of the metrics that have an explicit timestamp present in scraped data. Has no effect if `honorTimestamps` is false. \n It requires Prometheus >= v2.48.0.",
+                "type": [
+                  "boolean",
+                  "null"
+                ]
               }
             },
             "additionalProperties": false
           }
         },
         "jobLabel": {
-          "description": "JobLabel selects the label from the associated Kubernetes service which will be used as the `job` label for all metrics. \n For example: If in `ServiceMonitor.spec.jobLabel: foo` and in `Service.metadata.labels.foo: bar`, then the `job=\"bar\"` label is added to all metrics. \n If the value of this field is empty or if the label doesn't exist for the given Service, the `job` label of the metrics defaults to the name of the Kubernetes Service.",
+          "description": "`jobLabel` selects the label from the associated Kubernetes `Service` object which will be used as the `job` label for all metrics. \n For example if `jobLabel` is set to `foo` and the Kubernetes `Service` object is labeled with `foo: bar`, then Prometheus adds the `job=\"bar\"` label to all ingested metrics. \n If the value of this field is empty or if the label doesn't exist for the given Service, the `job` label of the metrics defaults to the name of the associated Kubernetes `Service`.",
           "type": [
             "string",
             "null"
           ]
         },
+        "keepDroppedTargets": {
+          "description": "Per-scrape limit on the number of targets dropped by relabeling that will be kept in memory. 0 means no limit. \n It requires Prometheus >= v2.47.0.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
         "labelLimit": {
-          "description": "Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "description": "Per-scrape limit on number of labels that will be accepted for a sample. \n It requires Prometheus >= v2.27.0.",
           "type": [
             "integer",
             "null"
@@ -924,7 +941,7 @@
           "format": "int64"
         },
         "labelNameLengthLimit": {
-          "description": "Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "description": "Per-scrape limit on length of labels name that will be accepted for a sample. \n It requires Prometheus >= v2.27.0.",
           "type": [
             "integer",
             "null"
@@ -932,7 +949,7 @@
           "format": "int64"
         },
         "labelValueLengthLimit": {
-          "description": "Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
+          "description": "Per-scrape limit on length of labels value that will be accepted for a sample. \n It requires Prometheus >= v2.27.0.",
           "type": [
             "integer",
             "null"
@@ -940,7 +957,7 @@
           "format": "int64"
         },
         "namespaceSelector": {
-          "description": "Selector to select which namespaces the Kubernetes Endpoints objects are discovered from.",
+          "description": "Selector to select which namespaces the Kubernetes `Endpoints` objects are discovered from.",
           "type": [
             "object",
             "null"
@@ -970,7 +987,7 @@
           "additionalProperties": false
         },
         "podTargetLabels": {
-          "description": "PodTargetLabels transfers labels on the Kubernetes `Pod` onto the created metrics.",
+          "description": "`podTargetLabels` defines the labels which are transferred from the associated Kubernetes `Pod` object onto the ingested metrics.",
           "type": [
             "array",
             "null"
@@ -983,7 +1000,7 @@
           }
         },
         "sampleLimit": {
-          "description": "SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.",
+          "description": "`sampleLimit` defines a per-scrape limit on the number of scraped samples that will be accepted.",
           "type": [
             "integer",
             "null"
@@ -991,7 +1008,7 @@
           "format": "int64"
         },
         "selector": {
-          "description": "Selector to select Endpoints objects.",
+          "description": "Label selector to select the Kubernetes `Endpoints` objects.",
           "type": "object",
           "properties": {
             "matchExpressions": {
@@ -1054,7 +1071,7 @@
           "additionalProperties": false
         },
         "targetLabels": {
-          "description": "TargetLabels transfers labels from the Kubernetes `Service` onto the created metrics.",
+          "description": "`targetLabels` defines the labels which are transferred from the associated Kubernetes `Service` object onto the ingested metrics.",
           "type": [
             "array",
             "null"
@@ -1067,7 +1084,7 @@
           }
         },
         "targetLimit": {
-          "description": "TargetLimit defines a limit on the number of scraped targets that will be accepted.",
+          "description": "`targetLimit` defines a limit on the number of scraped targets that will be accepted.",
           "type": [
             "integer",
             "null"

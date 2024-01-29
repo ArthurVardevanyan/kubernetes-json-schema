@@ -68,7 +68,7 @@
           ]
         },
         "webhookTokenAuthenticator": {
-          "description": "webhookTokenAuthenticator configures a remote token reviewer. These remote authentication webhooks can be used to verify bearer tokens via the tokenreviews.authentication.k8s.io REST API. This is required to honor bearer tokens that are provisioned by an external authentication service.",
+          "description": "webhookTokenAuthenticator configures a remote token reviewer. These remote authentication webhooks can be used to verify bearer tokens via the tokenreviews.authentication.k8s.io REST API. This is required to honor bearer tokens that are provisioned by an external authentication service. \n Can only be set if \"Type\" is set to \"None\".",
           "type": [
             "object",
             "null"
@@ -126,7 +126,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         }
       },
       "additionalProperties": false

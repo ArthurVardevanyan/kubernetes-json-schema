@@ -111,7 +111,8 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-type": "atomic"
                 }
               },
               "additionalProperties": false
@@ -192,6 +193,136 @@
                 "prismElements"
               ],
               "properties": {
+                "failureDomains": {
+                  "description": "failureDomains configures failure domains information for the Nutanix platform. When set, the failure domains defined here may be used to spread Machines across prism element clusters to improve fault tolerance of the cluster.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "NutanixFailureDomain configures failure domain information for the Nutanix platform.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "cluster",
+                      "name",
+                      "subnets"
+                    ],
+                    "properties": {
+                      "cluster": {
+                        "description": "cluster is to identify the cluster (the Prism Element under management of the Prism Central), in which the Machine's VM will be created. The cluster identifier (uuid or name) can be obtained from the Prism Central console or using the prism_central API.",
+                        "type": "object",
+                        "required": [
+                          "type"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "name is the resource name in the PC. It cannot be empty if the type is Name.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "type": {
+                            "description": "type is the identifier type to use for this resource.",
+                            "type": "string",
+                            "enum": [
+                              "UUID",
+                              "Name"
+                            ]
+                          },
+                          "uuid": {
+                            "description": "uuid is the UUID of the resource in the PC. It cannot be empty if the type is UUID.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "x-kubernetes-validations": [
+                          {
+                            "message": "uuid configuration is required when type is UUID, and forbidden otherwise",
+                            "rule": "has(self.type) && self.type == 'UUID' ?  has(self.uuid) : !has(self.uuid)"
+                          },
+                          {
+                            "message": "name configuration is required when type is Name, and forbidden otherwise",
+                            "rule": "has(self.type) && self.type == 'Name' ?  has(self.name) : !has(self.name)"
+                          }
+                        ],
+                        "additionalProperties": false
+                      },
+                      "name": {
+                        "description": "name defines the unique name of a failure domain. Name is required and must be at most 64 characters in length. It must consist of only lower case alphanumeric characters and hyphens (-). It must start and end with an alphanumeric character. This value is arbitrary and is used to identify the failure domain within the platform.",
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "[a-z0-9]([-a-z0-9]*[a-z0-9])?"
+                      },
+                      "subnets": {
+                        "description": "subnets holds a list of identifiers (one or more) of the cluster's network subnets for the Machine's VM to connect to. The subnet identifiers (uuid or name) can be obtained from the Prism Central console or using the prism_central API.",
+                        "type": "array",
+                        "maxItems": 1,
+                        "minItems": 1,
+                        "items": {
+                          "description": "NutanixResourceIdentifier holds the identity of a Nutanix PC resource (cluster, image, subnet, etc.)",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "type"
+                          ],
+                          "properties": {
+                            "name": {
+                              "description": "name is the resource name in the PC. It cannot be empty if the type is Name.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "type": {
+                              "description": "type is the identifier type to use for this resource.",
+                              "type": "string",
+                              "enum": [
+                                "UUID",
+                                "Name"
+                              ]
+                            },
+                            "uuid": {
+                              "description": "uuid is the UUID of the resource in the PC. It cannot be empty if the type is UUID.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "x-kubernetes-validations": [
+                            {
+                              "message": "uuid configuration is required when type is UUID, and forbidden otherwise",
+                              "rule": "has(self.type) && self.type == 'UUID' ?  has(self.uuid) : !has(self.uuid)"
+                            },
+                            {
+                              "message": "name configuration is required when type is Name, and forbidden otherwise",
+                              "rule": "has(self.type) && self.type == 'Name' ?  has(self.name) : !has(self.name)"
+                            }
+                          ],
+                          "additionalProperties": false
+                        },
+                        "x-kubernetes-list-map-keys": [
+                          "type"
+                        ],
+                        "x-kubernetes-list-type": "map"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "prismCentral": {
                   "description": "prismCentral holds the endpoint address and port to access the Nutanix Prism Central. When a cluster-wide proxy is installed, by default, this endpoint will be accessed via the proxy. Should you wish for communication with this endpoint not to be proxied, please add the endpoint to the proxy spec.noProxy list.",
                   "type": "object",
@@ -445,7 +576,8 @@
                                 "string",
                                 "null"
                               ]
-                            }
+                            },
+                            "x-kubernetes-list-type": "atomic"
                           },
                           "resourcePool": {
                             "description": "resourcePool is the absolute path of the resource pool where virtual machines will be created. The absolute path is of the form /<datacenter>/host/<cluster>/Resources/<resourcepool>. The maximum length of the path is 2048 characters.",
@@ -467,7 +599,11 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
                 },
                 "nodeNetworking": {
                   "description": "nodeNetworking contains the definition of internal and external network constraints for assigning the node's networking. If this field is omitted, networking defaults to the legacy address selection behavior which is to only support a single address and return the first one found.",
@@ -495,7 +631,8 @@
                               "null"
                             ],
                             "format": "cidr"
-                          }
+                          },
+                          "x-kubernetes-list-type": "atomic"
                         },
                         "network": {
                           "description": "network VirtualMachine's VM Network names that will be used to when searching for status.addresses fields. Note that if internal.networkSubnetCIDR and external.networkSubnetCIDR are not set, then the vNIC associated to this network must only have a single IP address assigned to it. The available networks (port groups) can be listed using `govc ls 'network/*'`",
@@ -516,7 +653,8 @@
                               "null"
                             ],
                             "format": "cidr"
-                          }
+                          },
+                          "x-kubernetes-list-type": "set"
                         }
                       },
                       "additionalProperties": false
@@ -540,7 +678,8 @@
                               "null"
                             ],
                             "format": "cidr"
-                          }
+                          },
+                          "x-kubernetes-list-type": "atomic"
                         },
                         "network": {
                           "description": "network VirtualMachine's VM Network names that will be used to when searching for status.addresses fields. Note that if internal.networkSubnetCIDR and external.networkSubnetCIDR are not set, then the vNIC associated to this network must only have a single IP address assigned to it. The available networks (port groups) can be listed using `govc ls 'network/*'`",
@@ -561,7 +700,8 @@
                               "null"
                             ],
                             "format": "cidr"
-                          }
+                          },
+                          "x-kubernetes-list-type": "set"
                         }
                       },
                       "additionalProperties": false
@@ -597,7 +737,8 @@
                             "string",
                             "null"
                           ]
-                        }
+                        },
+                        "x-kubernetes-list-type": "set"
                       },
                       "port": {
                         "description": "port is the TCP port that will be used to communicate to the vCenter endpoint. When omitted, this means the user has no opinion and it is up to the platform to choose a sensible default, which is subject to change over time.",
@@ -616,7 +757,8 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-type": "atomic"
                 }
               },
               "additionalProperties": false
@@ -841,7 +983,8 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-type": "atomic"
                 },
                 "serviceEndpoints": {
                   "description": "ServiceEndpoints list contains custom endpoints which will override default service endpoint of AWS Services. There must be only one ServiceEndpoint for a service.",
@@ -874,7 +1017,8 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-type": "atomic"
                 }
               },
               "additionalProperties": false
@@ -957,6 +1101,7 @@
                     },
                     "additionalProperties": false
                   },
+                  "x-kubernetes-list-type": "atomic",
                   "x-kubernetes-validations": [
                     {
                       "message": "resourceTags are immutable and may only be configured during installation",
@@ -1000,7 +1145,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1022,7 +1168,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "nodeDNSIP": {
                   "description": "nodeDNSIP is the IP address for the internal DNS used by the nodes. Unlike the one managed by the DNS operator, `NodeDNSIP` provides name resolution for the nodes themselves. There is no DNS-as-a-service for BareMetal deployments. In order to minimize necessary changes to the datacenter DNS, a DNS service is hosted as a static pod to serve those hostnames to the nodes in the cluster.",
@@ -1173,6 +1320,58 @@
                     "string",
                     "null"
                   ]
+                },
+                "serviceEndpoints": {
+                  "description": "serviceEndpoints is a list of custom endpoints which will override the default service endpoints of an IBM Cloud service. These endpoints are consumed by components within the cluster to reach the respective IBM Cloud Services.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "IBMCloudServiceEndpoint stores the configuration of a custom url to override existing defaults of IBM Cloud Services.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name",
+                      "url"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "name is the name of the IBM Cloud service. Possible values are: CIS, COS, DNSServices, GlobalSearch, GlobalTagging, HyperProtect, IAM, KeyProtect, ResourceController, ResourceManager, or VPC. For example, the IBM Cloud Private IAM service could be configured with the service `name` of `IAM` and `url` of `https://private.iam.cloud.ibm.com` Whereas the IBM Cloud Private VPC service for US South (Dallas) could be configured with the service `name` of `VPC` and `url` of `https://us.south.private.iaas.cloud.ibm.com`",
+                        "type": "string",
+                        "enum": [
+                          "CIS",
+                          "COS",
+                          "DNSServices",
+                          "GlobalSearch",
+                          "GlobalTagging",
+                          "HyperProtect",
+                          "IAM",
+                          "KeyProtect",
+                          "ResourceController",
+                          "ResourceManager",
+                          "VPC"
+                        ]
+                      },
+                      "url": {
+                        "description": "url is fully qualified URI with scheme https, that overrides the default generated endpoint for a client. This must be provided and cannot be empty.",
+                        "type": "string",
+                        "x-kubernetes-validations": [
+                          {
+                            "message": "url must be a valid absolute URL",
+                            "rule": "isURL(self)"
+                          }
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
                 }
               },
               "additionalProperties": false
@@ -1228,7 +1427,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1250,7 +1450,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 }
               },
               "additionalProperties": false
@@ -1282,7 +1483,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "cloudName": {
                   "description": "cloudName is the name of the desired OpenStack cloud in the client configuration file (`clouds.yaml`).",
@@ -1311,7 +1513,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "loadBalancer": {
                   "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
@@ -1377,7 +1580,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1399,7 +1603,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "nodeDNSIP": {
                   "description": "deprecated: as of 4.6, this field is no longer set or honored.  It will be removed in a future release.",
@@ -1484,7 +1689,11 @@
                       }
                     },
                     "additionalProperties": false
-                  }
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
                 },
                 "zone": {
                   "description": "zone holds the default zone for the new Power VS resources created by the cluster. Note: Currently only single-zone OCP clusters are supported",
@@ -1555,7 +1764,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1577,7 +1787,8 @@
                       "string",
                       "null"
                     ]
-                  }
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "nodeDNSIP": {
                   "description": "nodeDNSIP is the IP address for the internal DNS used by the nodes. Unlike the one managed by the DNS operator, `NodeDNSIP` provides name resolution for the nodes themselves. There is no DNS-as-a-service for vSphere deployments. In order to minimize necessary changes to the datacenter DNS, a DNS service is hosted as a static pod to serve those hostnames to the nodes in the cluster.",

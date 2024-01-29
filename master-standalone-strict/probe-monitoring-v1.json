@@ -93,7 +93,7 @@
           ],
           "properties": {
             "password": {
-              "description": "The secret in the service monitor namespace that contains the password for authentication.",
+              "description": "`password` specifies a key of a Secret containing the password for authentication.",
               "type": [
                 "object",
                 "null"
@@ -125,7 +125,7 @@
               "additionalProperties": false
             },
             "username": {
-              "description": "The secret in the service monitor namespace that contains the username for authentication.",
+              "description": "`username` specifies a key of a Secret containing the username for authentication.",
               "type": [
                 "object",
                 "null"
@@ -205,6 +205,14 @@
             "string",
             "null"
           ]
+        },
+        "keepDroppedTargets": {
+          "description": "Per-scrape limit on the number of targets dropped by relabeling that will be kept in memory. 0 means no limit. \n It requires Prometheus >= v2.47.0.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
         },
         "labelLimit": {
           "description": "Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.",
@@ -349,7 +357,7 @@
           ],
           "properties": {
             "clientId": {
-              "description": "The secret or configmap containing the OAuth2 client id",
+              "description": "`clientId` specifies a key of a Secret or ConfigMap containing the OAuth2 client's ID.",
               "type": "object",
               "properties": {
                 "configMap": {
@@ -420,7 +428,7 @@
               "additionalProperties": false
             },
             "clientSecret": {
-              "description": "The secret containing the OAuth2 client secret",
+              "description": "`clientSecret` specifies a key of a Secret containing the OAuth2 client's secret.",
               "type": "object",
               "required": [
                 "key"
@@ -449,7 +457,7 @@
               "additionalProperties": false
             },
             "endpointParams": {
-              "description": "Parameters to append to the token URL",
+              "description": "`endpointParams` configures the HTTP parameters to append to the token URL.",
               "type": [
                 "object",
                 "null"
@@ -462,7 +470,7 @@
               }
             },
             "scopes": {
-              "description": "OAuth2 scopes used for the token request",
+              "description": "`scopes` defines the OAuth2 scopes used for the token request.",
               "type": [
                 "array",
                 "null"
@@ -475,7 +483,7 @@
               }
             },
             "tokenUrl": {
-              "description": "The URL to fetch the token from",
+              "description": "`tokenURL` configures the URL to fetch the token from.",
               "type": "string",
               "minLength": 1
             }

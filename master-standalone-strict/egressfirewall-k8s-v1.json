@@ -195,6 +195,19 @@
         "null"
       ],
       "properties": {
+        "messages": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "x-kubernetes-list-type": "set"
+        },
         "status": {
           "type": [
             "string",

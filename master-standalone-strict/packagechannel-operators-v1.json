@@ -18,6 +18,10 @@
       "description": "CurrentCSVSpec holds the spec of the current CSV",
       "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.CSVDescription"
     },
+    "deprecation": {
+      "description": "Deprecation is an optional field which contains information if the channel is deprecated.",
+      "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.Deprecation"
+    },
     "entries": {
       "description": "Entries lists all CSVs in the channel, with their upgrade edges.",
       "type": [

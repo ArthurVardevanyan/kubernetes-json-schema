@@ -3,6 +3,7 @@
 ```bash
 wget https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/build_schema.py -O /tmp/build_schema.py
 pip3 install -r https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/requirements.txt
+# pip install "cython<3.0.0" wheel && pip install pyyaml==5.4.1 --no-build-isolation
 
 python3 /tmp/build_schema.py \
     --destination "./" \

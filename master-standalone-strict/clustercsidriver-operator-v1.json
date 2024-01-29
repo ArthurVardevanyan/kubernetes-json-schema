@@ -108,13 +108,14 @@
               "additionalProperties": false
             },
             "driverType": {
-              "description": "driverType indicates type of CSI driver for which the driverConfig is being applied to. Valid values are: AWS, Azure, GCP, vSphere and omitted. Consumers should treat unknown values as a NO-OP.",
+              "description": "driverType indicates type of CSI driver for which the driverConfig is being applied to. Valid values are: AWS, Azure, GCP, IBMCloud, vSphere and omitted. Consumers should treat unknown values as a NO-OP.",
               "type": "string",
               "enum": [
                 "",
                 "AWS",
                 "Azure",
                 "GCP",
+                "IBMCloud",
                 "vSphere"
               ]
             },
@@ -172,6 +173,26 @@
               },
               "additionalProperties": false
             },
+            "ibmcloud": {
+              "description": "ibmcloud is used to configure the IBM Cloud CSI driver.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "encryptionKeyCRN"
+              ],
+              "properties": {
+                "encryptionKeyCRN": {
+                  "description": "encryptionKeyCRN is the IBM Cloud CRN of the customer-managed root key to use for disk encryption of volumes for the default storage classes.",
+                  "type": "string",
+                  "maxLength": 154,
+                  "minLength": 144,
+                  "pattern": "^crn:v[0-9]+:bluemix:(public|private):(kms|hs-crypto):[a-z-]+:a/[0-9a-f]+:[0-9a-f-]{36}:key:[0-9a-f-]{36}$"
+                }
+              },
+              "additionalProperties": false
+            },
             "vSphere": {
               "description": "vsphere is used to configure the vsphere CSI driver.",
               "type": [
@@ -196,6 +217,12 @@
               "additionalProperties": false
             }
           },
+          "x-kubernetes-validations": [
+            {
+              "message": "ibmcloud must be set if driverType is 'IBMCloud', but remain unset otherwise",
+              "rule": "has(self.driverType) && self.driverType == 'IBMCloud' ? has(self.ibmcloud) : !has(self.ibmcloud)"
+            }
+          ],
           "additionalProperties": false
         },
         "logLevel": {
