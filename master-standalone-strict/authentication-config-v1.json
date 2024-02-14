@@ -65,6 +65,11 @@
           "type": [
             "string",
             "null"
+          ],
+          "enum": [
+            "",
+            "None",
+            "IntegratedOAuth"
           ]
         },
         "webhookTokenAuthenticator": {

@@ -5,10 +5,6 @@
     "name"
   ],
   "properties": {
-    "deprecation": {
-      "description": "Deprecation is an optional field which contains information if the channel entry is deprecated.",
-      "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.Deprecation"
-    },
     "name": {
       "description": "Name is the name of the bundle for this entry.",
       "type": [

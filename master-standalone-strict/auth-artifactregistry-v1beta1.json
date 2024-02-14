@@ -92,29 +92,64 @@
           "description": "Contains the Fields Related to configuring GCP Workload Identity Federation",
           "type": "object",
           "required": [
-            "fileName",
-            "objectName",
-            "serviceAccount",
             "type"
           ],
           "properties": {
             "fileName": {
               "description": "The Name of the File Within the Object, Generally: credentials_config.json",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "googlePoolName": {
+              "description": "Name of the Workload Identity Pool",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "googlePoolProject": {
+              "description": "The GCP Project in which the Workload Identity Pool/Provider is Located",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "googleProviderName": {
+              "description": "Name of the Workload Identity Pool",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "googleServiceAccount": {
+              "description": "The Google Service Account That is to be Bound to a Kubernetes Service Account with Artifact Registry Reader",
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "objectName": {
               "description": "The Name of the Kubernetes Objec Containing the Workload Identity Json Config",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "serviceAccount": {
               "description": "The Kubernetes Service Account That is Bound to a Google Service Account with Artifact Registry Reader",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "type": {
-              "description": "Object Type, must be ConfigMap",
+              "description": "Object Type, must be configMap or inline",
               "type": "string",
               "enum": [
-                "configMap"
+                "configMap",
+                "inline"
               ]
             }
           },
