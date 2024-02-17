@@ -1213,6 +1213,18 @@
       "$ref": "_definitions.json#/definitions/io.cncf.cni.whereabouts.v1alpha1.OverlappingRangeIPReservationList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.Kepler"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerInternal"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerInternalList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.devfile.controller.v1alpha1.DevWorkspaceOperatorConfig"
     },
     {

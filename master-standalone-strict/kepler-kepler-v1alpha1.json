@@ -135,108 +135,119 @@
         "object",
         "null"
       ],
-      "required": [
-        "conditions",
-        "currentNumberScheduled",
-        "desiredNumberScheduled",
-        "numberMisscheduled",
-        "numberReady"
-      ],
       "properties": {
-        "conditions": {
-          "type": "array",
-          "items": {
-            "type": [
-              "object",
-              "null"
-            ],
-            "required": [
-              "lastTransitionTime",
-              "message",
-              "reason",
-              "status",
-              "type"
-            ],
-            "properties": {
-              "lastTransitionTime": {
-                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
-                "type": "string",
-                "format": "date-time"
-              },
-              "message": {
-                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
-                "type": "string",
-                "maxLength": 32768
-              },
-              "observedGeneration": {
-                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+        "exporter": {
+          "description": "ExporterStatus defines the observed state of Kepler Exporter",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "conditions",
+            "currentNumberScheduled",
+            "desiredNumberScheduled",
+            "numberMisscheduled",
+            "numberReady"
+          ],
+          "properties": {
+            "conditions": {
+              "description": "conditions represent the latest available observations of the kepler-exporter",
+              "type": "array",
+              "items": {
                 "type": [
-                  "integer",
+                  "object",
                   "null"
                 ],
-                "format": "int64",
-                "minimum": 0
+                "required": [
+                  "lastTransitionTime",
+                  "message",
+                  "reason",
+                  "status",
+                  "type"
+                ],
+                "properties": {
+                  "lastTransitionTime": {
+                    "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "message": {
+                    "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                    "type": "string",
+                    "maxLength": 32768
+                  },
+                  "observedGeneration": {
+                    "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int64",
+                    "minimum": 0
+                  },
+                  "reason": {
+                    "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.",
+                    "type": "string"
+                  },
+                  "status": {
+                    "description": "status of the condition, one of True, False, Unknown.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "Type of Kepler Condition - Reconciled, Available ...",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
               },
-              "reason": {
-                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.",
-                "type": "string"
-              },
-              "status": {
-                "description": "status of the condition, one of True, False, Unknown.",
-                "type": "string"
-              },
-              "type": {
-                "description": "Type of Kepler Condition - Reconciled, Available ...",
-                "type": "string"
-              }
+              "x-kubernetes-list-type": "atomic"
             },
-            "additionalProperties": false
+            "currentNumberScheduled": {
+              "description": "The number of nodes that are running at least 1 kepler pod and are supposed to run the kepler pod.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "desiredNumberScheduled": {
+              "description": "The total number of nodes that should be running the kepler pod (including nodes correctly running the kepler pod).",
+              "type": "integer",
+              "format": "int32"
+            },
+            "numberAvailable": {
+              "description": "The number of nodes that should be running the kepler pod and have one or more of the kepler pod running and available",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "numberMisscheduled": {
+              "description": "The number of nodes that are running the kepler pod, but are not supposed to run the kepler pod.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "numberReady": {
+              "description": "numberReady is the number of nodes that should be running the kepler pod and have one or more of the kepler pod running with a Ready Condition.",
+              "type": "integer",
+              "format": "int32"
+            },
+            "numberUnavailable": {
+              "description": "The number of nodes that should be running the kepler pod and have none of the kepler pod running and available",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "updatedNumberScheduled": {
+              "description": "The total number of nodes that are running updated kepler pod",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            }
           },
-          "x-kubernetes-list-type": "atomic"
-        },
-        "currentNumberScheduled": {
-          "description": "The number of nodes that are running at least 1 kepler pod and are supposed to run the kepler pod.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "desiredNumberScheduled": {
-          "description": "The total number of nodes that should be running the kepler pod (including nodes correctly running the kepler pod).",
-          "type": "integer",
-          "format": "int32"
-        },
-        "numberAvailable": {
-          "description": "The number of nodes that should be running the kepler pod and have one or more of the kepler pod running and available",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "int32"
-        },
-        "numberMisscheduled": {
-          "description": "The number of nodes that are running the kepler pod, but are not supposed to run the kepler pod.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "numberReady": {
-          "description": "numberReady is the number of nodes that should be running the kepler pod and have one or more of the kepler pod running with a Ready Condition.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "numberUnavailable": {
-          "description": "The number of nodes that should be running the kepler pod and have none of the kepler pod running and available",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "int32"
-        },
-        "updatedNumberScheduled": {
-          "description": "The total number of nodes that are running updated kepler pod",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "int32"
+          "additionalProperties": false
         }
       },
       "additionalProperties": false
