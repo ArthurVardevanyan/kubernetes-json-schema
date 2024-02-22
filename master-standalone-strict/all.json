@@ -1213,18 +1213,6 @@
       "$ref": "_definitions.json#/definitions/io.cncf.cni.whereabouts.v1alpha1.OverlappingRangeIPReservationList"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.Kepler"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerInternal"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerInternalList"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/io.computing.sustainable.system.kepler.v1alpha1.KeplerList"
-    },
-    {
       "$ref": "_definitions.json#/definitions/io.devfile.controller.v1alpha1.DevWorkspaceOperatorConfig"
     },
     {
@@ -3256,10 +3244,22 @@
       "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowCollectorList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowMetric"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowMetricList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1beta1.FlowCollector"
     },
     {
       "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1beta1.FlowCollectorList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1beta2.FlowCollector"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1beta2.FlowCollectorList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.openshift.apiserver.v1.APIRequestCount"

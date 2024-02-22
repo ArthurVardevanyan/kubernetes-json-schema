@@ -1,5 +1,5 @@
 {
-  "description": "FlowCollector is the Schema for the flowcollectors API, which pilots and configures netflow collection.",
+  "description": "FlowCollector is the Schema for the flowcollectors API, which pilots and configures netflow collection. \n Deprecated: This package will be removed in one of the next releases.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -130,7 +130,7 @@
                   }
                 },
                 "kafkaBatchSize": {
-                  "description": "kafkaBatchSize limits the maximum size of a request in bytes before being sent to a partition. Ignored when not using Kafka. Default: 10MB.",
+                  "description": "kafkaBatchSize limits the maximum size of a request in bytes before being sent to a partition. Ignored when not using Kafka. Default: 1MB.",
                   "type": [
                     "integer",
                     "null"
@@ -166,6 +166,34 @@
                     "null"
                   ],
                   "properties": {
+                    "claims": {
+                      "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "name"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
+                    },
                     "limits": {
                       "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
@@ -178,7 +206,7 @@
                       }
                     },
                     "requests": {
-                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -547,18 +575,18 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "API version of the referent",
+                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "Kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\"",
+                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
@@ -1013,6 +1041,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -1025,7 +1081,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -1065,6 +1121,39 @@
               "type"
             ],
             "properties": {
+              "ipfix": {
+                "description": "IPFIX configuration, such as the IP address and port to send enriched IPFIX flows to.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "targetHost",
+                  "targetPort"
+                ],
+                "properties": {
+                  "targetHost": {
+                    "description": "Address of the IPFIX external receiver",
+                    "type": "string"
+                  },
+                  "targetPort": {
+                    "description": "Port for the IPFIX external receiver",
+                    "type": "integer"
+                  },
+                  "transport": {
+                    "description": "Transport protocol (`TCP` or `UDP`) to be used for the IPFIX connection, defaults to `TCP`.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "TCP",
+                      "UDP"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
               "kafka": {
                 "description": "kafka configuration, such as address or topic, to send enriched flows to.",
                 "type": [
@@ -1079,6 +1168,112 @@
                   "address": {
                     "description": "address of the Kafka server",
                     "type": "string"
+                  },
+                  "sasl": {
+                    "description": "SASL authentication configuration. [Unsupported (*)].",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "clientIDReference": {
+                        "description": "Reference to the secret or config map containing the client ID",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "file": {
+                            "description": "File name within the config map or secret",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "name": {
+                            "description": "Name of the config map or secret containing the file",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "namespace": {
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "type": {
+                            "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "configmap",
+                              "secret"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "clientSecretReference": {
+                        "description": "Reference to the secret or config map containing the client secret",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "file": {
+                            "description": "File name within the config map or secret",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "name": {
+                            "description": "Name of the config map or secret containing the file",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "namespace": {
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "type": {
+                            "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "enum": [
+                              "configmap",
+                              "secret"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "type": {
+                        "description": "Type of SASL authentication to use, or `DISABLED` if SASL is not used",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "enum": [
+                          "DISABLED",
+                          "PLAIN",
+                          "SCRAM-SHA512"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
                   },
                   "tls": {
                     "description": "tls client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093. Note that, when eBPF agents are used, Kafka certificate needs to be copied in the agent namespace (by default it's netobserv-privileged).",
@@ -1210,10 +1405,11 @@
                 "additionalProperties": false
               },
               "type": {
-                "description": "type selects the type of exporters. Only \"KAFKA\" is available at the moment.",
+                "description": "`type` selects the type of exporters. The available options are `KAFKA` and `IPFIX`.",
                 "type": "string",
                 "enum": [
-                  "KAFKA"
+                  "KAFKA",
+                  "IPFIX"
                 ]
               }
             },
@@ -1234,6 +1430,112 @@
             "address": {
               "description": "address of the Kafka server",
               "type": "string"
+            },
+            "sasl": {
+              "description": "SASL authentication configuration. [Unsupported (*)].",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "clientIDReference": {
+                  "description": "Reference to the secret or config map containing the client ID",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "file": {
+                      "description": "File name within the config map or secret",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "description": "Name of the config map or secret containing the file",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "namespace": {
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "type": {
+                      "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "configmap",
+                        "secret"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "clientSecretReference": {
+                  "description": "Reference to the secret or config map containing the client secret",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "file": {
+                      "description": "File name within the config map or secret",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "description": "Name of the config map or secret containing the file",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "namespace": {
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "type": {
+                      "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "configmap",
+                        "secret"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "description": "Type of SASL authentication to use, or `DISABLED` if SASL is not used",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "DISABLED",
+                    "PLAIN",
+                    "SCRAM-SHA512"
+                  ]
+                }
+              },
+              "additionalProperties": false
             },
             "tls": {
               "description": "tls client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093. Note that, when eBPF agents are used, Kafka certificate needs to be copied in the agent namespace (by default it's netobserv-privileged).",
@@ -1900,18 +2202,18 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "API version of the referent",
+                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "Kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\"",
+                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
@@ -2416,6 +2718,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -2428,7 +2758,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -2461,7 +2791,7 @@
           "description": "conditions represent the latest available observations of an object's state",
           "type": "array",
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}",
             "type": [
               "object",
               "null"

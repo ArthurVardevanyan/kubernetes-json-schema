@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "Defines the desired state of the FlowCollector resource. <br><br> *: the mention of \"unsupported\", or \"deprecated\" for a feature throughout this document means that this feature is not officially supported by Red Hat. It might have been, for instance, contributed by the community and accepted without a formal agreement for maintenance. The product maintainers might provide some support for these features as a best effort only.",
+      "description": "Defines the desired state of the FlowCollector resource. <br><br> *: the mention of \"unsupported\", or \"deprecated\" for a feature throughout this document means that this feature is not officially supported by Red Hat. It might have been, for example, contributed by the community and accepted without a formal agreement for maintenance. The product maintainers might provide some support for these features as a best effort only.",
       "type": [
         "object",
         "null"
@@ -48,7 +48,7 @@
               ],
               "properties": {
                 "cacheActiveTimeout": {
-                  "description": "`cacheActiveTimeout` is the max period during which the reporter will aggregate flows before sending. Increasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load, however you can expect higher memory consumption and an increased latency in the flow collection.",
+                  "description": "`cacheActiveTimeout` is the max period during which the reporter aggregates flows before sending. Increasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load, however you can expect higher memory consumption and an increased latency in the flow collection.",
                   "type": [
                     "string",
                     "null"
@@ -65,14 +65,14 @@
                   "minimum": 1
                 },
                 "debug": {
-                  "description": "`debug` allows setting some aspects of the internal configuration of the eBPF agent. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as GOGC and GOMAXPROCS env vars. Users setting its values do it at their own risk.",
+                  "description": "`debug` allows setting some aspects of the internal configuration of the eBPF agent. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "env": {
-                      "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as GOGC and GOMAXPROCS, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
+                      "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
                       "type": [
                         "object",
                         "null"
@@ -88,7 +88,7 @@
                   "additionalProperties": false
                 },
                 "excludeInterfaces": {
-                  "description": "`excludeInterfaces` contains the interface names that will be excluded from flow tracing. An entry is enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
+                  "description": "`excludeInterfaces` contains the interface names that are excluded from flow tracing. An entry enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
                   "type": [
                     "array",
                     "null"
@@ -101,7 +101,7 @@
                   }
                 },
                 "features": {
-                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features may have performance impacts. Possible values are:<br> - `PacketDrop`: enable the packets drop flows logging feature. This feature requires mounting the kernel debug filesystem, so the eBPF pod has to run as privileged. If the `spec.agent.eBPF.privileged` parameter is not set, an error is reported.<br> - `DNSTracking`: enable the DNS tracking feature. This feature requires mounting the kernel debug filesystem hence the eBPF pod has to run as privileged. If the `spec.agent.eBPF.privileged` parameter is not set, an error is reported.<br> - `FlowRTT` [unsupported (*)]: enable flow latency (RTT) calculations in the eBPF agent during TCP handshakes. This feature better works with `sampling` set to 1.<br>",
+                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br> - `PacketDrop`: enable the packets drop flows logging feature. This feature requires mounting the kernel debug filesystem, so the eBPF pod has to run as privileged. If the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br> - `DNSTracking`: enable the DNS tracking feature.<br> - `FlowRTT` [unsupported (*)]: enable flow latency (RTT) calculations in the eBPF agent during TCP handshakes. This feature better works with `sampling` set to 1.<br>",
                   "type": [
                     "array",
                     "null"
@@ -132,7 +132,7 @@
                   ]
                 },
                 "interfaces": {
-                  "description": "`interfaces` contains the interface names from where flows will be collected. If empty, the agent will fetch all the interfaces in the system, excepting the ones listed in ExcludeInterfaces. An entry is enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
+                  "description": "`interfaces` contains the interface names from where flows are collected. If empty, the agent fetches all the interfaces in the system, excepting the ones listed in ExcludeInterfaces. An entry enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
                   "type": [
                     "array",
                     "null"
@@ -145,7 +145,7 @@
                   }
                 },
                 "kafkaBatchSize": {
-                  "description": "`kafkaBatchSize` limits the maximum size of a request in bytes before being sent to a partition. Ignored when not using Kafka. Default: 10MB.",
+                  "description": "`kafkaBatchSize` limits the maximum size of a request in bytes before being sent to a partition. Ignored when not using Kafka. Default: 1MB.",
                   "type": [
                     "integer",
                     "null"
@@ -168,7 +168,7 @@
                   ]
                 },
                 "privileged": {
-                  "description": "Privileged mode for the eBPF Agent container. In general this setting can be ignored or set to false: in that case, the operator will set granular capabilities (BPF, PERFMON, NET_ADMIN, SYS_RESOURCE) to the container, to enable its correct operation. If for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF is in use, then you can turn on this mode for more global privileges.",
+                  "description": "Privileged mode for the eBPF Agent container. When ignored or set to `false`, the operator sets granular capabilities (BPF, PERFMON, NET_ADMIN, SYS_RESOURCE) to the container. If for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF is in use, then you can turn on this mode for more global privileges. Some agent features require the privileged mode, such as packet drops tracking (see `features`) and SR-IOV support.",
                   "type": [
                     "boolean",
                     "null"
@@ -181,6 +181,34 @@
                     "null"
                   ],
                   "properties": {
+                    "claims": {
+                      "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "name"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
+                    },
                     "limits": {
                       "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
@@ -193,7 +221,7 @@
                       }
                     },
                     "requests": {
-                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -226,7 +254,7 @@
               ],
               "properties": {
                 "cacheActiveTimeout": {
-                  "description": "`cacheActiveTimeout` is the max period during which the reporter will aggregate flows before sending",
+                  "description": "`cacheActiveTimeout` is the max period during which the reporter aggregates flows before sending.",
                   "type": [
                     "string",
                     "null"
@@ -234,7 +262,7 @@
                   "pattern": "^\\d+(ns|ms|s|m)?$"
                 },
                 "cacheMaxFlows": {
-                  "description": "`cacheMaxFlows` is the max number of flows in an aggregate; when reached, the reporter sends the flows",
+                  "description": "`cacheMaxFlows` is the max number of flows in an aggregate; when reached, the reporter sends the flows.",
                   "type": [
                     "integer",
                     "null"
@@ -260,7 +288,7 @@
                   "additionalProperties": false
                 },
                 "forceSampleAll": {
-                  "description": "`forceSampleAll` allows disabling sampling in the IPFIX-based flow reporter. It is not recommended to sample all the traffic with IPFIX, as it might generate cluster instability. If you REALLY want to do that, set this flag to true. Use at your own risk. When it is set to true, the value of `sampling` is ignored.",
+                  "description": "`forceSampleAll` allows disabling sampling in the IPFIX-based flow reporter. It is not recommended to sample all the traffic with IPFIX, as it might generate cluster instability. If you REALLY want to do that, set this flag to `true`. Use at your own risk. When it is set to `true`, the value of `sampling` is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -562,18 +590,18 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "API version of the referent",
+                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "Kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\"",
+                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
@@ -885,7 +913,7 @@
                   "format": "int32"
                 },
                 "status": {
-                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` will not deploy an horizontal pod autoscaler.<br> - `ENABLED` will deploy an horizontal pod autoscaler.<br>",
+                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` does not deploy an horizontal pod autoscaler.<br> - `ENABLED` deploys an horizontal pod autoscaler.<br>",
                   "type": [
                     "string",
                     "null"
@@ -899,7 +927,7 @@
               "additionalProperties": false
             },
             "enable": {
-              "description": "enable the console plugin deployment. spec.Loki.enable must also be true",
+              "description": "Enables the console plugin deployment. `spec.loki.enable` must also be `true`",
               "type": [
                 "boolean",
                 "null"
@@ -1008,7 +1036,7 @@
                     }
                   },
                   "name": {
-                    "description": "Name of the filter, that will be displayed in Console",
+                    "description": "Name of the filter, that is displayed in the Console",
                     "type": "string"
                   }
                 },
@@ -1016,7 +1044,7 @@
               }
             },
             "register": {
-              "description": "`register` allows, when set to true, to automatically register the provided console plugin with the OpenShift Console operator. When set to false, you can still register it manually by editing console.operator.openshift.io/cluster with the following command: `oc patch console.operator.openshift.io cluster --type='json' -p '[{\"op\": \"add\", \"path\": \"/spec/plugins/-\", \"value\": \"netobserv-plugin\"}]'`",
+              "description": "`register` allows, when set to `true`, to automatically register the provided console plugin with the OpenShift Console operator. When set to `false`, you can still register it manually by editing console.operator.openshift.io/cluster with the following command: `oc patch console.operator.openshift.io cluster --type='json' -p '[{\"op\": \"add\", \"path\": \"/spec/plugins/-\", \"value\": \"netobserv-plugin\"}]'`",
               "type": [
                 "boolean",
                 "null"
@@ -1038,6 +1066,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -1050,7 +1106,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -1094,7 +1150,7 @@
             ],
             "properties": {
               "ipfix": {
-                "description": "IPFIX configuration, such as the IP address and port to send enriched IPFIX flows to. [Unsupported (*)].",
+                "description": "IPFIX configuration, such as the IP address and port to send enriched IPFIX flows to.",
                 "type": [
                   "object",
                   "null"
@@ -1170,7 +1226,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing the file. If omitted, assumes same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1212,7 +1268,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing the file. If omitted, assumes same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1283,7 +1339,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1311,7 +1367,7 @@
                         ]
                       },
                       "insecureSkipVerify": {
-                        "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to true, the `caCert` field is ignored.",
+                        "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
                         "type": [
                           "boolean",
                           "null"
@@ -1346,7 +1402,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1370,14 +1426,14 @@
                     "additionalProperties": false
                   },
                   "topic": {
-                    "description": "Kafka topic to use. It must exist, NetObserv will not create it.",
+                    "description": "Kafka topic to use. It must exist. NetObserv does not create it.",
                     "type": "string"
                   }
                 },
                 "additionalProperties": false
               },
               "type": {
-                "description": "`type` selects the type of exporters. The available options are `KAFKA` and `IPFIX`. `IPFIX` is unsupported (*).",
+                "description": "`type` selects the type of exporters. The available options are `KAFKA` and `IPFIX`.",
                 "type": "string",
                 "enum": [
                   "KAFKA",
@@ -1432,7 +1488,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing the file. If omitted, assumes same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1474,7 +1530,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing the file. If omitted, assumes same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1545,7 +1601,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1573,7 +1629,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to true, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -1608,7 +1664,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1632,21 +1688,21 @@
               "additionalProperties": false
             },
             "topic": {
-              "description": "Kafka topic to use. It must exist, NetObserv will not create it.",
+              "description": "Kafka topic to use. It must exist. NetObserv does not create it.",
               "type": "string"
             }
           },
           "additionalProperties": false
         },
         "loki": {
-          "description": "Loki, the flow store, client settings.",
+          "description": "`loki`, the flow store, client settings.",
           "type": [
             "object",
             "null"
           ],
           "properties": {
             "authToken": {
-              "description": "`authToken` describes the way to get a token to authenticate to Loki.<br> - `DISABLED` will not send any token with the request.<br> - `FORWARD` will forward the user token for authorization.<br> - `HOST` [deprecated (*)] - will use the local pod service account to authenticate to Loki.<br> When using the Loki Operator, this must be set to `FORWARD`.",
+              "description": "`authToken` describes the way to get a token to authenticate to Loki.<br> - `DISABLED` does not send any token with the request.<br> - `FORWARD` forwards the user token for authorization.<br> - `HOST` [deprecated (*)] - uses the local pod service account to authenticate to Loki.<br> When using the Loki Operator, this must be set to `FORWARD`.",
               "type": [
                 "string",
                 "null"
@@ -1674,7 +1730,7 @@
               ]
             },
             "enable": {
-              "description": "enable storing flows to Loki. It is required for the OpenShift Console plugin installation.",
+              "description": "Set `enable` to `true` to store flows in Loki. It is required for the OpenShift Console plugin installation.",
               "type": [
                 "boolean",
                 "null"
@@ -1704,7 +1760,14 @@
               ]
             },
             "querierUrl": {
-              "description": "`querierURL` specifies the address of the Loki querier service, in case it is different from the Loki ingester URL. If empty, the URL value will be used (assuming that the Loki ingester and querier are in the same server). When using the Loki Operator, do not set it, since ingestion and queries use the Loki gateway.",
+              "description": "`querierURL` specifies the address of the Loki querier service, in case it is different from the Loki ingester URL. If empty, the URL value is used (assuming that the Loki ingester and querier are in the same server). When using the Loki Operator, do not set it, since ingestion and queries use the Loki gateway.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "readTimeout": {
+              "description": "`readTimeout` is the maximum loki query total time limit. A timeout of zero means no timeout.",
               "type": [
                 "string",
                 "null"
@@ -1759,7 +1822,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1787,7 +1850,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to true, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -1822,7 +1885,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1846,7 +1909,7 @@
               "additionalProperties": false
             },
             "statusUrl": {
-              "description": "`statusURL` specifies the address of the Loki `/ready`, `/metrics` and `/config` endpoints, in case it is different from the Loki querier URL. If empty, the `querierURL` value will be used. This is useful to show error messages and some context in the frontend. When using the Loki Operator, set it to the Loki HTTP query frontend service, for example https://loki-query-frontend-http.netobserv.svc:3100/. `statusTLS` configuration will be used when `statusUrl` is set.",
+              "description": "`statusURL` specifies the address of the Loki `/ready`, `/metrics` and `/config` endpoints, in case it is different from the Loki querier URL. If empty, the `querierURL` value is used. This is useful to show error messages and some context in the frontend. When using the Loki Operator, set it to the Loki HTTP query frontend service, for example https://loki-query-frontend-http.netobserv.svc:3100/. `statusTLS` configuration is used when `statusUrl` is set.",
               "type": [
                 "string",
                 "null"
@@ -1860,7 +1923,7 @@
               ]
             },
             "timeout": {
-              "description": "`timeout` is the maximum time connection / request limit. A timeout of zero means no timeout.",
+              "description": "`timeout` is the maximum processor time connection / request limit. A timeout of zero means no timeout.",
               "type": [
                 "string",
                 "null"
@@ -1902,7 +1965,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1930,7 +1993,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to true, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -1965,7 +2028,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1999,7 +2062,7 @@
           "additionalProperties": false
         },
         "namespace": {
-          "description": "Namespace where NetObserv pods are deployed. If empty, the namespace of the operator is going to be used.",
+          "description": "Namespace where NetObserv pods are deployed.",
           "type": [
             "string",
             "null"
@@ -2012,6 +2075,13 @@
             "null"
           ],
           "properties": {
+            "addZone": {
+              "description": "`addZone` allows availability zone awareness by labelling flows with their source and destination zones. This feature requires the \"topology.kubernetes.io/zone\" label to be set on nodes.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "clusterName": {
               "description": "`clusterName` is the name of the cluster to appear in the flows data. This is useful in a multi-cluster context. When using OpenShift, leave empty to make it automatically determined.",
               "type": [
@@ -2041,14 +2111,14 @@
               ]
             },
             "debug": {
-              "description": "`debug` allows setting some aspects of the internal configuration of the flow processor. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as GOGC and GOMAXPROCS env vars. Users setting its values do it at their own risk.",
+              "description": "`debug` allows setting some aspects of the internal configuration of the flow processor. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
                 "env": {
-                  "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as GOGC and GOMAXPROCS, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
+                  "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
                   "type": [
                     "object",
                     "null"
@@ -2064,7 +2134,7 @@
               "additionalProperties": false
             },
             "dropUnusedFields": {
-              "description": "`dropUnusedFields` allows, when set to true, to drop fields that are known to be unused by OVS, to save storage space.",
+              "description": "`dropUnusedFields` allows, when set to `true`, to drop fields that are known to be unused by OVS, to save storage space.",
               "type": [
                 "boolean",
                 "null"
@@ -2331,18 +2401,18 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "API version of the referent",
+                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "Kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\"",
+                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
@@ -2654,7 +2724,7 @@
                   "format": "int32"
                 },
                 "status": {
-                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` will not deploy an horizontal pod autoscaler.<br> - `ENABLED` will deploy an horizontal pod autoscaler.<br>",
+                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` does not deploy an horizontal pod autoscaler.<br> - `ENABLED` deploys an horizontal pod autoscaler.<br>",
                   "type": [
                     "string",
                     "null"
@@ -2668,7 +2738,7 @@
               "additionalProperties": false
             },
             "kafkaConsumerBatchSize": {
-              "description": "`kafkaConsumerBatchSize` indicates to the broker the maximum batch size, in bytes, that the consumer will accept. Ignored when not using Kafka. Default: 10MB.",
+              "description": "`kafkaConsumerBatchSize` indicates to the broker the maximum batch size, in bytes, that the consumer accepts. Ignored when not using Kafka. Default: 10MB.",
               "type": [
                 "integer",
                 "null"
@@ -2745,7 +2815,7 @@
                   }
                 },
                 "ignoreTags": {
-                  "description": "`ignoreTags` is a list of tags to specify which metrics to ignore. Each metric is associated with a list of tags. More details in https://github.com/netobserv/network-observability-operator/tree/main/controllers/flowlogspipeline/metrics_definitions . Available tags are: `egress`, `ingress`, `flows`, `bytes`, `packets`, `namespaces`, `nodes`, `workloads`, `nodes-flows`, `namespaces-flows`, `workloads-flows`. Namespace-based metrics are covered by both `workloads` and `namespaces` tags, hence it is recommended to always ignore one of them (`workloads` offering a finer granularity).",
+                  "description": "`ignoreTags` [deprecated (*)] is a list of tags to specify which metrics to ignore. Each metric is associated with a list of tags. More details in https://github.com/netobserv/network-observability-operator/tree/main/controllers/flowlogspipeline/metrics_definitions . Available tags are: `egress`, `ingress`, `flows`, `bytes`, `packets`, `namespaces`, `nodes`, `workloads`, `nodes-flows`, `namespaces-flows`, `workloads-flows`. Namespace-based metrics are covered by both `workloads` and `namespaces` tags, hence it is recommended to always ignore one of them (`workloads` offering a finer granularity).<br> Deprecation notice: use `includeList` instead.",
                   "type": [
                     "array",
                     "null"
@@ -2754,6 +2824,49 @@
                     "type": [
                       "string",
                       "null"
+                    ]
+                  }
+                },
+                "includeList": {
+                  "description": "`includeList` is a list of metric names to specify which ones to generate. The names correspond to the names in Prometheus without the prefix. For example, `namespace_egress_packets_total` will show up as `netobserv_namespace_egress_packets_total` in Prometheus. Note that the more metrics you add, the bigger is the impact on Prometheus workload resources. Metrics enabled by default are: `namespace_flows_total`, `node_ingress_bytes_total`, `workload_ingress_bytes_total`, `namespace_drop_packets_total` (when `PacketDrop` feature is enabled), `namespace_rtt_seconds` (when `FlowRTT` feature is enabled), `namespace_dns_latency_seconds` (when `DNSTracking` feature is enabled). More information, with full list of available metrics: https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "Metric name. More information in https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md.",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "namespace_egress_bytes_total",
+                      "namespace_egress_packets_total",
+                      "namespace_ingress_bytes_total",
+                      "namespace_ingress_packets_total",
+                      "namespace_flows_total",
+                      "node_egress_bytes_total",
+                      "node_egress_packets_total",
+                      "node_ingress_bytes_total",
+                      "node_ingress_packets_total",
+                      "node_flows_total",
+                      "workload_egress_bytes_total",
+                      "workload_egress_packets_total",
+                      "workload_ingress_bytes_total",
+                      "workload_ingress_packets_total",
+                      "workload_flows_total",
+                      "namespace_drop_bytes_total",
+                      "namespace_drop_packets_total",
+                      "node_drop_bytes_total",
+                      "node_drop_packets_total",
+                      "workload_drop_bytes_total",
+                      "workload_drop_packets_total",
+                      "namespace_rtt_seconds",
+                      "node_rtt_seconds",
+                      "workload_rtt_seconds",
+                      "namespace_dns_latency_seconds",
+                      "node_dns_latency_seconds",
+                      "workload_dns_latency_seconds"
                     ]
                   }
                 },
@@ -2782,7 +2895,7 @@
                       ],
                       "properties": {
                         "insecureSkipVerify": {
-                          "description": "insecureSkipVerify allows skipping client-side verification of the provided certificate If set to true, ProvidedCaFile field will be ignored",
+                          "description": "`insecureSkipVerify` allows skipping client-side verification of the provided certificate. If set to `true`, the `providedCaFile` field is ignored.",
                           "type": [
                             "boolean",
                             "null"
@@ -2817,7 +2930,7 @@
                               ]
                             },
                             "namespace": {
-                              "description": "Namespace of the config map or secret containing certificates. If omitted, assumes the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                              "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                               "type": [
                                 "string",
                                 "null"
@@ -2838,7 +2951,7 @@
                           "additionalProperties": false
                         },
                         "providedCaFile": {
-                          "description": "Reference to the CA file will be ignored",
+                          "description": "Reference to the CA file when `type` is set to `PROVIDED`.",
                           "type": [
                             "object",
                             "null"
@@ -2859,7 +2972,7 @@
                               ]
                             },
                             "namespace": {
-                              "description": "Namespace of the config map or secret containing the file. If omitted, assumes same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret will be copied so that it can be mounted as required.",
+                              "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                               "type": [
                                 "string",
                                 "null"
@@ -2900,6 +3013,13 @@
               },
               "additionalProperties": false
             },
+            "multiClusterDeployment": {
+              "description": "Set `multiClusterDeployment` to `true` to enable multi clusters feature. This adds clusterName label to flows data",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "port": {
               "description": "Port of the flow collector (host port). By convention, some values are forbidden. It must be greater than 1024 and different from 4500, 4789 and 6081.",
               "type": [
@@ -2927,6 +3047,34 @@
                 "null"
               ],
               "properties": {
+                "claims": {
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
                 "limits": {
                   "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
@@ -2939,7 +3087,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -2972,7 +3120,7 @@
           "description": "`conditions` represent the latest available observations of an object's state",
           "type": "array",
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n     // other fields }",
+            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}",
             "type": [
               "object",
               "null"
