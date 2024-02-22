@@ -1102,6 +1102,9 @@
       "$ref": "_definitions.json#/definitions/dev.tekton.v1.TaskRunList"
     },
     {
+      "$ref": "_definitions.json#/definitions/dev.tekton.v1alpha1.StepActionList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/dev.tekton.v1alpha1.VerificationPolicyList"
     },
     {
@@ -1289,6 +1292,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.VaultDynamicSecretList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.Webhook"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.WebhookList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.external-secrets.operator.v1alpha1.OperatorConfig"
