@@ -30,6 +30,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "value": {
+      "description": "The value of the setting.",
       "type": [
         "string",
         "null"

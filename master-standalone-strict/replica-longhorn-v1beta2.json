@@ -40,13 +40,10 @@
           ]
         },
         "backendStoreDriver": {
+          "description": "Deprecated: Replaced by field `dataEngine`.",
           "type": [
             "string",
             "null"
-          ],
-          "enum": [
-            "v1",
-            "v2"
           ]
         },
         "backingImage": {
@@ -59,6 +56,16 @@
           "type": [
             "string",
             "null"
+          ]
+        },
+        "dataEngine": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "v1",
+            "v2"
           ]
         },
         "desireState": {
@@ -80,6 +87,7 @@
           ]
         },
         "engineImage": {
+          "description": "Deprecated: Replaced by field `image`.",
           "type": [
             "string",
             "null"
@@ -88,6 +96,12 @@
         "engineName": {
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "evictionRequested": {
+          "type": [
+            "boolean",
             "null"
           ]
         },
@@ -104,6 +118,12 @@
           ]
         },
         "healthyAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image": {
           "type": [
             "string",
             "null"
@@ -138,6 +158,19 @@
             "boolean",
             "null"
           ]
+        },
+        "snapshotMaxCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "snapshotMaxSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
         },
         "unmapMarkDiskChainRemovedEnabled": {
           "type": [
@@ -182,6 +215,7 @@
           ]
         },
         "evictionRequested": {
+          "description": "Deprecated: Replaced by field `spec.evictionRequested`.",
           "type": [
             "boolean",
             "null"

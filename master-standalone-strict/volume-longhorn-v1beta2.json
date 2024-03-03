@@ -50,13 +50,10 @@
           ]
         },
         "backendStoreDriver": {
+          "description": "Deprecated: Replaced by field `dataEngine`.",
           "type": [
             "string",
             "null"
-          ],
-          "enum": [
-            "v1",
-            "v2"
           ]
         },
         "backingImage": {
@@ -74,6 +71,16 @@
             "none",
             "lz4",
             "gzip"
+          ]
+        },
+        "dataEngine": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "v1",
+            "v2"
           ]
         },
         "dataLocality": {
@@ -118,6 +125,7 @@
           ]
         },
         "engineImage": {
+          "description": "Deprecated: Replaced by field `image`.",
           "type": [
             "string",
             "null"
@@ -139,6 +147,12 @@
             "iscsi",
             "nvmf",
             ""
+          ]
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
           ]
         },
         "lastAttachedBy": {
@@ -207,8 +221,20 @@
             "best-effort"
           ]
         },
+        "replicaDiskSoftAntiAffinity": {
+          "description": "Replica disk soft anti affinity of the volume. Set enabled to allow replicas to be scheduled in the same disk.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "ignored",
+            "enabled",
+            "disabled"
+          ]
+        },
         "replicaSoftAntiAffinity": {
-          "description": "Replica soft anti affinity of the volume. Set enabled to allow replicas to be scheduled on the same node",
+          "description": "Replica soft anti affinity of the volume. Set enabled to allow replicas to be scheduled on the same node.",
           "type": [
             "string",
             "null"
@@ -220,7 +246,7 @@
           ]
         },
         "replicaZoneSoftAntiAffinity": {
-          "description": "Replica zone soft anti affinity of the volume. Set enabled to allow replicas to be scheduled in the same zone",
+          "description": "Replica zone soft anti affinity of the volume. Set enabled to allow replicas to be scheduled in the same zone.",
           "type": [
             "string",
             "null"
@@ -266,6 +292,19 @@
             "enabled",
             "fast-check"
           ]
+        },
+        "snapshotMaxCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "snapshotMaxSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
         },
         "staleReplicaTimeout": {
           "type": [

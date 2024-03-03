@@ -27,12 +27,18 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "InstanceManagerSpec defines the desired state of the Longhorn instancer manager",
+      "description": "InstanceManagerSpec defines the desired state of the Longhorn instance manager",
       "type": [
         "object",
         "null"
       ],
       "properties": {
+        "dataEngine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "image": {
           "type": [
             "string",
@@ -98,6 +104,13 @@
                 ],
                 "properties": {
                   "backendStoreDriver": {
+                    "description": "Deprecated: Replaced by field `dataEngine`.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dataEngine": {
                     "type": [
                       "string",
                       "null"
@@ -118,6 +131,18 @@
                   "null"
                 ],
                 "properties": {
+                  "conditions": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
                   "endpoint": {
                     "type": [
                       "string",
@@ -190,6 +215,13 @@
                 ],
                 "properties": {
                   "backendStoreDriver": {
+                    "description": "Deprecated: Replaced by field `dataEngine`.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dataEngine": {
                     "type": [
                       "string",
                       "null"
@@ -210,6 +242,18 @@
                   "null"
                 ],
                 "properties": {
+                  "conditions": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
                   "endpoint": {
                     "type": [
                       "string",
@@ -283,6 +327,13 @@
                 ],
                 "properties": {
                   "backendStoreDriver": {
+                    "description": "Deprecated: Replaced by field `dataEngine`.",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dataEngine": {
                     "type": [
                       "string",
                       "null"
@@ -303,6 +354,18 @@
                   "null"
                 ],
                 "properties": {
+                  "conditions": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
                   "endpoint": {
                     "type": [
                       "string",

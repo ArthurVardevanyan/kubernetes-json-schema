@@ -40,6 +40,19 @@
           ]
         },
         "backendStoreDriver": {
+          "description": "Deprecated: Replaced by field `dataEngine`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "backupVolume": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dataEngine": {
           "type": [
             "string",
             "null"
@@ -47,12 +60,6 @@
           "enum": [
             "v1",
             "v2"
-          ]
-        },
-        "backupVolume": {
-          "type": [
-            "string",
-            "null"
           ]
         },
         "desireState": {
@@ -68,6 +75,7 @@
           ]
         },
         "engineImage": {
+          "description": "Deprecated: Replaced by field `image`.",
           "type": [
             "string",
             "null"
@@ -83,6 +91,12 @@
             "iscsi",
             "nvmf",
             ""
+          ]
+        },
+        "image": {
+          "type": [
+            "string",
+            "null"
           ]
         },
         "logRequested": {
@@ -132,6 +146,19 @@
             "boolean",
             "null"
           ]
+        },
+        "snapshotMaxCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "snapshotMaxSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
         },
         "unmapMarkSnapChainRemovedEnabled": {
           "type": [
@@ -504,6 +531,19 @@
             "boolean",
             "null"
           ]
+        },
+        "snapshotMaxCount": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "snapshotMaxSize": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "int64"
         },
         "snapshots": {
           "additionalProperties": {

@@ -826,6 +826,30 @@
       "$ref": "_definitions.json#/definitions/com.github.operator-framework.operator-lifecycle-manager.pkg.package-server.apis.operators.v1.PackageManifestStatus"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.AlertingRule"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.AlertingRuleList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.LokiStack"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.LokiStackList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.RecordingRule"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.RecordingRuleList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.RulerConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.grafana.loki.v1.RulerConfigList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.mongodb.mongodbcommunity.v1.MongoDBCommunity"
     },
     {
@@ -3086,6 +3110,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.longhorn.v1beta2.Backup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.longhorn.v1beta2.BackupBackingImage"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.longhorn.v1beta2.BackupBackingImageList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.longhorn.v1beta2.BackupList"

@@ -34,6 +34,7 @@
       ],
       "properties": {
         "allowScheduling": {
+          "description": "Allow scheduling replicas on the node.",
           "type": [
             "boolean",
             "null"
@@ -141,8 +142,15 @@
         "null"
       ],
       "properties": {
+        "autoEvicting": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "conditions": {},
         "diskStatus": {
+          "description": "The status of the disks on the node.",
           "additionalProperties": {
             "type": [
               "object",
@@ -157,6 +165,12 @@
                 ]
               },
               "diskUUID": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "filesystemType": {
                 "type": [
                   "string",
                   "null"
@@ -197,12 +211,14 @@
           }
         },
         "region": {
+          "description": "The Region of the node.",
           "type": [
             "string",
             "null"
           ]
         },
         "snapshotCheckStatus": {
+          "description": "The status of the snapshot integrity check.",
           "type": [
             "object",
             "null"
@@ -214,17 +230,12 @@
                 "null"
               ],
               "format": "date-time"
-            },
-            "snapshotCheckState": {
-              "type": [
-                "string",
-                "null"
-              ]
             }
           },
           "additionalProperties": false
         },
         "zone": {
+          "description": "The Zone of the node.",
           "type": [
             "string",
             "null"
