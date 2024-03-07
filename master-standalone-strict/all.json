@@ -181,6 +181,30 @@
       "$ref": "_definitions.json#/definitions/com.crunchydata.postgres-operator.v1beta1.PostgresClusterList"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.AutoscalingListener"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.AutoscalingListenerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.AutoscalingRunnerSet"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.AutoscalingRunnerSetList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.EphemeralRunner"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.EphemeralRunnerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.EphemeralRunnerSet"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.github.actions.v1alpha1.EphemeralRunnerSetList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.github.openshift.api.apps.v1.CustomDeploymentStrategyParams"
     },
     {
