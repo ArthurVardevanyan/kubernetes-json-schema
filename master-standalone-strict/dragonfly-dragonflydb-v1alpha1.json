@@ -33,6 +33,38 @@
         "null"
       ],
       "properties": {
+        "aclFromSecret": {
+          "description": "(Optional) Acl file Secret to pass to the container",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "description": "The key of the secret to select from.  Must be a valid secret key.",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "optional": {
+              "description": "Specify whether the Secret or its key must be defined",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "x-kubernetes-map-type": "atomic",
+          "additionalProperties": false
+        },
         "affinity": {
           "description": "(Optional) Dragonfly pod affinity",
           "type": [
@@ -1279,6 +1311,46 @@
             "null"
           ]
         },
+        "labels": {
+          "description": "(Optional) Labels to add to the Dragonfly pods.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "nodeSelector": {
+          "description": "(Optional) Dragonfly pod node selector",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "openshift": {
+          "description": "(Optional) Whether running on Openshift or not",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "priorityClassName": {
+          "description": "(Optional) Dragonfly pod priority class name",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "replicas": {
           "description": "Replicas is the total number of Dragonfly instances including the master",
           "type": [
@@ -1713,6 +1785,146 @@
               },
               "value": {
                 "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "topologySpreadConstraints": {
+          "description": "(Optional) Dragonfly pod topologySpreadConstraints",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "The pod this TopologySpreadConstraints is attached",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "labelSelector": {
+                "description": "A label query over a set of resources, in this case pods.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "matchExpressions": {
+                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "key",
+                        "operator"
+                      ],
+                      "properties": {
+                        "key": {
+                          "description": "key is the label key that the selector applies to.",
+                          "type": "string"
+                        },
+                        "operator": {
+                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "matchLabels": {
+                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "x-kubernetes-map-type": "atomic",
+                "additionalProperties": false
+              },
+              "matchLabelKeys": {
+                "description": "field is a beta-level field and enabled by default in 1.27. You can disable it by disabling the MatchLabelKeysInPodTopologySpread",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "maxSkew": {
+                "description": "the degree to which Pods may be unevenly distributed. You must specify this field and the number must be greater than zero. Its semantics differ according to the value of whenUnsatisfiable",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int32"
+              },
+              "minDomains": {
+                "description": "(Optional) indicates a minimum number of eligible domains. This field is optional. A domain is a particular instance of a topology. An eligible domain is a domain whose nodes match the node selector",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int32"
+              },
+              "nodeAffinityPolicy": {
+                "description": "indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are Honor or Ignore",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "nodeTaintsPolicy": {
+                "description": "indicates how we will treat node taints when calculating pod topology spread skew. Honor or Ignore",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "topologyKey": {
+                "description": "the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We call each instance of a topology (in other words, a <key, value> pair) a domain. The scheduler will try to put a balanced number of pods into each domain. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "whenUnsatisfiable": {
+                "description": "DoNotSchedule (default) tells the scheduler not to schedule it. ScheduleAnyway tells the scheduler to still schedule it while prioritizing nodes that minimize the skew.",
                 "type": [
                   "string",
                   "null"
