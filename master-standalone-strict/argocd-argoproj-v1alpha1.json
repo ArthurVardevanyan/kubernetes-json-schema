@@ -1024,7 +1024,7 @@
           ]
         },
         "grafana": {
-          "description": "Grafana defines the Grafana server options for ArgoCD.",
+          "description": "Deprecated: Grafana defines the Grafana server options for ArgoCD.",
           "type": [
             "object",
             "null"
