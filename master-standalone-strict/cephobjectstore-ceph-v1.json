@@ -1,0 +1,128 @@
+{
+  "description": "CephObjectStore represents a Ceph Object Store Gateway",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephObjectStore"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "ObjectStoreSpec represent the spec of a pool",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "allowUsersInNamespaces": {
+          "description": "The list of allowed namespaces in addition to the object store namespace\nwhere ceph object store users may be created. Specify \"*\" to allow all\nnamespaces, otherwise list individual namespaces that are to be allowed.\nThis is useful for applications that need object store credentials\nto be created in their own namespace, where neither OBCs nor COSI\nis being used to create buckets. The default is empty.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "dataPool": {
+          "description": "The data pool settings"
+        },
+        "gateway": {
+          "description": "The rgw pod info"
+        },
+        "healthCheck": {
+          "description": "The RGW health probes"
+        },
+        "hosting": {
+          "description": "Hosting settings for the object store",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "dnsNames": {
+              "description": "A list of DNS names in which bucket can be accessed via virtual host path. These names need to valid according RFC-1123.\nEach domain requires wildcard support like ingress loadbalancer.\nDo not include the wildcard itself in the list of hostnames (e.g. use \"mystore.example.com\" instead of \"*.mystore.example.com\").\nAdd all hostnames including user-created Kubernetes Service endpoints to the list.\nCephObjectStore Service Endpoints and CephObjectZone customEndpoints are automatically added to the list.\nThe feature is supported only for Ceph v18 and later versions.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "metadataPool": {
+          "description": "The metadata pool settings"
+        },
+        "preservePoolsOnDelete": {
+          "description": "Preserve pools on object store deletion",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "security": {
+          "description": "Security represents security settings"
+        },
+        "sharedPools": {
+          "description": "The pool information when configuring RADOS namespaces in existing pools.",
+          "required": [
+            "dataPoolName",
+            "metadataPoolName"
+          ]
+        },
+        "zone": {
+          "description": "The multisite info",
+          "required": [
+            "name"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ObjectStoreStatus represents the status of a Ceph Object Store resource",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephObjectStore",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

@@ -1,11 +1,15 @@
 # Kubernetes JSON Schemas
 
 ```bash
-wget https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/build_schema.py -O /tmp/build_schema.py
-pip3 install -r https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/requirements.txt
-# pip install "cython<3.0.0" wheel && pip install pyyaml==5.4.1 --no-build-isolation
+wget https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/build_schema.py -O ./build_schema.py
 
-python3 /tmp/build_schema.py \
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip3 install setuptools==69.2.0 && pip3 install "cython<3.0.0" wheel && pip3 install pyyaml==5.4.1 --no-build-isolation
+pip3 install -r https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/requirements.txt
+
+python3 build_schema.py \
     --destination "./" \
     --url $(oc whoami --show-server) --token $(oc whoami -t) --strict STRICT
 ```

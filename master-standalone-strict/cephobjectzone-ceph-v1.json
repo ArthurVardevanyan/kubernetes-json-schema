@@ -1,0 +1,87 @@
+{
+  "description": "CephObjectZone represents a Ceph Object Store Gateway Zone",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephObjectZone"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "ObjectZoneSpec represent the spec of an ObjectZone",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "zoneGroup"
+      ],
+      "properties": {
+        "customEndpoints": {
+          "description": "If this zone cannot be accessed from other peer Ceph clusters via the ClusterIP Service\nendpoint created by Rook, you must set this to the externally reachable endpoint(s). You may\ninclude the port in the definition. For example: \"https://my-object-store.my-domain.net:443\".\nIn many cases, you should set this to the endpoint of the ingress resource that makes the\nCephObjectStore associated with this CephObjectStoreZone reachable to peer clusters.\nThe list can have one or more endpoints pointing to different RGW servers in the zone.\n\n\nIf a CephObjectStore endpoint is omitted from this list, that object store's gateways will\nnot receive multisite replication data\n(see CephObjectStore.spec.gateway.disableMultisiteSyncTraffic)."
+        },
+        "dataPool": {
+          "description": "The data pool settings"
+        },
+        "metadataPool": {
+          "description": "The metadata pool settings"
+        },
+        "preservePoolsOnDelete": {
+          "description": "Preserve pools on object zone deletion",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "sharedPools": {
+          "description": "The pool information when configuring RADOS namespaces in existing pools.",
+          "required": [
+            "dataPoolName",
+            "metadataPoolName"
+          ]
+        },
+        "zoneGroup": {
+          "description": "The display name for the ceph users",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "Status represents the status of an object",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephObjectZone",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

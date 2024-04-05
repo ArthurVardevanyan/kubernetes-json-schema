@@ -3325,6 +3325,18 @@
       "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1beta2.FlowCollectorList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.objectbucket.v1alpha1.ObjectBucket"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.objectbucket.v1alpha1.ObjectBucketClaim"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.objectbucket.v1alpha1.ObjectBucketClaimList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.objectbucket.v1alpha1.ObjectBucketList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.openshift.apiserver.v1.APIRequestCount"
     },
     {
@@ -3839,6 +3851,108 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.redhat.redhatcop.v1alpha1.QuayEcosystemList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBlockPool"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBlockPoolList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBlockPoolRadosNamespace"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBlockPoolRadosNamespaceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBucketNotification"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBucketNotificationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBucketTopic"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephBucketTopicList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephCOSIDriver"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephCOSIDriverList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephClient"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephClientList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephCluster"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephClusterList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystem"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystemList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystemMirror"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystemMirrorList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystemSubVolumeGroup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephFilesystemSubVolumeGroupList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephNFS"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephNFSList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectRealm"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectRealmList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectStore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectStoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectStoreUser"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectStoreUserList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectZone"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectZoneGroup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectZoneGroupList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephObjectZoneList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephRBDMirror"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.rook.ceph.v1.CephRBDMirrorList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.traefik.v1alpha1.IngressRoute"

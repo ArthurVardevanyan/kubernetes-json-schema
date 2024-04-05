@@ -1,0 +1,211 @@
+{
+  "description": "CephBucketTopic represents a Ceph Object Topic for Bucket Notifications",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephBucketTopic"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "BucketTopicSpec represent the spec of a Bucket Topic",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "endpoint",
+        "objectStoreName",
+        "objectStoreNamespace"
+      ],
+      "properties": {
+        "endpoint": {
+          "description": "Contains the endpoint spec of the topic",
+          "type": "object",
+          "properties": {
+            "amqp": {
+              "description": "Spec of AMQP endpoint",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "exchange",
+                "uri"
+              ],
+              "properties": {
+                "ackLevel": {
+                  "description": "The ack level required for this topic (none/broker/routeable)",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "none",
+                    "broker",
+                    "routeable"
+                  ]
+                },
+                "disableVerifySSL": {
+                  "description": "Indicate whether the server certificate is validated by the client or not",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "exchange": {
+                  "description": "Name of the exchange that is used to route messages based on topics",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uri": {
+                  "description": "The URI of the AMQP endpoint to push notification to",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "http": {
+              "description": "Spec of HTTP endpoint",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "uri"
+              ],
+              "properties": {
+                "disableVerifySSL": {
+                  "description": "Indicate whether the server certificate is validated by the client or not",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "sendCloudEvents": {
+                  "description": "Send the notifications with the CloudEvents header: https://github.com/cloudevents/spec/blob/main/cloudevents/adapters/aws-s3.md",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "uri": {
+                  "description": "The URI of the HTTP endpoint to push notification to",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "kafka": {
+              "description": "Spec of Kafka endpoint",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "uri"
+              ],
+              "properties": {
+                "ackLevel": {
+                  "description": "The ack level required for this topic (none/broker)",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "none",
+                    "broker"
+                  ]
+                },
+                "disableVerifySSL": {
+                  "description": "Indicate whether the server certificate is validated by the client or not",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "uri": {
+                  "description": "The URI of the Kafka endpoint to push notification to",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "useSSL": {
+                  "description": "Indicate whether to use SSL when communicating with the broker",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "objectStoreName": {
+          "description": "The name of the object store on which to define the topic",
+          "type": "string",
+          "minLength": 1
+        },
+        "objectStoreNamespace": {
+          "description": "The namespace of the object store on which to define the topic",
+          "type": "string",
+          "minLength": 1
+        },
+        "opaqueData": {
+          "description": "Data which is sent in each event",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "persistent": {
+          "description": "Indication whether notifications to this endpoint are persistent or not",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "BucketTopicStatus represents the Status of a CephBucketTopic",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephBucketTopic",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

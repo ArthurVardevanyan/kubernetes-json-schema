@@ -1,0 +1,84 @@
+{
+  "description": "CephObjectStoreUser represents a Ceph Object Store Gateway User",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephObjectStoreUser"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "ObjectStoreUserSpec represent the spec of an Objectstoreuser",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "capabilities": {
+          "description": "Additional admin-level capabilities for the Ceph object store user"
+        },
+        "clusterNamespace": {
+          "description": "The namespace where the parent CephCluster and CephObjectStore are found",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "displayName": {
+          "description": "The display name for the ceph users",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quotas": {
+          "description": "ObjectUserQuotaSpec can be used to set quotas for the object store user to limit their usage. See the [Ceph docs](https://docs.ceph.com/en/latest/radosgw/admin/?#quota-management) for more"
+        },
+        "store": {
+          "description": "The store the user will be created in",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "ObjectStoreUserStatus represents the status Ceph Object Store Gateway User",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephObjectStoreUser",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

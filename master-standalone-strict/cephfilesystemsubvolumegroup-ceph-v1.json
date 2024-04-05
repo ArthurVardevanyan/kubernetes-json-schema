@@ -1,0 +1,111 @@
+{
+  "description": "CephFilesystemSubVolumeGroup represents a Ceph Filesystem SubVolumeGroup",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephFilesystemSubVolumeGroup"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "Spec represents the specification of a Ceph Filesystem SubVolumeGroup",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "filesystemName"
+      ],
+      "properties": {
+        "filesystemName": {
+          "description": "FilesystemName is the name of Ceph Filesystem SubVolumeGroup volume name. Typically it's the name of\nthe CephFilesystem CR. If not coming from the CephFilesystem CR, it can be retrieved from the\nlist of Ceph Filesystem volumes with `ceph fs volume ls`. To learn more about Ceph Filesystem\nabstractions see https://docs.ceph.com/en/latest/cephfs/fs-volumes/#fs-volumes-and-subvolumes",
+          "type": "string",
+          "x-kubernetes-validations": [
+            {
+              "message": "filesystemName is immutable",
+              "rule": "self == oldSelf"
+            }
+          ]
+        },
+        "name": {
+          "description": "The name of the subvolume group. If not set, the default is the name of the subvolumeGroup CR.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "name is immutable",
+              "rule": "self == oldSelf"
+            }
+          ]
+        },
+        "pinning": {
+          "description": "Pinning configuration of CephFilesystemSubVolumeGroup,\nreference https://docs.ceph.com/en/latest/cephfs/fs-volumes/#pinning-subvolumes-and-subvolume-groups\nonly one out of (export, distributed, random) can be set at a time",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "distributed": {
+              "maximum": 1,
+              "minimum": 0
+            },
+            "export": {
+              "maximum": 256,
+              "minimum": -1
+            },
+            "random": {
+              "maximum": 1,
+              "minimum": 0
+            }
+          },
+          "x-kubernetes-validations": [
+            {
+              "message": "only one pinning type should be set",
+              "rule": "(has(self.export) && !has(self.distributed) && !has(self.random)) || (!has(self.export) && has(self.distributed) && !has(self.random)) || (!has(self.export) && !has(self.distributed) && has(self.random)) || (!has(self.export) && !has(self.distributed) && !has(self.random))"
+            }
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "Status represents the status of a CephFilesystem SubvolumeGroup",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephFilesystemSubVolumeGroup",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

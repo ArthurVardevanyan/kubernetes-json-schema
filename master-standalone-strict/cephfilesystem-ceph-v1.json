@@ -1,0 +1,571 @@
+{
+  "description": "CephFilesystem represents a Ceph Filesystem",
+  "type": "object",
+  "required": [
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ceph.rook.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CephFilesystem"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "FilesystemSpec represents the spec of a file system",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "metadataServer"
+      ],
+      "properties": {
+        "dataPools": {
+          "description": "The data pool settings, with optional predefined pool name."
+        },
+        "metadataPool": {
+          "description": "The metadata pool settings"
+        },
+        "metadataServer": {
+          "description": "The mds pod info",
+          "type": "object",
+          "required": [
+            "activeCount"
+          ],
+          "properties": {
+            "activeCount": {
+              "description": "The number of metadata servers that are active. The remaining servers in the cluster will be in standby mode.",
+              "type": "integer",
+              "format": "int32",
+              "maximum": 50,
+              "minimum": 1
+            },
+            "activeStandby": {
+              "description": "Whether each active MDS instance will have an active standby with a warm metadata cache for faster failover.\nIf false, standbys will still be available, but will not have a warm metadata cache.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "annotations": {
+              "description": "The annotations-related configuration to add/set on each Pod related object.",
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "labels": {
+              "description": "The labels-related configuration to add/set on each Pod related object.",
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "livenessProbe": {
+              "description": "ProbeSpec is a wrapper around Probe so it can be enabled or disabled for a Ceph daemon",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "disabled": {
+                  "description": "Disabled determines whether probe is disable or not",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "probe": {
+                  "description": "Probe describes a health check to be performed against a container to determine whether it is\nalive or ready to receive traffic.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "exec": {
+                      "description": "Exec specifies the action to take.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "command": {
+                          "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "failureThreshold": {
+                      "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded.\nDefaults to 3. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "grpc": {
+                      "description": "GRPC specifies an action involving a GRPC port.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "port": {
+                          "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "service": {
+                          "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\n\nIf this is not specified, the default behavior is defined by gRPC.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "httpGet": {
+                      "description": "HTTPGet specifies the http request to perform.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "host": {
+                          "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "httpHeaders": {
+                          "description": "Custom headers to set in the request. HTTP allows repeated headers.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "HTTPHeader describes a custom header to be used in HTTP probes",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "name",
+                              "value"
+                            ],
+                            "properties": {
+                              "name": {
+                                "description": "The header field name.\nThis will be canonicalized upon output, so case-variant names will be understood as the same header.",
+                                "type": "string"
+                              },
+                              "value": {
+                                "description": "The header field value",
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "path": {
+                          "description": "Path to access on the HTTP server.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "port": {
+                          "description": "Name or number of the port to access on the container.\nNumber must be in the range 1 to 65535.\nName must be an IANA_SVC_NAME.",
+                          "x-kubernetes-int-or-string": true
+                        },
+                        "scheme": {
+                          "description": "Scheme to use for connecting to the host.\nDefaults to HTTP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "initialDelaySeconds": {
+                      "description": "Number of seconds after the container has started before liveness probes are initiated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "periodSeconds": {
+                      "description": "How often (in seconds) to perform the probe.\nDefault to 10 seconds. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "successThreshold": {
+                      "description": "Minimum consecutive successes for the probe to be considered successful after having failed.\nDefaults to 1. Must be 1 for liveness and startup. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "tcpSocket": {
+                      "description": "TCPSocket specifies an action involving a TCP port.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "host": {
+                          "description": "Optional: Host name to connect to, defaults to the pod IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "port": {
+                          "description": "Number or name of the port to access on the container.\nNumber must be in the range 1 to 65535.\nName must be an IANA_SVC_NAME.",
+                          "x-kubernetes-int-or-string": true
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "terminationGracePeriodSeconds": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
+                    },
+                    "timeoutSeconds": {
+                      "description": "Number of seconds after which the probe times out.\nDefaults to 1 second. Minimum value is 1.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "placement": {
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "priorityClassName": {
+              "description": "PriorityClassName sets priority classes on components",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resources": {
+              "description": "The resource requirements for the mds pods",
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "startupProbe": {
+              "description": "ProbeSpec is a wrapper around Probe so it can be enabled or disabled for a Ceph daemon",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "disabled": {
+                  "description": "Disabled determines whether probe is disable or not",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "probe": {
+                  "description": "Probe describes a health check to be performed against a container to determine whether it is\nalive or ready to receive traffic.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "exec": {
+                      "description": "Exec specifies the action to take.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "command": {
+                          "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "failureThreshold": {
+                      "description": "Minimum consecutive failures for the probe to be considered failed after having succeeded.\nDefaults to 3. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "grpc": {
+                      "description": "GRPC specifies an action involving a GRPC port.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "port": {
+                          "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "service": {
+                          "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\n\nIf this is not specified, the default behavior is defined by gRPC.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "httpGet": {
+                      "description": "HTTPGet specifies the http request to perform.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "host": {
+                          "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "httpHeaders": {
+                          "description": "Custom headers to set in the request. HTTP allows repeated headers.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "HTTPHeader describes a custom header to be used in HTTP probes",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "required": [
+                              "name",
+                              "value"
+                            ],
+                            "properties": {
+                              "name": {
+                                "description": "The header field name.\nThis will be canonicalized upon output, so case-variant names will be understood as the same header.",
+                                "type": "string"
+                              },
+                              "value": {
+                                "description": "The header field value",
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "path": {
+                          "description": "Path to access on the HTTP server.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "port": {
+                          "description": "Name or number of the port to access on the container.\nNumber must be in the range 1 to 65535.\nName must be an IANA_SVC_NAME.",
+                          "x-kubernetes-int-or-string": true
+                        },
+                        "scheme": {
+                          "description": "Scheme to use for connecting to the host.\nDefaults to HTTP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "initialDelaySeconds": {
+                      "description": "Number of seconds after the container has started before liveness probes are initiated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "periodSeconds": {
+                      "description": "How often (in seconds) to perform the probe.\nDefault to 10 seconds. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "successThreshold": {
+                      "description": "Minimum consecutive successes for the probe to be considered successful after having failed.\nDefaults to 1. Must be 1 for liveness and startup. Minimum value is 1.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "tcpSocket": {
+                      "description": "TCPSocket specifies an action involving a TCP port.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "required": [
+                        "port"
+                      ],
+                      "properties": {
+                        "host": {
+                          "description": "Optional: Host name to connect to, defaults to the pod IP.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "port": {
+                          "description": "Number or name of the port to access on the container.\nNumber must be in the range 1 to 65535.\nName must be an IANA_SVC_NAME.",
+                          "x-kubernetes-int-or-string": true
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "terminationGracePeriodSeconds": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
+                    },
+                    "timeoutSeconds": {
+                      "description": "Number of seconds after which the probe times out.\nDefaults to 1 second. Minimum value is 1.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "mirroring": {
+          "description": "The mirroring settings"
+        },
+        "preserveFilesystemOnDelete": {
+          "description": "Preserve the fs in the cluster on CephFilesystem CR deletion. Setting this to true automatically implies PreservePoolsOnDelete is true.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "preservePoolsOnDelete": {
+          "description": "Preserve pools on filesystem deletion",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "statusCheck": {
+          "description": "The mirroring statusCheck",
+          "x-kubernetes-preserve-unknown-fields": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "CephFilesystemStatus represents the status of a Ceph Filesystem",
+      "x-kubernetes-preserve-unknown-fields": true
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "ceph.rook.io",
+      "kind": "CephFilesystem",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
