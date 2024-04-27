@@ -2953,6 +2953,18 @@
       "$ref": "_definitions.json#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.kyverno.reports.v1.ClusterEphemeralReport"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.reports.v1.ClusterEphemeralReportList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.reports.v1.EphemeralReport"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.reports.v1.EphemeralReportList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.kyverno.v1.ClusterPolicy"
     },
     {
@@ -2995,22 +3007,70 @@
       "$ref": "_definitions.json#/definitions/io.kyverno.v1beta1.UpdateRequestList"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.CleanupPolicy"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.AdmissionReport"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.CleanupPolicyList"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.AdmissionReportList"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.ClusterCleanupPolicy"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.BackgroundScanReport"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.ClusterCleanupPolicyList"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.BackgroundScanReportList"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.PolicyException"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.CleanupPolicy"
     },
     {
-      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.PolicyExceptionList"
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.CleanupPolicyList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterAdmissionReport"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterAdmissionReportList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterBackgroundScanReport"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterBackgroundScanReportList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterCleanupPolicy"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.ClusterCleanupPolicyList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.PolicyException"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.PolicyExceptionList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.UpdateRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2.UpdateRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.GlobalContextEntry"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2alpha1.GlobalContextEntryList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.CleanupPolicy"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.CleanupPolicyList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.ClusterCleanupPolicy"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.ClusterCleanupPolicyList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.ClusterPolicy"
@@ -3020,6 +3080,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.Policy"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.PolicyException"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.PolicyExceptionList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.kyverno.v2beta1.PolicyList"

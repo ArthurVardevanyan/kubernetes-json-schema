@@ -112,7 +112,7 @@
             ],
             "properties": {
               "name": {
-                "description": "Name is an alternate way of specifying the target cluster by its symbolic name",
+                "description": "Name is an alternate way of specifying the target cluster by its symbolic name. This must be set if Server is not set.",
                 "type": [
                   "string",
                   "null"
@@ -126,7 +126,7 @@
                 ]
               },
               "server": {
-                "description": "Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API",
+                "description": "Server specifies the URL of the target cluster's Kubernetes control plane API. This must be set if Name is not set.",
                 "type": [
                   "string",
                   "null"

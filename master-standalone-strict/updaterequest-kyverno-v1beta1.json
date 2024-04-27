@@ -403,6 +403,13 @@
                 "string",
                 "null"
               ]
+            },
+            "uid": {
+              "description": "UID specifies the resource uid.",
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "additionalProperties": false
@@ -470,13 +477,20 @@
                   "string",
                   "null"
                 ]
+              },
+              "uid": {
+                "description": "UID specifies the resource uid.",
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             },
             "additionalProperties": false
           }
         },
         "handler": {
-          "description": "Handler represents the instance ID that handles the UR Deprecated",
+          "description": "Deprecated",
           "type": [
             "string",
             "null"
@@ -486,6 +500,12 @@
           "description": "Specifies request status message.",
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "retryCount": {
+          "type": [
+            "integer",
             "null"
           ]
         },

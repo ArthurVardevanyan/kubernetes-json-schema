@@ -179,7 +179,7 @@
               ]
             },
             "endpoints": {
-              "description": "List of AlertManager URLs to send notifications to. Each Alertmanager URL is treated as a separate group in the configuration. Multiple Alertmanagers in HA per group can be supported by using DNS resolution (See EnableDNSDiscovery).",
+              "description": "List of AlertManager URLs to send notifications to. Each Alertmanager URL is treated as\na separate group in the configuration. Multiple Alertmanagers in HA per group can be\nsupported by using DNS resolution (See EnableDNSDiscovery).",
               "type": "array",
               "items": {
                 "type": [
@@ -224,7 +224,7 @@
                   "format": "int32"
                 },
                 "forGracePeriod": {
-                  "description": "Minimum duration between alert and restored \"for\" state. This is maintained only for alerts with configured \"for\" time greater than the grace period.",
+                  "description": "Minimum duration between alert and restored \"for\" state. This is maintained\nonly for alerts with configured \"for\" time greater than the grace period.",
                   "type": [
                     "string",
                     "null"
@@ -265,7 +265,7 @@
                 "null"
               ],
               "items": {
-                "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion. It defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
+                "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion.\nIt defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration.\nMore info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
                 "type": [
                   "object",
                   "null"
@@ -306,7 +306,7 @@
                     ]
                   },
                   "replacement": {
-                    "description": "Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. Default is '$1'",
+                    "description": "Replacement value against which a regex replace is performed if the\nregular expression matches. Regex capture groups are available. Default is '$1'",
                     "type": [
                       "string",
                       "null"
@@ -320,7 +320,7 @@
                     ]
                   },
                   "sourceLabels": {
-                    "description": "The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions.",
+                    "description": "The source labels select values from existing labels. Their content is concatenated\nusing the configured separator and matched against the configured regular expression\nfor the replace, keep, and drop actions.",
                     "type": "array",
                     "items": {
                       "type": [
@@ -330,7 +330,7 @@
                     }
                   },
                   "targetLabel": {
-                    "description": "Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available.",
+                    "description": "Label to which the resulting value is written in a replace action.\nIt is mandatory for replace actions. Regex capture groups are available.",
                     "type": [
                       "string",
                       "null"
@@ -510,7 +510,7 @@
                     ]
                   },
                   "endpoints": {
-                    "description": "List of AlertManager URLs to send notifications to. Each Alertmanager URL is treated as a separate group in the configuration. Multiple Alertmanagers in HA per group can be supported by using DNS resolution (See EnableDNSDiscovery).",
+                    "description": "List of AlertManager URLs to send notifications to. Each Alertmanager URL is treated as\na separate group in the configuration. Multiple Alertmanagers in HA per group can be\nsupported by using DNS resolution (See EnableDNSDiscovery).",
                     "type": "array",
                     "items": {
                       "type": [
@@ -555,7 +555,7 @@
                         "format": "int32"
                       },
                       "forGracePeriod": {
-                        "description": "Minimum duration between alert and restored \"for\" state. This is maintained only for alerts with configured \"for\" time greater than the grace period.",
+                        "description": "Minimum duration between alert and restored \"for\" state. This is maintained\nonly for alerts with configured \"for\" time greater than the grace period.",
                         "type": [
                           "string",
                           "null"
@@ -596,7 +596,7 @@
                       "null"
                     ],
                     "items": {
-                      "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion. It defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
+                      "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion.\nIt defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration.\nMore info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
                       "type": [
                         "object",
                         "null"
@@ -637,7 +637,7 @@
                           ]
                         },
                         "replacement": {
-                          "description": "Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. Default is '$1'",
+                          "description": "Replacement value against which a regex replace is performed if the\nregular expression matches. Regex capture groups are available. Default is '$1'",
                           "type": [
                             "string",
                             "null"
@@ -651,7 +651,7 @@
                           ]
                         },
                         "sourceLabels": {
-                          "description": "The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions.",
+                          "description": "The source labels select values from existing labels. Their content is concatenated\nusing the configured separator and matched against the configured regular expression\nfor the replace, keep, and drop actions.",
                           "type": "array",
                           "items": {
                             "type": [
@@ -661,7 +661,7 @@
                           }
                         },
                         "targetLabel": {
-                          "description": "Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available.",
+                          "description": "Label to which the resulting value is written in a replace action.\nIt is mandatory for replace actions. Regex capture groups are available.",
                           "type": [
                             "string",
                             "null"
@@ -756,7 +756,7 @@
                     "null"
                   ],
                   "items": {
-                    "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion. It defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
+                    "description": "RelabelConfig allows dynamic rewriting of the label set, being applied to samples before ingestion.\nIt defines `<metric_relabel_configs>` and `<alert_relabel_configs>` sections of Prometheus configuration.\nMore info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs",
                     "type": [
                       "object",
                       "null"
@@ -797,7 +797,7 @@
                         ]
                       },
                       "replacement": {
-                        "description": "Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. Default is '$1'",
+                        "description": "Replacement value against which a regex replace is performed if the\nregular expression matches. Regex capture groups are available. Default is '$1'",
                         "type": [
                           "string",
                           "null"
@@ -811,7 +811,7 @@
                         ]
                       },
                       "sourceLabels": {
-                        "description": "The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions.",
+                        "description": "The source labels select values from existing labels. Their content is concatenated\nusing the configured separator and matched against the configured regular expression\nfor the replace, keep, and drop actions.",
                         "type": "array",
                         "items": {
                           "type": [
@@ -821,7 +821,7 @@
                         }
                       },
                       "targetLabel": {
-                        "description": "Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available.",
+                        "description": "Label to which the resulting value is written in a replace action.\nIt is mandatory for replace actions. Regex capture groups are available.",
                         "type": [
                           "string",
                           "null"
@@ -947,7 +947,7 @@
             "null"
           ],
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n // other fields }",
+            "description": "Condition contains details for one aspect of the current state of this API Resource.\n---\nThis struct is intended for direct use as an array at the field path .status.conditions.  For example,\n\n\n\ttype FooStatus struct{\n\t    // Represents the observations of a foo's current state.\n\t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"\n\t    // +patchMergeKey=type\n\t    // +patchStrategy=merge\n\t    // +listType=map\n\t    // +listMapKey=type\n\t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`\n\n\n\t    // other fields\n\t}",
             "type": [
               "object",
               "null"
@@ -961,17 +961,17 @@
             ],
             "properties": {
               "lastTransitionTime": {
-                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
                 "type": "string",
                 "format": "date-time"
               },
               "message": {
-                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                "description": "message is a human readable message indicating details about the transition.\nThis may be an empty string.",
                 "type": "string",
                 "maxLength": 32768
               },
               "observedGeneration": {
-                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon.\nFor instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the instance.",
                 "type": [
                   "integer",
                   "null"
@@ -980,7 +980,7 @@
                 "minimum": 0
               },
               "reason": {
-                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.\nProducers of specific condition types may define expected values and meanings for this field,\nand whether the values are considered a guaranteed API.\nThe value should be a CamelCase string.\nThis field may not be empty.",
                 "type": "string",
                 "maxLength": 1024,
                 "minLength": 1,
@@ -996,7 +996,7 @@
                 ]
               },
               "type": {
-                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.\n---\nMany .condition.type values are consistent across resources like Available, but because arbitrary conditions can be\nuseful (see .node.status.conditions), the ability to deconflict is important.\nThe regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
                 "type": "string",
                 "maxLength": 316,
                 "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"
