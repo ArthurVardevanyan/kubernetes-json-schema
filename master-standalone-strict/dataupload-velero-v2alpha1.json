@@ -1,0 +1,202 @@
+{
+  "description": "DataUpload acts as the protocol between data mover plugins and data mover controller for the datamover backup operation",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "velero.io/v2alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "DataUpload"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "DataUploadSpec is the specification for a DataUpload.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "backupStorageLocation",
+        "operationTimeout",
+        "snapshotType",
+        "sourceNamespace",
+        "sourcePVC"
+      ],
+      "properties": {
+        "backupStorageLocation": {
+          "description": "BackupStorageLocation is the name of the backup storage location where the backup repository is stored.",
+          "type": "string"
+        },
+        "cancel": {
+          "description": "Cancel indicates request to cancel the ongoing DataUpload. It can be set when the DataUpload is in InProgress phase",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "csiSnapshot": {
+          "description": "If SnapshotType is CSI, CSISnapshot provides the information of the CSI snapshot.",
+          "required": [
+            "storageClass",
+            "volumeSnapshot"
+          ]
+        },
+        "dataMoverConfig": {
+          "description": "DataMoverConfig is for data-mover-specific configuration fields.",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "datamover": {
+          "description": "DataMover specifies the data mover to be used by the backup. If DataMover is \"\" or \"velero\", the built-in data mover will be used.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "operationTimeout": {
+          "description": "OperationTimeout specifies the time used to wait internal operations, before returning error as timeout.",
+          "type": "string"
+        },
+        "snapshotType": {
+          "description": "SnapshotType is the type of the snapshot to be backed up.",
+          "type": "string"
+        },
+        "sourceNamespace": {
+          "description": "SourceNamespace is the original namespace where the volume is backed up from. It is the same namespace for SourcePVC and CSI namespaced objects.",
+          "type": "string"
+        },
+        "sourcePVC": {
+          "description": "SourcePVC is the name of the PVC which the snapshot is taken for.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "DataUploadStatus is the current status of a DataUpload.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "completionTimestamp": {
+          "description": "CompletionTimestamp records the time a backup was completed. Completion time is recorded even on failed backups. Completion time is recorded before uploading the backup object. The server's time is used for CompletionTimestamps",
+          "format": "date-time"
+        },
+        "dataMoverResult": {
+          "description": "DataMoverResult stores data-mover-specific information as a result of the DataUpload.",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "message": {
+          "description": "Message is a message about the DataUpload's status.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "node": {
+          "description": "Node is name of the node where the DataUpload is processed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "description": "Path is the full path of the snapshot volume being backed up.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "phase": {
+          "description": "Phase is the current state of the DataUpload.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "New",
+            "Accepted",
+            "Prepared",
+            "InProgress",
+            "Canceling",
+            "Canceled",
+            "Completed",
+            "Failed"
+          ]
+        },
+        "progress": {
+          "description": "Progress holds the total number of bytes of the volume and the current number of backed up bytes. This can be used to display progress information about the backup operation.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "bytesDone": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
+            },
+            "totalBytes": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64"
+            }
+          },
+          "additionalProperties": false
+        },
+        "snapshotID": {
+          "description": "SnapshotID is the identifier for the snapshot in the backup repository.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "startTimestamp": {
+          "description": "StartTimestamp records the time a backup was started. Separate from CreationTimestamp, since that value changes on restores. The server's time is used for StartTimestamps",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "velero.io",
+      "kind": "DataUpload",
+      "version": "v2alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

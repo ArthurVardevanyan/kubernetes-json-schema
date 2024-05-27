@@ -31,6 +31,12 @@
       "$ref": "_definitions.json#/definitions/com.arthurvardevanyan.artifactregistry.v1beta1.AuthList"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.arthurvardevanyan.federatedcredential.v1beta1.Token"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.arthurvardevanyan.federatedcredential.v1beta1.TokenList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.arthurvardevanyan.monitoring.v1beta1.Cluster"
     },
     {
@@ -1328,6 +1334,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.GCRAccessTokenList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.GithubAccessToken"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.GithubAccessTokenList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.external-secrets.generators.v1alpha1.Password"
@@ -4079,6 +4091,84 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.traefik.v1alpha1.TraefikServiceList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Backup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupRepository"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupRepositoryList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupStorageLocation"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.BackupStorageLocationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DeleteBackupRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DeleteBackupRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DownloadRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.DownloadRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.PodVolumeBackup"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.PodVolumeBackupList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.PodVolumeRestore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.PodVolumeRestoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Restore"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.RestoreList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.Schedule"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.ScheduleList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.ServerStatusRequest"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.ServerStatusRequestList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.VolumeSnapshotLocation"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v1.VolumeSnapshotLocationList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v2alpha1.DataDownload"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v2alpha1.DataDownloadList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v2alpha1.DataUpload"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.velero.v2alpha1.DataUploadList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.wgpolicyk8s.v1alpha2.ClusterPolicyReport"

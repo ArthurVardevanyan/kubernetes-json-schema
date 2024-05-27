@@ -17572,7 +17572,6 @@
           "additionalProperties": false
         },
         "registrationRequired": {
-          "description": "Version information for installations with a registration requirement.",
           "type": [
             "object",
             "null"
@@ -17602,7 +17601,6 @@
           ]
         },
         "tokenRequired": {
-          "description": "Signals the need for a token to be applied when registration is required.",
           "type": [
             "string",
             "null"

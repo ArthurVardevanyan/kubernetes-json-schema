@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "velero.io/v1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "BackupRepository"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "BackupRepositorySpec is the specification for a BackupRepository.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "backupStorageLocation",
+        "maintenanceFrequency",
+        "resticIdentifier",
+        "volumeNamespace"
+      ],
+      "properties": {
+        "backupStorageLocation": {
+          "description": "BackupStorageLocation is the name of the BackupStorageLocation that should contain this repository.",
+          "type": "string"
+        },
+        "maintenanceFrequency": {
+          "description": "MaintenanceFrequency is how often maintenance should be run.",
+          "type": "string"
+        },
+        "repositoryType": {
+          "description": "RepositoryType indicates the type of the backend repository",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "kopia",
+            "restic",
+            ""
+          ]
+        },
+        "resticIdentifier": {
+          "description": "ResticIdentifier is the full restic-compatible string for identifying this repository.",
+          "type": "string"
+        },
+        "volumeNamespace": {
+          "description": "VolumeNamespace is the namespace this backup repository contains pod volume backups for.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "BackupRepositoryStatus is the current status of a BackupRepository.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "lastMaintenanceTime": {
+          "description": "LastMaintenanceTime is the last time maintenance was run.",
+          "format": "date-time"
+        },
+        "message": {
+          "description": "Message is a message about the current status of the BackupRepository.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "phase": {
+          "description": "Phase is the current state of the BackupRepository.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "New",
+            "Ready",
+            "NotReady"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "velero.io",
+      "kind": "BackupRepository",
+      "version": "v1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}
