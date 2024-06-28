@@ -297,12 +297,38 @@
               },
               "additionalProperties": false
             },
+            "scmProviders": {
+              "description": "SCMProviders defines the list of allowed custom SCM provider API URLs",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
             "scmRootCAConfigMap": {
               "description": "SCMRootCAConfigMap is the name of the config map that stores the Gitlab SCM Provider's TLS certificate which will be mounted on the ApplicationSet Controller (optional).",
               "type": [
                 "string",
                 "null"
               ]
+            },
+            "sourceNamespaces": {
+              "description": "SourceNamespaces defines the namespaces applicationset resources are allowed to be created in",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             },
             "version": {
               "description": "Version is the Argo CD ApplicationSet image tag. (optional)",
@@ -934,7 +960,7 @@
           ]
         },
         "grafana": {
-          "description": "Grafana defines the Grafana server options for ArgoCD.",
+          "description": "Deprecated: Grafana defines the Grafana server options for ArgoCD.",
           "type": [
             "object",
             "null"

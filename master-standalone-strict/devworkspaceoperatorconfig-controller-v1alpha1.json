@@ -77,6 +77,28 @@
                 }
               },
               "additionalProperties": false
+            },
+            "tlsCertificateConfigmapRef": {
+              "description": "TLSCertificateConfigmapRef defines the name and namespace of the configmap with a certificate to inject into the HTTP client.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "name",
+                "namespace"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name is the name of the configmap",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Namespace is the namespace of the configmap",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
@@ -3138,6 +3160,13 @@
                 "null"
               ],
               "properties": {
+                "disableInitContainer": {
+                  "description": "Determines whether the init container that initializes the persistent home directory should be disabled. When the `/home/user` directory is persisted, the init container is used to initialize the directory before the workspace starts. If set to true, the init container will not be created. This field is not used if the `workspace.persistUserHome.enabled` field is set to false. Enabled by default.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
                 "enabled": {
                   "description": "Determines whether the `/home/user/` directory in workspaces should persist between workspace shutdown and startup. Must be used with the 'per-user'/'common' or 'per-workspace' storage class in order to take effect. Disabled by default.",
                   "type": [
@@ -3147,6 +3176,19 @@
                 }
               },
               "additionalProperties": false
+            },
+            "podAnnotations": {
+              "description": "PodAnnotations defines the metadata.annotations for DevWorkspace pods created by the DevWorkspace Operator.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             },
             "podSecurityContext": {
               "description": "PodSecurityContext overrides the default PodSecurityContext used for all workspace-related pods created by the DevWorkspace Operator. If set, defined values are merged into the default configuration",

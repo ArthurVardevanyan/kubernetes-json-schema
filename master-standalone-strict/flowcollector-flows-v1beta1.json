@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "Defines the desired state of the FlowCollector resource. <br><br> *: the mention of \"unsupported\", or \"deprecated\" for a feature throughout this document means that this feature is not officially supported by Red Hat. It might have been, for example, contributed by the community and accepted without a formal agreement for maintenance. The product maintainers might provide some support for these features as a best effort only.",
+      "description": "Defines the desired state of the FlowCollector resource.\n<br><br>\n*: the mention of \"unsupported\", or \"deprecated\" for a feature throughout this document means that this feature\nis not officially supported by Red Hat. It might have been, for example, contributed by the community\nand accepted without a formal agreement for maintenance. The product maintainers might provide some support\nfor these features as a best effort only.",
       "type": [
         "object",
         "null"
@@ -41,14 +41,14 @@
           ],
           "properties": {
             "ebpf": {
-              "description": "`ebpf` describes the settings related to the eBPF-based flow reporter when `spec.agent.type` is set to `EBPF`.",
+              "description": "`ebpf` describes the settings related to the eBPF-based flow reporter when `spec.agent.type`\nis set to `EBPF`.",
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
                 "cacheActiveTimeout": {
-                  "description": "`cacheActiveTimeout` is the max period during which the reporter aggregates flows before sending. Increasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load, however you can expect higher memory consumption and an increased latency in the flow collection.",
+                  "description": "`cacheActiveTimeout` is the max period during which the reporter aggregates flows before sending.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
                   "type": [
                     "string",
                     "null"
@@ -56,7 +56,7 @@
                   "pattern": "^\\d+(ns|ms|s|m)?$"
                 },
                 "cacheMaxFlows": {
-                  "description": "`cacheMaxFlows` is the max number of flows in an aggregate; when reached, the reporter sends the flows. Increasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load, however you can expect higher memory consumption and an increased latency in the flow collection.",
+                  "description": "`cacheMaxFlows` is the max number of flows in an aggregate; when reached, the reporter sends the flows.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
                   "type": [
                     "integer",
                     "null"
@@ -65,14 +65,14 @@
                   "minimum": 1
                 },
                 "debug": {
-                  "description": "`debug` allows setting some aspects of the internal configuration of the eBPF agent. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
+                  "description": "`debug` allows setting some aspects of the internal configuration of the eBPF agent.\nThis section is aimed exclusively for debugging and fine-grained performance optimizations,\nsuch as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "env": {
-                      "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
+                      "description": "`env` allows passing custom environment variables to underlying components. Useful for passing\nsome very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be\npublicly exposed as part of the FlowCollector descriptor, as they are only useful\nin edge debug or support scenarios.",
                       "type": [
                         "object",
                         "null"
@@ -88,7 +88,7 @@
                   "additionalProperties": false
                 },
                 "excludeInterfaces": {
-                  "description": "`excludeInterfaces` contains the interface names that are excluded from flow tracing. An entry enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
+                  "description": "`excludeInterfaces` contains the interface names that are excluded from flow tracing.\nAn entry enclosed by slashes, such as `/br-/`, is matched as a regular expression.\nOtherwise it is matched as a case-sensitive string.",
                   "type": [
                     "array",
                     "null"
@@ -101,13 +101,13 @@
                   }
                 },
                 "features": {
-                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br> - `PacketDrop`: enable the packets drop flows logging feature. This feature requires mounting the kernel debug filesystem, so the eBPF pod has to run as privileged. If the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br> - `DNSTracking`: enable the DNS tracking feature.<br> - `FlowRTT` [unsupported (*)]: enable flow latency (RTT) calculations in the eBPF agent during TCP handshakes. This feature better works with `sampling` set to 1.<br>",
+                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF pod has to run as privileged.\nIf the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br>\n- `DNSTracking`: enable the DNS tracking feature.<br>\n- `FlowRTT`: enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>",
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
-                    "description": "Agent feature, can be one of:<br> - `PacketDrop`, to track packet drops.<br> - `DNSTracking`, to track specific information on DNS traffic.<br> - `FlowRTT`, to track TCP latency. [Unsupported (*)].<br>",
+                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency. [Unsupported (*)].<br>",
                     "type": [
                       "string",
                       "null"
@@ -118,6 +118,99 @@
                       "FlowRTT"
                     ]
                   }
+                },
+                "flowFilter": {
+                  "description": "`flowFilter` defines the eBPF agent configuration regarding flow filtering",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "action": {
+                      "description": "Action defines the action to perform on the flows that match the filter.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Accept",
+                        "Reject"
+                      ]
+                    },
+                    "cidr": {
+                      "description": "CIDR defines the IP CIDR to filter flows by.\nExample: 10.10.10.0/24 or 100:100:100:100::/64",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "destPorts": {
+                      "description": "DestPorts defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example destPorts: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example destPorts: \"80-100\".",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "direction": {
+                      "description": "Direction defines the direction to filter flows by.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Ingress",
+                        "Egress"
+                      ]
+                    },
+                    "enable": {
+                      "description": "Set `enable` to `true` to enable eBPF flow filtering feature.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "icmpCode": {
+                      "description": "ICMPCode defines the ICMP code to filter flows by.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "icmpType": {
+                      "description": "ICMPType defines the ICMP type to filter flows by.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "peerIP": {
+                      "description": "PeerIP defines the IP address to filter flows by.\nExample: 10.10.10.10",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ports": {
+                      "description": "Ports defines the ports to filter flows by. it can be user for either source or destination ports.\nTo filter a single port, set a single port as an integer value. For example ports: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example ports: \"80-10",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "protocol": {
+                      "description": "Protocol defines the protocol to filter flows by.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "TCP",
+                        "UDP",
+                        "ICMP",
+                        "ICMPv6",
+                        "SCTP"
+                      ]
+                    },
+                    "sourcePorts": {
+                      "description": "SourcePorts defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example sourcePorts: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example sourcePorts: \"80-100\".",
+                      "x-kubernetes-int-or-string": true
+                    }
+                  },
+                  "additionalProperties": false
                 },
                 "imagePullPolicy": {
                   "description": "`imagePullPolicy` is the Kubernetes pull policy for the image defined above",
@@ -132,7 +225,7 @@
                   ]
                 },
                 "interfaces": {
-                  "description": "`interfaces` contains the interface names from where flows are collected. If empty, the agent fetches all the interfaces in the system, excepting the ones listed in ExcludeInterfaces. An entry enclosed by slashes, such as `/br-/`, is matched as a regular expression. Otherwise it is matched as a case-sensitive string.",
+                  "description": "`interfaces` contains the interface names from where flows are collected. If empty, the agent\nfetches all the interfaces in the system, excepting the ones listed in ExcludeInterfaces.\nAn entry enclosed by slashes, such as `/br-/`, is matched as a regular expression.\nOtherwise it is matched as a case-sensitive string.",
                   "type": [
                     "array",
                     "null"
@@ -167,22 +260,196 @@
                     "panic"
                   ]
                 },
+                "metrics": {
+                  "description": "`metrics` defines the eBPF agent configuration regarding metrics",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "disableAlerts": {
+                      "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "Name of an eBPF agent alert.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "enum": [
+                          "NetObservDroppedFlows"
+                        ]
+                      }
+                    },
+                    "enable": {
+                      "description": "Set `enable` to `false` to disable eBPF agent metrics collection, by default it's `true`.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "server": {
+                      "description": "Metrics server endpoint configuration for Prometheus scraper",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "port": {
+                          "description": "The prometheus HTTP port",
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "format": "int32",
+                          "maximum": 65535,
+                          "minimum": 1
+                        },
+                        "tls": {
+                          "description": "TLS configuration.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "insecureSkipVerify": {
+                              "description": "`insecureSkipVerify` allows skipping client-side verification of the provided certificate.\nIf set to `true`, the `providedCaFile` field is ignored.",
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            },
+                            "provided": {
+                              "description": "TLS configuration when `type` is set to `PROVIDED`.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "certFile": {
+                                  "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "certKey": {
+                                  "description": "`certKey` defines the path to the certificate private key file name within the config map or secret. Omit when the key is not necessary.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "name": {
+                                  "description": "Name of the config map or secret containing certificates",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "namespace": {
+                                  "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "type": {
+                                  "description": "Type for the certificate reference: `configmap` or `secret`",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "configmap",
+                                    "secret"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "providedCaFile": {
+                              "description": "Reference to the CA file when `type` is set to `PROVIDED`.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "file": {
+                                  "description": "File name within the config map or secret",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "name": {
+                                  "description": "Name of the config map or secret containing the file",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "namespace": {
+                                  "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "type": {
+                                  "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "configmap",
+                                    "secret"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "type": {
+                              "description": "Select the type of TLS configuration:<br>\n- `DISABLED` (default) to not configure TLS for the endpoint.\n- `PROVIDED` to manually provide cert file and a key file. [Unsupported (*)].\n- `AUTO` to use OpenShift auto generated certificate using annotations.",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "enum": [
+                                "DISABLED",
+                                "PROVIDED",
+                                "AUTO"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "privileged": {
-                  "description": "Privileged mode for the eBPF Agent container. When ignored or set to `false`, the operator sets granular capabilities (BPF, PERFMON, NET_ADMIN, SYS_RESOURCE) to the container. If for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF is in use, then you can turn on this mode for more global privileges. Some agent features require the privileged mode, such as packet drops tracking (see `features`) and SR-IOV support.",
+                  "description": "Privileged mode for the eBPF Agent container. When ignored or set to `false`, the operator sets\ngranular capabilities (BPF, PERFMON, NET_ADMIN, SYS_RESOURCE) to the container.\nIf for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF\nis in use, then you can turn on this mode for more global privileges.\nSome agent features require the privileged mode, such as packet drops tracking (see `features`) and SR-IOV support.",
                   "type": [
                     "boolean",
                     "null"
                   ]
                 },
                 "resources": {
-                  "description": "`resources` are the compute resources required by this container. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "`resources` are the compute resources required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "claims": {
-                      "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                      "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\n\nThis field is immutable. It can only be set for containers.",
                       "type": [
                         "array",
                         "null"
@@ -198,7 +465,7 @@
                         ],
                         "properties": {
                           "name": {
-                            "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                            "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
                             "type": "string"
                           }
                         },
@@ -210,7 +477,7 @@
                       "x-kubernetes-list-type": "map"
                     },
                     "limits": {
-                      "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                      "description": "Limits describes the maximum amount of compute resources allowed.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -221,7 +488,7 @@
                       }
                     },
                     "requests": {
-                      "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                      "description": "Requests describes the minimum amount of compute resources required.\nIf Requests is omitted for a container, it defaults to Limits if that is explicitly specified,\notherwise to an implementation-defined value. Requests cannot exceed Limits.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                       "type": [
                         "object",
                         "null"
@@ -247,7 +514,7 @@
               "additionalProperties": false
             },
             "ipfix": {
-              "description": "`ipfix` [deprecated (*)] - describes the settings related to the IPFIX-based flow reporter when `spec.agent.type` is set to `IPFIX`.",
+              "description": "`ipfix` [deprecated (*)] - describes the settings related to the IPFIX-based flow reporter when `spec.agent.type`\nis set to `IPFIX`.",
               "type": [
                 "object",
                 "null"
@@ -288,7 +555,7 @@
                   "additionalProperties": false
                 },
                 "forceSampleAll": {
-                  "description": "`forceSampleAll` allows disabling sampling in the IPFIX-based flow reporter. It is not recommended to sample all the traffic with IPFIX, as it might generate cluster instability. If you REALLY want to do that, set this flag to `true`. Use at your own risk. When it is set to `true`, the value of `sampling` is ignored.",
+                  "description": "`forceSampleAll` allows disabling sampling in the IPFIX-based flow reporter.\nIt is not recommended to sample all the traffic with IPFIX, as it might generate cluster instability.\nIf you REALLY want to do that, set this flag to `true`. Use at your own risk.\nWhen it is set to `true`, the value of `sampling` is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -326,7 +593,7 @@
                   "additionalProperties": false
                 },
                 "sampling": {
-                  "description": "`sampling` is the sampling rate on the reporter. 100 means one flow on 100 is sent. To ensure cluster stability, it is not possible to set a value below 2. If you really want to sample every packet, which might impact the cluster stability, refer to `forceSampleAll`. Alternatively, you can use the eBPF Agent instead of IPFIX.",
+                  "description": "`sampling` is the sampling rate on the reporter. 100 means one flow on 100 is sent.\nTo ensure cluster stability, it is not possible to set a value below 2.\nIf you really want to sample every packet, which might impact the cluster stability,\nrefer to `forceSampleAll`. Alternatively, you can use the eBPF Agent instead of IPFIX.",
                   "type": [
                     "integer",
                     "null"
@@ -338,7 +605,7 @@
               "additionalProperties": false
             },
             "type": {
-              "description": "`type` selects the flows tracing agent. Possible values are:<br> - `EBPF` (default) to use NetObserv eBPF agent.<br> - `IPFIX` [deprecated (*)] - to use the legacy IPFIX collector.<br> `EBPF` is recommended as it offers better performances and should work regardless of the CNI installed on the cluster. `IPFIX` works with OVN-Kubernetes CNI (other CNIs could work if they support exporting IPFIX, but they would require manual configuration).",
+              "description": "`type` [deprecated (*)] selects the flows tracing agent. The only possible value is `EBPF` (default), to use NetObserv eBPF agent.<br>\nPreviously, using an IPFIX collector was allowed, but was deprecated and it is now removed.<br>\nSetting `IPFIX` is ignored and still use the eBPF Agent.\nSince there is only a single option here, this field will be remove in a future API version.",
               "type": [
                 "string",
                 "null"
@@ -374,13 +641,12 @@
                   "format": "int32"
                 },
                 "metrics": {
-                  "description": "Metrics used by the pod autoscaler",
+                  "description": "Metrics used by the pod autoscaler. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/",
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
-                    "description": "MetricSpec specifies how to scale based on a single metric (only `type` and one other matching field should be set at once).",
                     "type": [
                       "object",
                       "null"
@@ -390,7 +656,6 @@
                     ],
                     "properties": {
                       "containerResource": {
-                        "description": "containerResource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing a single container in each pod of the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the \"pods\" source. This is an alpha feature and can be enabled by the HPAContainerMetrics feature flag.",
                         "type": [
                           "object",
                           "null"
@@ -402,22 +667,18 @@
                         ],
                         "properties": {
                           "container": {
-                            "description": "container is the name of the container in the pods of the scaling target",
                             "type": "string"
                           },
                           "name": {
-                            "description": "name is the name of the resource in question.",
                             "type": "string"
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -425,16 +686,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -445,7 +703,6 @@
                         "additionalProperties": false
                       },
                       "external": {
-                        "description": "external refers to a global metric that is not associated with any Kubernetes object. It allows autoscaling based on information coming from components running outside of cluster (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).",
                         "type": [
                           "object",
                           "null"
@@ -456,31 +713,26 @@
                         ],
                         "properties": {
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -491,15 +743,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -516,7 +765,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -529,20 +777,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -550,16 +797,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -570,7 +814,6 @@
                         "additionalProperties": false
                       },
                       "object": {
-                        "description": "object refers to a metric describing a single kubernetes object (for example, hits-per-second on an Ingress object).",
                         "type": [
                           "object",
                           "null"
@@ -582,7 +825,6 @@
                         ],
                         "properties": {
                           "describedObject": {
-                            "description": "describedObject specifies the descriptions of a object,such as kind,name apiVersion",
                             "type": "object",
                             "required": [
                               "kind",
@@ -590,49 +832,41 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
                             "additionalProperties": false
                           },
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -643,15 +877,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -668,7 +899,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -681,20 +911,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -702,16 +931,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -722,7 +948,6 @@
                         "additionalProperties": false
                       },
                       "pods": {
-                        "description": "pods refers to a metric describing each pod in the current scale target (for example, transactions-processed-per-second).  The values will be averaged together before being compared to the target value.",
                         "type": [
                           "object",
                           "null"
@@ -733,31 +958,26 @@
                         ],
                         "properties": {
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -768,15 +988,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -793,7 +1010,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -806,20 +1022,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -827,16 +1042,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -847,7 +1059,6 @@
                         "additionalProperties": false
                       },
                       "resource": {
-                        "description": "resource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing each pod in the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the \"pods\" source.",
                         "type": [
                           "object",
                           "null"
@@ -858,18 +1069,15 @@
                         ],
                         "properties": {
                           "name": {
-                            "description": "name is the name of the resource in question.",
                             "type": "string"
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -877,16 +1085,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -897,7 +1102,6 @@
                         "additionalProperties": false
                       },
                       "type": {
-                        "description": "type is the type of metric source.  It should be one of \"ContainerResource\", \"External\", \"Object\", \"Pods\" or \"Resource\", each mapping to a matching field in the object. Note: \"ContainerResource\" type is available on when the feature-gate HPAContainerMetrics is enabled",
                         "type": "string"
                       }
                     },
@@ -905,7 +1109,7 @@
                   }
                 },
                 "minReplicas": {
-                  "description": "`minReplicas` is the lower limit for the number of replicas to which the autoscaler can scale down. It defaults to 1 pod. minReplicas is allowed to be 0 if the alpha feature gate HPAScaleToZero is enabled and at least one Object or External metric is configured. Scaling is active as long as at least one metric value is available.",
+                  "description": "`minReplicas` is the lower limit for the number of replicas to which the autoscaler\ncan scale down. It defaults to 1 pod. minReplicas is allowed to be 0 if the\nalpha feature gate HPAScaleToZero is enabled and at least one Object or External\nmetric is configured. Scaling is active as long as at least one metric value is\navailable.",
                   "type": [
                     "integer",
                     "null"
@@ -913,7 +1117,7 @@
                   "format": "int32"
                 },
                 "status": {
-                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` does not deploy an horizontal pod autoscaler.<br> - `ENABLED` deploys an horizontal pod autoscaler.<br>",
+                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br>\n- `DISABLED` does not deploy an horizontal pod autoscaler.<br>\n- `ENABLED` deploys an horizontal pod autoscaler.<br>",
                   "type": [
                     "string",
                     "null"
@@ -927,7 +1131,7 @@
               "additionalProperties": false
             },
             "enable": {
-              "description": "Enables the console plugin deployment. `spec.loki.enable` must also be `true`",
+              "description": "Enables the console plugin deployment.\n`spec.loki.enable` must also be `true`",
               "type": [
                 "boolean",
                 "null"
@@ -986,7 +1190,7 @@
                   ]
                 },
                 "portNames": {
-                  "description": "`portNames` defines additional port names to use in the console, for example, `portNames: {\"3100\": \"loki\"}`.",
+                  "description": "`portNames` defines additional port names to use in the console,\nfor example, `portNames: {\"3100\": \"loki\"}`.",
                   "type": [
                     "object",
                     "null"
@@ -1026,7 +1230,7 @@
                     ]
                   },
                   "filter": {
-                    "description": "`filter` is a set of keys and values to be set when this filter is selected. Each key can relate to a list of values using a coma-separated string, for example, `filter: {\"src_namespace\": \"namespace1,namespace2\"}`.",
+                    "description": "`filter` is a set of keys and values to be set when this filter is selected. Each key can relate to a list of values using a coma-separated string,\nfor example, `filter: {\"src_namespace\": \"namespace1,namespace2\"}`.",
                     "type": "object",
                     "additionalProperties": {
                       "type": [
@@ -1044,7 +1248,7 @@
               }
             },
             "register": {
-              "description": "`register` allows, when set to `true`, to automatically register the provided console plugin with the OpenShift Console operator. When set to `false`, you can still register it manually by editing console.operator.openshift.io/cluster with the following command: `oc patch console.operator.openshift.io cluster --type='json' -p '[{\"op\": \"add\", \"path\": \"/spec/plugins/-\", \"value\": \"netobserv-plugin\"}]'`",
+              "description": "`register` allows, when set to `true`, to automatically register the provided console plugin with the OpenShift Console operator.\nWhen set to `false`, you can still register it manually by editing console.operator.openshift.io/cluster with the following command:\n`oc patch console.operator.openshift.io cluster --type='json' -p '[{\"op\": \"add\", \"path\": \"/spec/plugins/-\", \"value\": \"netobserv-plugin\"}]'`",
               "type": [
                 "boolean",
                 "null"
@@ -1060,14 +1264,14 @@
               "minimum": 0
             },
             "resources": {
-              "description": "`resources`, in terms of compute resources, required by this container. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "description": "`resources`, in terms of compute resources, required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
                 "claims": {
-                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\n\nThis field is immutable. It can only be set for containers.",
                   "type": [
                     "array",
                     "null"
@@ -1083,7 +1287,7 @@
                     ],
                     "properties": {
                       "name": {
-                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
                         "type": "string"
                       }
                     },
@@ -1095,7 +1299,7 @@
                   "x-kubernetes-list-type": "map"
                 },
                 "limits": {
-                  "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Limits describes the maximum amount of compute resources allowed.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -1106,7 +1310,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required.\nIf Requests is omitted for a container, it defaults to Limits if that is explicitly specified,\notherwise to an implementation-defined value. Requests cannot exceed Limits.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -1123,7 +1327,7 @@
           "additionalProperties": false
         },
         "deploymentModel": {
-          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br> - `DIRECT` (default) to make the flow processor listening directly from the agents.<br> - `KAFKA` to make flows sent to a Kafka pipeline before consumption by the processor.<br> Kafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).",
+          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br>\n- `DIRECT` (default) to make the flow processor listening directly from the agents.<br>\n- `KAFKA` to make flows sent to a Kafka pipeline before consumption by the processor.<br>\nKafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).",
           "type": [
             "string",
             "null"
@@ -1226,7 +1430,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1268,7 +1472,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1339,7 +1543,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1367,7 +1571,7 @@
                         ]
                       },
                       "insecureSkipVerify": {
-                        "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
+                        "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
                         "type": [
                           "boolean",
                           "null"
@@ -1402,7 +1606,7 @@
                             ]
                           },
                           "namespace": {
-                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                            "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                             "type": [
                               "string",
                               "null"
@@ -1488,7 +1692,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1530,7 +1734,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1601,7 +1805,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1629,7 +1833,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -1664,7 +1868,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1702,7 +1906,7 @@
           ],
           "properties": {
             "authToken": {
-              "description": "`authToken` describes the way to get a token to authenticate to Loki.<br> - `DISABLED` does not send any token with the request.<br> - `FORWARD` forwards the user token for authorization.<br> - `HOST` [deprecated (*)] - uses the local pod service account to authenticate to Loki.<br> When using the Loki Operator, this must be set to `FORWARD`.",
+              "description": "`authToken` describes the way to get a token to authenticate to Loki.<br>\n- `DISABLED` does not send any token with the request.<br>\n- `FORWARD` forwards the user token for authorization.<br>\n- `HOST` [deprecated (*)] - uses the local pod service account to authenticate to Loki.<br>\nWhen using the Loki Operator, this must be set to `FORWARD`.",
               "type": [
                 "string",
                 "null"
@@ -1730,7 +1934,7 @@
               ]
             },
             "enable": {
-              "description": "Set `enable` to `true` to store flows in Loki. It is required for the OpenShift Console plugin installation.",
+              "description": "Set `enable` to `true` to store flows in Loki.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.prometheus.querier`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
               "type": [
                 "boolean",
                 "null"
@@ -1760,14 +1964,14 @@
               ]
             },
             "querierUrl": {
-              "description": "`querierURL` specifies the address of the Loki querier service, in case it is different from the Loki ingester URL. If empty, the URL value is used (assuming that the Loki ingester and querier are in the same server). When using the Loki Operator, do not set it, since ingestion and queries use the Loki gateway.",
+              "description": "`querierURL` specifies the address of the Loki querier service, in case it is different from the\nLoki ingester URL. If empty, the URL value is used (assuming that the Loki ingester\nand querier are in the same server). When using the Loki Operator, do not set it, since\ningestion and queries use the Loki gateway.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "readTimeout": {
-              "description": "`readTimeout` is the maximum loki query total time limit. A timeout of zero means no timeout.",
+              "description": "`readTimeout` is the maximum loki query total time limit.\nA timeout of zero means no timeout.",
               "type": [
                 "string",
                 "null"
@@ -1822,7 +2026,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1850,7 +2054,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -1885,7 +2089,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1909,21 +2113,21 @@
               "additionalProperties": false
             },
             "statusUrl": {
-              "description": "`statusURL` specifies the address of the Loki `/ready`, `/metrics` and `/config` endpoints, in case it is different from the Loki querier URL. If empty, the `querierURL` value is used. This is useful to show error messages and some context in the frontend. When using the Loki Operator, set it to the Loki HTTP query frontend service, for example https://loki-query-frontend-http.netobserv.svc:3100/. `statusTLS` configuration is used when `statusUrl` is set.",
+              "description": "`statusURL` specifies the address of the Loki `/ready`, `/metrics` and `/config` endpoints, in case it is different from the\nLoki querier URL. If empty, the `querierURL` value is used.\nThis is useful to show error messages and some context in the frontend.\nWhen using the Loki Operator, set it to the Loki HTTP query frontend service, for example\nhttps://loki-query-frontend-http.netobserv.svc:3100/.\n`statusTLS` configuration is used when `statusUrl` is set.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "tenantID": {
-              "description": "`tenantID` is the Loki `X-Scope-OrgID` that identifies the tenant for each request. When using the Loki Operator, set it to `network`, which corresponds to a special tenant mode.",
+              "description": "`tenantID` is the Loki `X-Scope-OrgID` that identifies the tenant for each request.\nWhen using the Loki Operator, set it to `network`, which corresponds to a special tenant mode.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "timeout": {
-              "description": "`timeout` is the maximum processor time connection / request limit. A timeout of zero means no timeout.",
+              "description": "`timeout` is the maximum processor time connection / request limit.\nA timeout of zero means no timeout.",
               "type": [
                 "string",
                 "null"
@@ -1965,7 +2169,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -1993,7 +2197,7 @@
                   ]
                 },
                 "insecureSkipVerify": {
-                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate. If set to `true`, the `caCert` field is ignored.",
+                  "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
                   "type": [
                     "boolean",
                     "null"
@@ -2028,7 +2232,7 @@
                       ]
                     },
                     "namespace": {
-                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                      "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                       "type": [
                         "string",
                         "null"
@@ -2052,7 +2256,7 @@
               "additionalProperties": false
             },
             "url": {
-              "description": "`url` is the address of an existing Loki service to push the flows to. When using the Loki Operator, set it to the Loki gateway service with the `network` tenant set in path, for example https://loki-gateway-http.netobserv.svc:8080/api/logs/v1/network.",
+              "description": "`url` is the address of an existing Loki service to push the flows to. When using the Loki Operator,\nset it to the Loki gateway service with the `network` tenant set in path, for example\nhttps://loki-gateway-http.netobserv.svc:8080/api/logs/v1/network.",
               "type": [
                 "string",
                 "null"
@@ -2069,14 +2273,14 @@
           ]
         },
         "processor": {
-          "description": "`processor` defines the settings of the component that receives the flows from the agent, enriches them, generates metrics, and forwards them to the Loki persistence layer and/or any available exporter.",
+          "description": "`processor` defines the settings of the component that receives the flows from the agent,\nenriches them, generates metrics, and forwards them to the Loki persistence layer and/or any available exporter.",
           "type": [
             "object",
             "null"
           ],
           "properties": {
             "addZone": {
-              "description": "`addZone` allows availability zone awareness by labelling flows with their source and destination zones. This feature requires the \"topology.kubernetes.io/zone\" label to be set on nodes.",
+              "description": "`addZone` allows availability zone awareness by labelling flows with their source and destination zones.\nThis feature requires the \"topology.kubernetes.io/zone\" label to be set on nodes.",
               "type": [
                 "boolean",
                 "null"
@@ -2090,7 +2294,7 @@
               ]
             },
             "conversationEndTimeout": {
-              "description": "`conversationEndTimeout` is the time to wait after a network flow is received, to consider the conversation ended. This delay is ignored when a FIN packet is collected for TCP flows (see `conversationTerminatingTimeout` instead).",
+              "description": "`conversationEndTimeout` is the time to wait after a network flow is received, to consider the conversation ended.\nThis delay is ignored when a FIN packet is collected for TCP flows (see `conversationTerminatingTimeout` instead).",
               "type": [
                 "string",
                 "null"
@@ -2111,14 +2315,14 @@
               ]
             },
             "debug": {
-              "description": "`debug` allows setting some aspects of the internal configuration of the flow processor. This section is aimed exclusively for debugging and fine-grained performance optimizations, such as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
+              "description": "`debug` allows setting some aspects of the internal configuration of the flow processor.\nThis section is aimed exclusively for debugging and fine-grained performance optimizations,\nsuch as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
                 "env": {
-                  "description": "`env` allows passing custom environment variables to underlying components. Useful for passing some very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be publicly exposed as part of the FlowCollector descriptor, as they are only useful in edge debug or support scenarios.",
+                  "description": "`env` allows passing custom environment variables to underlying components. Useful for passing\nsome very concrete performance-tuning options, such as `GOGC` and `GOMAXPROCS`, that should not be\npublicly exposed as part of the FlowCollector descriptor, as they are only useful\nin edge debug or support scenarios.",
                   "type": [
                     "object",
                     "null"
@@ -2134,7 +2338,7 @@
               "additionalProperties": false
             },
             "dropUnusedFields": {
-              "description": "`dropUnusedFields` allows, when set to `true`, to drop fields that are known to be unused by OVS, to save storage space.",
+              "description": "`dropUnusedFields` [deprecated (*)] this setting is not used anymore.",
               "type": [
                 "boolean",
                 "null"
@@ -2170,7 +2374,7 @@
               ]
             },
             "kafkaConsumerAutoscaler": {
-              "description": "`kafkaConsumerAutoscaler` is the spec of a horizontal pod autoscaler to set up for `flowlogs-pipeline-transformer`, which consumes Kafka messages. This setting is ignored when Kafka is disabled.",
+              "description": "`kafkaConsumerAutoscaler` is the spec of a horizontal pod autoscaler to set up for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.",
               "type": [
                 "object",
                 "null"
@@ -2185,13 +2389,12 @@
                   "format": "int32"
                 },
                 "metrics": {
-                  "description": "Metrics used by the pod autoscaler",
+                  "description": "Metrics used by the pod autoscaler. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/",
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
-                    "description": "MetricSpec specifies how to scale based on a single metric (only `type` and one other matching field should be set at once).",
                     "type": [
                       "object",
                       "null"
@@ -2201,7 +2404,6 @@
                     ],
                     "properties": {
                       "containerResource": {
-                        "description": "containerResource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing a single container in each pod of the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the \"pods\" source. This is an alpha feature and can be enabled by the HPAContainerMetrics feature flag.",
                         "type": [
                           "object",
                           "null"
@@ -2213,22 +2415,18 @@
                         ],
                         "properties": {
                           "container": {
-                            "description": "container is the name of the container in the pods of the scaling target",
                             "type": "string"
                           },
                           "name": {
-                            "description": "name is the name of the resource in question.",
                             "type": "string"
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -2236,16 +2434,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -2256,7 +2451,6 @@
                         "additionalProperties": false
                       },
                       "external": {
-                        "description": "external refers to a global metric that is not associated with any Kubernetes object. It allows autoscaling based on information coming from components running outside of cluster (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).",
                         "type": [
                           "object",
                           "null"
@@ -2267,31 +2461,26 @@
                         ],
                         "properties": {
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -2302,15 +2491,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -2327,7 +2513,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -2340,20 +2525,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -2361,16 +2545,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -2381,7 +2562,6 @@
                         "additionalProperties": false
                       },
                       "object": {
-                        "description": "object refers to a metric describing a single kubernetes object (for example, hits-per-second on an Ingress object).",
                         "type": [
                           "object",
                           "null"
@@ -2393,7 +2573,6 @@
                         ],
                         "properties": {
                           "describedObject": {
-                            "description": "describedObject specifies the descriptions of a object,such as kind,name apiVersion",
                             "type": "object",
                             "required": [
                               "kind",
@@ -2401,49 +2580,41 @@
                             ],
                             "properties": {
                               "apiVersion": {
-                                "description": "apiVersion is the API version of the referent",
                                 "type": [
                                   "string",
                                   "null"
                                 ]
                               },
                               "kind": {
-                                "description": "kind is the kind of the referent; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
                                 "type": "string"
                               },
                               "name": {
-                                "description": "name is the name of the referent; More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                 "type": "string"
                               }
                             },
                             "additionalProperties": false
                           },
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -2454,15 +2625,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -2479,7 +2647,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -2492,20 +2659,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -2513,16 +2679,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -2533,7 +2696,6 @@
                         "additionalProperties": false
                       },
                       "pods": {
-                        "description": "pods refers to a metric describing each pod in the current scale target (for example, transactions-processed-per-second).  The values will be averaged together before being compared to the target value.",
                         "type": [
                           "object",
                           "null"
@@ -2544,31 +2706,26 @@
                         ],
                         "properties": {
                           "metric": {
-                            "description": "metric identifies the target metric by name and selector",
                             "type": "object",
                             "required": [
                               "name"
                             ],
                             "properties": {
                               "name": {
-                                "description": "name is the name of the given metric",
                                 "type": "string"
                               },
                               "selector": {
-                                "description": "selector is the string-encoded form of a standard kubernetes label selector for the given metric When set, it is passed as an additional parameter to the metrics server for more specific metrics scoping. When unset, just the metricName will be used to gather metrics.",
                                 "type": [
                                   "object",
                                   "null"
                                 ],
                                 "properties": {
                                   "matchExpressions": {
-                                    "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
                                     "type": [
                                       "array",
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -2579,15 +2736,12 @@
                                       ],
                                       "properties": {
                                         "key": {
-                                          "description": "key is the label key that the selector applies to.",
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -2604,7 +2758,6 @@
                                     }
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -2617,20 +2770,19 @@
                                     }
                                   }
                                 },
+                                "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               }
                             },
                             "additionalProperties": false
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -2638,16 +2790,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -2658,7 +2807,6 @@
                         "additionalProperties": false
                       },
                       "resource": {
-                        "description": "resource refers to a resource metric (such as those specified in requests and limits) known to Kubernetes describing each pod in the current scale target (e.g. CPU or memory). Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the \"pods\" source.",
                         "type": [
                           "object",
                           "null"
@@ -2669,18 +2817,15 @@
                         ],
                         "properties": {
                           "name": {
-                            "description": "name is the name of the resource in question.",
                             "type": "string"
                           },
                           "target": {
-                            "description": "target specifies the target value for the given metric",
                             "type": "object",
                             "required": [
                               "type"
                             ],
                             "properties": {
                               "averageUtilization": {
-                                "description": "averageUtilization is the target value of the average of the resource metric across all relevant pods, represented as a percentage of the requested value of the resource for the pods. Currently only valid for Resource metric source type",
                                 "type": [
                                   "integer",
                                   "null"
@@ -2688,16 +2833,13 @@
                                 "format": "int32"
                               },
                               "averageValue": {
-                                "description": "averageValue is the target value of the average of the metric across all relevant pods (as a quantity)",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               },
                               "type": {
-                                "description": "type represents whether the metric type is Utilization, Value, or AverageValue",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "value is the target value of the metric (as a quantity).",
                                 "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                                 "x-kubernetes-int-or-string": true
                               }
@@ -2708,7 +2850,6 @@
                         "additionalProperties": false
                       },
                       "type": {
-                        "description": "type is the type of metric source.  It should be one of \"ContainerResource\", \"External\", \"Object\", \"Pods\" or \"Resource\", each mapping to a matching field in the object. Note: \"ContainerResource\" type is available on when the feature-gate HPAContainerMetrics is enabled",
                         "type": "string"
                       }
                     },
@@ -2716,7 +2857,7 @@
                   }
                 },
                 "minReplicas": {
-                  "description": "`minReplicas` is the lower limit for the number of replicas to which the autoscaler can scale down. It defaults to 1 pod. minReplicas is allowed to be 0 if the alpha feature gate HPAScaleToZero is enabled and at least one Object or External metric is configured. Scaling is active as long as at least one metric value is available.",
+                  "description": "`minReplicas` is the lower limit for the number of replicas to which the autoscaler\ncan scale down. It defaults to 1 pod. minReplicas is allowed to be 0 if the\nalpha feature gate HPAScaleToZero is enabled and at least one Object or External\nmetric is configured. Scaling is active as long as at least one metric value is\navailable.",
                   "type": [
                     "integer",
                     "null"
@@ -2724,7 +2865,7 @@
                   "format": "int32"
                 },
                 "status": {
-                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br> - `DISABLED` does not deploy an horizontal pod autoscaler.<br> - `ENABLED` deploys an horizontal pod autoscaler.<br>",
+                  "description": "`status` describes the desired status regarding deploying an horizontal pod autoscaler.<br>\n- `DISABLED` does not deploy an horizontal pod autoscaler.<br>\n- `ENABLED` deploys an horizontal pod autoscaler.<br>",
                   "type": [
                     "string",
                     "null"
@@ -2752,7 +2893,7 @@
               ]
             },
             "kafkaConsumerReplicas": {
-              "description": "`kafkaConsumerReplicas` defines the number of replicas (pods) to start for `flowlogs-pipeline-transformer`, which consumes Kafka messages. This setting is ignored when Kafka is disabled.",
+              "description": "`kafkaConsumerReplicas` defines the number of replicas (pods) to start for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.",
               "type": [
                 "integer",
                 "null"
@@ -2777,7 +2918,7 @@
               ]
             },
             "logTypes": {
-              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br> - `FLOWS` (default) to export regular network flows<br> - `CONVERSATIONS` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates<br> - `ENDED_CONVERSATIONS` to generate only ended conversations events<br> - `ALL` to generate both network flows and all conversations events<br>",
+              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br>\n- `FLOWS` (default) to export regular network flows<br>\n- `CONVERSATIONS` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates<br>\n- `ENDED_CONVERSATIONS` to generate only ended conversations events<br>\n- `ALL` to generate both network flows and all conversations events<br>",
               "type": [
                 "string",
                 "null"
@@ -2797,13 +2938,13 @@
               ],
               "properties": {
                 "disableAlerts": {
-                  "description": "`disableAlerts` is a list of alerts that should be disabled. Possible values are:<br> `NetObservNoFlows`, which is triggered when no flows are being observed for a certain period.<br> `NetObservLokiError`, which is triggered when flows are being dropped due to Loki errors.<br>",
+                  "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservNoFlows`, which is triggered when no flows are being observed for a certain period.<br>\n`NetObservLokiError`, which is triggered when flows are being dropped due to Loki errors.<br>",
                   "type": [
                     "array",
                     "null"
                   ],
                   "items": {
-                    "description": "Name of a processor alert. Possible values are:<br> - `NetObservNoFlows`, which is triggered when no flows are being observed for a certain period.<br> - `NetObservLokiError`, which is triggered when flows are being dropped due to Loki errors.<br>",
+                    "description": "Name of a processor alert.\nPossible values are:<br>\n- `NetObservNoFlows`, which is triggered when no flows are being observed for a certain period.<br>\n- `NetObservLokiError`, which is triggered when flows are being dropped due to Loki errors.<br>",
                     "type": [
                       "string",
                       "null"
@@ -2815,7 +2956,7 @@
                   }
                 },
                 "ignoreTags": {
-                  "description": "`ignoreTags` [deprecated (*)] is a list of tags to specify which metrics to ignore. Each metric is associated with a list of tags. More details in https://github.com/netobserv/network-observability-operator/tree/main/controllers/flowlogspipeline/metrics_definitions . Available tags are: `egress`, `ingress`, `flows`, `bytes`, `packets`, `namespaces`, `nodes`, `workloads`, `nodes-flows`, `namespaces-flows`, `workloads-flows`. Namespace-based metrics are covered by both `workloads` and `namespaces` tags, hence it is recommended to always ignore one of them (`workloads` offering a finer granularity).<br> Deprecation notice: use `includeList` instead.",
+                  "description": "`ignoreTags` [deprecated (*)] is a list of tags to specify which metrics to ignore. Each metric is associated with a list of tags. More details in https://github.com/netobserv/network-observability-operator/tree/main/controllers/flowlogspipeline/metrics_definitions .\nAvailable tags are: `egress`, `ingress`, `flows`, `bytes`, `packets`, `namespaces`, `nodes`, `workloads`, `nodes-flows`, `namespaces-flows`, `workloads-flows`.\nNamespace-based metrics are covered by both `workloads` and `namespaces` tags, hence it is recommended to always ignore one of them (`workloads` offering a finer granularity).<br>\nDeprecation notice: use `includeList` instead.",
                   "type": [
                     "array",
                     "null"
@@ -2828,7 +2969,7 @@
                   }
                 },
                 "includeList": {
-                  "description": "`includeList` is a list of metric names to specify which ones to generate. The names correspond to the names in Prometheus without the prefix. For example, `namespace_egress_packets_total` will show up as `netobserv_namespace_egress_packets_total` in Prometheus. Note that the more metrics you add, the bigger is the impact on Prometheus workload resources. Metrics enabled by default are: `namespace_flows_total`, `node_ingress_bytes_total`, `workload_ingress_bytes_total`, `namespace_drop_packets_total` (when `PacketDrop` feature is enabled), `namespace_rtt_seconds` (when `FlowRTT` feature is enabled), `namespace_dns_latency_seconds` (when `DNSTracking` feature is enabled). More information, with full list of available metrics: https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md",
+                  "description": "`includeList` is a list of metric names to specify which ones to generate.\nThe names correspond to the names in Prometheus without the prefix. For example,\n`namespace_egress_packets_total` will show up as `netobserv_namespace_egress_packets_total` in Prometheus.\nNote that the more metrics you add, the bigger is the impact on Prometheus workload resources.\nMetrics enabled by default are:\n`namespace_flows_total`, `node_ingress_bytes_total`, `workload_ingress_bytes_total`, `namespace_drop_packets_total` (when `PacketDrop` feature is enabled),\n`namespace_rtt_seconds` (when `FlowRTT` feature is enabled), `namespace_dns_latency_seconds` (when `DNSTracking` feature is enabled).\nMore information, with full list of available metrics: https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md",
                   "type": [
                     "array",
                     "null"
@@ -2895,7 +3036,7 @@
                       ],
                       "properties": {
                         "insecureSkipVerify": {
-                          "description": "`insecureSkipVerify` allows skipping client-side verification of the provided certificate. If set to `true`, the `providedCaFile` field is ignored.",
+                          "description": "`insecureSkipVerify` allows skipping client-side verification of the provided certificate.\nIf set to `true`, the `providedCaFile` field is ignored.",
                           "type": [
                             "boolean",
                             "null"
@@ -2930,7 +3071,7 @@
                               ]
                             },
                             "namespace": {
-                              "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                              "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                               "type": [
                                 "string",
                                 "null"
@@ -2972,7 +3113,7 @@
                               ]
                             },
                             "namespace": {
-                              "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed. If the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                              "description": "Namespace of the config map or secret containing the file. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
                               "type": [
                                 "string",
                                 "null"
@@ -2993,7 +3134,7 @@
                           "additionalProperties": false
                         },
                         "type": {
-                          "description": "Select the type of TLS configuration:<br> - `DISABLED` (default) to not configure TLS for the endpoint. - `PROVIDED` to manually provide cert file and a key file. - `AUTO` to use OpenShift auto generated certificate using annotations.",
+                          "description": "Select the type of TLS configuration:<br>\n- `DISABLED` (default) to not configure TLS for the endpoint.\n- `PROVIDED` to manually provide cert file and a key file. [Unsupported (*)].\n- `AUTO` to use OpenShift auto generated certificate using annotations.",
                           "type": [
                             "string",
                             "null"
@@ -3021,7 +3162,7 @@
               ]
             },
             "port": {
-              "description": "Port of the flow collector (host port). By convention, some values are forbidden. It must be greater than 1024 and different from 4500, 4789 and 6081.",
+              "description": "Port of the flow collector (host port).\nBy convention, some values are forbidden. It must be greater than 1024 and different from\n4500, 4789 and 6081.",
               "type": [
                 "integer",
                 "null"
@@ -3041,14 +3182,14 @@
               "minimum": 0
             },
             "resources": {
-              "description": "`resources` are the compute resources required by this container. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "description": "`resources` are the compute resources required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
               ],
               "properties": {
                 "claims": {
-                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\n\nThis field is immutable. It can only be set for containers.",
                   "type": [
                     "array",
                     "null"
@@ -3064,7 +3205,7 @@
                     ],
                     "properties": {
                       "name": {
-                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                        "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
                         "type": "string"
                       }
                     },
@@ -3076,7 +3217,7 @@
                   "x-kubernetes-list-type": "map"
                 },
                 "limits": {
-                  "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Limits describes the maximum amount of compute resources allowed.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -3087,7 +3228,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required.\nIf Requests is omitted for a container, it defaults to Limits if that is explicitly specified,\notherwise to an implementation-defined value. Requests cannot exceed Limits.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -3096,6 +3237,251 @@
                     "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                     "x-kubernetes-int-or-string": true
                   }
+                }
+              },
+              "additionalProperties": false
+            },
+            "subnetLabels": {
+              "description": "`subnetLabels` allows to define custom labels on subnets and IPs or to enable automatic labelling of recognized subnets in OpenShift.\nWhen a subnet matches the source or destination IP of a flow, a corresponding field is added: `SrcSubnetLabel` or `DstSubnetLabel`.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "customLabels": {
+                  "description": "`customLabels` allows to customize subnets and IPs labelling, such as to identify cluster-external workloads or web services.\nIf you enable `openShiftAutoDetect`, `customLabels` can override the detected subnets in case they overlap.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "SubnetLabel allows to label subnets and IPs, such as to identify cluster-external workloads or web services.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "cidrs": {
+                        "description": "List of CIDRs, such as `[\"1.2.3.4/32\"]`.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "name": {
+                        "description": "Label name, used to flag matching flows.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "openShiftAutoDetect": {
+                  "description": "`openShiftAutoDetect` allows, when set to `true`, to detect automatically the machines, pods and services subnets based on the\nOpenShift install configuration and the Cluster Network Operator configuration. Indirectly, this is a way to accurately detect\nexternal traffic: flows that are not labeled for those subnets are external to the cluster. Enabled by default on OpenShift.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "prometheus": {
+          "description": "`prometheus` defines Prometheus settings, such as querier configuration used to fetch metrics from the Console plugin.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "querier": {
+              "description": "Prometheus querying configuration, such as client settings, used in the Console plugin.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "enable": {
+                  "description": "Set `enable` to `true` to make the Console plugin querying flow metrics from Prometheus instead of Loki whenever possible.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.loki`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "manual": {
+                  "description": "Prometheus configuration for `Manual` mode.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "forwardUserToken": {
+                      "description": "Set `true` to forward logged in user token in queries to Prometheus",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "tls": {
+                      "description": "TLS client configuration for Prometheus URL.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "caCert": {
+                          "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "certFile": {
+                              "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "certKey": {
+                              "description": "`certKey` defines the path to the certificate private key file name within the config map or secret. Omit when the key is not necessary.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "name": {
+                              "description": "Name of the config map or secret containing certificates",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "namespace": {
+                              "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "type": {
+                              "description": "Type for the certificate reference: `configmap` or `secret`",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "enum": [
+                                "configmap",
+                                "secret"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "enable": {
+                          "description": "Enable TLS",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "insecureSkipVerify": {
+                          "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "userCert": {
+                          "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "certFile": {
+                              "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "certKey": {
+                              "description": "`certKey` defines the path to the certificate private key file name within the config map or secret. Omit when the key is not necessary.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "name": {
+                              "description": "Name of the config map or secret containing certificates",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "namespace": {
+                              "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where NetObserv is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "type": {
+                              "description": "Type for the certificate reference: `configmap` or `secret`",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "enum": [
+                                "configmap",
+                                "secret"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "url": {
+                      "description": "`url` is the address of an existing Prometheus service to use for querying metrics.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "mode": {
+                  "description": "`mode` must be set according to the type of Prometheus installation that stores NetObserv metrics:<br>\n- Use `Auto` to try configuring automatically. In OpenShift, it uses the Thanos querier from OpenShift Cluster Monitoring<br>\n- Use `Manual` for a manual setup<br>",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "Manual",
+                    "Auto"
+                  ]
+                },
+                "timeout": {
+                  "description": "`timeout` is the read timeout for console plugin queries to Prometheus.\nA timeout of zero means no timeout.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -3120,7 +3506,7 @@
           "description": "`conditions` represent the latest available observations of an object's state",
           "type": "array",
           "items": {
-            "description": "Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, \n \ttype FooStatus struct{ \t    // Represents the observations of a foo's current state. \t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\" \t    // +patchMergeKey=type \t    // +patchStrategy=merge \t    // +listType=map \t    // +listMapKey=type \t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"` \n \t    // other fields \t}",
+            "description": "Condition contains details for one aspect of the current state of this API Resource.\n---\nThis struct is intended for direct use as an array at the field path .status.conditions.  For example,\n\n\n\ttype FooStatus struct{\n\t    // Represents the observations of a foo's current state.\n\t    // Known .status.conditions.type are: \"Available\", \"Progressing\", and \"Degraded\"\n\t    // +patchMergeKey=type\n\t    // +patchStrategy=merge\n\t    // +listType=map\n\t    // +listMapKey=type\n\t    Conditions []metav1.Condition `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`\n\n\n\t    // other fields\n\t}",
             "type": [
               "object",
               "null"
@@ -3134,17 +3520,17 @@
             ],
             "properties": {
               "lastTransitionTime": {
-                "description": "lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
                 "type": "string",
                 "format": "date-time"
               },
               "message": {
-                "description": "message is a human readable message indicating details about the transition. This may be an empty string.",
+                "description": "message is a human readable message indicating details about the transition.\nThis may be an empty string.",
                 "type": "string",
                 "maxLength": 32768
               },
               "observedGeneration": {
-                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.",
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon.\nFor instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the instance.",
                 "type": [
                   "integer",
                   "null"
@@ -3153,7 +3539,7 @@
                 "minimum": 0
               },
               "reason": {
-                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.",
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.\nProducers of specific condition types may define expected values and meanings for this field,\nand whether the values are considered a guaranteed API.\nThe value should be a CamelCase string.\nThis field may not be empty.",
                 "type": "string",
                 "maxLength": 1024,
                 "minLength": 1,
@@ -3169,7 +3555,7 @@
                 ]
               },
               "type": {
-                "description": "type of condition in CamelCase or in foo.example.com/CamelCase. --- Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be useful (see .node.status.conditions), the ability to deconflict is important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.\n---\nMany .condition.type values are consistent across resources like Available, but because arbitrary conditions can be\nuseful (see .node.status.conditions), the ability to deconflict is important.\nThe regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
                 "type": "string",
                 "maxLength": 316,
                 "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"

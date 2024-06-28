@@ -129,6 +129,13 @@
             "null"
           ],
           "properties": {
+            "additionalGuestMemoryOverheadRatio": {
+              "description": "AdditionalGuestMemoryOverheadRatio can be used to increase the virtualization infrastructure overhead. This is useful, since the calculation of this overhead is not accurate and cannot be entirely known in advance. The ratio that is being set determines by which factor to increase the overhead calculated by Kubevirt. A higher ratio means that the VMs would be less compromised by node pressures, but would mean that fewer VMs could be scheduled to a node. If not set, the default is 1.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "apiConfiguration": {
               "description": "ReloadableComponentConfiguration holds all generic k8s configuration options which can be reloaded by components without requiring a restart.",
               "type": [
@@ -176,6 +183,188 @@
                     }
                   },
                   "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "architectureConfiguration": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "amd64": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "emulatedMachines": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "x-kubernetes-list-type": "atomic"
+                    },
+                    "machineType": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ovmfPath": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "arm64": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "emulatedMachines": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "x-kubernetes-list-type": "atomic"
+                    },
+                    "machineType": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ovmfPath": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "defaultArchitecture": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "ppc64le": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "emulatedMachines": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "x-kubernetes-list-type": "atomic"
+                    },
+                    "machineType": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "ovmfPath": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "autoCPULimitNamespaceLabelSelector": {
+              "description": "When set, AutoCPULimitNamespaceLabelSelector will set a CPU limit on virt-launcher for VMIs running inside namespaces that match the label selector. The CPU limit will equal the number of requested vCPUs. This setting does not apply to VMIs with dedicated CPUs.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "matchExpressions": {
+                  "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "key",
+                      "operator"
+                    ],
+                    "properties": {
+                      "key": {
+                        "description": "key is the label key that the selector applies to.",
+                        "type": "string"
+                      },
+                      "operator": {
+                        "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                        "type": "string"
+                      },
+                      "values": {
+                        "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "matchLabels": {
+                  "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
                 }
               },
               "additionalProperties": false
@@ -474,7 +663,114 @@
                 "null"
               ]
             },
+            "ksmConfiguration": {
+              "description": "KSMConfiguration holds the information regarding the enabling the KSM in the nodes (if available).",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "nodeLabelSelector": {
+                  "description": "NodeLabelSelector is a selector that filters in which nodes the KSM will be enabled. Empty NodeLabelSelector will enable ksm for every node.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "matchExpressions": {
+                      "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "key",
+                          "operator"
+                        ],
+                        "properties": {
+                          "key": {
+                            "description": "key is the label key that the selector applies to.",
+                            "type": "string"
+                          },
+                          "operator": {
+                            "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                            "type": "string"
+                          },
+                          "values": {
+                            "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "matchLabels": {
+                      "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "liveUpdateConfiguration": {
+              "description": "LiveUpdateConfiguration holds defaults for live update features",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "maxCpuSockets": {
+                  "description": "MaxCpuSockets holds the maximum amount of sockets that can be hotplugged",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                },
+                "maxGuest": {
+                  "description": "MaxGuest defines the maximum amount memory that can be allocated to the guest using hotplug.",
+                  "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                  "x-kubernetes-int-or-string": true
+                },
+                "maxHotplugRatio": {
+                  "description": "MaxHotplugRatio is the ratio used to define the max amount of a hotplug resource that can be made available to a VM when the specific Max* setting is not defined (MaxCpuSockets, MaxGuest) Example: VM is configured with 512Mi of guest memory, if MaxGuest is not defined and MaxHotplugRatio is 2 then MaxGuest = 1Gi defaults to 4",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            },
             "machineType": {
+              "description": "Deprecated. Use architectureConfiguration instead.",
               "type": [
                 "string",
                 "null"
@@ -520,7 +816,7 @@
                     "null"
                   ],
                   "items": {
-                    "description": "NodeMediatedDeviceTypesConfig holds information about MDEV types to be defined in a specifc node that matches the NodeSelector field.",
+                    "description": "NodeMediatedDeviceTypesConfig holds information about MDEV types to be defined in a specific node that matches the NodeSelector field.",
                     "type": [
                       "object",
                       "null"
@@ -603,7 +899,7 @@
                   ]
                 },
                 "bandwidthPerMigration": {
-                  "description": "BandwidthPerMigration limits the amount of network bandwith live migrations are allowed to use. The value is in quantity per second. Defaults to 0 (no limit)",
+                  "description": "BandwidthPerMigration limits the amount of network bandwidth live migrations are allowed to use. The value is in quantity per second. Defaults to 0 (no limit)",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 },
@@ -617,6 +913,13 @@
                 },
                 "disableTLS": {
                   "description": "When set to true, DisableTLS will disable the additional layer of live migration encryption provided by KubeVirt. This is usually a bad idea. Defaults to false",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchSELinuxLevelOnMigration": {
+                  "description": "By default, the SELinux level of target virt-launcher pods is forced to the level of the source virt-launcher. When set to true, MatchSELinuxLevelOnMigration lets the CRI auto-assign a random level to the target. That will ensure the target virt-launcher doesn't share categories with another pod on the node. However, migrations will fail when using RWX volumes that don't automatically deal with SELinux levels.",
                   "type": [
                     "boolean",
                     "null"
@@ -683,6 +986,42 @@
                 "null"
               ],
               "properties": {
+                "binding": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "domainAttachmentType": {
+                        "description": "DomainAttachmentType is a standard domain network attachment method kubevirt supports. Supported values: \"tap\". The standard domain attachment can be used instead or in addition to the sidecarImage. version: 1alphav1",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "networkAttachmentDefinition": {
+                        "description": "NetworkAttachmentDefinition references to a NetworkAttachmentDefinition CR object. Format: <name>, <namespace>/<name>. If namespace is not specified, VMI namespace is assumed. version: 1alphav1",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "sidecarImage": {
+                        "description": "SidecarImage references a container image that runs in the virt-launcher pod. The sidecar handles (libvirt) domain configuration and optional services. version: 1alphav1",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
                 "defaultNetworkInterface": {
                   "type": [
                     "string",
@@ -790,8 +1129,64 @@
                         "type": "string"
                       },
                       "resourceName": {
-                        "description": "The name of the resource that is representing the device. Exposed by a device plugin and requested by VMs. Typically of the form vendor.com/product_nameThe name of the resource that is representing the device. Exposed by a device plugin and requested by VMs. Typically of the form vendor.com/product_name",
+                        "description": "The name of the resource that is representing the device. Exposed by a device plugin and requested by VMs. Typically of the form vendor.com/product_name",
                         "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "x-kubernetes-list-type": "atomic"
+                },
+                "usb": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "required": [
+                      "resourceName"
+                    ],
+                    "properties": {
+                      "externalResourceProvider": {
+                        "description": "If true, KubeVirt will leave the allocation and monitoring to an external device plugin",
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "resourceName": {
+                        "description": "Identifies the list of USB host devices. e.g: kubevirt.io/storage, kubevirt.io/bootable-usb, etc",
+                        "type": "string"
+                      },
+                      "selectors": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "product",
+                            "vendor"
+                          ],
+                          "properties": {
+                            "product": {
+                              "type": "string"
+                            },
+                            "vendor": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "x-kubernetes-list-type": "atomic"
                       }
                     },
                     "additionalProperties": false
@@ -888,6 +1283,91 @@
               },
               "additionalProperties": false
             },
+            "supportContainerResources": {
+              "description": "SupportContainerResources specifies the resource requirements for various types of supporting containers such as container disks/virtiofs/sidecars and hotplug attachment pods. If omitted a sensible default will be supplied.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "SupportContainerResources are used to specify the cpu/memory request and limits for the containers that support various features of Virtual Machines. These containers are usually idle and don't require a lot of memory or cpu.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "resources",
+                  "type"
+                ],
+                "properties": {
+                  "resources": {
+                    "description": "ResourceRequirements describes the compute resource requirements.",
+                    "type": "object",
+                    "properties": {
+                      "claims": {
+                        "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "name"
+                          ],
+                          "properties": {
+                            "name": {
+                              "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "x-kubernetes-list-map-keys": [
+                          "name"
+                        ],
+                        "x-kubernetes-list-type": "map"
+                      },
+                      "limits": {
+                        "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": {
+                          "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                          "x-kubernetes-int-or-string": true
+                        }
+                      },
+                      "requests": {
+                        "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": {
+                          "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                          "x-kubernetes-int-or-string": true
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "x-kubernetes-list-map-keys": [
+                "type"
+              ],
+              "x-kubernetes-list-type": "map"
+            },
             "supportedGuestAgentVersions": {
               "description": "deprecated",
               "type": [
@@ -940,6 +1420,37 @@
             "virtualMachineInstancesPerNode": {
               "type": [
                 "integer",
+                "null"
+              ]
+            },
+            "virtualMachineOptions": {
+              "description": "VirtualMachineOptions holds the cluster level information regarding the virtual machine.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "disableFreePageReporting": {
+                  "description": "DisableFreePageReporting disable the free page reporting of memory balloon device https://libvirt.org/formatdomain.html#memory-balloon-device. This will have effect only if AutoattachMemBalloon is not false and the vmi is not requesting any high performance feature (dedicatedCPU/realtime/hugePages), in which free page reporting is always disabled.",
+                  "type": [
+                    "object",
+                    "null"
+                  ]
+                },
+                "disableSerialConsoleLog": {
+                  "description": "DisableSerialConsoleLog disables logging the auto-attached default serial console. If not set, serial console logs will be written to a file and then streamed from a container named 'guest-console-log'. The value can be individually overridden for each VM, not relevant if AutoattachSerialConsole is disabled.",
+                  "type": [
+                    "object",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "vmStateStorageClass": {
+              "description": "VMStateStorageClass is the name of the storage class to use for the PVCs created to preserve VM state, like TPM. The storage class must support RWX in filesystem mode.",
+              "type": [
+                "string",
                 "null"
               ]
             },
@@ -1490,7 +2001,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                     "type": [
                                       "object",
                                       "null"
@@ -1555,7 +2066,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                     "type": [
                                       "array",
                                       "null"
@@ -1665,7 +2176,7 @@
                                 "additionalProperties": false
                               },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -1730,7 +2241,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -1850,7 +2361,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                     "type": [
                                       "object",
                                       "null"
@@ -1915,7 +2426,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                     "type": [
                                       "array",
                                       "null"
@@ -2025,7 +2536,7 @@
                                 "additionalProperties": false
                               },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -2090,7 +2601,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -2638,7 +3149,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                     "type": [
                                       "object",
                                       "null"
@@ -2703,7 +3214,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                     "type": [
                                       "array",
                                       "null"
@@ -2813,7 +3324,7 @@
                                 "additionalProperties": false
                               },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -2878,7 +3389,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -2998,7 +3509,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaceSelector": {
-                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                    "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                     "type": [
                                       "object",
                                       "null"
@@ -3063,7 +3574,7 @@
                                     "additionalProperties": false
                                   },
                                   "namespaces": {
-                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                    "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                     "type": [
                                       "array",
                                       "null"
@@ -3173,7 +3684,7 @@
                                 "additionalProperties": false
                               },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -3238,7 +3749,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -3396,6 +3907,12 @@
             },
             "additionalProperties": false
           }
+        },
+        "defaultArchitecture": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "generations": {
           "type": [

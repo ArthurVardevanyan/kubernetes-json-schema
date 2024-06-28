@@ -100,7 +100,17 @@
           "type": [
             "object",
             "null"
-          ]
+          ],
+          "properties": {
+            "devicePluginConfig": {
+              "description": "DevicePluginConfig allows the user to override the name of the `ConfigMap` where the device plugin configuration is held",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
         },
         "multus": {
           "description": "Multus plugin enables attaching multiple network interfaces to Pods in Kubernetes",

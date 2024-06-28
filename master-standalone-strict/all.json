@@ -169,6 +169,12 @@
       "$ref": "_definitions.json#/definitions/com.coreos.operators.v2.OperatorConditionList"
     },
     {
+      "$ref": "_definitions.json#/definitions/com.crunchydata.postgres-operator.v1beta1.CrunchyBridgeCluster"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/com.crunchydata.postgres-operator.v1beta1.CrunchyBridgeClusterList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/com.crunchydata.postgres-operator.v1beta1.PGAdmin"
     },
     {
@@ -1208,6 +1214,12 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.ArgoCDList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.NotificationsConfiguration"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.argoproj.v1alpha1.NotificationsConfigurationList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.argoproj.v1beta1.ArgoCD"
@@ -2965,6 +2977,78 @@
       "$ref": "_definitions.json#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotList"
     },
     {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.aaq.v1alpha1.AAQ"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.aaq.v1alpha1.AAQList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.cdi.v1alpha1.CDI"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.cdi.v1alpha1.CDIList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.cdi.v1beta1.CDI"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.cdi.v1beta1.CDIList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.hco.v1beta1.HyperConverged"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.hco.v1beta1.HyperConvergedList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.hostpathprovisioner.v1beta1.HostPathProvisioner"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.hostpathprovisioner.v1beta1.HostPathProvisionerList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.mtq.v1alpha1.MTQ"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.mtq.v1alpha1.MTQList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.network.networkaddonsoperator.v1.NetworkAddonsConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.network.networkaddonsoperator.v1.NetworkAddonsConfigList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.network.networkaddonsoperator.v1alpha1.NetworkAddonsConfig"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.network.networkaddonsoperator.v1alpha1.NetworkAddonsConfigList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.ssp.v1beta1.SSP"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.ssp.v1beta1.SSPList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.ssp.v1beta2.SSP"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.ssp.v1beta2.SSPList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.v1.KubeVirt"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.v1.KubeVirtList"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.v1alpha3.KubeVirt"
+    },
+    {
+      "$ref": "_definitions.json#/definitions/io.kubevirt.v1alpha3.KubeVirtList"
+    },
+    {
       "$ref": "_definitions.json#/definitions/io.kyverno.reports.v1.ClusterEphemeralReport"
     },
     {
@@ -3377,12 +3461,6 @@
     },
     {
       "$ref": "_definitions.json#/definitions/io.min.sts.v1alpha1.PolicyBindingList"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowCollector"
-    },
-    {
-      "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowCollectorList"
     },
     {
       "$ref": "_definitions.json#/definitions/io.netobserv.flows.v1alpha1.FlowMetric"

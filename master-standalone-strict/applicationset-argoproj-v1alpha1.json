@@ -622,6 +622,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -1183,6 +1195,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -2167,6 +2191,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -2728,6 +2764,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -3725,6 +3773,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -4292,6 +4352,18 @@
                                         ]
                                       }
                                     },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
                                     "forceCommonAnnotations": {
                                       "type": [
                                         "boolean",
@@ -4725,12 +4797,12 @@
                   "object",
                   "null"
                 ],
-                "required": [
-                  "elements"
-                ],
                 "properties": {
                   "elements": {
-                    "type": "array",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
                     "items": {
                       "x-kubernetes-preserve-unknown-fields": true
                     }
@@ -5227,6 +5299,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -5788,6 +5872,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -6796,6 +6892,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -7357,6 +7465,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -8341,6 +8461,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -8902,6 +9034,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -9899,6 +10043,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -10466,6 +10622,18 @@
                                                   ]
                                                 }
                                               },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
                                               "forceCommonAnnotations": {
                                                 "type": [
                                                   "boolean",
@@ -10899,12 +11067,12 @@
                             "object",
                             "null"
                           ],
-                          "required": [
-                            "elements"
-                          ],
                           "properties": {
                             "elements": {
-                              "type": "array",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
                               "items": {
                                 "x-kubernetes-preserve-unknown-fields": true
                               }
@@ -11401,6 +11569,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -11962,6 +12142,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -12922,6 +13114,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -13483,6 +13687,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -14817,6 +15033,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -15378,6 +15606,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -16735,6 +16975,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -17296,6 +17548,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -18278,6 +18542,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -18839,6 +19115,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -19848,6 +20136,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -20409,6 +20709,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -21393,6 +21705,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -21954,6 +22278,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -22951,6 +23287,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -23518,6 +23866,18 @@
                                                   ]
                                                 }
                                               },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
                                               "forceCommonAnnotations": {
                                                 "type": [
                                                   "boolean",
@@ -23951,12 +24311,12 @@
                             "object",
                             "null"
                           ],
-                          "required": [
-                            "elements"
-                          ],
                           "properties": {
                             "elements": {
-                              "type": "array",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
                               "items": {
                                 "x-kubernetes-preserve-unknown-fields": true
                               }
@@ -24453,6 +24813,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -25014,6 +25386,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -25974,6 +26358,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -26535,6 +26931,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -27869,6 +28277,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -28430,6 +28850,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -29787,6 +30219,18 @@
                                                 ]
                                               }
                                             },
+                                            "components": {
+                                              "type": [
+                                                "array",
+                                                "null"
+                                              ],
+                                              "items": {
+                                                "type": [
+                                                  "string",
+                                                  "null"
+                                                ]
+                                              }
+                                            },
                                             "forceCommonAnnotations": {
                                               "type": [
                                                 "boolean",
@@ -30348,6 +30792,18 @@
                                                   "null"
                                                 ],
                                                 "additionalProperties": {
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "components": {
+                                                "type": [
+                                                  "array",
+                                                  "null"
+                                                ],
+                                                "items": {
                                                   "type": [
                                                     "string",
                                                     "null"
@@ -31339,6 +31795,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -31900,6 +32368,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -32854,6 +33334,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -33415,6 +33907,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -34749,6 +35253,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -35310,6 +35826,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -36667,6 +37195,18 @@
                                       ]
                                     }
                                   },
+                                  "components": {
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
                                   "forceCommonAnnotations": {
                                     "type": [
                                       "boolean",
@@ -37228,6 +37768,18 @@
                                         "null"
                                       ],
                                       "additionalProperties": {
+                                        "type": [
+                                          "string",
+                                          "null"
+                                        ]
+                                      }
+                                    },
+                                    "components": {
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
                                         "type": [
                                           "string",
                                           "null"
@@ -38411,6 +38963,18 @@
                             ]
                           }
                         },
+                        "components": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
                         "forceCommonAnnotations": {
                           "type": [
                             "boolean",
@@ -38978,6 +39542,18 @@
                               ]
                             }
                           },
+                          "components": {
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
                           "forceCommonAnnotations": {
                             "type": [
                               "boolean",
@@ -39390,6 +39966,12 @@
             }
           },
           "additionalProperties": false
+        },
+        "templatePatch": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false

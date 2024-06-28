@@ -2831,7 +2831,7 @@
                         "additionalProperties": false
                       },
                       "name": {
-                        "description": "The name of the the repository",
+                        "description": "The name of the repository",
                         "type": "string",
                         "pattern": "^repo[1-4]"
                       },
@@ -4729,7 +4729,7 @@
           ],
           "properties": {
             "pgbackrest": {
-              "description": "Defines a pgBackRest cloud-based data source that can be used to pre-populate the the PostgreSQL data directory for a new PostgreSQL cluster using a pgBackRest restore. The PGBackRest field is incompatible with the PostgresCluster field: only one data source can be used for pre-populating a new PostgreSQL cluster",
+              "description": "Defines a pgBackRest cloud-based data source that can be used to pre-populate the PostgreSQL data directory for a new PostgreSQL cluster using a pgBackRest restore. The PGBackRest field is incompatible with the PostgresCluster field: only one data source can be used for pre-populating a new PostgreSQL cluster",
               "type": [
                 "object",
                 "null"
@@ -6048,7 +6048,7 @@
                       "additionalProperties": false
                     },
                     "name": {
-                      "description": "The name of the the repository",
+                      "description": "The name of the repository",
                       "type": "string",
                       "pattern": "^repo[1-4]"
                     },
@@ -11602,7 +11602,7 @@
           ],
           "properties": {
             "dynamicConfiguration": {
-              "description": "Patroni dynamic configuration settings. Changes to this value will be automatically reloaded without validation. Changes to certain PostgreSQL parameters cause PostgreSQL to restart. More info: https://patroni.readthedocs.io/en/latest/SETTINGS.html",
+              "description": "Patroni dynamic configuration settings. Changes to this value will be automatically reloaded without validation. Changes to certain PostgreSQL parameters cause PostgreSQL to restart. More info: https://patroni.readthedocs.io/en/latest/dynamic_configuration.html",
               "x-kubernetes-preserve-unknown-fields": true
             },
             "leaderLeaseDurationSeconds": {
@@ -14725,6 +14725,28 @@
                     "null"
                   ],
                   "properties": {
+                    "externalTrafficPolicy": {
+                      "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Cluster",
+                        "Local"
+                      ]
+                    },
+                    "internalTrafficPolicy": {
+                      "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Cluster",
+                        "Local"
+                      ]
+                    },
                     "metadata": {
                       "description": "Metadata contains metadata for custom resources",
                       "type": [
@@ -15001,6 +15023,92 @@
           },
           "additionalProperties": false
         },
+        "replicaService": {
+          "description": "Specification of the service that exposes PostgreSQL replica instances",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "externalTrafficPolicy": {
+              "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Cluster",
+                "Local"
+              ]
+            },
+            "internalTrafficPolicy": {
+              "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Cluster",
+                "Local"
+              ]
+            },
+            "metadata": {
+              "description": "Metadata contains metadata for custom resources",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "annotations": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "labels": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "nodePort": {
+              "description": "The port on which this service is exposed when type is NodePort or LoadBalancer. Value must be in-range and not in use or the operation will fail. If unspecified, a port will be allocated if this Service requires one. - https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "type": {
+              "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "ClusterIP",
+                "NodePort",
+                "LoadBalancer"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
         "service": {
           "description": "Specification of the service that exposes the PostgreSQL primary instance.",
           "type": [
@@ -15008,6 +15116,28 @@
             "null"
           ],
           "properties": {
+            "externalTrafficPolicy": {
+              "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Cluster",
+                "Local"
+              ]
+            },
+            "internalTrafficPolicy": {
+              "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "Cluster",
+                "Local"
+              ]
+            },
             "metadata": {
               "description": "Metadata contains metadata for custom resources",
               "type": [
@@ -16718,6 +16848,28 @@
                     "null"
                   ],
                   "properties": {
+                    "externalTrafficPolicy": {
+                      "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Cluster",
+                        "Local"
+                      ]
+                    },
+                    "internalTrafficPolicy": {
+                      "description": "More info: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-policies",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "Cluster",
+                        "Local"
+                      ]
+                    },
                     "metadata": {
                       "description": "Metadata contains metadata for custom resources",
                       "type": [
@@ -16948,6 +17100,7 @@
             "array",
             "null"
           ],
+          "maxItems": 64,
           "items": {
             "type": [
               "object",
@@ -16987,7 +17140,18 @@
                   "string",
                   "null"
                 ],
-                "pattern": "^[^;]*$"
+                "maxLength": 200,
+                "pattern": "^[^;]*$",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "cannot assign password",
+                    "rule": "!self.matches(\"(?i:PASSWORD)\")"
+                  },
+                  {
+                    "message": "cannot contain comments",
+                    "rule": "!self.matches(\"(?:--|/[*]|[*]/)\")"
+                  }
+                ]
               },
               "password": {
                 "description": "Properties of the password generated for this user.",
@@ -17126,6 +17290,19 @@
               "name"
             ],
             "properties": {
+              "desiredPGDataVolume": {
+                "description": "Desired Size of the pgData volume",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
               "name": {
                 "type": "string"
               },
@@ -17352,7 +17529,7 @@
                     ]
                   },
                   "repoOptionsHash": {
-                    "description": "A hash of the required fields in the spec for defining an Azure, GCS or S3 repository, Utilizd to detect changes to these fields and then execute pgBackRest stanza-create commands accordingly.",
+                    "description": "A hash of the required fields in the spec for defining an Azure, GCS or S3 repository, Utilized to detect changes to these fields and then execute pgBackRest stanza-create commands accordingly.",
                     "type": [
                       "string",
                       "null"

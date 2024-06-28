@@ -545,6 +545,19 @@
                         ]
                       }
                     },
+                    "components": {
+                      "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
                     "forceCommonAnnotations": {
                       "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                       "type": [
@@ -1166,6 +1179,19 @@
                           "null"
                         ],
                         "additionalProperties": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "components": {
+                        "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
                           "type": [
                             "string",
                             "null"
@@ -2012,6 +2038,19 @@
                     ]
                   }
                 },
+                "components": {
+                  "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
                 "forceCommonAnnotations": {
                   "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                   "type": [
@@ -2633,6 +2672,19 @@
                       "null"
                     ],
                     "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "components": {
+                    "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
                       "type": [
                         "string",
                         "null"
@@ -3532,6 +3584,19 @@
                           ]
                         }
                       },
+                      "components": {
+                        "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
                       "forceCommonAnnotations": {
                         "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                         "type": [
@@ -4153,6 +4218,19 @@
                             "null"
                           ],
                           "additionalProperties": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "components": {
+                          "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
                             "type": [
                               "string",
                               "null"
@@ -5017,6 +5095,19 @@
                                 ]
                               }
                             },
+                            "components": {
+                              "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
                             "forceCommonAnnotations": {
                               "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                               "type": [
@@ -5638,6 +5729,19 @@
                                   "null"
                                 ],
                                 "additionalProperties": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "components": {
+                                "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
                                   "type": [
                                     "string",
                                     "null"
@@ -6486,6 +6590,19 @@
                             ]
                           }
                         },
+                        "components": {
+                          "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
                         "forceCommonAnnotations": {
                           "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                           "type": [
@@ -7107,6 +7224,19 @@
                               "null"
                             ],
                             "additionalProperties": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "components": {
+                            "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
                               "type": [
                                 "string",
                                 "null"
@@ -8036,6 +8166,19 @@
                             ]
                           }
                         },
+                        "components": {
+                          "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
                         "forceCommonAnnotations": {
                           "description": "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps",
                           "type": [
@@ -8657,6 +8800,19 @@
                               "null"
                             ],
                             "additionalProperties": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "components": {
+                            "description": "Components specifies a list of kustomize components to add to the kustomization before building",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
                               "type": [
                                 "string",
                                 "null"
