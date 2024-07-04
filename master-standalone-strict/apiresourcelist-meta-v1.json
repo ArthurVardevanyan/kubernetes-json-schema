@@ -11,9 +11,6 @@
       "type": [
         "string",
         "null"
-      ],
-      "enum": [
-        "v1"
       ]
     },
     "groupVersion": {
@@ -21,16 +18,14 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "default": ""
     },
     "kind": {
       "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
       "type": [
         "string",
         "null"
-      ],
-      "enum": [
-        "APIResourceList"
       ]
     },
     "resources": {
@@ -40,17 +35,11 @@
         "null"
       ],
       "items": {
-        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.APIResource"
+        "default": {},
+        "$ref": "_definitions.json#/definitions/k8s.io.apimachinery.pkg.apis.meta.v1.APIResource"
       }
     }
   },
-  "x-kubernetes-group-version-kind": [
-    {
-      "group": "",
-      "kind": "APIResourceList",
-      "version": "v1"
-    }
-  ],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

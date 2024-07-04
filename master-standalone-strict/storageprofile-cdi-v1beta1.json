@@ -42,31 +42,41 @@
             "array",
             "null"
           ],
+          "maxItems": 8,
           "items": {
             "description": "ClaimPropertySet is a set of properties applicable to PVC",
             "type": [
               "object",
               "null"
             ],
+            "required": [
+              "accessModes",
+              "volumeMode"
+            ],
             "properties": {
               "accessModes": {
                 "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
-                "type": [
-                  "array",
-                  "null"
-                ],
+                "type": "array",
+                "maxItems": 4,
                 "items": {
                   "type": [
                     "string",
                     "null"
                   ]
-                }
+                },
+                "x-kubernetes-validations": [
+                  {
+                    "message": "Illegal AccessMode",
+                    "rule": "self.all(am, am in ['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany', 'ReadWriteOncePod'])"
+                  }
+                ]
               },
               "volumeMode": {
                 "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
-                "type": [
-                  "string",
-                  "null"
+                "type": "string",
+                "enum": [
+                  "Block",
+                  "Filesystem"
                 ]
               }
             },
@@ -75,6 +85,20 @@
         },
         "cloneStrategy": {
           "description": "CloneStrategy defines the preferred method for performing a CDI clone",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dataImportCronSourceFormat": {
+          "description": "DataImportCronSourceFormat defines the format of the DataImportCron-created disk image sources",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshotClass": {
+          "description": "SnapshotClass is optional specific VolumeSnapshotClass for CloneStrategySnapshot. If not set, a VolumeSnapshotClass is chosen according to the provisioner.",
           "type": [
             "string",
             "null"
@@ -96,31 +120,41 @@
             "array",
             "null"
           ],
+          "maxItems": 8,
           "items": {
             "description": "ClaimPropertySet is a set of properties applicable to PVC",
             "type": [
               "object",
               "null"
             ],
+            "required": [
+              "accessModes",
+              "volumeMode"
+            ],
             "properties": {
               "accessModes": {
                 "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
-                "type": [
-                  "array",
-                  "null"
-                ],
+                "type": "array",
+                "maxItems": 4,
                 "items": {
                   "type": [
                     "string",
                     "null"
                   ]
-                }
+                },
+                "x-kubernetes-validations": [
+                  {
+                    "message": "Illegal AccessMode",
+                    "rule": "self.all(am, am in ['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany', 'ReadWriteOncePod'])"
+                  }
+                ]
               },
               "volumeMode": {
                 "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
-                "type": [
-                  "string",
-                  "null"
+                "type": "string",
+                "enum": [
+                  "Block",
+                  "Filesystem"
                 ]
               }
             },
@@ -134,8 +168,22 @@
             "null"
           ]
         },
+        "dataImportCronSourceFormat": {
+          "description": "DataImportCronSourceFormat defines the format of the DataImportCron-created disk image sources",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "provisioner": {
           "description": "The Storage class provisioner plugin name",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshotClass": {
+          "description": "SnapshotClass is optional specific VolumeSnapshotClass for CloneStrategySnapshot. If not set, a VolumeSnapshotClass is chosen according to the provisioner.",
           "type": [
             "string",
             "null"

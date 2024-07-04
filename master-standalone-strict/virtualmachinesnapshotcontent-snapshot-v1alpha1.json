@@ -88,6 +88,13 @@
                             "null"
                           ]
                         },
+                        "inferFromVolumeFailurePolicy": {
+                          "description": "InferFromVolumeFailurePolicy controls what should happen on failure when inferring the instancetype. Allowed values are: \"RejectInferFromVolumeFailure\" and \"IgnoreInferFromVolumeFailure\". If not specified, \"RejectInferFromVolumeFailure\" is used by default.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
                         "kind": {
                           "description": "Kind specifies which instancetype resource is referenced. Allowed values are: \"VirtualMachineInstancetype\" and \"VirtualMachineClusterInstancetype\". If not specified, \"VirtualMachineClusterInstancetype\" is used by default.",
                           "type": [
@@ -112,6 +119,56 @@
                       },
                       "additionalProperties": false
                     },
+                    "liveUpdateFeatures": {
+                      "description": "LiveUpdateFeatures references a configuration of hotpluggable resources",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "affinity": {
+                          "description": "Affinity allows live updating the virtual machines node affinity",
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        },
+                        "cpu": {
+                          "description": "LiveUpdateCPU holds hotplug configuration for the CPU resource. Empty struct indicates that default will be used for maxSockets. Default is specified on cluster level. Absence of the struct means opt-out from CPU hotplug functionality.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "maxSockets": {
+                              "description": "The maximum amount of sockets that can be hot-plugged to the Virtual Machine",
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "format": "int32"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "memory": {
+                          "description": "MemoryLiveUpdateConfiguration defines the live update memory features for the VirtualMachine",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "maxGuest": {
+                              "description": "MaxGuest defines the maximum amount memory that can be allocated for the VM.",
+                              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                              "x-kubernetes-int-or-string": true
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    },
                     "preference": {
                       "description": "PreferenceMatcher references a set of preference that is used to fill fields in Template",
                       "type": [
@@ -121,6 +178,13 @@
                       "properties": {
                         "inferFromVolume": {
                           "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the preference to be used through known annotations on the underlying resource. Once applied to the PreferenceMatcher this field is removed.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "inferFromVolumeFailurePolicy": {
+                          "description": "InferFromVolumeFailurePolicy controls what should happen on failure when preference the instancetype. Allowed values are: \"RejectInferFromVolumeFailure\" and \"IgnoreInferFromVolumeFailure\". If not specified, \"RejectInferFromVolumeFailure\" is used by default.",
                           "type": [
                             "string",
                             "null"
@@ -211,6 +275,13 @@
                                         "properties": {
                                           "configDrive": {
                                             "description": "ConfigDrivePropagation means that the ssh public keys are injected into the VM using metadata using the configDrive cloud-init provider",
+                                            "type": [
+                                              "object",
+                                              "null"
+                                            ]
+                                          },
+                                          "noCloud": {
+                                            "description": "NoCloudPropagation means that the ssh public keys are injected into the VM using metadata using the noCloud cloud-init provider",
                                             "type": [
                                               "object",
                                               "null"
@@ -669,7 +740,7 @@
                                                 "additionalProperties": false
                                               },
                                               "namespaceSelector": {
-                                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                                 "type": [
                                                   "object",
                                                   "null"
@@ -734,7 +805,7 @@
                                                 "additionalProperties": false
                                               },
                                               "namespaces": {
-                                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                                 "type": [
                                                   "array",
                                                   "null"
@@ -844,7 +915,7 @@
                                             "additionalProperties": false
                                           },
                                           "namespaceSelector": {
-                                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                             "type": [
                                               "object",
                                               "null"
@@ -909,7 +980,7 @@
                                             "additionalProperties": false
                                           },
                                           "namespaces": {
-                                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                             "type": [
                                               "array",
                                               "null"
@@ -1029,7 +1100,7 @@
                                                 "additionalProperties": false
                                               },
                                               "namespaceSelector": {
-                                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                                 "type": [
                                                   "object",
                                                   "null"
@@ -1094,7 +1165,7 @@
                                                 "additionalProperties": false
                                               },
                                               "namespaces": {
-                                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                                 "type": [
                                                   "array",
                                                   "null"
@@ -1204,7 +1275,7 @@
                                             "additionalProperties": false
                                           },
                                           "namespaceSelector": {
-                                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                                             "type": [
                                               "object",
                                               "null"
@@ -1269,7 +1340,7 @@
                                             "additionalProperties": false
                                           },
                                           "namespaces": {
-                                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                             "type": [
                                               "array",
                                               "null"
@@ -1294,6 +1365,13 @@
                                 }
                               },
                               "additionalProperties": false
+                            },
+                            "architecture": {
+                              "description": "Specifies the architecture of the vm guest you are attempting to run. Defaults to the compiled architecture of the KubeVirt components",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "dnsConfig": {
                               "description": "Specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy.",
@@ -1632,6 +1710,14 @@
                                         "null"
                                       ]
                                     },
+                                    "maxSockets": {
+                                      "description": "MaxSockets specifies the maximum amount of sockets that can be hotplugged",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ],
+                                      "format": "int32"
+                                    },
                                     "model": {
                                       "description": "Model specifies the CPU model inside the VMI. List of available models https://github.com/libvirt/libvirt/tree/master/src/cpu_map. It is possible to specify special cases like \"host-passthrough\" to get the same CPU as the node and \"host-model\" to get CPU closest to the node one. Defaults to host-model.",
                                       "type": [
@@ -1725,7 +1811,7 @@
                                       ]
                                     },
                                     "autoattachSerialConsole": {
-                                      "description": "Whether to attach the default serial console or not. Serial console access will not be available if set to false. Defaults to true.",
+                                      "description": "Whether to attach the default virtio-serial console or not. Serial console access will not be available if set to false. Defaults to true.",
                                       "type": [
                                         "boolean",
                                         "null"
@@ -1904,6 +1990,13 @@
                                             },
                                             "additionalProperties": false
                                           },
+                                          "errorPolicy": {
+                                            "description": "If specified, it can change the default error policy (stop) for the disk",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
                                           "io": {
                                             "description": "IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.",
                                             "type": [
@@ -1927,6 +2020,13 @@
                                               },
                                               "readonly": {
                                                 "description": "ReadOnly. Defaults to false.",
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
+                                              },
+                                              "reservation": {
+                                                "description": "Reservation indicates if the disk needs to support the persistent reservation for the SCSI disk",
                                                 "type": [
                                                   "boolean",
                                                   "null"
@@ -1963,6 +2063,13 @@
                                         },
                                         "additionalProperties": false
                                       }
+                                    },
+                                    "downwardMetrics": {
+                                      "description": "DownwardMetrics creates a virtio serials for exposing the downward metrics to the vmi.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
                                     },
                                     "filesystems": {
                                       "description": "Filesystems describes filesystem which is connected to the vmi.",
@@ -2162,6 +2269,23 @@
                                               "null"
                                             ]
                                           },
+                                          "binding": {
+                                            "description": "Binding specifies the binding plugin that will be used to connect the interface to the guest. It provides an alternative to InterfaceBindingMethod. version: 1alphav1",
+                                            "type": [
+                                              "object",
+                                              "null"
+                                            ],
+                                            "required": [
+                                              "name"
+                                            ],
+                                            "properties": {
+                                              "name": {
+                                                "description": "Name references to the binding name as denined in the kubevirt CR. version: 1alphav1",
+                                                "type": "string"
+                                              }
+                                            },
+                                            "additionalProperties": false
+                                          },
                                           "bootOrder": {
                                             "description": "BootOrder is an integer value > 0, used to determine ordering of boot devices. Lower values take precedence. Each interface or disk that has a boot order must have a unique value. Interfaces without a boot order are not tried.",
                                             "type": [
@@ -2341,6 +2465,13 @@
                                               "null"
                                             ]
                                           },
+                                          "state": {
+                                            "description": "State represents the requested operational state of the interface. The (only) value supported is 'absent', expressing a request to remove the interface.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
                                           "tag": {
                                             "description": "If specified, the virtual network interface address and its tag will be provided to the guest via config drive",
                                             "type": [
@@ -2351,6 +2482,13 @@
                                         },
                                         "additionalProperties": false
                                       }
+                                    },
+                                    "logSerialConsole": {
+                                      "description": "Whether to log the auto-attached default serial console or not. Serial console logs will be collect to a file and then streamed from a named 'guest-console-log'. Not relevant if autoattachSerialConsole is disabled. Defaults to cluster wide setting on VirtualMachineOptions.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "networkInterfaceMultiqueue": {
                                       "description": "If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.",
@@ -2395,7 +2533,17 @@
                                       "type": [
                                         "object",
                                         "null"
-                                      ]
+                                      ],
+                                      "properties": {
+                                        "persistent": {
+                                          "description": "Persistent indicates the state of the TPM device should be kept accross reboots Defaults to false",
+                                          "type": [
+                                            "boolean",
+                                            "null"
+                                          ]
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     },
                                     "useVirtioTransitional": {
                                       "description": "Fall back to legacy virtio 0.9 support if virtio bus is selected on devices. This is helpful for old machines like CentOS6 or RHEL6 which do not understand virtio_non_transitional (virtio 1.0).",
@@ -2860,6 +3008,13 @@
                                             "null"
                                           ],
                                           "properties": {
+                                            "persistent": {
+                                              "description": "If set to true, Persistent will persist the EFI NVRAM across reboots. Defaults to false",
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "secureBoot": {
                                               "description": "If set, SecureBoot will be enabled and the OVMF roms will be swapped for SecureBoot-enabled ones. Requires SMM to be enabled. Defaults to true",
                                               "type": [
@@ -2971,7 +3126,48 @@
                                       "type": [
                                         "object",
                                         "null"
-                                      ]
+                                      ],
+                                      "properties": {
+                                        "attestation": {
+                                          "description": "If specified, run the attestation process for a vmi.",
+                                          "type": [
+                                            "object",
+                                            "null"
+                                          ]
+                                        },
+                                        "dhCert": {
+                                          "description": "Base64 encoded guest owner's Diffie-Hellman key.",
+                                          "type": [
+                                            "string",
+                                            "null"
+                                          ]
+                                        },
+                                        "policy": {
+                                          "description": "Guest policy flags as defined in AMD SEV API specification. Note: due to security reasons it is not allowed to enable guest debugging. Therefore NoDebug flag is not exposed to users and is always true.",
+                                          "type": [
+                                            "object",
+                                            "null"
+                                          ],
+                                          "properties": {
+                                            "encryptedState": {
+                                              "description": "SEV-ES is required. Defaults to false.",
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            }
+                                          },
+                                          "additionalProperties": false
+                                        },
+                                        "session": {
+                                          "description": "Base64 encoded session blob.",
+                                          "type": [
+                                            "string",
+                                            "null"
+                                          ]
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -3021,6 +3217,11 @@
                                         }
                                       },
                                       "additionalProperties": false
+                                    },
+                                    "maxGuest": {
+                                      "description": "MaxGuest allows to specify the maximum amount of memory which is visible inside the Guest OS. The delta between MaxGuest and Guest is the amount of memory that can be hot(un)plugged.",
+                                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                                      "x-kubernetes-int-or-string": true
                                     }
                                   },
                                   "additionalProperties": false
@@ -3680,13 +3881,49 @@
                                     },
                                     "additionalProperties": false
                                   },
+                                  "matchLabelKeys": {
+                                    "description": "MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector.",
+                                    "type": [
+                                      "array",
+                                      "null"
+                                    ],
+                                    "items": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
+                                  },
                                   "maxSkew": {
-                                    "description": "MaxSkew describes the degree to which pods may be unevenly distributed. When 'whenUnsatisfiable=DoNotSchedule', it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 1/1/0: | zone1 | zone2 | zone3 | |   P   |   P   |       | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 1/1/1; scheduling it onto zone1(zone2) would make the ActualSkew(2-0) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When 'whenUnsatisfiable=ScheduleAnyway', it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed.",
+                                    "description": "MaxSkew describes the degree to which pods may be unevenly distributed. When 'whenUnsatisfiable=DoNotSchedule', it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | |  P P  |  P P  |   P   | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When 'whenUnsatisfiable=ScheduleAnyway', it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed.",
                                     "type": "integer",
                                     "format": "int32"
                                   },
+                                  "minDomains": {
+                                    "description": "MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats \"global minimum\" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. \n For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | |  P P  |  P P  |  P P  | The number of domains is less than 5(MinDomains), so \"global minimum\" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. \n This is a beta field and requires the MinDomainsInPodTopologySpread feature gate to be enabled (enabled by default).",
+                                    "type": [
+                                      "integer",
+                                      "null"
+                                    ],
+                                    "format": "int32"
+                                  },
+                                  "nodeAffinityPolicy": {
+                                    "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "nodeTaintsPolicy": {
+                                    "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
                                   "topologyKey": {
-                                    "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. It's a required field.",
+                                    "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is \"kubernetes.io/hostname\", each Node is a domain of that topology. And, if TopologyKey is \"topology.kubernetes.io/zone\", each zone is a domain of that topology. It's a required field.",
                                     "type": "string"
                                   },
                                   "whenUnsatisfiable": {
@@ -4100,11 +4337,11 @@
                                         ],
                                         "properties": {
                                           "claimName": {
-                                            "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                                            "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                                             "type": "string"
                                           },
                                           "readOnly": {
-                                            "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                                            "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                                             "type": [
                                               "boolean",
                                               "null"
@@ -4161,7 +4398,7 @@
                                     ],
                                     "properties": {
                                       "claimName": {
-                                        "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                                        "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                                         "type": "string"
                                       },
                                       "hotpluggable": {
@@ -4172,7 +4409,7 @@
                                         ]
                                       },
                                       "readOnly": {
-                                        "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                                        "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                                         "type": [
                                           "boolean",
                                           "null"
@@ -4196,7 +4433,7 @@
                                     ],
                                     "properties": {
                                       "claimName": {
-                                        "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                                        "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                                         "type": "string"
                                       },
                                       "hotpluggable": {
@@ -4207,7 +4444,7 @@
                                         ]
                                       },
                                       "readOnly": {
-                                        "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                                        "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                                         "type": [
                                           "boolean",
                                           "null"
@@ -4380,12 +4617,28 @@
                         "null"
                       ]
                     },
+                    "desiredGeneration": {
+                      "description": "DesiredGeneration is the generation which is desired for the VMI. This will be used in comparisons with ObservedGeneration to understand when the VMI is out of sync. This will be changed at the same time as ObservedGeneration to remove errors which could occur if Generation is updated through an Update() before ObservedGeneration in Status.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
+                    },
                     "memoryDumpRequest": {
                       "description": "MemoryDumpRequest tracks memory dump request phase and info of getting a memory dump to the given pvc",
                       "required": [
                         "claimName",
                         "phase"
                       ]
+                    },
+                    "observedGeneration": {
+                      "description": "ObservedGeneration is the generation observed by the vmi when started.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int64"
                     },
                     "printableStatus": {
                       "description": "PrintableStatus is a human readable, high-level representation of the status of the virtual machine",
@@ -4622,6 +4875,13 @@
                                     },
                                     "additionalProperties": false
                                   },
+                                  "errorPolicy": {
+                                    "description": "If specified, it can change the default error policy (stop) for the disk",
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
                                   "io": {
                                     "description": "IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.",
                                     "type": [
@@ -4645,6 +4905,13 @@
                                       },
                                       "readonly": {
                                         "description": "ReadOnly. Defaults to false.",
+                                        "type": [
+                                          "boolean",
+                                          "null"
+                                        ]
+                                      },
+                                      "reservation": {
+                                        "description": "Reservation indicates if the disk needs to support the persistent reservation for the SCSI disk",
                                         "type": [
                                           "boolean",
                                           "null"
@@ -4738,7 +5005,7 @@
                                     ],
                                     "properties": {
                                       "claimName": {
-                                        "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                                        "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                                         "type": "string"
                                       },
                                       "hotpluggable": {
@@ -4749,7 +5016,7 @@
                                         ]
                                       },
                                       "readOnly": {
-                                        "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                                        "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                                         "type": [
                                           "boolean",
                                           "null"
@@ -4881,7 +5148,7 @@
                     ],
                     "properties": {
                       "accessModes": {
-                        "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                        "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                         "type": [
                           "array",
                           "null"
@@ -4894,7 +5161,7 @@
                         }
                       },
                       "dataSource": {
-                        "description": "This field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field.",
+                        "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified. If the namespace is specified, then dataSourceRef will not be copied to dataSource.",
                         "type": [
                           "object",
                           "null"
@@ -4923,7 +5190,7 @@
                         "additionalProperties": false
                       },
                       "dataSourceRef": {
-                        "description": "Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. (Alpha) Using this field requires the AnyVolumeDataSource feature gate to be enabled.",
+                        "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While dataSource ignores disallowed values (dropping them), dataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. * While dataSource only allows local objects, dataSourceRef allows objects   in any namespaces. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
                         "type": [
                           "object",
                           "null"
@@ -4947,17 +5214,52 @@
                           "name": {
                             "description": "Name is the name of resource being referenced",
                             "type": "string"
+                          },
+                          "namespace": {
+                            "description": "Namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         },
                         "additionalProperties": false
                       },
                       "resources": {
-                        "description": "Resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                        "description": "resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                         "type": [
                           "object",
                           "null"
                         ],
                         "properties": {
+                          "claims": {
+                            "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "required": [
+                                "name"
+                              ],
+                              "properties": {
+                                "name": {
+                                  "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
+                                  "type": "string"
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "x-kubernetes-list-map-keys": [
+                              "name"
+                            ],
+                            "x-kubernetes-list-type": "map"
+                          },
                           "limits": {
                             "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                             "type": [
@@ -4984,7 +5286,7 @@
                         "additionalProperties": false
                       },
                       "selector": {
-                        "description": "A label query over volumes to consider for binding.",
+                        "description": "selector is a label query over volumes to consider for binding.",
                         "type": [
                           "object",
                           "null"
@@ -5049,7 +5351,7 @@
                         "additionalProperties": false
                       },
                       "storageClassName": {
-                        "description": "Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+                        "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
                         "type": [
                           "string",
                           "null"
@@ -5063,7 +5365,7 @@
                         ]
                       },
                       "volumeName": {
-                        "description": "VolumeName is the binding reference to the PersistentVolume backing this claim.",
+                        "description": "volumeName is the binding reference to the PersistentVolume backing this claim.",
                         "type": [
                           "string",
                           "null"

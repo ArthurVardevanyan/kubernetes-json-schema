@@ -36,6 +36,19 @@
         "null"
       ],
       "properties": {
+        "annotations": {
+          "description": "Optionally defines preferred Annotations to be applied to the VirtualMachineInstance",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
         "clock": {
           "description": "Clock optionally defines preferences associated with the Clock attribute of a VirtualMachineInstance DomainSpec",
           "type": [
@@ -210,6 +223,37 @@
             "null"
           ],
           "properties": {
+            "preferredCPUFeatures": {
+              "description": "PreferredCPUFeatures optionally defines a slice of preferred CPU features.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "CPUFeature allows specifying a CPU feature.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name of the CPU feature",
+                    "type": "string"
+                  },
+                  "policy": {
+                    "description": "Policy is the CPU feature attribute which can have the following attributes: force    - The virtual CPU will claim the feature is supported regardless of it being supported by host CPU. require  - Guest creation will fail unless the feature is supported by the host CPU or the hypervisor is able to emulate it. optional - The feature will be supported by virtual CPU if and only if it is supported by host CPU. disable  - The feature will not be supported by virtual CPU. forbid   - Guest creation will fail if the feature is supported by host CPU. Defaults to require",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
             "preferredCPUTopology": {
               "description": "PreferredCPUTopology optionally defines the preferred guest visible CPU topology, defaults to PreferSockets.",
               "type": [
@@ -372,6 +416,13 @@
                 "null"
               ]
             },
+            "preferredInterfaceMasquerade": {
+              "description": "PreferredInterfaceMasquerade optionally defines the preferred masquerade configuration to use with each network interface.",
+              "type": [
+                "object",
+                "null"
+              ]
+            },
             "preferredInterfaceModel": {
               "description": "PreferredInterfaceModel optionally defines the preferred model to be used by Interface devices.",
               "type": [
@@ -412,7 +463,17 @@
               "type": [
                 "object",
                 "null"
-              ]
+              ],
+              "properties": {
+                "persistent": {
+                  "description": "Persistent indicates the state of the TPM device should be kept accross reboots Defaults to false",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
             },
             "preferredUseVirtioTransitional": {
               "description": "PreferredUseVirtioTransitional optionally defines the preferred value of UseVirtioTransitional",
@@ -899,6 +960,75 @@
                 "string",
                 "null"
               ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "preferSpreadSocketToCoreRatio": {
+          "description": "PreferSpreadSocketToCoreRatio defines the ratio to spread vCPUs between cores and sockets, it defaults to 2.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "preferredSubdomain": {
+          "description": "Subdomain of the VirtualMachineInstance",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "preferredTerminationGracePeriodSeconds": {
+          "description": "Grace period observed after signalling a VirtualMachineInstance to stop after which the VirtualMachineInstance is force terminated.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "requirements": {
+          "description": "Requirements defines the minium amount of instance type defined resources required by a set of preferences",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "cpu": {
+              "description": "Required CPU related attributes of the instancetype.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "guest"
+              ],
+              "properties": {
+                "guest": {
+                  "description": "Minimal number of vCPUs required by the preference.",
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            },
+            "memory": {
+              "description": "Required Memory related attributes of the instancetype.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "guest"
+              ],
+              "properties": {
+                "guest": {
+                  "description": "Minimal amount of memory required by the preference.",
+                  "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                  "x-kubernetes-int-or-string": true
+                }
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false

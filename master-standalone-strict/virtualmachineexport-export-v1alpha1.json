@@ -393,6 +393,13 @@
             "null"
           ],
           "format": "date-time"
+        },
+        "virtualMachineName": {
+          "description": "VirtualMachineName shows the name of the source virtual machine if the source is either a VirtualMachine or a VirtualMachineSnapshot. This is mainly to easily identify the source VirtualMachine in case of a VirtualMachineSnapshot",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false

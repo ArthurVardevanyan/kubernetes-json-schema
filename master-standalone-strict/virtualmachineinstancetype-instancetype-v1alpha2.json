@@ -40,6 +40,19 @@
         "memory"
       ],
       "properties": {
+        "annotations": {
+          "description": "Optionally defines the required Annotations to be used by the instance type and applied to the VirtualMachineInstance",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
         "cpu": {
           "description": "Required CPU related attributes of the instancetype.",
           "type": "object",
@@ -55,7 +68,7 @@
               ]
             },
             "guest": {
-              "description": "Required number of vCPUs to expose to the guest. \n The resulting CPU topology being derived from the optional PreferredCPUTopology attribute of CPUPreferences that itself defaults to PreferCores.",
+              "description": "Required number of vCPUs to expose to the guest. \n The resulting CPU topology being derived from the optional PreferredCPUTopology attribute of CPUPreferences that itself defaults to PreferSockets.",
               "type": "integer",
               "format": "int32"
             },
@@ -241,7 +254,48 @@
               "type": [
                 "object",
                 "null"
-              ]
+              ],
+              "properties": {
+                "attestation": {
+                  "description": "If specified, run the attestation process for a vmi.",
+                  "type": [
+                    "object",
+                    "null"
+                  ]
+                },
+                "dhCert": {
+                  "description": "Base64 encoded guest owner's Diffie-Hellman key.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "policy": {
+                  "description": "Guest policy flags as defined in AMD SEV API specification. Note: due to security reasons it is not allowed to enable guest debugging. Therefore NoDebug flag is not exposed to users and is always true.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "encryptedState": {
+                      "description": "SEV-ES is required. Defaults to false.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "session": {
+                  "description": "Base64 encoded session blob.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
@@ -274,9 +328,38 @@
                 }
               },
               "additionalProperties": false
+            },
+            "overcommitPercent": {
+              "description": "OvercommitPercent is the percentage of the guest memory which will be overcommitted. This means that the VMIs parent pod (virt-launcher) will request less physical memory by a factor specified by the OvercommitPercent. Overcommits can lead to memory exhaustion, which in turn can lead to crashes. Use carefully. Defaults to 0",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "maximum": 100,
+              "minimum": 0
             }
           },
           "additionalProperties": false
+        },
+        "nodeSelector": {
+          "description": "NodeSelector is a selector which must be true for the vmi to fit on a node. Selector which must match a node's labels for the vmi to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ \n NodeSelector is the name of the custom node selector for the instancetype.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "schedulerName": {
+          "description": "If specified, the VMI will be dispatched by specified scheduler. If not specified, the VMI will be dispatched by default scheduler. \n SchedulerName is the name of the custom K8s scheduler for the instancetype.",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false

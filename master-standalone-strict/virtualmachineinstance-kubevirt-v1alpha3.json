@@ -74,6 +74,13 @@
                           "null"
                         ]
                       },
+                      "noCloud": {
+                        "description": "NoCloudPropagation means that the ssh public keys are injected into the VM using metadata using the noCloud cloud-init provider",
+                        "type": [
+                          "object",
+                          "null"
+                        ]
+                      },
                       "qemuGuestAgent": {
                         "description": "QemuGuestAgentAccessCredentailPropagation means ssh public keys are dynamically injected into the vm at runtime via the qemu guest agent. This feature requires the qemu guest agent to be running within the guest.",
                         "type": [
@@ -527,7 +534,7 @@
                             "additionalProperties": false
                           },
                           "namespaceSelector": {
-                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                             "type": [
                               "object",
                               "null"
@@ -592,7 +599,7 @@
                             "additionalProperties": false
                           },
                           "namespaces": {
-                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                             "type": [
                               "array",
                               "null"
@@ -702,7 +709,7 @@
                         "additionalProperties": false
                       },
                       "namespaceSelector": {
-                        "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                        "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                         "type": [
                           "object",
                           "null"
@@ -767,7 +774,7 @@
                         "additionalProperties": false
                       },
                       "namespaces": {
-                        "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                        "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                         "type": [
                           "array",
                           "null"
@@ -887,7 +894,7 @@
                             "additionalProperties": false
                           },
                           "namespaceSelector": {
-                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                             "type": [
                               "object",
                               "null"
@@ -952,7 +959,7 @@
                             "additionalProperties": false
                           },
                           "namespaces": {
-                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                             "type": [
                               "array",
                               "null"
@@ -1062,7 +1069,7 @@
                         "additionalProperties": false
                       },
                       "namespaceSelector": {
-                        "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces. This field is beta-level and is only honored when PodAffinityNamespaceSelector feature is enabled.",
+                        "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
                         "type": [
                           "object",
                           "null"
@@ -1127,7 +1134,7 @@
                         "additionalProperties": false
                       },
                       "namespaces": {
-                        "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\"",
+                        "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                         "type": [
                           "array",
                           "null"
@@ -1152,6 +1159,13 @@
             }
           },
           "additionalProperties": false
+        },
+        "architecture": {
+          "description": "Specifies the architecture of the vm guest you are attempting to run. Defaults to the compiled architecture of the KubeVirt components",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "dnsConfig": {
           "description": "Specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy.",
@@ -1490,6 +1504,14 @@
                     "null"
                   ]
                 },
+                "maxSockets": {
+                  "description": "MaxSockets specifies the maximum amount of sockets that can be hotplugged",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                },
                 "model": {
                   "description": "Model specifies the CPU model inside the VMI. List of available models https://github.com/libvirt/libvirt/tree/master/src/cpu_map. It is possible to specify special cases like \"host-passthrough\" to get the same CPU as the node and \"host-model\" to get CPU closest to the node one. Defaults to host-model.",
                   "type": [
@@ -1583,7 +1605,7 @@
                   ]
                 },
                 "autoattachSerialConsole": {
-                  "description": "Whether to attach the default serial console or not. Serial console access will not be available if set to false. Defaults to true.",
+                  "description": "Whether to attach the default virtio-serial console or not. Serial console access will not be available if set to false. Defaults to true.",
                   "type": [
                     "boolean",
                     "null"
@@ -1762,6 +1784,13 @@
                         },
                         "additionalProperties": false
                       },
+                      "errorPolicy": {
+                        "description": "If specified, it can change the default error policy (stop) for the disk",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
                       "io": {
                         "description": "IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.",
                         "type": [
@@ -1785,6 +1814,13 @@
                           },
                           "readonly": {
                             "description": "ReadOnly. Defaults to false.",
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          },
+                          "reservation": {
+                            "description": "Reservation indicates if the disk needs to support the persistent reservation for the SCSI disk",
                             "type": [
                               "boolean",
                               "null"
@@ -1821,6 +1857,13 @@
                     },
                     "additionalProperties": false
                   }
+                },
+                "downwardMetrics": {
+                  "description": "DownwardMetrics creates a virtio serials for exposing the downward metrics to the vmi.",
+                  "type": [
+                    "object",
+                    "null"
+                  ]
                 },
                 "filesystems": {
                   "description": "Filesystems describes filesystem which is connected to the vmi.",
@@ -2020,6 +2063,23 @@
                           "null"
                         ]
                       },
+                      "binding": {
+                        "description": "Binding specifies the binding plugin that will be used to connect the interface to the guest. It provides an alternative to InterfaceBindingMethod. version: 1alphav1",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "name"
+                        ],
+                        "properties": {
+                          "name": {
+                            "description": "Name references to the binding name as denined in the kubevirt CR. version: 1alphav1",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
                       "bootOrder": {
                         "description": "BootOrder is an integer value > 0, used to determine ordering of boot devices. Lower values take precedence. Each interface or disk that has a boot order must have a unique value. Interfaces without a boot order are not tried.",
                         "type": [
@@ -2199,6 +2259,13 @@
                           "null"
                         ]
                       },
+                      "state": {
+                        "description": "State represents the requested operational state of the interface. The (only) value supported is 'absent', expressing a request to remove the interface.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
                       "tag": {
                         "description": "If specified, the virtual network interface address and its tag will be provided to the guest via config drive",
                         "type": [
@@ -2209,6 +2276,13 @@
                     },
                     "additionalProperties": false
                   }
+                },
+                "logSerialConsole": {
+                  "description": "Whether to log the auto-attached default serial console or not. Serial console logs will be collect to a file and then streamed from a named 'guest-console-log'. Not relevant if autoattachSerialConsole is disabled. Defaults to cluster wide setting on VirtualMachineOptions.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
                 },
                 "networkInterfaceMultiqueue": {
                   "description": "If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.",
@@ -2253,7 +2327,17 @@
                   "type": [
                     "object",
                     "null"
-                  ]
+                  ],
+                  "properties": {
+                    "persistent": {
+                      "description": "Persistent indicates the state of the TPM device should be kept accross reboots Defaults to false",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
                 },
                 "useVirtioTransitional": {
                   "description": "Fall back to legacy virtio 0.9 support if virtio bus is selected on devices. This is helpful for old machines like CentOS6 or RHEL6 which do not understand virtio_non_transitional (virtio 1.0).",
@@ -2718,6 +2802,13 @@
                         "null"
                       ],
                       "properties": {
+                        "persistent": {
+                          "description": "If set to true, Persistent will persist the EFI NVRAM across reboots. Defaults to false",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
                         "secureBoot": {
                           "description": "If set, SecureBoot will be enabled and the OVMF roms will be swapped for SecureBoot-enabled ones. Requires SMM to be enabled. Defaults to true",
                           "type": [
@@ -2829,7 +2920,48 @@
                   "type": [
                     "object",
                     "null"
-                  ]
+                  ],
+                  "properties": {
+                    "attestation": {
+                      "description": "If specified, run the attestation process for a vmi.",
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "dhCert": {
+                      "description": "Base64 encoded guest owner's Diffie-Hellman key.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "policy": {
+                      "description": "Guest policy flags as defined in AMD SEV API specification. Note: due to security reasons it is not allowed to enable guest debugging. Therefore NoDebug flag is not exposed to users and is always true.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "encryptedState": {
+                          "description": "SEV-ES is required. Defaults to false.",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "session": {
+                      "description": "Base64 encoded session blob.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
                 }
               },
               "additionalProperties": false
@@ -2879,6 +3011,11 @@
                     }
                   },
                   "additionalProperties": false
+                },
+                "maxGuest": {
+                  "description": "MaxGuest allows to specify the maximum amount of memory which is visible inside the Guest OS. The delta between MaxGuest and Guest is the amount of memory that can be hot(un)plugged.",
+                  "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                  "x-kubernetes-int-or-string": true
                 }
               },
               "additionalProperties": false
@@ -3538,13 +3675,49 @@
                 },
                 "additionalProperties": false
               },
+              "matchLabelKeys": {
+                "description": "MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector.",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "x-kubernetes-list-type": "atomic"
+              },
               "maxSkew": {
-                "description": "MaxSkew describes the degree to which pods may be unevenly distributed. When 'whenUnsatisfiable=DoNotSchedule', it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 1/1/0: | zone1 | zone2 | zone3 | |   P   |   P   |       | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 1/1/1; scheduling it onto zone1(zone2) would make the ActualSkew(2-0) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When 'whenUnsatisfiable=ScheduleAnyway', it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed.",
+                "description": "MaxSkew describes the degree to which pods may be unevenly distributed. When 'whenUnsatisfiable=DoNotSchedule', it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | |  P P  |  P P  |   P   | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When 'whenUnsatisfiable=ScheduleAnyway', it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed.",
                 "type": "integer",
                 "format": "int32"
               },
+              "minDomains": {
+                "description": "MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats \"global minimum\" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. \n For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | |  P P  |  P P  |  P P  | The number of domains is less than 5(MinDomains), so \"global minimum\" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. \n This is a beta field and requires the MinDomainsInPodTopologySpread feature gate to be enabled (enabled by default).",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int32"
+              },
+              "nodeAffinityPolicy": {
+                "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. \n If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "nodeTaintsPolicy": {
+                "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. \n If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "topologyKey": {
-                "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. It's a required field.",
+                "description": "TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a \"bucket\", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is \"kubernetes.io/hostname\", each Node is a domain of that topology. And, if TopologyKey is \"topology.kubernetes.io/zone\", each zone is a domain of that topology. It's a required field.",
                 "type": "string"
               },
               "whenUnsatisfiable": {
@@ -3958,11 +4131,11 @@
                     ],
                     "properties": {
                       "claimName": {
-                        "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                        "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                         "type": "string"
                       },
                       "readOnly": {
-                        "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                        "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                         "type": [
                           "boolean",
                           "null"
@@ -4019,7 +4192,7 @@
                 ],
                 "properties": {
                   "claimName": {
-                    "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                    "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                     "type": "string"
                   },
                   "hotpluggable": {
@@ -4030,7 +4203,7 @@
                     ]
                   },
                   "readOnly": {
-                    "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                    "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                     "type": [
                       "boolean",
                       "null"
@@ -4054,7 +4227,7 @@
                 ],
                 "properties": {
                   "claimName": {
-                    "description": "ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                    "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
                     "type": "string"
                   },
                   "hotpluggable": {
@@ -4065,7 +4238,7 @@
                     ]
                   },
                   "readOnly": {
-                    "description": "Will force the ReadOnly setting in VolumeMounts. Default false.",
+                    "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
                     "type": [
                       "boolean",
                       "null"
@@ -4245,6 +4418,40 @@
             "additionalProperties": false
           }
         },
+        "currentCPUTopology": {
+          "description": "CurrentCPUTopology specifies the current CPU topology used by the VM workload. Current topology may differ from the desired topology in the spec while CPU hotplug takes place.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "cores": {
+              "description": "Cores specifies the number of cores inside the vmi. Must be a value greater or equal 1.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "sockets": {
+              "description": "Sockets specifies the number of sockets inside the vmi. Must be a value greater or equal 1.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "threads": {
+              "description": "Threads specifies the number of threads inside the vmi. Must be a value greater or equal 1.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
         "evacuationNodeName": {
           "description": "EvacuationNodeName is used to track the eviction process of a VMI. It stores the name of the node that we want to evacuate. It is meant to be used by KubeVirt core components only and can't be set or modified by users.",
           "type": [
@@ -4338,7 +4545,7 @@
             ],
             "properties": {
               "infoSource": {
-                "description": "Specifies the origin of the interface data collected. values: domain, guest-agent, or both",
+                "description": "Specifies the origin of the interface data collected. values: domain, guest-agent, multus-status.",
                 "type": [
                   "string",
                   "null"
@@ -4397,12 +4604,100 @@
             "additionalProperties": false
           }
         },
+        "kernelBootStatus": {
+          "description": "KernelBootStatus contains info about the kernelBootContainer",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "initrdInfo": {
+              "description": "InitrdInfo show info about the initrd file",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "checksum": {
+                  "description": "Checksum is the checksum of the initrd file",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            },
+            "kernelInfo": {
+              "description": "KernelInfo show info about the kernel image",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "checksum": {
+                  "description": "Checksum is the checksum of the kernel image",
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "int32"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
         "launcherContainerImageVersion": {
           "description": "LauncherContainerImageVersion indicates what container image is currently active for the vmi.",
           "type": [
             "string",
             "null"
           ]
+        },
+        "machine": {
+          "description": "Machine shows the final resulting qemu machine type. This can be different than the machine type selected in the spec, due to qemus machine type alias mechanism.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "type": {
+              "description": "QEMU machine type is the actual chipset of the VirtualMachineInstance.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "memory": {
+          "description": "Memory shows various informations about the VirtualMachine memory.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "guestAtBoot": {
+              "description": "GuestAtBoot specifies with how much memory the VirtualMachine intiallly booted with.",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
+            },
+            "guestCurrent": {
+              "description": "GuestCurrent specifies how much memory is currently available for the VirtualMachine.",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
+            },
+            "guestRequested": {
+              "description": "GuestRequested specifies how much memory was requested (hotplug) for the VirtualMachine.",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
+            }
+          },
+          "additionalProperties": false
         },
         "migrationMethod": {
           "description": "Represents the method using which the vmi can be migrated: live migration or block migration",
@@ -4472,7 +4767,7 @@
                   ]
                 },
                 "bandwidthPerMigration": {
-                  "description": "BandwidthPerMigration limits the amount of network bandwith live migrations are allowed to use. The value is in quantity per second. Defaults to 0 (no limit)",
+                  "description": "BandwidthPerMigration limits the amount of network bandwidth live migrations are allowed to use. The value is in quantity per second. Defaults to 0 (no limit)",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 },
@@ -4486,6 +4781,13 @@
                 },
                 "disableTLS": {
                   "description": "When set to true, DisableTLS will disable the additional layer of live migration encryption provided by KubeVirt. This is usually a bad idea. Defaults to false",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchSELinuxLevelOnMigration": {
+                  "description": "By default, the SELinux level of target virt-launcher pods is forced to the level of the source virt-launcher. When set to true, MatchSELinuxLevelOnMigration lets the CRI auto-assign a random level to the target. That will ensure the target virt-launcher doesn't share categories with another pod on the node. However, migrations will fail when using RWX volumes that don't automatically deal with SELinux levels.",
                   "type": [
                     "boolean",
                     "null"
@@ -4625,6 +4927,14 @@
                 "boolean",
                 "null"
               ]
+            },
+            "targetNodeDomainReadyTimestamp": {
+              "description": "The timestamp at which the target node detects the domain is active",
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
             },
             "targetNodeTopology": {
               "description": "If the VMI requires dedicated CPUs, this field will hold the numa topology on the target node",
@@ -4766,6 +5076,24 @@
               "target"
             ],
             "properties": {
+              "containerDiskVolume": {
+                "description": "ContainerDiskVolume shows info about the containerdisk, if the volume is a containerdisk",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "checksum": {
+                    "description": "Checksum is the checksum of the rootdisk or kernel artifacts inside the containerdisk",
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "format": "int32"
+                  }
+                },
+                "additionalProperties": false
+              },
               "hotplugVolume": {
                 "description": "If the volume is hotplug, this will contain the hotplug status.",
                 "type": [
