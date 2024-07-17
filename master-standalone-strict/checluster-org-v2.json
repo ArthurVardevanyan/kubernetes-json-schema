@@ -4833,6 +4833,19 @@
                 }
               },
               "additionalProperties": false
+            },
+            "workspacesPodAnnotations": {
+              "description": "WorkspacesPodAnnotations defines additional annotations for workspace pods.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
             }
           },
           "additionalProperties": false

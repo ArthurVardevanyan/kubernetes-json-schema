@@ -268,13 +268,13 @@
                   ],
                   "properties": {
                     "disableAlerts": {
-                      "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                      "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is missing packets or flows, such as when the BPF hashmap is busy or full, or the capacity limiter being triggered.<br>",
                       "type": [
                         "array",
                         "null"
                       ],
                       "items": {
-                        "description": "Name of an eBPF agent alert.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                        "description": "Name of an eBPF agent alert.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is missing packets or flows, such as when the BPF hashmap is busy or full, or the capacity limiter being triggered.<br>",
                         "type": [
                           "string",
                           "null"
@@ -758,11 +758,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -892,11 +894,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -1003,11 +1007,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -2506,11 +2512,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -2640,11 +2648,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -2751,11 +2761,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [

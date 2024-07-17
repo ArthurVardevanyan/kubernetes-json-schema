@@ -1,5 +1,5 @@
 {
-  "description": "FlowMetric is the Schema for the flowmetrics API",
+  "description": "FlowMetric is the API allowing to create custom metrics from the collected flow logs.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -38,7 +38,7 @@
       ],
       "properties": {
         "buckets": {
-          "description": "A list of buckets to use when `type` is \"Histogram\". The list must be parseable as floats. When not set, Prometheus default buckets are used.",
+          "description": "A list of buckets to use when `type` is \"Histogram\". The list must be parsable as floats. When not set, Prometheus default buckets are used.",
           "type": [
             "array",
             "null"
@@ -145,7 +145,7 @@
           }
         },
         "direction": {
-          "description": "Filter for ingress, egress or any direction flows.\nWhen set to `Ingress`, it is equivalent to adding the regex filter on `FlowDirection`: `0|2`.\nWhen set to `Egress`, it is equivalent to adding the regex filter on `FlowDirection`: `1|2`.",
+          "description": "Filter for ingress, egress or any direction flows.\nWhen set to `Ingress`, it is equivalent to adding the regular expression filter on `FlowDirection`: `0|2`.\nWhen set to `Egress`, it is equivalent to adding the regular expression filter on `FlowDirection`: `1|2`.",
           "type": [
             "string",
             "null"
@@ -157,7 +157,7 @@
           ]
         },
         "divider": {
-          "description": "When non-zero, scale factor (divider) of the value. Metric value = Flow value / Divider.",
+          "description": "When nonzero, scale factor (divider) of the value. Metric value = Flow value / Divider.",
           "type": [
             "string",
             "null"
@@ -207,7 +207,7 @@
           }
         },
         "labels": {
-          "description": "`labels` is a list of fields that should be used as Prometheus labels, also known as dimensions.\nFrom choosing labels results the level of granularity of this metric, as well as the available aggregations at query time.\nIt must be done carefully as it impacts the metric cardinality (cf https://rhobs-handbook.netlify.app/products/openshiftmonitoring/telemetry.md/#what-is-the-cardinality-of-a-metric).\nIn general, avoid setting very high cardinality labels such as IP or MAC addresses.\n\"SrcK8S_OwnerName\" or \"DstK8S_OwnerName\" should be preferred over \"SrcK8S_Name\" or \"DstK8S_Name\" as much as possible.\nRefer to the documentation for the list of available fields: https://docs.openshift.com/container-platform/latest/observability/network_observability/json-flows-format-reference.html.",
+          "description": "`labels` is a list of fields that should be used as Prometheus labels, also known as dimensions.\nFrom choosing labels results the level of granularity of this metric, and the available aggregations at query time.\nIt must be done carefully as it impacts the metric cardinality (cf https://rhobs-handbook.netlify.app/products/openshiftmonitoring/telemetry.md/#what-is-the-cardinality-of-a-metric).\nIn general, avoid setting very high cardinality labels such as IP or MAC addresses.\n\"SrcK8S_OwnerName\" or \"DstK8S_OwnerName\" should be preferred over \"SrcK8S_Name\" or \"DstK8S_Name\" as much as possible.\nRefer to the documentation for the list of available fields: https://docs.openshift.com/container-platform/latest/observability/network_observability/json-flows-format-reference.html.",
           "type": [
             "array",
             "null"

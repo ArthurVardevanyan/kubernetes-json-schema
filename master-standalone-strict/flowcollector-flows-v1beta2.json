@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "Defines the desired state of the FlowCollector resource.\n<br><br>\n*: the mention of \"unsupported\", or \"deprecated\" for a feature throughout this document means that this feature\nis not officially supported by Red Hat. It might have been, for example, contributed by the community\nand accepted without a formal agreement for maintenance. The product maintainers might provide some support\nfor these features as a best effort only.",
+      "description": "Defines the desired state of the FlowCollector resource.\n<br><br>\n*: the mention of \"unsupported\" or \"deprecated\" for a feature throughout this document means that this feature\nis not officially supported by Red Hat. It might have been, for example, contributed by the community\nand accepted without a formal agreement for maintenance. The product maintainers might provide some support\nfor these features as a best effort only.",
       "type": [
         "object",
         "null"
@@ -68,14 +68,14 @@
                       }
                     },
                     "scheduling": {
-                      "description": "scheduling controls whether the pod will be scheduled or not.",
+                      "description": "scheduling controls how the pods are scheduled on nodes.",
                       "type": [
                         "object",
                         "null"
                       ],
                       "properties": {
                         "affinity": {
-                          "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling",
+                          "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                           "type": [
                             "object",
                             "null"
@@ -145,11 +145,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchFields": {
                                             "description": "A list of node selector requirements by node's fields.",
@@ -187,11 +189,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           }
                                         },
                                         "x-kubernetes-map-type": "atomic",
@@ -204,7 +208,8 @@
                                       }
                                     },
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 },
                                 "requiredDuringSchedulingIgnoredDuringExecution": {
                                   "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to an update), the system\nmay or may not try to eventually evict the pod from its node.",
@@ -262,11 +267,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchFields": {
                                             "description": "A list of node selector requirements by node's fields.",
@@ -304,16 +311,19 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           }
                                         },
                                         "x-kubernetes-map-type": "atomic",
                                         "additionalProperties": false
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "x-kubernetes-map-type": "atomic",
@@ -396,11 +406,13 @@
                                                           "string",
                                                           "null"
                                                         ]
-                                                      }
+                                                      },
+                                                      "x-kubernetes-list-type": "atomic"
                                                     }
                                                   },
                                                   "additionalProperties": false
-                                                }
+                                                },
+                                                "x-kubernetes-list-type": "atomic"
                                               },
                                               "matchLabels": {
                                                 "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -420,7 +432,7 @@
                                             "additionalProperties": false
                                           },
                                           "matchLabelKeys": {
-                                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                             "type": [
                                               "array",
                                               "null"
@@ -434,7 +446,7 @@
                                             "x-kubernetes-list-type": "atomic"
                                           },
                                           "mismatchLabelKeys": {
-                                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                             "type": [
                                               "array",
                                               "null"
@@ -490,11 +502,13 @@
                                                           "string",
                                                           "null"
                                                         ]
-                                                      }
+                                                      },
+                                                      "x-kubernetes-list-type": "atomic"
                                                     }
                                                   },
                                                   "additionalProperties": false
-                                                }
+                                                },
+                                                "x-kubernetes-list-type": "atomic"
                                               },
                                               "matchLabels": {
                                                 "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -524,7 +538,8 @@
                                                 "string",
                                                 "null"
                                               ]
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "topologyKey": {
                                             "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -540,7 +555,8 @@
                                       }
                                     },
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 },
                                 "requiredDuringSchedulingIgnoredDuringExecution": {
                                   "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -601,11 +617,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -625,7 +643,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -639,7 +657,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -695,11 +713,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -729,7 +749,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -737,7 +758,8 @@
                                       }
                                     },
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 }
                               },
                               "additionalProperties": false
@@ -816,11 +838,13 @@
                                                           "string",
                                                           "null"
                                                         ]
-                                                      }
+                                                      },
+                                                      "x-kubernetes-list-type": "atomic"
                                                     }
                                                   },
                                                   "additionalProperties": false
-                                                }
+                                                },
+                                                "x-kubernetes-list-type": "atomic"
                                               },
                                               "matchLabels": {
                                                 "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -840,7 +864,7 @@
                                             "additionalProperties": false
                                           },
                                           "matchLabelKeys": {
-                                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                             "type": [
                                               "array",
                                               "null"
@@ -854,7 +878,7 @@
                                             "x-kubernetes-list-type": "atomic"
                                           },
                                           "mismatchLabelKeys": {
-                                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                             "type": [
                                               "array",
                                               "null"
@@ -910,11 +934,13 @@
                                                           "string",
                                                           "null"
                                                         ]
-                                                      }
+                                                      },
+                                                      "x-kubernetes-list-type": "atomic"
                                                     }
                                                   },
                                                   "additionalProperties": false
-                                                }
+                                                },
+                                                "x-kubernetes-list-type": "atomic"
                                               },
                                               "matchLabels": {
                                                 "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -944,7 +970,8 @@
                                                 "string",
                                                 "null"
                                               ]
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "topologyKey": {
                                             "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -960,7 +987,8 @@
                                       }
                                     },
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 },
                                 "requiredDuringSchedulingIgnoredDuringExecution": {
                                   "description": "If the anti-affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the anti-affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -1021,11 +1049,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -1045,7 +1075,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -1059,7 +1089,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -1115,11 +1145,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -1149,7 +1181,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -1157,7 +1190,8 @@
                                       }
                                     },
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 }
                               },
                               "additionalProperties": false
@@ -1166,7 +1200,7 @@
                           "additionalProperties": false
                         },
                         "nodeSelector": {
-                          "description": "NodeSelector is a selector which must be true for the pod to fit on a node.\nSelector which must match a node's labels for the pod to be scheduled on that node.\nMore info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+                          "description": "`nodeSelector` allows scheduling of pods only onto nodes that have each of the specified labels.\nFor documentation, refer to https://kubernetes.io/docs/concepts/configuration/assign-pod-node/.",
                           "type": [
                             "object",
                             "null"
@@ -1180,14 +1214,14 @@
                           "x-kubernetes-map-type": "atomic"
                         },
                         "priorityClassName": {
-                          "description": "If specified, indicates the pod's priority. \"system-node-critical\" and\n\"system-cluster-critical\" are two special keywords which indicate the\nhighest priorities with the former being the highest priority. Any other\nname must be defined by creating a PriorityClass object with that name.\nIf not specified, the pod priority will be default or zero if there is no\ndefault.",
+                          "description": "If specified, indicates the pod's priority. For documentation, refer to https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#how-to-use-priority-and-preemption.\nIf not specified, default priority is used, or zero if there is no default.",
                           "type": [
                             "string",
                             "null"
                           ]
                         },
                         "tolerations": {
-                          "description": "tolerations is a list of tolerations that allow the pod to schedule onto nodes with matching taints.",
+                          "description": "`tolerations` is a list of tolerations that allow the pod to schedule onto nodes with matching taints.\nFor documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                           "type": [
                             "array",
                             "null"
@@ -1295,14 +1329,14 @@
                   }
                 },
                 "flowFilter": {
-                  "description": "`flowFilter` defines the eBPF agent configuration regarding flow filtering",
+                  "description": "`flowFilter` defines the eBPF agent configuration regarding flow filtering.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "action": {
-                      "description": "Action defines the action to perform on the flows that match the filter.",
+                      "description": "`action` defines the action to perform on the flows that match the filter.",
                       "type": [
                         "string",
                         "null"
@@ -1313,18 +1347,18 @@
                       ]
                     },
                     "cidr": {
-                      "description": "CIDR defines the IP CIDR to filter flows by.\nExample: 10.10.10.0/24 or 100:100:100:100::/64",
+                      "description": "`cidr` defines the IP CIDR to filter flows by.\nExamples: `10.10.10.0/24` or `100:100:100:100::/64`",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "destPorts": {
-                      "description": "DestPorts defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example destPorts: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example destPorts: \"80-100\".",
+                      "description": "`destPorts` defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example: `destPorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example: `destPorts: \"80-100\"`.",
                       "x-kubernetes-int-or-string": true
                     },
                     "direction": {
-                      "description": "Direction defines the direction to filter flows by.",
+                      "description": "`direction` defines the direction to filter flows by.",
                       "type": [
                         "string",
                         "null"
@@ -1335,39 +1369,39 @@
                       ]
                     },
                     "enable": {
-                      "description": "Set `enable` to `true` to enable eBPF flow filtering feature.",
+                      "description": "Set `enable` to `true` to enable the eBPF flow filtering feature.",
                       "type": [
                         "boolean",
                         "null"
                       ]
                     },
                     "icmpCode": {
-                      "description": "ICMPCode defines the ICMP code to filter flows by.",
+                      "description": "`icmpCode`, for Internet Control Message Protocol (ICMP) traffic, defines the ICMP code to filter flows by.",
                       "type": [
                         "integer",
                         "null"
                       ]
                     },
                     "icmpType": {
-                      "description": "ICMPType defines the ICMP type to filter flows by.",
+                      "description": "`icmpType`, for ICMP traffic, defines the ICMP type to filter flows by.",
                       "type": [
                         "integer",
                         "null"
                       ]
                     },
                     "peerIP": {
-                      "description": "PeerIP defines the IP address to filter flows by.\nExample: 10.10.10.10",
+                      "description": "`peerIP` defines the IP address to filter flows by.\nExample: `10.10.10.10`.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "ports": {
-                      "description": "Ports defines the ports to filter flows by. it can be user for either source or destination ports.\nTo filter a single port, set a single port as an integer value. For example ports: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example ports: \"80-10",
+                      "description": "`ports` defines the ports to filter flows by. It is used both for source and destination ports.\nTo filter a single port, set a single port as an integer value. For example: `ports: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example: `ports: \"80-100\"`.",
                       "x-kubernetes-int-or-string": true
                     },
                     "protocol": {
-                      "description": "Protocol defines the protocol to filter flows by.",
+                      "description": "`protocol` defines the protocol to filter flows by.",
                       "type": [
                         "string",
                         "null"
@@ -1381,7 +1415,7 @@
                       ]
                     },
                     "sourcePorts": {
-                      "description": "SourcePorts defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example sourcePorts: 80.\nTo filter a range of ports, use a \"start-end\" range, string format. For example sourcePorts: \"80-100\".",
+                      "description": "`sourcePorts` defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example: `sourcePorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example: `sourcePorts: \"80-100\"`.",
                       "x-kubernetes-int-or-string": true
                     }
                   },
@@ -1400,7 +1434,7 @@
                   ]
                 },
                 "interfaces": {
-                  "description": "`interfaces` contains the interface names from where flows are collected. If empty, the agent\nfetches all the interfaces in the system, excepting the ones listed in ExcludeInterfaces.\nAn entry enclosed by slashes, such as `/br-/`, is matched as a regular expression.\nOtherwise it is matched as a case-sensitive string.",
+                  "description": "`interfaces` contains the interface names from where flows are collected. If empty, the agent\nfetches all the interfaces in the system, excepting the ones listed in `excludeInterfaces`.\nAn entry enclosed by slashes, such as `/br-/`, is matched as a regular expression.\nOtherwise it is matched as a case-sensitive string.",
                   "type": [
                     "array",
                     "null"
@@ -1436,20 +1470,20 @@
                   ]
                 },
                 "metrics": {
-                  "description": "`metrics` defines the eBPF agent configuration regarding metrics",
+                  "description": "`metrics` defines the eBPF agent configuration regarding metrics.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "disableAlerts": {
-                      "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                      "description": "`disableAlerts` is a list of alerts that should be disabled.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is missing packets or flows, such as when the BPF hashmap is busy or full, or the capacity limiter is being triggered.<br>",
                       "type": [
                         "array",
                         "null"
                       ],
                       "items": {
-                        "description": "Name of an eBPF agent alert.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is dropping flows, such as when the BPF hashmap is full or the capacity limiter being triggered.<br>",
+                        "description": "Name of an eBPF agent alert.\nPossible values are:<br>\n`NetObservDroppedFlows`, which is triggered when the eBPF agent is missing packets or flows, such as when the BPF hashmap is busy or full, or the capacity limiter is being triggered.<br>",
                         "type": [
                           "string",
                           "null"
@@ -1460,21 +1494,21 @@
                       }
                     },
                     "enable": {
-                      "description": "Set `enable` to `false` to disable eBPF agent metrics collection, by default it's `true`.",
+                      "description": "Set `enable` to `false` to disable eBPF agent metrics collection. It is enabled by default.",
                       "type": [
                         "boolean",
                         "null"
                       ]
                     },
                     "server": {
-                      "description": "Metrics server endpoint configuration for Prometheus scraper",
+                      "description": "Metrics server endpoint configuration for the Prometheus scraper.",
                       "type": [
                         "object",
                         "null"
                       ],
                       "properties": {
                         "port": {
-                          "description": "The prometheus HTTP port",
+                          "description": "The metrics server HTTP port.",
                           "type": [
                             "integer",
                             "null"
@@ -1505,7 +1539,7 @@
                               ],
                               "properties": {
                                 "certFile": {
-                                  "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                                  "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                                   "type": [
                                     "string",
                                     "null"
@@ -1519,7 +1553,7 @@
                                   ]
                                 },
                                 "name": {
-                                  "description": "Name of the config map or secret containing certificates",
+                                  "description": "Name of the config map or secret containing certificates.",
                                   "type": [
                                     "string",
                                     "null"
@@ -1533,7 +1567,7 @@
                                   ]
                                 },
                                 "type": {
-                                  "description": "Type for the certificate reference: `configmap` or `secret`",
+                                  "description": "Type for the certificate reference: `configmap` or `secret`.",
                                   "type": [
                                     "string",
                                     "null"
@@ -1554,14 +1588,14 @@
                               ],
                               "properties": {
                                 "file": {
-                                  "description": "File name within the config map or secret",
+                                  "description": "File name within the config map or secret.",
                                   "type": [
                                     "string",
                                     "null"
                                   ]
                                 },
                                 "name": {
-                                  "description": "Name of the config map or secret containing the file",
+                                  "description": "Name of the config map or secret containing the file.",
                                   "type": [
                                     "string",
                                     "null"
@@ -1575,7 +1609,7 @@
                                   ]
                                 },
                                 "type": {
-                                  "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                                  "description": "Type for the file reference: \"configmap\" or \"secret\".",
                                   "type": [
                                     "string",
                                     "null"
@@ -1617,7 +1651,7 @@
                   ]
                 },
                 "resources": {
-                  "description": "`resources` are the compute resources required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "`resources` are the compute resources required by this container.\nFor more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -1780,7 +1814,7 @@
               "additionalProperties": false
             },
             "type": {
-              "description": "`type` [deprecated (*)] selects the flows tracing agent. The only possible value is `eBPF` (default), to use NetObserv eBPF agent.<br>\nPreviously, using an IPFIX collector was allowed, but was deprecated and it is now removed.<br>\nSetting `IPFIX` is ignored and still use the eBPF Agent.\nSince there is only a single option here, this field will be remove in a future API version.",
+              "description": "`type` [deprecated (*)] selects the flows tracing agent. Previously, this field allowed to select between `eBPF` or `IPFIX`.\nOnly `eBPF` is allowed now, so this field is deprecated and is planned for removal in a future version of the API.",
               "type": [
                 "string",
                 "null"
@@ -1808,7 +1842,7 @@
               ],
               "properties": {
                 "args": {
-                  "description": "`args` allows passing custom arguments to underlying components. Useful for overriding\nsome parameters, such as an url or a configuration path, that should not be\npublicly exposed as part of the FlowCollector descriptor, as they are only useful\nin edge debug or support scenarios.",
+                  "description": "`args` allows passing custom arguments to underlying components. Useful for overriding\nsome parameters, such as a URL or a configuration path, that should not be\npublicly exposed as part of the FlowCollector descriptor, as they are only useful\nin edge debug or support scenarios.",
                   "type": [
                     "array",
                     "null"
@@ -1851,14 +1885,14 @@
                   ]
                 },
                 "scheduling": {
-                  "description": "scheduling controls whether the pod will be scheduled or not.",
+                  "description": "`scheduling` controls how the pods are scheduled on nodes.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "affinity": {
-                      "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling",
+                      "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                       "type": [
                         "object",
                         "null"
@@ -1928,11 +1962,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchFields": {
                                         "description": "A list of node selector requirements by node's fields.",
@@ -1970,11 +2006,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       }
                                     },
                                     "x-kubernetes-map-type": "atomic",
@@ -1987,7 +2025,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to an update), the system\nmay or may not try to eventually evict the pod from its node.",
@@ -2045,11 +2084,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchFields": {
                                         "description": "A list of node selector requirements by node's fields.",
@@ -2087,16 +2128,19 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       }
                                     },
                                     "x-kubernetes-map-type": "atomic",
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 }
                               },
                               "x-kubernetes-map-type": "atomic",
@@ -2179,11 +2223,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2203,7 +2249,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -2217,7 +2263,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -2273,11 +2319,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2307,7 +2355,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -2323,7 +2372,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -2384,11 +2434,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2408,7 +2460,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -2422,7 +2474,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -2478,11 +2530,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2512,7 +2566,8 @@
                                         "string",
                                         "null"
                                       ]
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "topologyKey": {
                                     "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -2520,7 +2575,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             }
                           },
                           "additionalProperties": false
@@ -2599,11 +2655,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2623,7 +2681,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -2637,7 +2695,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -2693,11 +2751,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2727,7 +2787,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -2743,7 +2804,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the anti-affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the anti-affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -2804,11 +2866,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2828,7 +2892,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -2842,7 +2906,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -2898,11 +2962,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -2932,7 +2998,8 @@
                                         "string",
                                         "null"
                                       ]
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "topologyKey": {
                                     "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -2940,7 +3007,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             }
                           },
                           "additionalProperties": false
@@ -2949,7 +3017,7 @@
                       "additionalProperties": false
                     },
                     "nodeSelector": {
-                      "description": "NodeSelector is a selector which must be true for the pod to fit on a node.\nSelector which must match a node's labels for the pod to be scheduled on that node.\nMore info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+                      "description": "`nodeSelector` allows scheduling of pods only onto nodes that have each of the specified labels.\nFor documentation, refer to https://kubernetes.io/docs/concepts/configuration/assign-pod-node/.",
                       "type": [
                         "object",
                         "null"
@@ -2963,14 +3031,14 @@
                       "x-kubernetes-map-type": "atomic"
                     },
                     "priorityClassName": {
-                      "description": "If specified, indicates the pod's priority. \"system-node-critical\" and\n\"system-cluster-critical\" are two special keywords which indicate the\nhighest priorities with the former being the highest priority. Any other\nname must be defined by creating a PriorityClass object with that name.\nIf not specified, the pod priority will be default or zero if there is no\ndefault.",
+                      "description": "If specified, indicates the pod's priority. For documentation, refer to https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#how-to-use-priority-and-preemption.\nIf not specified, default priority is used, or zero if there is no default.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "tolerations": {
-                      "description": "tolerations is a list of tolerations that allow the pod to schedule onto nodes with matching taints.",
+                      "description": "`tolerations` is a list of tolerations that allow the pod to schedule onto nodes with matching taints.\nFor documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                       "type": [
                         "array",
                         "null"
@@ -3161,11 +3229,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -3295,11 +3365,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -3406,11 +3478,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -3534,7 +3608,7 @@
               "additionalProperties": false
             },
             "enable": {
-              "description": "Enables the console plugin deployment.\n`spec.loki.enable` must also be `true`",
+              "description": "Enables the console plugin deployment.",
               "type": [
                 "boolean",
                 "null"
@@ -3650,7 +3724,7 @@
               "minimum": 0
             },
             "resources": {
-              "description": "`resources`, in terms of compute resources, required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "description": "`resources`, in terms of compute resources, required by this container.\nFor more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
@@ -3713,7 +3787,7 @@
           "additionalProperties": false
         },
         "deploymentModel": {
-          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br>\n- `Direct` (default) to make the flow processor listening directly from the agents.<br>\n- `Kafka` to make flows sent to a Kafka pipeline before consumption by the processor.<br>\nKafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).",
+          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br>\n- `Direct` (default) to make the flow processor listen directly from the agents.<br>\n- `Kafka` to make flows sent to a Kafka pipeline before consumption by the processor.<br>\nKafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).",
           "type": [
             "string",
             "null"
@@ -3802,14 +3876,14 @@
                         ],
                         "properties": {
                           "file": {
-                            "description": "File name within the config map or secret",
+                            "description": "File name within the config map or secret.",
                             "type": [
                               "string",
                               "null"
                             ]
                           },
                           "name": {
-                            "description": "Name of the config map or secret containing the file",
+                            "description": "Name of the config map or secret containing the file.",
                             "type": [
                               "string",
                               "null"
@@ -3823,7 +3897,7 @@
                             ]
                           },
                           "type": {
-                            "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                            "description": "Type for the file reference: \"configmap\" or \"secret\".",
                             "type": [
                               "string",
                               "null"
@@ -3844,14 +3918,14 @@
                         ],
                         "properties": {
                           "file": {
-                            "description": "File name within the config map or secret",
+                            "description": "File name within the config map or secret.",
                             "type": [
                               "string",
                               "null"
                             ]
                           },
                           "name": {
-                            "description": "Name of the config map or secret containing the file",
+                            "description": "Name of the config map or secret containing the file.",
                             "type": [
                               "string",
                               "null"
@@ -3865,7 +3939,7 @@
                             ]
                           },
                           "type": {
-                            "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                            "description": "Type for the file reference: \"configmap\" or \"secret\".",
                             "type": [
                               "string",
                               "null"
@@ -3908,7 +3982,7 @@
                         ],
                         "properties": {
                           "certFile": {
-                            "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                            "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                             "type": [
                               "string",
                               "null"
@@ -3922,7 +3996,7 @@
                             ]
                           },
                           "name": {
-                            "description": "Name of the config map or secret containing certificates",
+                            "description": "Name of the config map or secret containing certificates.",
                             "type": [
                               "string",
                               "null"
@@ -3936,7 +4010,7 @@
                             ]
                           },
                           "type": {
-                            "description": "Type for the certificate reference: `configmap` or `secret`",
+                            "description": "Type for the certificate reference: `configmap` or `secret`.",
                             "type": [
                               "string",
                               "null"
@@ -3971,7 +4045,7 @@
                         ],
                         "properties": {
                           "certFile": {
-                            "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                            "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                             "type": [
                               "string",
                               "null"
@@ -3985,7 +4059,7 @@
                             ]
                           },
                           "name": {
-                            "description": "Name of the config map or secret containing certificates",
+                            "description": "Name of the config map or secret containing certificates.",
                             "type": [
                               "string",
                               "null"
@@ -3999,7 +4073,7 @@
                             ]
                           },
                           "type": {
-                            "description": "Type for the certificate reference: `configmap` or `secret`",
+                            "description": "Type for the certificate reference: `configmap` or `secret`.",
                             "type": [
                               "string",
                               "null"
@@ -4064,14 +4138,14 @@
                   ],
                   "properties": {
                     "file": {
-                      "description": "File name within the config map or secret",
+                      "description": "File name within the config map or secret.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "name": {
-                      "description": "Name of the config map or secret containing the file",
+                      "description": "Name of the config map or secret containing the file.",
                       "type": [
                         "string",
                         "null"
@@ -4085,7 +4159,7 @@
                       ]
                     },
                     "type": {
-                      "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                      "description": "Type for the file reference: \"configmap\" or \"secret\".",
                       "type": [
                         "string",
                         "null"
@@ -4106,14 +4180,14 @@
                   ],
                   "properties": {
                     "file": {
-                      "description": "File name within the config map or secret",
+                      "description": "File name within the config map or secret.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "name": {
-                      "description": "Name of the config map or secret containing the file",
+                      "description": "Name of the config map or secret containing the file.",
                       "type": [
                         "string",
                         "null"
@@ -4127,7 +4201,7 @@
                       ]
                     },
                     "type": {
-                      "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                      "description": "Type for the file reference: \"configmap\" or \"secret\".",
                       "type": [
                         "string",
                         "null"
@@ -4170,7 +4244,7 @@
                   ],
                   "properties": {
                     "certFile": {
-                      "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                      "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                       "type": [
                         "string",
                         "null"
@@ -4184,7 +4258,7 @@
                       ]
                     },
                     "name": {
-                      "description": "Name of the config map or secret containing certificates",
+                      "description": "Name of the config map or secret containing certificates.",
                       "type": [
                         "string",
                         "null"
@@ -4198,7 +4272,7 @@
                       ]
                     },
                     "type": {
-                      "description": "Type for the certificate reference: `configmap` or `secret`",
+                      "description": "Type for the certificate reference: `configmap` or `secret`.",
                       "type": [
                         "string",
                         "null"
@@ -4233,7 +4307,7 @@
                   ],
                   "properties": {
                     "certFile": {
-                      "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                      "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                       "type": [
                         "string",
                         "null"
@@ -4247,7 +4321,7 @@
                       ]
                     },
                     "name": {
-                      "description": "Name of the config map or secret containing certificates",
+                      "description": "Name of the config map or secret containing certificates.",
                       "type": [
                         "string",
                         "null"
@@ -4261,7 +4335,7 @@
                       ]
                     },
                     "type": {
-                      "description": "Type for the certificate reference: `configmap` or `secret`",
+                      "description": "Type for the certificate reference: `configmap` or `secret`.",
                       "type": [
                         "string",
                         "null"
@@ -4345,7 +4419,7 @@
               ]
             },
             "lokiStack": {
-              "description": "Loki configuration for `LokiStack` mode. This is useful for an easy loki-operator configuration.\nIt is ignored for other modes.",
+              "description": "Loki configuration for `LokiStack` mode. This is useful for an easy Loki Operator configuration.\nIt is ignored for other modes.",
               "type": [
                 "object",
                 "null"
@@ -4416,7 +4490,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4430,7 +4504,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4444,7 +4518,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4479,7 +4553,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4493,7 +4567,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4507,7 +4581,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4552,7 +4626,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4566,7 +4640,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4580,7 +4654,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4615,7 +4689,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4629,7 +4703,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4643,7 +4717,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4705,7 +4779,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4719,7 +4793,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4733,7 +4807,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4768,7 +4842,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4782,7 +4856,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4796,7 +4870,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4857,7 +4931,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4871,7 +4945,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4885,7 +4959,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -4920,7 +4994,7 @@
                       ],
                       "properties": {
                         "certFile": {
-                          "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                          "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                           "type": [
                             "string",
                             "null"
@@ -4934,7 +5008,7 @@
                           ]
                         },
                         "name": {
-                          "description": "Name of the config map or secret containing certificates",
+                          "description": "Name of the config map or secret containing certificates.",
                           "type": [
                             "string",
                             "null"
@@ -4948,7 +5022,7 @@
                           ]
                         },
                         "type": {
-                          "description": "Type for the certificate reference: `configmap` or `secret`",
+                          "description": "Type for the certificate reference: `configmap` or `secret`.",
                           "type": [
                             "string",
                             "null"
@@ -5114,14 +5188,14 @@
                   "minimum": 0
                 },
                 "scheduling": {
-                  "description": "scheduling controls whether the pod will be scheduled or not.",
+                  "description": "scheduling controls how the pods are scheduled on nodes.",
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
                     "affinity": {
-                      "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling",
+                      "description": "If specified, the pod's scheduling constraints. For documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                       "type": [
                         "object",
                         "null"
@@ -5191,11 +5265,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchFields": {
                                         "description": "A list of node selector requirements by node's fields.",
@@ -5233,11 +5309,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       }
                                     },
                                     "x-kubernetes-map-type": "atomic",
@@ -5250,7 +5328,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to an update), the system\nmay or may not try to eventually evict the pod from its node.",
@@ -5308,11 +5387,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchFields": {
                                         "description": "A list of node selector requirements by node's fields.",
@@ -5350,16 +5431,19 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       }
                                     },
                                     "x-kubernetes-map-type": "atomic",
                                     "additionalProperties": false
-                                  }
+                                  },
+                                  "x-kubernetes-list-type": "atomic"
                                 }
                               },
                               "x-kubernetes-map-type": "atomic",
@@ -5442,11 +5526,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5466,7 +5552,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -5480,7 +5566,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -5536,11 +5622,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5570,7 +5658,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -5586,7 +5675,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -5647,11 +5737,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5671,7 +5763,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -5685,7 +5777,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -5741,11 +5833,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5775,7 +5869,8 @@
                                         "string",
                                         "null"
                                       ]
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "topologyKey": {
                                     "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -5783,7 +5878,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             }
                           },
                           "additionalProperties": false
@@ -5862,11 +5958,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5886,7 +5984,7 @@
                                         "additionalProperties": false
                                       },
                                       "matchLabelKeys": {
-                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -5900,7 +5998,7 @@
                                         "x-kubernetes-list-type": "atomic"
                                       },
                                       "mismatchLabelKeys": {
-                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                         "type": [
                                           "array",
                                           "null"
@@ -5956,11 +6054,13 @@
                                                       "string",
                                                       "null"
                                                     ]
-                                                  }
+                                                  },
+                                                  "x-kubernetes-list-type": "atomic"
                                                 }
                                               },
                                               "additionalProperties": false
-                                            }
+                                            },
+                                            "x-kubernetes-list-type": "atomic"
                                           },
                                           "matchLabels": {
                                             "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -5990,7 +6090,8 @@
                                             "string",
                                             "null"
                                           ]
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "topologyKey": {
                                         "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -6006,7 +6107,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             },
                             "requiredDuringSchedulingIgnoredDuringExecution": {
                               "description": "If the anti-affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the anti-affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
@@ -6067,11 +6169,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -6091,7 +6195,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MatchLabelKeys and LabelSelector.\nAlso, MatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -6105,7 +6209,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both MismatchLabelKeys and LabelSelector.\nAlso, MismatchLabelKeys cannot be set when LabelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
                                     "type": [
                                       "array",
                                       "null"
@@ -6161,11 +6265,13 @@
                                                   "string",
                                                   "null"
                                                 ]
-                                              }
+                                              },
+                                              "x-kubernetes-list-type": "atomic"
                                             }
                                           },
                                           "additionalProperties": false
-                                        }
+                                        },
+                                        "x-kubernetes-list-type": "atomic"
                                       },
                                       "matchLabels": {
                                         "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
@@ -6195,7 +6301,8 @@
                                         "string",
                                         "null"
                                       ]
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "topologyKey": {
                                     "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
@@ -6203,7 +6310,8 @@
                                   }
                                 },
                                 "additionalProperties": false
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             }
                           },
                           "additionalProperties": false
@@ -6212,7 +6320,7 @@
                       "additionalProperties": false
                     },
                     "nodeSelector": {
-                      "description": "NodeSelector is a selector which must be true for the pod to fit on a node.\nSelector which must match a node's labels for the pod to be scheduled on that node.\nMore info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+                      "description": "`nodeSelector` allows scheduling of pods only onto nodes that have each of the specified labels.\nFor documentation, refer to https://kubernetes.io/docs/concepts/configuration/assign-pod-node/.",
                       "type": [
                         "object",
                         "null"
@@ -6226,14 +6334,14 @@
                       "x-kubernetes-map-type": "atomic"
                     },
                     "priorityClassName": {
-                      "description": "If specified, indicates the pod's priority. \"system-node-critical\" and\n\"system-cluster-critical\" are two special keywords which indicate the\nhighest priorities with the former being the highest priority. Any other\nname must be defined by creating a PriorityClass object with that name.\nIf not specified, the pod priority will be default or zero if there is no\ndefault.",
+                      "description": "If specified, indicates the pod's priority. For documentation, refer to https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#how-to-use-priority-and-preemption.\nIf not specified, default priority is used, or zero if there is no default.",
                       "type": [
                         "string",
                         "null"
                       ]
                     },
                     "tolerations": {
-                      "description": "tolerations is a list of tolerations that allow the pod to schedule onto nodes with matching taints.",
+                      "description": "`tolerations` is a list of tolerations that allow the pod to schedule onto nodes with matching taints.\nFor documentation, refer to https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling.",
                       "type": [
                         "array",
                         "null"
@@ -6443,11 +6551,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -6577,11 +6687,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -6688,11 +6800,13 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
                                     "type": [
@@ -6943,7 +7057,7 @@
                   ],
                   "properties": {
                     "port": {
-                      "description": "The prometheus HTTP port",
+                      "description": "The metrics server HTTP port.",
                       "type": [
                         "integer",
                         "null"
@@ -6974,7 +7088,7 @@
                           ],
                           "properties": {
                             "certFile": {
-                              "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                              "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                               "type": [
                                 "string",
                                 "null"
@@ -6988,7 +7102,7 @@
                               ]
                             },
                             "name": {
-                              "description": "Name of the config map or secret containing certificates",
+                              "description": "Name of the config map or secret containing certificates.",
                               "type": [
                                 "string",
                                 "null"
@@ -7002,7 +7116,7 @@
                               ]
                             },
                             "type": {
-                              "description": "Type for the certificate reference: `configmap` or `secret`",
+                              "description": "Type for the certificate reference: `configmap` or `secret`.",
                               "type": [
                                 "string",
                                 "null"
@@ -7023,14 +7137,14 @@
                           ],
                           "properties": {
                             "file": {
-                              "description": "File name within the config map or secret",
+                              "description": "File name within the config map or secret.",
                               "type": [
                                 "string",
                                 "null"
                               ]
                             },
                             "name": {
-                              "description": "Name of the config map or secret containing the file",
+                              "description": "Name of the config map or secret containing the file.",
                               "type": [
                                 "string",
                                 "null"
@@ -7044,7 +7158,7 @@
                               ]
                             },
                             "type": {
-                              "description": "Type for the file reference: \"configmap\" or \"secret\"",
+                              "description": "Type for the file reference: \"configmap\" or \"secret\".",
                               "type": [
                                 "string",
                                 "null"
@@ -7086,7 +7200,7 @@
               ]
             },
             "resources": {
-              "description": "`resources` are the compute resources required by this container.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "description": "`resources` are the compute resources required by this container.\nFor more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
               "type": [
                 "object",
                 "null"
@@ -7146,7 +7260,7 @@
               "additionalProperties": false
             },
             "subnetLabels": {
-              "description": "`SubnetLabels` allows to define custom labels on subnets and IPs or to enable automatic labelling of recognized subnets in OpenShift.\nWhen a subnet matches the source or destination IP of a flow, a corresponding field is added: `SrcSubnetLabel` or `DstSubnetLabel`.",
+              "description": "`subnetLabels` allows to define custom labels on subnets and IPs or to enable automatic labelling of recognized subnets in OpenShift, which is used to identify cluster external traffic.\nWhen a subnet matches the source or destination IP of a flow, a corresponding field is added: `SrcSubnetLabel` or `DstSubnetLabel`.",
               "type": [
                 "object",
                 "null"
@@ -7217,7 +7331,7 @@
               ],
               "properties": {
                 "enable": {
-                  "description": "Set `enable` to `true` to make the Console plugin querying flow metrics from Prometheus instead of Loki whenever possible.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.loki`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
+                  "description": "When `enable` is `true`, the Console plugin queries flow metrics from Prometheus instead of Loki whenever possible.\nIt is enbaled by default: set it to `false` to disable this feature.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.loki`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
                   "type": [
                     "boolean",
                     "null"
@@ -7252,7 +7366,7 @@
                           ],
                           "properties": {
                             "certFile": {
-                              "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                              "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                               "type": [
                                 "string",
                                 "null"
@@ -7266,7 +7380,7 @@
                               ]
                             },
                             "name": {
-                              "description": "Name of the config map or secret containing certificates",
+                              "description": "Name of the config map or secret containing certificates.",
                               "type": [
                                 "string",
                                 "null"
@@ -7280,7 +7394,7 @@
                               ]
                             },
                             "type": {
-                              "description": "Type for the certificate reference: `configmap` or `secret`",
+                              "description": "Type for the certificate reference: `configmap` or `secret`.",
                               "type": [
                                 "string",
                                 "null"
@@ -7315,7 +7429,7 @@
                           ],
                           "properties": {
                             "certFile": {
-                              "description": "`certFile` defines the path to the certificate file name within the config map or secret",
+                              "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
                               "type": [
                                 "string",
                                 "null"
@@ -7329,7 +7443,7 @@
                               ]
                             },
                             "name": {
-                              "description": "Name of the config map or secret containing certificates",
+                              "description": "Name of the config map or secret containing certificates.",
                               "type": [
                                 "string",
                                 "null"
@@ -7343,7 +7457,7 @@
                               ]
                             },
                             "type": {
-                              "description": "Type for the certificate reference: `configmap` or `secret`",
+                              "description": "Type for the certificate reference: `configmap` or `secret`.",
                               "type": [
                                 "string",
                                 "null"

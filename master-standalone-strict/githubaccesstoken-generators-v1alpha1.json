@@ -44,10 +44,10 @@
           "description": "Auth configures how ESO authenticates with a Github instance.",
           "type": "object",
           "required": [
-            "privatKey"
+            "privateKey"
           ],
           "properties": {
-            "privatKey": {
+            "privateKey": {
               "type": "object",
               "required": [
                 "secretRef"
