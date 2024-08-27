@@ -129,7 +129,109 @@
               "type": [
                 "object",
                 "null"
-              ]
+              ],
+              "properties": {
+                "apiServerInternalIPs": {
+                  "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API server that can be used by components inside the cluster, like kubelets using the infrastructure rather than Kubernetes networking. These are the IPs for a self-hosted load balancer in front of the API servers. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.apiServerInternalIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
+                "ingressIPs": {
+                  "description": "ingressIPs are the external IPs which route to the default ingress controller. The IPs are suitable targets of a wildcard DNS record used to resolve default route host names. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.ingressIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes. Each network is provided in the CIDR format and should be IPv4 or IPv6, for example \"10.0.0.0/8\" or \"fd00::/8\".",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
+                }
+              },
+              "x-kubernetes-validations": [
+                {
+                  "message": "apiServerInternalIPs list is required once set",
+                  "rule": "!has(oldSelf.apiServerInternalIPs) || has(self.apiServerInternalIPs)"
+                },
+                {
+                  "message": "ingressIPs list is required once set",
+                  "rule": "!has(oldSelf.ingressIPs) || has(self.ingressIPs)"
+                }
+              ],
+              "additionalProperties": false
             },
             "equinixMetal": {
               "description": "EquinixMetal contains settings specific to the Equinix Metal infrastructure provider.",
@@ -404,7 +506,109 @@
               "type": [
                 "object",
                 "null"
-              ]
+              ],
+              "properties": {
+                "apiServerInternalIPs": {
+                  "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API server that can be used by components inside the cluster, like kubelets using the infrastructure rather than Kubernetes networking. These are the IPs for a self-hosted load balancer in front of the API servers. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.apiServerInternalIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
+                "ingressIPs": {
+                  "description": "ingressIPs are the external IPs which route to the default ingress controller. The IPs are suitable targets of a wildcard DNS record used to resolve default route host names. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.ingressIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes. Each network is provided in the CIDR format and should be IPv4 or IPv6, for example \"10.0.0.0/8\" or \"fd00::/8\".",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
+                }
+              },
+              "x-kubernetes-validations": [
+                {
+                  "message": "apiServerInternalIPs list is required once set",
+                  "rule": "!has(oldSelf.apiServerInternalIPs) || has(self.apiServerInternalIPs)"
+                },
+                {
+                  "message": "ingressIPs list is required once set",
+                  "rule": "!has(oldSelf.ingressIPs) || has(self.ingressIPs)"
+                }
+              ],
+              "additionalProperties": false
             },
             "ovirt": {
               "description": "Ovirt contains settings specific to the oVirt infrastructure provider.",
@@ -492,6 +696,36 @@
                 "null"
               ],
               "properties": {
+                "apiServerInternalIPs": {
+                  "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API server that can be used by components inside the cluster, like kubelets using the infrastructure rather than Kubernetes networking. These are the IPs for a self-hosted load balancer in front of the API servers. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.apiServerInternalIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
                 "failureDomains": {
                   "description": "failureDomains contains the definition of region, zone and the vCenter topology. If this is omitted failure domains (regions and zones) will not be used.",
                   "type": [
@@ -587,6 +821,16 @@
                             ],
                             "maxLength": 2048,
                             "pattern": "^/.*?/host/.*?/Resources.*"
+                          },
+                          "template": {
+                            "description": "template is the full inventory path of the virtual machine or template that will be cloned when creating new machines in this failure domain. The maximum length of the path is 2048 characters. \n When omitted, the template will be calculated by the control plane machineset operator based on the region and zone defined in VSpherePlatformFailureDomainSpec. For example, for zone=zonea, region=region1, and infrastructure name=test, the template path would be calculated as /<datacenter>/vm/test-rhcos-region1-zonea.",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "maxLength": 2048,
+                            "minLength": 1,
+                            "pattern": "^/.*?/vm/.*?"
                           }
                         },
                         "additionalProperties": false
@@ -604,6 +848,65 @@
                     "name"
                   ],
                   "x-kubernetes-list-type": "map"
+                },
+                "ingressIPs": {
+                  "description": "ingressIPs are the external IPs which route to the default ingress controller. The IPs are suitable targets of a wildcard DNS record used to resolve default route host names. In dual stack clusters this list contains two IP addresses, one from IPv4 family and one from IPv6. In single stack clusters a single IP address is expected. When omitted, values from the status.ingressIPs will be used. Once set, the list cannot be completely removed (but its second entry can).",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 2,
+                  "items": {
+                    "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 39,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid IP address",
+                        "rule": "isIP(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true"
+                    }
+                  ]
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes. Each network is provided in the CIDR format and should be IPv4 or IPv6, for example \"10.0.0.0/8\" or \"fd00::/8\".",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
                 },
                 "nodeNetworking": {
                   "description": "nodeNetworking contains the definition of internal and external network constraints for assigning the node's networking. If this field is omitted, networking defaults to the legacy address selection behavior which is to only support a single address and return the first one found.",
@@ -761,6 +1064,16 @@
                   "x-kubernetes-list-type": "atomic"
                 }
               },
+              "x-kubernetes-validations": [
+                {
+                  "message": "apiServerInternalIPs list is required once set",
+                  "rule": "!has(oldSelf.apiServerInternalIPs) || has(self.apiServerInternalIPs)"
+                },
+                {
+                  "message": "ingressIPs list is required once set",
+                  "rule": "!has(oldSelf.ingressIPs) || has(self.ingressIPs)"
+                }
+              ],
               "additionalProperties": false
             }
           },
@@ -1146,7 +1459,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1169,7 +1488,69 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
+                },
+                "loadBalancer": {
+                  "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "type": {
+                      "description": "type defines the type of load balancer used by the cluster on BareMetal platform which can be a user-managed or openshift-managed load balancer that is to be used for the OpenShift API and Ingress endpoints. When set to OpenShiftManagedDefault the static pods in charge of API and Ingress traffic load-balancing defined in the machine config operator will be deployed. When set to UserManaged these static pods will not be deployed and it is expected that the load balancer is configured out of band by the deployer. When omitted, this means no opinion and the platform is left to choose a reasonable default. The default value is OpenShiftManagedDefault.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "OpenShiftManagedDefault",
+                        "UserManaged"
+                      ],
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "type is immutable once set",
+                          "rule": "oldSelf == '' || self == oldSelf"
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
                 },
                 "nodeDNSIP": {
                   "description": "nodeDNSIP is the IP address for the internal DNS used by the nodes. Unlike the one managed by the DNS operator, `NodeDNSIP` provides name resolution for the nodes themselves. There is no DNS-as-a-service for BareMetal deployments. In order to minimize necessary changes to the datacenter DNS, a DNS service is hosted as a static pod to serve those hostnames to the nodes in the cluster.",
@@ -1428,7 +1809,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "set",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1451,7 +1838,40 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "set",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
+                },
+                "loadBalancer": {
+                  "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "type": {
+                      "description": "type defines the type of load balancer used by the cluster on Nutanix platform which can be a user-managed or openshift-managed load balancer that is to be used for the OpenShift API and Ingress endpoints. When set to OpenShiftManagedDefault the static pods in charge of API and Ingress traffic load-balancing defined in the machine config operator will be deployed. When set to UserManaged these static pods will not be deployed and it is expected that the load balancer is configured out of band by the deployer. When omitted, this means no opinion and the platform is left to choose a reasonable default. The default value is OpenShiftManagedDefault.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "OpenShiftManagedDefault",
+                        "UserManaged"
+                      ],
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "type is immutable once set",
+                          "rule": "oldSelf == '' || self == oldSelf"
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
                 }
               },
               "additionalProperties": false
@@ -1484,7 +1904,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "cloudName": {
                   "description": "cloudName is the name of the desired OpenStack cloud in the client configuration file (`clouds.yaml`).",
@@ -1514,7 +1940,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "loadBalancer": {
                   "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
@@ -1542,6 +1974,35 @@
                     }
                   },
                   "additionalProperties": false
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
                 },
                 "nodeDNSIP": {
                   "description": "nodeDNSIP is the IP address for the internal DNS used by the nodes. Unlike the one managed by the DNS operator, `NodeDNSIP` provides name resolution for the nodes themselves. There is no DNS-as-a-service for OpenStack deployments. In order to minimize necessary changes to the datacenter DNS, a DNS service is hosted as a static pod to serve those hostnames to the nodes in the cluster.",
@@ -1581,7 +2042,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "set",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1604,7 +2071,40 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "set",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
+                },
+                "loadBalancer": {
+                  "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "type": {
+                      "description": "type defines the type of load balancer used by the cluster on Ovirt platform which can be a user-managed or openshift-managed load balancer that is to be used for the OpenShift API and Ingress endpoints. When set to OpenShiftManagedDefault the static pods in charge of API and Ingress traffic load-balancing defined in the machine config operator will be deployed. When set to UserManaged these static pods will not be deployed and it is expected that the load balancer is configured out of band by the deployer. When omitted, this means no opinion and the platform is left to choose a reasonable default. The default value is OpenShiftManagedDefault.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "OpenShiftManagedDefault",
+                        "UserManaged"
+                      ],
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "type is immutable once set",
+                          "rule": "oldSelf == '' || self == oldSelf"
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
                 },
                 "nodeDNSIP": {
                   "description": "deprecated: as of 4.6, this field is no longer set or honored.  It will be removed in a future release.",
@@ -1765,7 +2265,13 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "apiServerInternalIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
                 },
                 "ingressIP": {
                   "description": "ingressIP is an external IP which routes to the default ingress controller. The IP is a suitable target of a wildcard DNS record used to resolve default route host names. \n Deprecated: Use IngressIPs instead.",
@@ -1788,7 +2294,69 @@
                       "null"
                     ]
                   },
-                  "x-kubernetes-list-type": "set"
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "ingressIPs must contain at most one IPv4 address and at most one IPv6 address",
+                      "rule": "self == oldSelf || (size(self) == 2 && isIP(self[0]) && isIP(self[1]) ? ip(self[0]).family() != ip(self[1]).family() : true)"
+                    }
+                  ]
+                },
+                "loadBalancer": {
+                  "description": "loadBalancer defines how the load balancer used by the cluster is configured.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "type": {
+                      "description": "type defines the type of load balancer used by the cluster on VSphere platform which can be a user-managed or openshift-managed load balancer that is to be used for the OpenShift API and Ingress endpoints. When set to OpenShiftManagedDefault the static pods in charge of API and Ingress traffic load-balancing defined in the machine config operator will be deployed. When set to UserManaged these static pods will not be deployed and it is expected that the load balancer is configured out of band by the deployer. When omitted, this means no opinion and the platform is left to choose a reasonable default. The default value is OpenShiftManagedDefault.",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "OpenShiftManagedDefault",
+                        "UserManaged"
+                      ],
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "type is immutable once set",
+                          "rule": "oldSelf == '' || self == oldSelf"
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "machineNetworks": {
+                  "description": "machineNetworks are IP networks used to connect all the OpenShift cluster nodes.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "maxItems": 32,
+                  "items": {
+                    "description": "CIDR is an IP address range in CIDR notation (for example, \"10.0.0.0/8\" or \"fd00::/8\").",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 43,
+                    "minLength": 1,
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "value must be a valid CIDR network address",
+                        "rule": "isCIDR(self)"
+                      }
+                    ]
+                  },
+                  "x-kubernetes-list-type": "atomic",
+                  "x-kubernetes-validations": [
+                    {
+                      "rule": "self.all(x, self.exists_one(y, x == y))"
+                    }
+                  ]
                 },
                 "nodeDNSIP": {
                   "description": "nodeDNSIP is the IP address for the internal DNS used by the nodes. Unlike the one managed by the DNS operator, `NodeDNSIP` provides name resolution for the nodes themselves. There is no DNS-as-a-service for vSphere deployments. In order to minimize necessary changes to the datacenter DNS, a DNS service is hosted as a static pod to serve those hostnames to the nodes in the cluster.",

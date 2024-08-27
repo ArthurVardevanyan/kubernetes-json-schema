@@ -121,6 +121,7 @@
                         }
                       }
                     },
+                    "x-kubernetes-map-type": "atomic",
                     "additionalProperties": false
                   },
                   "name": {
@@ -658,6 +659,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -1237,6 +1244,12 @@
                                         ]
                                       }
                                     },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
                                     "namePrefix": {
                                       "type": [
                                         "string",
@@ -1703,6 +1716,7 @@
                         }
                       }
                     },
+                    "x-kubernetes-map-type": "atomic",
                     "additionalProperties": false
                   },
                   "template": {
@@ -2227,6 +2241,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -2805,6 +2825,12 @@
                                           "null"
                                         ]
                                       }
+                                    },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "namePrefix": {
                                       "type": [
@@ -3809,6 +3835,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -4387,6 +4419,12 @@
                                           "null"
                                         ]
                                       }
+                                    },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "namePrefix": {
                                       "type": [
@@ -5335,6 +5373,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -5914,6 +5958,12 @@
                                         ]
                                       }
                                     },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
                                     "namePrefix": {
                                       "type": [
                                         "string",
@@ -6391,6 +6441,7 @@
                                   }
                                 }
                               },
+                              "x-kubernetes-map-type": "atomic",
                               "additionalProperties": false
                             },
                             "name": {
@@ -6928,6 +6979,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -7507,6 +7564,12 @@
                                                   ]
                                                 }
                                               },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
+                                              },
                                               "namePrefix": {
                                                 "type": [
                                                   "string",
@@ -7973,6 +8036,7 @@
                                   }
                                 }
                               },
+                              "x-kubernetes-map-type": "atomic",
                               "additionalProperties": false
                             },
                             "template": {
@@ -8497,6 +8561,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -9075,6 +9145,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -10079,6 +10155,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -10657,6 +10739,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -11605,6 +11693,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -12183,6 +12277,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -13150,6 +13250,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -13728,6 +13834,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -14326,6 +14438,34 @@
                                     },
                                     "username": {
                                       "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                "bearerToken": {
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "tokenRef"
+                                  ],
+                                  "properties": {
+                                    "tokenRef": {
+                                      "type": "object",
+                                      "required": [
+                                        "key",
+                                        "secretName"
+                                      ],
+                                      "properties": {
+                                        "key": {
+                                          "type": "string"
+                                        },
+                                        "secretName": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -15069,6 +15209,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -15647,6 +15793,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -16237,6 +16389,34 @@
                                     },
                                     "username": {
                                       "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                "bearerToken": {
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "tokenRef"
+                                  ],
+                                  "properties": {
+                                    "tokenRef": {
+                                      "type": "object",
+                                      "required": [
+                                        "key",
+                                        "secretName"
+                                      ],
+                                      "properties": {
+                                        "key": {
+                                          "type": "string"
+                                        },
+                                        "secretName": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -17011,6 +17191,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -17590,6 +17776,12 @@
                                                   ]
                                                 }
                                               },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
+                                              },
                                               "namePrefix": {
                                                 "type": [
                                                   "string",
@@ -18050,6 +18242,7 @@
                               }
                             }
                           },
+                          "x-kubernetes-map-type": "atomic",
                           "additionalProperties": false
                         }
                       },
@@ -18578,6 +18771,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -19157,6 +19356,12 @@
                                         ]
                                       }
                                     },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
                                     "namePrefix": {
                                       "type": [
                                         "string",
@@ -19635,6 +19840,7 @@
                                   }
                                 }
                               },
+                              "x-kubernetes-map-type": "atomic",
                               "additionalProperties": false
                             },
                             "name": {
@@ -20172,6 +20378,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -20751,6 +20963,12 @@
                                                   ]
                                                 }
                                               },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
+                                              },
                                               "namePrefix": {
                                                 "type": [
                                                   "string",
@@ -21217,6 +21435,7 @@
                                   }
                                 }
                               },
+                              "x-kubernetes-map-type": "atomic",
                               "additionalProperties": false
                             },
                             "template": {
@@ -21741,6 +21960,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -22319,6 +22544,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -23323,6 +23554,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -23901,6 +24138,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -24849,6 +25092,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -25427,6 +25676,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -26394,6 +26649,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -26972,6 +27233,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -27570,6 +27837,34 @@
                                     },
                                     "username": {
                                       "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                "bearerToken": {
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "tokenRef"
+                                  ],
+                                  "properties": {
+                                    "tokenRef": {
+                                      "type": "object",
+                                      "required": [
+                                        "key",
+                                        "secretName"
+                                      ],
+                                      "properties": {
+                                        "key": {
+                                          "type": "string"
+                                        },
+                                        "secretName": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -28313,6 +28608,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -28891,6 +29192,12 @@
                                                     "null"
                                                   ]
                                                 }
+                                              },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
                                               },
                                               "namePrefix": {
                                                 "type": [
@@ -29481,6 +29788,34 @@
                                     },
                                     "username": {
                                       "type": "string"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                "bearerToken": {
+                                  "type": [
+                                    "object",
+                                    "null"
+                                  ],
+                                  "required": [
+                                    "tokenRef"
+                                  ],
+                                  "properties": {
+                                    "tokenRef": {
+                                      "type": "object",
+                                      "required": [
+                                        "key",
+                                        "secretName"
+                                      ],
+                                      "properties": {
+                                        "key": {
+                                          "type": "string"
+                                        },
+                                        "secretName": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -30255,6 +30590,12 @@
                                                 ]
                                               }
                                             },
+                                            "labelWithoutSelector": {
+                                              "type": [
+                                                "boolean",
+                                                "null"
+                                              ]
+                                            },
                                             "namePrefix": {
                                               "type": [
                                                 "string",
@@ -30834,6 +31175,12 @@
                                                   ]
                                                 }
                                               },
+                                              "labelWithoutSelector": {
+                                                "type": [
+                                                  "boolean",
+                                                  "null"
+                                                ]
+                                              },
                                               "namePrefix": {
                                                 "type": [
                                                   "string",
@@ -31294,6 +31641,7 @@
                               }
                             }
                           },
+                          "x-kubernetes-map-type": "atomic",
                           "additionalProperties": false
                         }
                       },
@@ -31831,6 +32179,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -32409,6 +32763,12 @@
                                           "null"
                                         ]
                                       }
+                                    },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "namePrefix": {
                                       "type": [
@@ -33370,6 +33730,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -33948,6 +34314,12 @@
                                           "null"
                                         ]
                                       }
+                                    },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "namePrefix": {
                                       "type": [
@@ -34546,6 +34918,34 @@
                           },
                           "username": {
                             "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "bearerToken": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "tokenRef"
+                        ],
+                        "properties": {
+                          "tokenRef": {
+                            "type": "object",
+                            "required": [
+                              "key",
+                              "secretName"
+                            ],
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "secretName": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
                           }
                         },
                         "additionalProperties": false
@@ -35289,6 +35689,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -35867,6 +36273,12 @@
                                           "null"
                                         ]
                                       }
+                                    },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "namePrefix": {
                                       "type": [
@@ -36457,6 +36869,34 @@
                           },
                           "username": {
                             "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "bearerToken": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "tokenRef"
+                        ],
+                        "properties": {
+                          "tokenRef": {
+                            "type": "object",
+                            "required": [
+                              "key",
+                              "secretName"
+                            ],
+                            "properties": {
+                              "key": {
+                                "type": "string"
+                              },
+                              "secretName": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
                           }
                         },
                         "additionalProperties": false
@@ -37231,6 +37671,12 @@
                                       ]
                                     }
                                   },
+                                  "labelWithoutSelector": {
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
+                                  },
                                   "namePrefix": {
                                     "type": [
                                       "string",
@@ -37810,6 +38256,12 @@
                                         ]
                                       }
                                     },
+                                    "labelWithoutSelector": {
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
                                     "namePrefix": {
                                       "type": [
                                         "string",
@@ -38270,6 +38722,7 @@
                     }
                   }
                 },
+                "x-kubernetes-map-type": "atomic",
                 "additionalProperties": false
               }
             },
@@ -38999,6 +39452,12 @@
                             ]
                           }
                         },
+                        "labelWithoutSelector": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
                         "namePrefix": {
                           "type": [
                             "string",
@@ -39578,6 +40037,12 @@
                               ]
                             }
                           },
+                          "labelWithoutSelector": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          },
                           "namePrefix": {
                             "type": [
                               "string",
@@ -39996,7 +40461,8 @@
               "application",
               "message",
               "status",
-              "step"
+              "step",
+              "targetRevisions"
             ],
             "properties": {
               "application": {
@@ -40017,6 +40483,15 @@
               },
               "step": {
                 "type": "string"
+              },
+              "targetRevisions": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
               }
             },
             "additionalProperties": false
@@ -40057,6 +40532,97 @@
               },
               "type": {
                 "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "resources": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "group": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "health": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "message": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "status": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hook": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "namespace": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "requiresPruning": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "syncWave": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             },
             "additionalProperties": false

@@ -35,6 +35,18 @@
         "null"
       ],
       "properties": {
+        "controlPlaneHardwareSpeed": {
+          "description": "HardwareSpeed allows user to change the etcd tuning profile which configures the latency parameters for heartbeat interval and leader election timeouts allowing the cluster to tolerate longer round-trip-times between etcd members. Valid values are \"\", \"Standard\" and \"Slower\". \"\" means no opinion and the platform is left to choose a reasonable default which is subject to change without notice.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "",
+            "Standard",
+            "Slower"
+          ]
+        },
         "failedRevisionLimit": {
           "description": "failedRevisionLimit is the number of failed static pod installer revisions to keep on disk and in the api -1 = unlimited, 0 or unset = 5 (default)",
           "type": [
@@ -123,6 +135,9 @@
               "object",
               "null"
             ],
+            "required": [
+              "type"
+            ],
             "properties": {
               "lastTransitionTime": {
                 "type": [
@@ -150,14 +165,15 @@
                 ]
               },
               "type": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "type"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "controlPlaneHardwareSpeed": {
           "description": "ControlPlaneHardwareSpeed declares valid hardware speed tolerance levels",
@@ -229,7 +245,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         },
         "latestAvailableRevision": {
           "description": "latestAvailableRevision is the deploymentID of the most recent deployment",
@@ -257,6 +274,9 @@
             "type": [
               "object",
               "null"
+            ],
+            "required": [
+              "nodeName"
             ],
             "properties": {
               "currentRevision": {
@@ -300,7 +320,8 @@
                     "string",
                     "null"
                   ]
-                }
+                },
+                "x-kubernetes-list-type": "atomic"
               },
               "lastFailedTime": {
                 "description": "lastFailedTime is the time the last failed revision failed the last time.",
@@ -319,10 +340,7 @@
               },
               "nodeName": {
                 "description": "nodeName is the name of the node",
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               },
               "targetRevision": {
                 "description": "targetRevision is the generation of the deployment we're trying to apply",
@@ -334,7 +352,11 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "nodeName"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "observedGeneration": {
           "description": "observedGeneration is the last generation change you've dealt with",

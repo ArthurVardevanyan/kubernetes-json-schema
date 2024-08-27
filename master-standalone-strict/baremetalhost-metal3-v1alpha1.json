@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "BareMetalHostSpec defines the desired state of BareMetalHost",
+      "description": "BareMetalHostSpec defines the desired state of BareMetalHost.",
       "type": [
         "object",
         "null"
@@ -262,7 +262,7 @@
               ]
             },
             "checksumType": {
-              "description": "ChecksumType is the checksum algorithm for the image. e.g md5, sha256, sha512",
+              "description": "ChecksumType is the checksum algorithm for the image, e.g md5, sha256 or sha512. The special value \"auto\" can be used to detect the algorithm from the checksum. If missing, MD5 is used. If in doubt, use \"auto\".",
               "type": [
                 "string",
                 "null"
@@ -270,7 +270,8 @@
               "enum": [
                 "md5",
                 "sha256",
-                "sha512"
+                "sha512",
+                "auto"
               ]
             },
             "format": {
@@ -526,7 +527,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "BareMetalHostStatus defines the observed state of BareMetalHost",
+      "description": "BareMetalHostStatus defines the observed state of BareMetalHost.",
       "type": [
         "object",
         "null"
@@ -778,7 +779,7 @@
                       "null"
                     ],
                     "items": {
-                      "description": "VLAN represents the name and ID of a VLAN",
+                      "description": "VLAN represents the name and ID of a VLAN.",
                       "type": [
                         "object",
                         "null"
@@ -1161,7 +1162,7 @@
                   ]
                 },
                 "checksumType": {
-                  "description": "ChecksumType is the checksum algorithm for the image. e.g md5, sha256, sha512",
+                  "description": "ChecksumType is the checksum algorithm for the image, e.g md5, sha256 or sha512. The special value \"auto\" can be used to detect the algorithm from the checksum. If missing, MD5 is used. If in doubt, use \"auto\".",
                   "type": [
                     "string",
                     "null"
@@ -1169,7 +1170,8 @@
                   "enum": [
                     "md5",
                     "sha256",
-                    "sha512"
+                    "sha512",
+                    "auto"
                   ]
                 },
                 "format": {

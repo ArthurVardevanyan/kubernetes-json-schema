@@ -11,16 +11,14 @@
       "type": [
         "string",
         "null"
-      ],
-      "default": ""
+      ]
     },
     "version": {
       "description": "version specifies the version in the form of \"version\". This is to save the clients the trouble of splitting the GroupVersion.",
       "type": [
         "string",
         "null"
-      ],
-      "default": ""
+      ]
     }
   },
   "additionalProperties": false,

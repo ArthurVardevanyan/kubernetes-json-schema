@@ -132,6 +132,9 @@
               "object",
               "null"
             ],
+            "required": [
+              "type"
+            ],
             "properties": {
               "lastTransitionTime": {
                 "type": [
@@ -159,14 +162,15 @@
                 ]
               },
               "type": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "type"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "generations": {
           "description": "generations are used to determine when an item needs to be reconciled or has changed in a way that needs a reaction.",
@@ -226,7 +230,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         },
         "latestAvailableRevision": {
           "description": "latestAvailableRevision is the deploymentID of the most recent deployment",
@@ -254,6 +259,9 @@
             "type": [
               "object",
               "null"
+            ],
+            "required": [
+              "nodeName"
             ],
             "properties": {
               "currentRevision": {
@@ -297,7 +305,8 @@
                     "string",
                     "null"
                   ]
-                }
+                },
+                "x-kubernetes-list-type": "atomic"
               },
               "lastFailedTime": {
                 "description": "lastFailedTime is the time the last failed revision failed the last time.",
@@ -316,10 +325,7 @@
               },
               "nodeName": {
                 "description": "nodeName is the name of the node",
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               },
               "targetRevision": {
                 "description": "targetRevision is the generation of the deployment we're trying to apply",
@@ -331,7 +337,11 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-map-keys": [
+            "nodeName"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "observedGeneration": {
           "description": "observedGeneration is the last generation change you've dealt with",

@@ -587,6 +587,7 @@
               "additionalProperties": false
             },
             "emulatedMachines": {
+              "description": "Deprecated. Use architectureConfiguration instead.",
               "type": [
                 "array",
                 "null"
@@ -1004,6 +1005,23 @@
                           "null"
                         ]
                       },
+                      "migration": {
+                        "description": "Migration means the VM using the plugin can be safely migrated version: 1alphav1",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "method": {
+                            "description": "Method defines a pre-defined migration methodology version: 1alphav1",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
                       "networkAttachmentDefinition": {
                         "description": "NetworkAttachmentDefinition references to a NetworkAttachmentDefinition CR object. Format: <name>, <namespace>/<name>. If namespace is not specified, VMI namespace is assumed. version: 1alphav1",
                         "type": [
@@ -1056,6 +1074,7 @@
               }
             },
             "ovmfPath": {
+              "description": "Deprecated. Use architectureConfiguration instead.",
               "type": [
                 "string",
                 "null"
@@ -1446,6 +1465,13 @@
                 }
               },
               "additionalProperties": false
+            },
+            "vmRolloutStrategy": {
+              "description": "VMRolloutStrategy defines how changes to a VM object propagate to its VMI",
+              "enum": [
+                "Stage",
+                "LiveUpdate"
+              ]
             },
             "vmStateStorageClass": {
               "description": "VMStateStorageClass is the name of the storage class to use for the PVCs created to preserve VM state, like TPM. The storage class must support RWX in filesystem mode.",

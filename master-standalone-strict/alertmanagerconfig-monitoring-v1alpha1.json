@@ -97,7 +97,7 @@
                       "minLength": 1
                     },
                     "regex": {
-                      "description": "Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.",
+                      "description": "Whether to match on equality (false) or regular-expression (true). Deprecated: for AlertManager >= v0.22.0, `matchType` should be used instead.",
                       "type": [
                         "boolean",
                         "null"
@@ -149,7 +149,7 @@
                       "minLength": 1
                     },
                     "regex": {
-                      "description": "Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.",
+                      "description": "Whether to match on equality (false) or regular-expression (true). Deprecated: for AlertManager >= v0.22.0, `matchType` should be used instead.",
                       "type": [
                         "boolean",
                         "null"
@@ -250,7 +250,7 @@
                           "string",
                           "null"
                         ],
-                        "pattern": "^((?i)january|february|march|april|may|june|july|august|september|october|november|december|[1-12])(?:((:((?i)january|february|march|april|may|june|july|august|september|october|november|december|[1-12]))$)|$)"
+                        "pattern": "^((?i)january|february|march|april|may|june|july|august|september|october|november|december|1[0-2]|[1-9])(?:((:((?i)january|february|march|april|may|june|july|august|september|october|november|december|1[0-2]|[1-9]))$)|$)"
                       }
                     },
                     "times": {
@@ -1873,6 +1873,13 @@
                       "description": "Whether to notify about resolved alerts.",
                       "type": [
                         "boolean",
+                        "null"
+                      ]
+                    },
+                    "summary": {
+                      "description": "Message summary template. It requires Alertmanager >= 0.27.0.",
+                      "type": [
+                        "string",
                         "null"
                       ]
                     },
@@ -8857,7 +8864,7 @@
                     "minLength": 1
                   },
                   "regex": {
-                    "description": "Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.",
+                    "description": "Whether to match on equality (false) or regular-expression (true). Deprecated: for AlertManager >= v0.22.0, `matchType` should be used instead.",
                     "type": [
                       "boolean",
                       "null"

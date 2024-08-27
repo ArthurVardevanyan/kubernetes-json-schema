@@ -1,5 +1,5 @@
 {
-  "description": "The `CheCluster` custom resource allows defining and managing Eclipse Che server installation.\nBased on these settings, the  Operator automatically creates and maintains several ConfigMaps:\n`che`, `plugin-registry`, `devfile-registry` that will contain the appropriate environment variables\nof the various components of the installation. These generated ConfigMaps must NOT be updated manually.",
+  "description": "The `CheCluster` custom resource allows defining and managing Eclipse Che server installation.\nBased on these settings, the  Operator automatically creates and maintains several ConfigMaps:\n`che`, `plugin-registry` that will contain the appropriate environment variables\nof the various components of the installation. These generated ConfigMaps must NOT be updated manually.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -817,7 +817,7 @@
               ],
               "properties": {
                 "deployment": {
-                  "description": "Deployment override options.",
+                  "description": "Deprecated deployment override options.",
                   "type": [
                     "object",
                     "null"
@@ -3874,6 +3874,19 @@
               },
               "additionalProperties": false
             },
+            "ignoredUnrecoverableEvents": {
+              "description": "IgnoredUnrecoverableEvents defines a list of Kubernetes event names that should\nbe ignored when deciding to fail a workspace that is starting. This option should be used\nif a transient cluster issue is triggering false-positives (for example, if\nthe cluster occasionally encounters FailedScheduling events). Events listed\nhere will not trigger workspace failures.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
             "imagePullPolicy": {
               "description": "ImagePullPolicy defines the imagePullPolicy used for containers in a DevWorkspace.",
               "type": [
@@ -3924,6 +3937,13 @@
                 "null"
               ],
               "properties": {
+                "disableInitContainer": {
+                  "description": "Determines whether the init container that initializes the persistent home directory should be disabled.\nWhen the `/home/user` directory is persisted, the init container is used to initialize the directory before\nthe workspace starts. If set to true, the init container will not be created.\nDisabling the init container allows home persistence to be initialized by the entrypoint present in the workspace's first container component.\nThis field is not used if the `devEnvironments.persistUserHome.enabled` field is set to false.\nThe init container is enabled by default.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
                 "enabled": {
                   "description": "Determines whether the user home directory in workspaces should persist between\nworkspace shutdown and startup.\nMust be used with the 'per-user' or 'per-workspace' PVC strategy in order to take effect.\nDisabled by default.",
                   "type": [
@@ -5582,7 +5602,7 @@
           ]
         },
         "devfileRegistryURL": {
-          "description": "The public URL of the internal devfile registry.",
+          "description": "Deprecated the public URL of the internal devfile registry.",
           "type": [
             "string",
             "null"

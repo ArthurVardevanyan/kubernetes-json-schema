@@ -405,7 +405,7 @@
               ],
               "maxItems": 15,
               "items": {
-                "description": "Upstream can either be of type SystemResolvConf, or of type Network. \n * For an Upstream of type SystemResolvConf, no further fields are necessary: The upstream will be configured to use /etc/resolv.conf. * For an Upstream of type Network, a NetworkResolver field needs to be defined with an IP address or IP:port if the upstream listens on a port other than 53.",
+                "description": "Upstream can either be of type SystemResolvConf, or of type Network. \n - For an Upstream of type SystemResolvConf, no further fields are necessary: The upstream will be configured to use /etc/resolv.conf. - For an Upstream of type Network, a NetworkResolver field needs to be defined with an IP address or IP:port if the upstream listens on a port other than 53.",
                 "type": [
                   "object",
                   "null"
@@ -481,6 +481,9 @@
               "object",
               "null"
             ],
+            "required": [
+              "type"
+            ],
             "properties": {
               "lastTransitionTime": {
                 "type": [
@@ -508,10 +511,7 @@
                 ]
               },
               "type": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": "string"
               }
             },
             "additionalProperties": false

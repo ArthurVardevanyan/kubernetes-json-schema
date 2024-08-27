@@ -132,6 +132,13 @@
           ],
           "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
           "x-kubernetes-int-or-string": true
+        },
+        "volumeGroupSnapshotName": {
+          "description": "VolumeGroupSnapshotName is the name of the VolumeGroupSnapshot of which this VolumeSnapshot is a part of.",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false

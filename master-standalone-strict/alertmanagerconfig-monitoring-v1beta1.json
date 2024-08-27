@@ -1676,6 +1676,13 @@
                         "null"
                       ]
                     },
+                    "summary": {
+                      "description": "Message summary template. It requires Alertmanager >= 0.27.0.",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "text": {
                       "description": "Message body template.",
                       "type": [
@@ -8620,7 +8627,7 @@
                           "string",
                           "null"
                         ],
-                        "pattern": "^((?i)january|february|march|april|may|june|july|august|september|october|november|december|[1-12])(?:((:((?i)january|february|march|april|may|june|july|august|september|october|november|december|[1-12]))$)|$)"
+                        "pattern": "^((?i)january|february|march|april|may|june|july|august|september|october|november|december|1[0-2]|[1-9])(?:((:((?i)january|february|march|april|may|june|july|august|september|october|november|december|1[0-2]|[1-9]))$)|$)"
                       }
                     },
                     "times": {

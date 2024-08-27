@@ -140,6 +140,44 @@
             }
           },
           "additionalProperties": false
+        },
+        "template": {
+          "description": "For a detailed description, please refer to https://kubevirt.io/user-guide/operations/clone_api/#label-annotation-filters.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "annotationFilters": {
+              "description": "Example use: \"!some/key*\". For a detailed description, please refer to https://kubevirt.io/user-guide/operations/clone_api/#label-annotation-filters.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-list-type": "atomic"
+            },
+            "labelFilters": {
+              "description": "Example use: \"!some/key*\". For a detailed description, please refer to https://kubevirt.io/user-guide/operations/clone_api/#label-annotation-filters.",
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "x-kubernetes-list-type": "atomic"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

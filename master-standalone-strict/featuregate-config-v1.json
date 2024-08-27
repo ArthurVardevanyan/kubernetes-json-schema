@@ -44,9 +44,35 @@
           "type": [
             "string",
             "null"
+          ],
+          "enum": [
+            "CustomNoUpgrade",
+            "DevPreviewNoUpgrade",
+            "TechPreviewNoUpgrade",
+            ""
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "CustomNoUpgrade may not be changed",
+              "rule": "oldSelf == 'CustomNoUpgrade' ? self == 'CustomNoUpgrade' : true"
+            },
+            {
+              "message": "TechPreviewNoUpgrade may not be changed",
+              "rule": "oldSelf == 'TechPreviewNoUpgrade' ? self == 'TechPreviewNoUpgrade' : true"
+            },
+            {
+              "message": "DevPreviewNoUpgrade may not be changed",
+              "rule": "oldSelf == 'DevPreviewNoUpgrade' ? self == 'DevPreviewNoUpgrade' : true"
+            }
           ]
         }
       },
+      "x-kubernetes-validations": [
+        {
+          "message": ".spec.featureSet cannot be removed",
+          "rule": "has(oldSelf.featureSet) ? has(self.featureSet) : true"
+        }
+      ],
       "additionalProperties": false
     },
     "status": {

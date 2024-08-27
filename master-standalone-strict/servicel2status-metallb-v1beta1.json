@@ -1,0 +1,119 @@
+{
+  "description": "ServiceL2Status reveals the actual traffic status of loadbalancer services in layer2 mode.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "metallb.io/v1beta1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ServiceL2Status"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "ServiceL2StatusSpec defines the desired state of ServiceL2Status.",
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "status": {
+      "description": "MetalLBServiceL2Status defines the observed state of ServiceL2Status.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "interfaces": {
+          "description": "Interfaces indicates the interfaces that receive the directed traffic",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "InterfaceInfo defines interface info of layer2 announcement.",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "name": {
+                "description": "Name the name of network interface card",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "node": {
+          "description": "Node indicates the node that receives the directed traffic",
+          "type": [
+            "string",
+            "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "Value is immutable",
+              "rule": "self == oldSelf"
+            }
+          ]
+        },
+        "serviceName": {
+          "description": "ServiceName indicates the service this status represents",
+          "type": [
+            "string",
+            "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "Value is immutable",
+              "rule": "self == oldSelf"
+            }
+          ]
+        },
+        "serviceNamespace": {
+          "description": "ServiceNamespace indicates the namespace of the service",
+          "type": [
+            "string",
+            "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "Value is immutable",
+              "rule": "self == oldSelf"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "metallb.io",
+      "kind": "ServiceL2Status",
+      "version": "v1beta1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

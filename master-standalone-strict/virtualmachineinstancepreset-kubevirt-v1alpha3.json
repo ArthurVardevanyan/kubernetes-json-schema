@@ -967,7 +967,7 @@
                         ]
                       },
                       "macvtap": {
-                        "description": "InterfaceMacvtap connects to a given network by extending the Kubernetes node's L2 networks via a macvtap interface.",
+                        "description": "Deprecated, please refer to Kubevirt user guide for alternatives.",
                         "type": [
                           "object",
                           "null"
@@ -992,7 +992,7 @@
                         "type": "string"
                       },
                       "passt": {
-                        "description": "InterfacePasst connects to a given network.",
+                        "description": "Deprecated, please refer to Kubevirt user guide for alternatives.",
                         "type": [
                           "object",
                           "null"
@@ -1570,6 +1570,23 @@
                 "null"
               ],
               "properties": {
+                "acpi": {
+                  "description": "Information that can be set in the ACPI table",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "slicNameRef": {
+                      "description": "SlicNameRef should match the volume name of a secret object. The data in the secret should be a binary blob that follows the ACPI SLIC standard, see: https://learn.microsoft.com/en-us/previous-versions/windows/hardware/design/dn653305(v=vs.85)",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "bootloader": {
                   "description": "Settings to control the bootloader that is used.",
                   "type": [

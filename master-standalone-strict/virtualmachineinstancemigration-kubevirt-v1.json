@@ -134,6 +134,13 @@
                 "null"
               ]
             },
+            "failureReason": {
+              "description": "Contains the reason why the migration failed",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "migrationConfiguration": {
               "description": "Migration configurations to apply",
               "type": [
@@ -253,6 +260,12 @@
             },
             "sourceNode": {
               "description": "The source node that the VMI originated on",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourcePod": {
               "type": [
                 "string",
                 "null"

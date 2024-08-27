@@ -1,5 +1,5 @@
 {
-  "description": "HardwareData is the Schema for the hardwaredata API",
+  "description": "HardwareData is the Schema for the hardwaredata API.",
   "type": "object",
   "properties": {
     "apiVersion": {
@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "HardwareDataSpec defines the desired state of HardwareData",
+      "description": "HardwareDataSpec defines the desired state of HardwareData.",
       "type": [
         "object",
         "null"
@@ -207,7 +207,7 @@
                       "null"
                     ],
                     "items": {
-                      "description": "VLAN represents the name and ID of a VLAN",
+                      "description": "VLAN represents the name and ID of a VLAN.",
                       "type": [
                         "object",
                         "null"

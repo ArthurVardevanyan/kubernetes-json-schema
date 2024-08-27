@@ -72,7 +72,9 @@
                   "DeploymentConfig",
                   "ImageRegistry",
                   "OperatorLifecycleManager",
-                  "CloudCredential"
+                  "CloudCredential",
+                  "Ingress",
+                  "CloudControllerManager"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -90,6 +92,7 @@
                 "v4.13",
                 "v4.14",
                 "v4.15",
+                "v4.16",
                 "vCurrent"
               ]
             }
@@ -269,7 +272,9 @@
                   "DeploymentConfig",
                   "ImageRegistry",
                   "OperatorLifecycleManager",
-                  "CloudCredential"
+                  "CloudCredential",
+                  "Ingress",
+                  "CloudControllerManager"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -300,7 +305,9 @@
                   "DeploymentConfig",
                   "ImageRegistry",
                   "OperatorLifecycleManager",
-                  "CloudCredential"
+                  "CloudCredential",
+                  "Ingress",
+                  "CloudControllerManager"
                 ]
               },
               "x-kubernetes-list-type": "atomic"
@@ -326,7 +333,7 @@
             ],
             "properties": {
               "conditions": {
-                "description": "conditions represents the observations of the conditional update's current status. Known types are: * Evaluating, for whether the cluster-version operator will attempt to evaluate any risks[].matchingRules. * Recommended, for whether the update is recommended for the current cluster.",
+                "description": "conditions represents the observations of the conditional update's current status. Known types are: * Recommended, for whether the update is recommended for the current cluster.",
                 "type": [
                   "array",
                   "null"

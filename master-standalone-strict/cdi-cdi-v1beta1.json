@@ -259,7 +259,7 @@
               ],
               "properties": {
                 "claims": {
-                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable.",
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
                   "type": [
                     "array",
                     "null"
@@ -298,7 +298,7 @@
                   }
                 },
                 "requests": {
-                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                  "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                   "type": [
                     "object",
                     "null"
@@ -370,6 +370,100 @@
           },
           "additionalProperties": false
         },
+        "customizeComponents": {
+          "description": "CustomizeComponents defines patches for components deployed by the CDI operator.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "flags": {
+              "description": "Configure the value used for deployment and daemonset resources",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "api": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "controller": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "uploadProxy": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "patches": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "description": "CustomizeComponentsPatch defines a patch for some resource.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "patch",
+                  "resourceName",
+                  "resourceType",
+                  "type"
+                ],
+                "properties": {
+                  "patch": {
+                    "type": "string"
+                  },
+                  "resourceName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "resourceType": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "type": {
+                    "description": "PatchType defines the patch type.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "x-kubernetes-list-type": "atomic"
+            }
+          },
+          "additionalProperties": false
+        },
         "imagePullPolicy": {
           "description": "PullPolicy describes a policy for if/when to pull a container image",
           "type": [
@@ -383,7 +477,7 @@
           ]
         },
         "infra": {
-          "description": "Rules on which nodes CDI infrastructure pods will be scheduled",
+          "description": "Selectors and tolerations that should apply to cdi infrastructure components",
           "type": [
             "object",
             "null"
@@ -1368,6 +1462,22 @@
               },
               "additionalProperties": false
             },
+            "apiServerReplicas": {
+              "description": "ApiserverReplicas set Replicas for cdi-apiserver",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
+            "deploymentReplicas": {
+              "description": "DeploymentReplicas set Replicas for cdi-deployment",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
+            },
             "nodeSelector": {
               "description": "nodeSelector is the node selector applied to the relevant kind of pods It specifies a map of key-value pairs: for the pod to be eligible to run on a node, the node must have each of the indicated key-value pairs as labels (it can have additional labels as well). See https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector",
               "type": [
@@ -1433,6 +1543,14 @@
                 },
                 "additionalProperties": false
               }
+            },
+            "uploadProxyReplicas": {
+              "description": "UploadproxyReplicas set Replicas for cdi-uploadproxy",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int32"
             }
           },
           "additionalProperties": false

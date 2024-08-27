@@ -878,6 +878,13 @@
           },
           "additionalProperties": false
         },
+        "defaultClusterScopedRoleDisabled": {
+          "description": "DefaultClusterScopedRoleDisabled will disable creation of default ClusterRoles for a cluster scoped instance.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "dex": {
           "description": "Deprecated field. Support dropped in v1beta1 version. Dex defines the Dex server options for ArgoCD.",
           "type": [
@@ -1535,6 +1542,13 @@
             "enabled"
           ],
           "properties": {
+            "disableMetrics": {
+              "description": "DisableMetrics field can be used to enable or disable the collection of Metrics on Openshift",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "enabled": {
               "description": "Enabled defines whether workload status monitoring is enabled for this instance or not",
               "type": "boolean"
@@ -8809,6 +8823,13 @@
                 "null"
               ],
               "properties": {
+                "host": {
+                  "description": "Host is the hostname to use for Ingress/Route resources.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "image": {
                   "description": "Image is the Keycloak container image.",
                   "type": [
