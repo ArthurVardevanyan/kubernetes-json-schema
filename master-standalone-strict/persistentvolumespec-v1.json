@@ -12,8 +12,15 @@
         "type": [
           "string",
           "null"
+        ],
+        "enum": [
+          "ReadOnlyMany",
+          "ReadWriteMany",
+          "ReadWriteOnce",
+          "ReadWriteOncePod"
         ]
-      }
+      },
+      "x-kubernetes-list-type": "atomic"
     },
     "awsElasticBlockStore": {
       "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
@@ -97,7 +104,8 @@
           "string",
           "null"
         ]
-      }
+      },
+      "x-kubernetes-list-type": "atomic"
     },
     "nfs": {
       "description": "nfs represents an NFS mount on the host. Provisioned by an admin. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs",

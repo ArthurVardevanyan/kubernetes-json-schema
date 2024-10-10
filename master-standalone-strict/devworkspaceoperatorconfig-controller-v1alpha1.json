@@ -104,7 +104,7 @@
           "additionalProperties": false
         },
         "webhook": {
-          "description": "Webhook defines configuration options for the DevWorkspace Webhook Server.",
+          "description": "Webhook defines configuration options for the DevWorkspace Webhook Server. Note: In order for changes made to the webhook configuration to take effect: \n - The changes must be made in the global DevWorkspaceOperatorConfig, which has the   name 'devworkspace-operator-config' and exists in the same namespace where the   DevWorkspaceOperator is deployed. \n - The devworkspace-controller-manager pod must be terminated and recreated for the   DevWorkspace Webhook Server deployment to be updated.",
           "type": [
             "object",
             "null"
@@ -3721,6 +3721,13 @@
               ],
               "maxLength": 63,
               "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+            },
+            "runtimeClassName": {
+              "description": "RuntimeClassName defines the spec.runtimeClassName for DevWorkspace pods created by the DevWorkspace Operator.",
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "schedulerName": {
               "description": "SchedulerName is the name of the pod scheduler for DevWorkspace pods. If not specified, the pod scheduler is set to the default scheduler on the cluster.",

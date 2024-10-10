@@ -60,6 +60,19 @@
                 "targetPort"
               ],
               "properties": {
+                "annotations": {
+                  "description": "Map of annotations to be added to the Kubernetes Ingress or OpenShift Route associated with the endpoint.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
                 "attributes": {
                   "description": "Map of implementation-dependant string-based free-form attributes. \n Examples of Che-specific attributes: \n - cookiesAuthEnabled: \"true\" / \"false\", \n - type: \"terminal\" / \"ide\" / \"ide-dev\",",
                   "x-kubernetes-preserve-unknown-fields": true

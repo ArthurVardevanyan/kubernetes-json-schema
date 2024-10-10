@@ -27,7 +27,7 @@
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
     },
     "spec": {
-      "description": "NotificationsConfigurationSpec allows users to define the triggers, templates, services, context and subscriptions for the notifications",
+      "description": "NotificationsConfigurationSpec allows users to define the triggers, templates, services, context and\nsubscriptions for the notifications",
       "type": [
         "object",
         "null"
@@ -86,7 +86,7 @@
           }
         },
         "triggers": {
-          "description": "Triggers define the condition when the notification should be sent and list of templates required to generate the message Recipients can subscribe to the trigger and specify the required message template and destination notification service.",
+          "description": "Triggers define the condition when the notification should be sent and list of templates required to generate the message\nRecipients can subscribe to the trigger and specify the required message template and destination notification service.",
           "type": [
             "object",
             "null"

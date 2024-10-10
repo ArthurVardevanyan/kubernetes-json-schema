@@ -32,6 +32,7 @@
           "null"
         ]
       },
+      "x-kubernetes-list-type": "set",
       "x-kubernetes-patch-strategy": "merge"
     },
     "providerID": {
@@ -49,7 +50,8 @@
       ],
       "items": {
         "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.Taint"
-      }
+      },
+      "x-kubernetes-list-type": "atomic"
     },
     "unschedulable": {
       "description": "Unschedulable controls node schedulability of new pods. By default, node is schedulable. More info: https://kubernetes.io/docs/concepts/nodes/node/#manual-node-administration",

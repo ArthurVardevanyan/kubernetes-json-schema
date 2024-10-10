@@ -309,7 +309,7 @@
           "additionalProperties": false
         },
         "networkType": {
-          "description": "NetworkType is the plugin that is to be deployed (e.g. OpenShiftSDN). This should match a value that the cluster-network-operator understands, or else no networking will be installed. Currently supported values are: - OpenShiftSDN This field is immutable after installation.",
+          "description": "NetworkType is the plugin that is to be deployed (e.g. OVNKubernetes). This should match a value that the cluster-network-operator understands, or else no networking will be installed. Currently supported values are: - OVNKubernetes This field is immutable after installation.",
           "type": [
             "string",
             "null"
@@ -395,7 +395,7 @@
           ]
         },
         "conditions": {
-          "description": "conditions represents the observations of a network.config current state. Known .status.conditions.type are: \"NetworkTypeMigrationInProgress\", \"NetworkTypeMigrationMTUReady\", \"NetworkTypeMigrationTargetCNIAvailable\", \"NetworkTypeMigrationTargetCNIInUse\", \"NetworkTypeMigrationOriginalCNIPurged\" and \"NetworkDiagnosticsAvailable\"",
+          "description": "conditions represents the observations of a network.config current state. Known .status.conditions.type are: \"NetworkDiagnosticsAvailable\"",
           "type": [
             "array",
             "null"
@@ -471,7 +471,7 @@
           ],
           "properties": {
             "mtu": {
-              "description": "MTU contains the MTU migration configuration.",
+              "description": "MTU is the MTU configuration that is being deployed.",
               "type": [
                 "object",
                 "null"
@@ -537,21 +537,17 @@
               "additionalProperties": false
             },
             "networkType": {
-              "description": "NetworkType is the target plugin that is to be deployed. Currently supported values are: OpenShiftSDN, OVNKubernetes",
+              "description": "NetworkType is the target plugin that is being deployed. DEPRECATED: network type migration is no longer supported, so this should always be unset.",
               "type": [
                 "string",
                 "null"
-              ],
-              "enum": [
-                "OpenShiftSDN",
-                "OVNKubernetes"
               ]
             }
           },
           "additionalProperties": false
         },
         "networkType": {
-          "description": "NetworkType is the plugin that is deployed (e.g. OpenShiftSDN).",
+          "description": "NetworkType is the plugin that is deployed (e.g. OVNKubernetes).",
           "type": [
             "string",
             "null"

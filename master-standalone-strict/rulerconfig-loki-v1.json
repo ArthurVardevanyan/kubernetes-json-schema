@@ -126,6 +126,13 @@
                         "null"
                       ]
                     },
+                    "insecureSkipVerify": {
+                      "description": "Skip validating server certificate.",
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
                     "keyPath": {
                       "description": "The client-side key file path for the TLS configuration.",
                       "type": [
@@ -454,6 +461,13 @@
                             "description": "The client-side certificate file path for the TLS configuration.",
                             "type": [
                               "string",
+                              "null"
+                            ]
+                          },
+                          "insecureSkipVerify": {
+                            "description": "Skip validating server certificate.",
+                            "type": [
+                              "boolean",
                               "null"
                             ]
                           },

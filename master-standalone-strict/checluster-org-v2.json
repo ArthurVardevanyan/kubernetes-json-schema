@@ -327,6 +327,19 @@
                         "additionalProperties": false
                       }
                     },
+                    "nodeSelector": {
+                      "description": "The node selector limits the nodes that can run the pod.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
                     "securityContext": {
                       "description": "Security options the pod should run with.",
                       "type": [
@@ -352,6 +365,59 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "tolerations": {
+                      "description": "The pod tolerations of the component pod limit where the pod can run.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "effect": {
+                            "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "key": {
+                            "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "operator": {
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "tolerationSeconds": {
+                            "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int64"
+                          },
+                          "value": {
+                            "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "additionalProperties": false
@@ -720,6 +786,19 @@
                         "additionalProperties": false
                       }
                     },
+                    "nodeSelector": {
+                      "description": "The node selector limits the nodes that can run the pod.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
                     "securityContext": {
                       "description": "Security options the pod should run with.",
                       "type": [
@@ -745,6 +824,59 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "tolerations": {
+                      "description": "The pod tolerations of the component pod limit where the pod can run.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "effect": {
+                            "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "key": {
+                            "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "operator": {
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "tolerationSeconds": {
+                            "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int64"
+                          },
+                          "value": {
+                            "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "additionalProperties": false
@@ -1076,6 +1208,19 @@
                         "additionalProperties": false
                       }
                     },
+                    "nodeSelector": {
+                      "description": "The node selector limits the nodes that can run the pod.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
                     "securityContext": {
                       "description": "Security options the pod should run with.",
                       "type": [
@@ -1101,6 +1246,59 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "tolerations": {
+                      "description": "The pod tolerations of the component pod limit where the pod can run.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "effect": {
+                            "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "key": {
+                            "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "operator": {
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "tolerationSeconds": {
+                            "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int64"
+                          },
+                          "value": {
+                            "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "additionalProperties": false
@@ -1528,6 +1726,19 @@
                         "additionalProperties": false
                       }
                     },
+                    "nodeSelector": {
+                      "description": "The node selector limits the nodes that can run the pod.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
                     "securityContext": {
                       "description": "Security options the pod should run with.",
                       "type": [
@@ -1553,6 +1764,59 @@
                         }
                       },
                       "additionalProperties": false
+                    },
+                    "tolerations": {
+                      "description": "The pod tolerations of the component pod limit where the pod can run.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "effect": {
+                            "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "key": {
+                            "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "operator": {
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "tolerationSeconds": {
+                            "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "format": "int64"
+                          },
+                          "value": {
+                            "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     }
                   },
                   "additionalProperties": false
@@ -1632,6 +1896,29 @@
             "null"
           ],
           "properties": {
+            "allowedSources": {
+              "description": "AllowedSources defines the allowed sources on which workspaces can be started.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "urls": {
+                  "description": "The list of approved URLs for starting Cloud Development Environments (CDEs). CDEs can only be\ninitiated from these URLs. Wildcards `*` are supported in URLs, allowing flexible matching for\nspecific URL patterns. For instance, `https://example.com/*` would allow CDEs to be initiated\nfrom any path within 'example.com'.",
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
             "containerBuildConfiguration": {
               "description": "Container build configuration.",
               "type": [
@@ -3899,6 +4186,15 @@
                 "Never"
               ]
             },
+            "maxNumberOfRunningWorkspacesPerCluster": {
+              "description": "The maximum number of concurrently running workspaces across the entire Kubernetes cluster.\nThis applies to all users in the system. If the value is set to -1, it means there is\nno limit on the number of running workspaces.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "int64",
+              "minimum": -1
+            },
             "maxNumberOfRunningWorkspacesPerUser": {
               "description": "The maximum number of running workspaces per user.\nThe value, -1, allows users to run an unlimited number of workspaces.",
               "type": [
@@ -4206,6 +4502,13 @@
                 }
               },
               "additionalProperties": false
+            },
+            "runtimeClassName": {
+              "description": "RuntimeClassName specifies the spec.runtimeClassName for workspace pods.",
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "secondsOfInactivityBeforeIdling": {
               "description": "Idle timeout for workspaces in seconds.\nThis timeout is the duration after which a workspace will be idled if there is no activity.\nTo disable workspace idling due to inactivity, set this value to -1.",
@@ -5373,6 +5676,19 @@
                             "additionalProperties": false
                           }
                         },
+                        "nodeSelector": {
+                          "description": "The node selector limits the nodes that can run the pod.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "additionalProperties": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
                         "securityContext": {
                           "description": "Security options the pod should run with.",
                           "type": [
@@ -5398,6 +5714,59 @@
                             }
                           },
                           "additionalProperties": false
+                        },
+                        "tolerations": {
+                          "description": "The pod tolerations of the component pod limit where the pod can run.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "effect": {
+                                "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "key": {
+                                "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "operator": {
+                                "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "tolerationSeconds": {
+                                "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "format": "int64"
+                              },
+                              "value": {
+                                "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
                         }
                       },
                       "additionalProperties": false

@@ -1,0 +1,166 @@
+{
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "externaldns.k8s.io/v1alpha1"
+      ]
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "DNSEndpoint"
+      ]
+    },
+    "metadata": {
+      "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+      "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+    },
+    "spec": {
+      "description": "DNSEndpointSpec defines the desired state of DNSEndpoint",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "endpoints": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "description": "Endpoint is a high-level way of a connection between a service and an IP",
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "dnsName": {
+                "description": "The hostname of the DNS record",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "labels": {
+                "description": "Labels stores labels defined for the Endpoint",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "providerSpecific": {
+                "description": "ProviderSpecific stores provider specific config",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "description": "ProviderSpecificProperty holds the name and value of a configuration which is specific to individual DNS providers",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "recordTTL": {
+                "description": "TTL for the record",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "int64"
+              },
+              "recordType": {
+                "description": "RecordType type of record, e.g. CNAME, A, AAAA, SRV, TXT etc",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "setIdentifier": {
+                "description": "Identifier to distinguish multiple records with the same name and type (e.g. Route53 records with routing policies other than 'simple')",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "targets": {
+                "description": "The targets the DNS record points to",
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "description": "DNSEndpointStatus defines the observed state of DNSEndpoint",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "observedGeneration": {
+          "description": "The generation observed by the external-dns controller.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-kubernetes-group-version-kind": [
+    {
+      "group": "externaldns.k8s.io",
+      "kind": "DNSEndpoint",
+      "version": "v1alpha1"
+    }
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/schema#"
+}

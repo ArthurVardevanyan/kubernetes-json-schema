@@ -190,6 +190,191 @@
                   },
                   "additionalProperties": false
                 },
+                "otlp": {
+                  "description": "OTLP to configure which resource, scope and log attributes\nto store as labels or structured metadata or drop them altogether\nfor all tenants.",
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "indexedResourceAttributes": {
+                      "description": "IndexedResourceAttributes contains the global configuration for resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "logAttributes": {
+                      "description": "LogAttributes contains the configuration for log attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "OTLPAttributesSpec contains the configuration for a set of attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "action"
+                        ],
+                        "properties": {
+                          "action": {
+                            "description": "Action defines the indexing action for the selected attributes. They\ncan be either added to structured metadata or drop altogether.",
+                            "type": "string",
+                            "enum": [
+                              "structured_metadata",
+                              "drop"
+                            ]
+                          },
+                          "attributes": {
+                            "description": "Attributes allows choosing the attributes by listing their names.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "regex": {
+                            "description": "Regex allows choosing the attributes by matching a regular expression.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "resourceAttributes": {
+                      "description": "ResourceAttributes contains the configuration for resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "attributes": {
+                          "description": "Attributes contains the configuration for resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "description": "OTLPResourceAttributesConfigSpec contains the configuration for a set of resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "action": {
+                                "description": "Action defines the indexing action for the selected resoure attributes. They\ncan be either indexed as labels, added to structured metadata or drop altogether.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "enum": [
+                                  "index_label",
+                                  "structured_metadata",
+                                  "drop"
+                                ]
+                              },
+                              "attributes": {
+                                "description": "Attributes is the list of attributes to configure indexing or drop them\naltogether.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "regex": {
+                                "description": "Regex allows choosing the attributes by matching a regular expression.",
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "ignoreDefaults": {
+                          "description": "IgnoreDefaults controls whether to ignore the global configuration for resource attributes\nindexed as labels.\n\n\nIf IgnoreDefaults is true, then this spec needs to contain at least one mapping to a index label.",
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "scopeAttributes": {
+                      "description": "ScopeAttributes contains the configuration for scope attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "description": "OTLPAttributesSpec contains the configuration for a set of attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "required": [
+                          "action"
+                        ],
+                        "properties": {
+                          "action": {
+                            "description": "Action defines the indexing action for the selected attributes. They\ncan be either added to structured metadata or drop altogether.",
+                            "type": "string",
+                            "enum": [
+                              "structured_metadata",
+                              "drop"
+                            ]
+                          },
+                          "attributes": {
+                            "description": "Attributes allows choosing the attributes by listing their names.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "regex": {
+                            "description": "Regex allows choosing the attributes by matching a regular expression.",
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                },
                 "queries": {
                   "description": "QueryLimits defines the limit applied on querying log streams.",
                   "type": [
@@ -223,6 +408,14 @@
                     },
                     "maxQuerySeries": {
                       "description": "MaxQuerySeries defines the maximum of unique series\nthat is returned by a metric query.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "format": "int32"
+                    },
+                    "maxVolumeSeries": {
+                      "description": "MaxVolumeSeries defines the maximum number of aggregated series in a log-volume response",
                       "type": [
                         "integer",
                         "null"
@@ -401,6 +594,178 @@
                     },
                     "additionalProperties": false
                   },
+                  "otlp": {
+                    "description": "OTLP to configure which resource, scope and log attributes\nto store as labels or structured metadata or drop them altogether\nfor a single tenants.",
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "logAttributes": {
+                        "description": "LogAttributes contains the configuration for log attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "OTLPAttributesSpec contains the configuration for a set of attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "action"
+                          ],
+                          "properties": {
+                            "action": {
+                              "description": "Action defines the indexing action for the selected attributes. They\ncan be either added to structured metadata or drop altogether.",
+                              "type": "string",
+                              "enum": [
+                                "structured_metadata",
+                                "drop"
+                              ]
+                            },
+                            "attributes": {
+                              "description": "Attributes allows choosing the attributes by listing their names.",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "regex": {
+                              "description": "Regex allows choosing the attributes by matching a regular expression.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "resourceAttributes": {
+                        "description": "ResourceAttributes contains the configuration for resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "attributes": {
+                            "description": "Attributes contains the configuration for resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "description": "OTLPResourceAttributesConfigSpec contains the configuration for a set of resource attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "action": {
+                                  "description": "Action defines the indexing action for the selected resoure attributes. They\ncan be either indexed as labels, added to structured metadata or drop altogether.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "enum": [
+                                    "index_label",
+                                    "structured_metadata",
+                                    "drop"
+                                  ]
+                                },
+                                "attributes": {
+                                  "description": "Attributes is the list of attributes to configure indexing or drop them\naltogether.",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                },
+                                "regex": {
+                                  "description": "Regex allows choosing the attributes by matching a regular expression.",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "ignoreDefaults": {
+                            "description": "IgnoreDefaults controls whether to ignore the global configuration for resource attributes\nindexed as labels.\n\n\nIf IgnoreDefaults is true, then this spec needs to contain at least one mapping to a index label.",
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "scopeAttributes": {
+                        "description": "ScopeAttributes contains the configuration for scope attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "description": "OTLPAttributesSpec contains the configuration for a set of attributes\nto store them as index labels or structured metadata or drop them altogether.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "action"
+                          ],
+                          "properties": {
+                            "action": {
+                              "description": "Action defines the indexing action for the selected attributes. They\ncan be either added to structured metadata or drop altogether.",
+                              "type": "string",
+                              "enum": [
+                                "structured_metadata",
+                                "drop"
+                              ]
+                            },
+                            "attributes": {
+                              "description": "Attributes allows choosing the attributes by listing their names.",
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "regex": {
+                              "description": "Regex allows choosing the attributes by matching a regular expression.",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
                   "queries": {
                     "description": "QueryLimits defines the limit applied on querying log streams.",
                     "type": [
@@ -493,6 +858,14 @@
                       },
                       "maxQuerySeries": {
                         "description": "MaxQuerySeries defines the maximum of unique series\nthat is returned by a metric query.",
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "format": "int32"
+                      },
+                      "maxVolumeSeries": {
+                        "description": "MaxVolumeSeries defines the maximum number of aggregated series in a log-volume response",
                         "type": [
                           "integer",
                           "null"
@@ -845,7 +1218,7 @@
               ],
               "minItems": 1,
               "items": {
-                "description": "ObjectStorageSchema defines the requirements needed to configure a new\nstorage schema.",
+                "description": "ObjectStorageSchema defines a schema version and the date when it will become effective.",
                 "type": [
                   "object",
                   "null"
@@ -856,7 +1229,7 @@
                 ],
                 "properties": {
                   "effectiveDate": {
-                    "description": "EffectiveDate is the date in UTC that the schema will be applied on.\nTo ensure readibility of logs, this date should be before the current\ndate in UTC.",
+                    "description": "EffectiveDate contains a date in YYYY-MM-DD format which is interpreted in the UTC time zone.\n\n\nThe configuration always needs at least one schema that is currently valid. This means that when creating a new\nLokiStack it is recommended to add a schema with the latest available version and an effective date of \"yesterday\".\nNew schema versions added to the configuration always needs to be placed \"in the future\", so that Loki can start\nusing it once the day rolls over.",
                     "type": "string",
                     "pattern": "^([0-9]{4,})([-]([0-9]{2})){2}$"
                   },
@@ -5132,7 +5505,7 @@
                 "null"
               ],
               "items": {
-                "description": "ObjectStorageSchema defines the requirements needed to configure a new\nstorage schema.",
+                "description": "ObjectStorageSchema defines a schema version and the date when it will become effective.",
                 "type": [
                   "object",
                   "null"
@@ -5143,7 +5516,7 @@
                 ],
                 "properties": {
                   "effectiveDate": {
-                    "description": "EffectiveDate is the date in UTC that the schema will be applied on.\nTo ensure readibility of logs, this date should be before the current\ndate in UTC.",
+                    "description": "EffectiveDate contains a date in YYYY-MM-DD format which is interpreted in the UTC time zone.\n\n\nThe configuration always needs at least one schema that is currently valid. This means that when creating a new\nLokiStack it is recommended to add a schema with the latest available version and an effective date of \"yesterday\".\nNew schema versions added to the configuration always needs to be placed \"in the future\", so that Loki can start\nusing it once the day rolls over.",
                     "type": "string",
                     "pattern": "^([0-9]{4,})([-]([0-9]{2})){2}$"
                   },

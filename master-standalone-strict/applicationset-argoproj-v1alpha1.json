@@ -14442,34 +14442,6 @@
                                   },
                                   "additionalProperties": false
                                 },
-                                "bearerToken": {
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "required": [
-                                    "tokenRef"
-                                  ],
-                                  "properties": {
-                                    "tokenRef": {
-                                      "type": "object",
-                                      "required": [
-                                        "key",
-                                        "secretName"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "type": "string"
-                                        },
-                                        "secretName": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
                                 "project": {
                                   "type": "string"
                                 },
@@ -16389,34 +16361,6 @@
                                     },
                                     "username": {
                                       "type": "string"
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
-                                "bearerToken": {
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "required": [
-                                    "tokenRef"
-                                  ],
-                                  "properties": {
-                                    "tokenRef": {
-                                      "type": "object",
-                                      "required": [
-                                        "key",
-                                        "secretName"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "type": "string"
-                                        },
-                                        "secretName": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -27841,34 +27785,6 @@
                                   },
                                   "additionalProperties": false
                                 },
-                                "bearerToken": {
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "required": [
-                                    "tokenRef"
-                                  ],
-                                  "properties": {
-                                    "tokenRef": {
-                                      "type": "object",
-                                      "required": [
-                                        "key",
-                                        "secretName"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "type": "string"
-                                        },
-                                        "secretName": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
                                 "project": {
                                   "type": "string"
                                 },
@@ -29788,34 +29704,6 @@
                                     },
                                     "username": {
                                       "type": "string"
-                                    }
-                                  },
-                                  "additionalProperties": false
-                                },
-                                "bearerToken": {
-                                  "type": [
-                                    "object",
-                                    "null"
-                                  ],
-                                  "required": [
-                                    "tokenRef"
-                                  ],
-                                  "properties": {
-                                    "tokenRef": {
-                                      "type": "object",
-                                      "required": [
-                                        "key",
-                                        "secretName"
-                                      ],
-                                      "properties": {
-                                        "key": {
-                                          "type": "string"
-                                        },
-                                        "secretName": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "additionalProperties": false
                                     }
                                   },
                                   "additionalProperties": false
@@ -34922,34 +34810,6 @@
                         },
                         "additionalProperties": false
                       },
-                      "bearerToken": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
-                        "required": [
-                          "tokenRef"
-                        ],
-                        "properties": {
-                          "tokenRef": {
-                            "type": "object",
-                            "required": [
-                              "key",
-                              "secretName"
-                            ],
-                            "properties": {
-                              "key": {
-                                "type": "string"
-                              },
-                              "secretName": {
-                                "type": "string"
-                              }
-                            },
-                            "additionalProperties": false
-                          }
-                        },
-                        "additionalProperties": false
-                      },
                       "project": {
                         "type": "string"
                       },
@@ -36869,34 +36729,6 @@
                           },
                           "username": {
                             "type": "string"
-                          }
-                        },
-                        "additionalProperties": false
-                      },
-                      "bearerToken": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
-                        "required": [
-                          "tokenRef"
-                        ],
-                        "properties": {
-                          "tokenRef": {
-                            "type": "object",
-                            "required": [
-                              "key",
-                              "secretName"
-                            ],
-                            "properties": {
-                              "key": {
-                                "type": "string"
-                              },
-                              "secretName": {
-                                "type": "string"
-                              }
-                            },
-                            "additionalProperties": false
                           }
                         },
                         "additionalProperties": false
