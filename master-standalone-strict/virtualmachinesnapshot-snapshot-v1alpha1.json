@@ -40,21 +40,21 @@
       ],
       "properties": {
         "deletionPolicy": {
-          "description": "DeletionPolicy defines that to do with VirtualMachineSnapshot when VirtualMachineSnapshot is deleted",
+          "description": "DeletionPolicy defines that to do with VirtualMachineSnapshot\nwhen VirtualMachineSnapshot is deleted",
           "type": [
             "string",
             "null"
           ]
         },
         "failureDeadline": {
-          "description": "This time represents the number of seconds we permit the vm snapshot to take. In case we pass this deadline we mark this snapshot as failed. Defaults to DefaultFailureDeadline - 5min",
+          "description": "This time represents the number of seconds we permit the vm snapshot\nto take. In case we pass this deadline we mark this snapshot\nas failed.\nDefaults to DefaultFailureDeadline - 5min",
           "type": [
             "string",
             "null"
           ]
         },
         "source": {
-          "description": "TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace.",
+          "description": "TypedLocalObjectReference contains enough information to let you locate the\ntyped referenced object inside the same namespace.",
           "type": "object",
           "required": [
             "kind",
@@ -62,7 +62,7 @@
           ],
           "properties": {
             "apiGroup": {
-              "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+              "description": "APIGroup is the group for the resource being referenced.\nIf APIGroup is not specified, the specified Kind must be in the core API group.\nFor any other third-party types, APIGroup is required.",
               "type": [
                 "string",
                 "null"
@@ -77,6 +77,7 @@
               "type": "string"
             }
           },
+          "x-kubernetes-map-type": "atomic",
           "additionalProperties": false
         }
       },
@@ -132,7 +133,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         },
         "creationTime": {
           "format": "date-time"
@@ -224,7 +226,7 @@
           "additionalProperties": false
         },
         "sourceUID": {
-          "description": "UID is a type that holds unique ID values, including UUIDs.  Because we don't ONLY use UUIDs, this is an alias to string.  Being a type captures intent and helps make sure that UIDs and names do not get conflated.",
+          "description": "UID is a type that holds unique ID values, including UUIDs.  Because we\ndon't ONLY use UUIDs, this is an alias to string.  Being a type captures\nintent and helps make sure that UIDs and names do not get conflated.",
           "type": [
             "string",
             "null"
@@ -247,6 +249,7 @@
       "version": "v1alpha1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

@@ -64,22 +64,31 @@
           ],
           "properties": {
             "key": {
-              "description": "The key the value inside of the provider type to use, only used with \"Secret\" type",
+              "description": "The key where the CA certificate can be found in the Secret or ConfigMap.",
               "type": [
                 "string",
                 "null"
-              ]
+              ],
+              "maxLength": 253,
+              "minLength": 1,
+              "pattern": "^[-._a-zA-Z0-9]+$"
             },
             "name": {
               "description": "The name of the object located at the provider type.",
-              "type": "string"
+              "type": "string",
+              "maxLength": 253,
+              "minLength": 1,
+              "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
             },
             "namespace": {
               "description": "The namespace the Provider type is in.",
               "type": [
                 "string",
                 "null"
-              ]
+              ],
+              "maxLength": 63,
+              "minLength": 1,
+              "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
             },
             "type": {
               "description": "The type of provider to use such as \"Secret\", or \"ConfigMap\".",
@@ -155,14 +164,20 @@
                     "type": [
                       "string",
                       "null"
-                    ]
+                    ],
+                    "maxLength": 253,
+                    "minLength": 1,
+                    "pattern": "^[-._a-zA-Z0-9]+$"
                   },
                   "name": {
                     "description": "The name of the Secret resource being referred to.",
                     "type": [
                       "string",
                       "null"
-                    ]
+                    ],
+                    "maxLength": 253,
+                    "minLength": 1,
+                    "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                   }
                 },
                 "additionalProperties": false
@@ -193,6 +208,7 @@
       "version": "v1alpha1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

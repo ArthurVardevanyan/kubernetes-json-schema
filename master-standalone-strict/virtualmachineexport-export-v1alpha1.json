@@ -40,7 +40,7 @@
       ],
       "properties": {
         "source": {
-          "description": "TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace.",
+          "description": "TypedLocalObjectReference contains enough information to let you locate the\ntyped referenced object inside the same namespace.",
           "type": "object",
           "required": [
             "kind",
@@ -48,7 +48,7 @@
           ],
           "properties": {
             "apiGroup": {
-              "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+              "description": "APIGroup is the group for the resource being referenced.\nIf APIGroup is not specified, the specified Kind must be in the core API group.\nFor any other third-party types, APIGroup is required.",
               "type": [
                 "string",
                 "null"
@@ -63,6 +63,7 @@
               "type": "string"
             }
           },
+          "x-kubernetes-map-type": "atomic",
           "additionalProperties": false
         },
         "tokenSecretRef": {
@@ -73,7 +74,7 @@
           ]
         },
         "ttlDuration": {
-          "description": "ttlDuration limits the lifetime of an export If this field is set, after this duration has passed from counting from CreationTimestamp, the export is eligible to be automatically deleted. If this field is omitted, a reasonable default is applied.",
+          "description": "ttlDuration limits the lifetime of an export\nIf this field is set, after this duration has passed from counting from CreationTimestamp,\nthe export is eligible to be automatically deleted.\nIf this field is omitted, a reasonable default is applied.",
           "type": [
             "string",
             "null"
@@ -373,7 +374,7 @@
           ]
         },
         "serviceName": {
-          "description": "ServiceName is the name of the service created associated with the Virtual Machine export. It will be used to create the internal URLs for downloading the images",
+          "description": "ServiceName is the name of the service created associated with the Virtual Machine export. It will be used to\ncreate the internal URLs for downloading the images",
           "type": [
             "string",
             "null"
@@ -387,7 +388,7 @@
           ]
         },
         "ttlExpirationTime": {
-          "description": "The time at which the VM Export will be completely removed according to specified TTL Formula is CreationTimestamp + TTL",
+          "description": "The time at which the VM Export will be completely removed according to specified TTL\nFormula is CreationTimestamp + TTL",
           "type": [
             "string",
             "null"
@@ -395,7 +396,7 @@
           "format": "date-time"
         },
         "virtualMachineName": {
-          "description": "VirtualMachineName shows the name of the source virtual machine if the source is either a VirtualMachine or a VirtualMachineSnapshot. This is mainly to easily identify the source VirtualMachine in case of a VirtualMachineSnapshot",
+          "description": "VirtualMachineName shows the name of the source virtual machine if the source is either a VirtualMachine or\na VirtualMachineSnapshot. This is mainly to easily identify the source VirtualMachine in case of a\nVirtualMachineSnapshot",
           "type": [
             "string",
             "null"
@@ -412,6 +413,7 @@
       "version": "v1alpha1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

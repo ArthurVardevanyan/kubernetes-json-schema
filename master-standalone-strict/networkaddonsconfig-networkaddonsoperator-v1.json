@@ -88,6 +88,13 @@
           },
           "additionalProperties": false
         },
+        "kubevirtIpamController": {
+          "description": "KubevirtIpamController plugin allows to support IPAM for secondary networks",
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "linuxBridge": {
           "description": "LinuxBridge plugin allows users to create a bridge and add the host and the container to it",
           "type": [
@@ -1864,6 +1871,7 @@
       "version": "v1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

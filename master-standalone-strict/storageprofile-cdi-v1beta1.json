@@ -55,7 +55,7 @@
             ],
             "properties": {
               "accessModes": {
-                "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                "description": "AccessModes contains the desired access modes the volume should have.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                 "type": "array",
                 "maxItems": 4,
                 "items": {
@@ -72,7 +72,7 @@
                 ]
               },
               "volumeMode": {
-                "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                "description": "VolumeMode defines what type of volume is required by the claim.\nValue of Filesystem is implied when not included in claim spec.",
                 "type": "string",
                 "enum": [
                   "Block",
@@ -133,7 +133,7 @@
             ],
             "properties": {
               "accessModes": {
-                "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                "description": "AccessModes contains the desired access modes the volume should have.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                 "type": "array",
                 "maxItems": 4,
                 "items": {
@@ -150,7 +150,7 @@
                 ]
               },
               "volumeMode": {
-                "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                "description": "VolumeMode defines what type of volume is required by the claim.\nValue of Filesystem is implied when not included in claim spec.",
                 "type": "string",
                 "enum": [
                   "Block",
@@ -207,6 +207,7 @@
       "version": "v1beta1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

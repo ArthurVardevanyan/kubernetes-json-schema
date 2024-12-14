@@ -1,5 +1,5 @@
 {
-  "description": "ConsolePlugin is an extension for customizing OpenShift web console by dynamically loading code from another service running on the cluster. \n Compatibility level 1: Stable within a major release for a minimum of 12 months or 3 minor releases (whichever is longer).",
+  "description": "ConsolePlugin is an extension for customizing OpenShift web console by\ndynamically loading code from another service running on the cluster.\n\nCompatibility level 1: Stable within a major release for a minimum of 12 months or 3 minor releases (whichever is longer).",
   "type": "object",
   "required": [
     "metadata",
@@ -49,7 +49,7 @@
           ],
           "properties": {
             "service": {
-              "description": "service is a Kubernetes Service that exposes the plugin using a deployment with an HTTP server. The Service must use HTTPS and Service serving certificate. The console backend will proxy the plugins assets from the Service using the service CA bundle.",
+              "description": "service is a Kubernetes Service that exposes the plugin using a\ndeployment with an HTTP server. The Service must use HTTPS and\nService serving certificate. The console backend will proxy the\nplugins assets from the Service using the service CA bundle.",
               "type": [
                 "object",
                 "null"
@@ -61,7 +61,7 @@
               ],
               "properties": {
                 "basePath": {
-                  "description": "basePath is the path to the plugin's assets. The primary asset it the manifest file called `plugin-manifest.json`, which is a JSON document that contains metadata about the plugin and the extensions.",
+                  "description": "basePath is the path to the plugin's assets. The primary asset it the\nmanifest file called `plugin-manifest.json`, which is a JSON document\nthat contains metadata about the plugin and the extensions.",
                   "type": [
                     "string",
                     "null"
@@ -93,7 +93,7 @@
               "additionalProperties": false
             },
             "type": {
-              "description": "type is the backend type which servers the console's plugin. Currently only \"Service\" is supported. \n ---",
+              "description": "type is the backend type which servers the console's plugin. Currently only \"Service\" is supported.\n",
               "type": "string",
               "enum": [
                 "Service"
@@ -103,7 +103,7 @@
           "additionalProperties": false
         },
         "displayName": {
-          "description": "displayName is the display name of the plugin. The dispalyName should be between 1 and 128 characters.",
+          "description": "displayName is the display name of the plugin.\nThe dispalyName should be between 1 and 128 characters.",
           "type": "string",
           "maxLength": 128,
           "minLength": 1
@@ -119,7 +119,7 @@
           ],
           "properties": {
             "loadType": {
-              "description": "loadType indicates how the plugin's localization resource should be loaded. Valid values are Preload, Lazy and the empty string. When set to Preload, all localization resources are fetched when the plugin is loaded. When set to Lazy, localization resources are lazily loaded as and when they are required by the console. When omitted or set to the empty string, the behaviour is equivalent to Lazy type.",
+              "description": "loadType indicates how the plugin's localization resource should be loaded.\nValid values are Preload, Lazy and the empty string.\nWhen set to Preload, all localization resources are fetched when the plugin is loaded.\nWhen set to Lazy, localization resources are lazily loaded as and when they are required by the console.\nWhen omitted or set to the empty string, the behaviour is equivalent to Lazy type.",
               "type": "string",
               "enum": [
                 "Preload",
@@ -131,13 +131,13 @@
           "additionalProperties": false
         },
         "proxy": {
-          "description": "proxy is a list of proxies that describe various service type to which the plugin needs to connect to.",
+          "description": "proxy is a list of proxies that describe various service type\nto which the plugin needs to connect to.",
           "type": [
             "array",
             "null"
           ],
           "items": {
-            "description": "ConsolePluginProxy holds information on various service types to which console's backend will proxy the plugin's requests.",
+            "description": "ConsolePluginProxy holds information on various service types\nto which console's backend will proxy the plugin's requests.",
             "type": [
               "object",
               "null"
@@ -148,14 +148,14 @@
             ],
             "properties": {
               "alias": {
-                "description": "alias is a proxy name that identifies the plugin's proxy. An alias name should be unique per plugin. The console backend exposes following proxy endpoint: \n /api/proxy/plugin/<plugin-name>/<proxy-alias>/<request-path>?<optional-query-parameters> \n Request example path: \n /api/proxy/plugin/acm/search/pods?namespace=openshift-apiserver",
+                "description": "alias is a proxy name that identifies the plugin's proxy. An alias name\nshould be unique per plugin. The console backend exposes following\nproxy endpoint:\n\n/api/proxy/plugin/<plugin-name>/<proxy-alias>/<request-path>?<optional-query-parameters>\n\nRequest example path:\n\n/api/proxy/plugin/acm/search/pods?namespace=openshift-apiserver",
                 "type": "string",
                 "maxLength": 128,
                 "minLength": 1,
                 "pattern": "^[A-Za-z0-9-_]+$"
               },
               "authorization": {
-                "description": "authorization provides information about authorization type, which the proxied request should contain",
+                "description": "authorization provides information about authorization type,\nwhich the proxied request should contain",
                 "type": [
                   "string",
                   "null"
@@ -166,7 +166,7 @@
                 ]
               },
               "caCertificate": {
-                "description": "caCertificate provides the cert authority certificate contents, in case the proxied Service is using custom service CA. By default, the service CA bundle provided by the service-ca operator is used.",
+                "description": "caCertificate provides the cert authority certificate contents,\nin case the proxied Service is using custom service CA.\nBy default, the service CA bundle provided by the service-ca operator is used.",
                 "type": [
                   "string",
                   "null"
@@ -181,7 +181,7 @@
                 ],
                 "properties": {
                   "service": {
-                    "description": "service is an in-cluster Service that the plugin will connect to. The Service must use HTTPS. The console backend exposes an endpoint in order to proxy communication between the plugin and the Service. Note: service field is required for now, since currently only \"Service\" type is supported.",
+                    "description": "service is an in-cluster Service that the plugin will connect to.\nThe Service must use HTTPS. The console backend exposes an endpoint\nin order to proxy communication between the plugin and the Service.\nNote: service field is required for now, since currently only \"Service\"\ntype is supported.",
                     "type": [
                       "object",
                       "null"
@@ -205,7 +205,7 @@
                         "minLength": 1
                       },
                       "port": {
-                        "description": "port on which the Service that the plugin needs to connect to is listening on.",
+                        "description": "port on which the Service that the plugin needs to connect to\nis listening on.",
                         "type": "integer",
                         "format": "int32",
                         "maximum": 65535,
@@ -215,7 +215,7 @@
                     "additionalProperties": false
                   },
                   "type": {
-                    "description": "type is the type of the console plugin's proxy. Currently only \"Service\" is supported. \n ---",
+                    "description": "type is the type of the console plugin's proxy. Currently only \"Service\" is supported.\n",
                     "type": "string",
                     "enum": [
                       "Service"
@@ -226,7 +226,8 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "x-kubernetes-list-type": "atomic"
         }
       },
       "additionalProperties": false
@@ -239,6 +240,7 @@
       "version": "v1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

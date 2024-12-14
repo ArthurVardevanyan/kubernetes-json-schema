@@ -1574,31 +1574,7 @@
                             },
                             "additionalProperties": false
                           },
-                          "tls": {
-                            "type": [
-                              "object",
-                              "null"
-                            ],
-                            "properties": {
-                              "credentialName": {
-                                "description": "TLS certificate name.",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "string"
-                              },
-                              "mode": {
-                                "description": "TLS mode can be SIMPLE, MUTUAL, ISTIO_MUTUAL.",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "string"
-                              }
-                            },
-                            "additionalProperties": false
-                          }
+                          "tls": {}
                         },
                         "additionalProperties": false
                       }
@@ -1691,31 +1667,7 @@
                             },
                             "additionalProperties": false
                           },
-                          "tls": {
-                            "type": [
-                              "object",
-                              "null"
-                            ],
-                            "properties": {
-                              "credentialName": {
-                                "description": "TLS certificate name.",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "string"
-                              },
-                              "mode": {
-                                "description": "TLS mode can be SIMPLE, MUTUAL, ISTIO_MUTUAL.",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "format": "string"
-                              }
-                            },
-                            "additionalProperties": false
-                          }
+                          "tls": {}
                         },
                         "additionalProperties": false
                       }
@@ -1797,6 +1749,42 @@
             },
             "additionalProperties": false
           }
+        },
+        "namespace": {
+          "description": "A field of namespace name to override the labels and annotations",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "annotations": {
+              "description": "Annotations overrides labels for the namespace and its template.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "labels": {
+              "description": "Labels overrides labels for the namespace and its template.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
         },
         "podDisruptionBudgets": {
           "description": "A mapping of podDisruptionBudget name to override",
@@ -3476,6 +3464,7 @@
       "version": "v1beta1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

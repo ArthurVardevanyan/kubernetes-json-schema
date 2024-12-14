@@ -37,6 +37,7 @@
         "certificates.k8s.io/v1alpha1",
         "certificates.k8s.io/v1beta1",
         "coordination.k8s.io/v1",
+        "coordination.k8s.io/v1alpha1",
         "coordination.k8s.io/v1beta1",
         "discovery.k8s.io/v1",
         "discovery.k8s.io/v1beta1",
@@ -55,19 +56,21 @@
         "node.k8s.io/v1",
         "node.k8s.io/v1alpha1",
         "node.k8s.io/v1beta1",
+        "oauth.openshift.io/v1",
         "policy/v1",
         "policy/v1beta1",
         "rbac.authorization.k8s.io/v1",
         "rbac.authorization.k8s.io/v1alpha1",
         "rbac.authorization.k8s.io/v1beta1",
-        "resource.k8s.io/v1alpha2",
+        "resource.k8s.io/v1alpha3",
         "scheduling.k8s.io/v1",
         "scheduling.k8s.io/v1alpha1",
         "scheduling.k8s.io/v1beta1",
         "storage.k8s.io/v1",
         "storage.k8s.io/v1alpha1",
         "storage.k8s.io/v1beta1",
-        "storagemigration.k8s.io/v1alpha1"
+        "storagemigration.k8s.io/v1alpha1",
+        "user.openshift.io/v1"
       ]
     },
     "dryRun": {
@@ -265,6 +268,11 @@
     {
       "group": "coordination.k8s.io",
       "kind": "DeleteOptions",
+      "version": "v1alpha1"
+    },
+    {
+      "group": "coordination.k8s.io",
+      "kind": "DeleteOptions",
       "version": "v1beta1"
     },
     {
@@ -353,6 +361,11 @@
       "version": "v1beta1"
     },
     {
+      "group": "oauth.openshift.io",
+      "kind": "DeleteOptions",
+      "version": "v1"
+    },
+    {
       "group": "policy",
       "kind": "DeleteOptions",
       "version": "v1"
@@ -380,7 +393,7 @@
     {
       "group": "resource.k8s.io",
       "kind": "DeleteOptions",
-      "version": "v1alpha2"
+      "version": "v1alpha3"
     },
     {
       "group": "scheduling.k8s.io",
@@ -416,6 +429,11 @@
       "group": "storagemigration.k8s.io",
       "kind": "DeleteOptions",
       "version": "v1alpha1"
+    },
+    {
+      "group": "user.openshift.io",
+      "kind": "DeleteOptions",
+      "version": "v1"
     }
   ],
   "additionalProperties": false,

@@ -1,5 +1,5 @@
 {
-  "description": "PrometheusRule defines recording and alerting rules for a Prometheus instance",
+  "description": "The `PrometheusRule` custom resource definition (CRD) defines [alerting](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/) and [recording](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/) rules to be evaluated by `Prometheus` or `ThanosRuler` objects.\n\n`Prometheus` and `ThanosRuler` objects select `PrometheusRule` objects using label and namespace selectors.",
   "type": "object",
   "required": [
     "spec"
@@ -12,7 +12,7 @@
         "null"
       ],
       "enum": [
-        "monitoring.coreos.com/v1"
+        "monitoring.rhobs/v1"
       ]
     },
     "kind": {
@@ -175,11 +175,12 @@
   },
   "x-kubernetes-group-version-kind": [
     {
-      "group": "monitoring.coreos.com",
+      "group": "monitoring.rhobs",
       "kind": "PrometheusRule",
       "version": "v1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

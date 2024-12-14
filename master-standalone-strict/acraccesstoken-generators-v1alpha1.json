@@ -79,25 +79,34 @@
                       ],
                       "properties": {
                         "key": {
-                          "description": "The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be\ndefaulted, in others it may be required.",
+                          "description": "A key in the referenced Secret.\nSome instances of this field may be defaulted, in others it may be required.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 253,
+                          "minLength": 1,
+                          "pattern": "^[-._a-zA-Z0-9]+$"
                         },
                         "name": {
                           "description": "The name of the Secret resource being referred to.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 253,
+                          "minLength": 1,
+                          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                         },
                         "namespace": {
-                          "description": "Namespace of the resource being referred to. Ignored if referent is not cluster-scoped. cluster-scoped defaults\nto the namespace of the referent.",
+                          "description": "The namespace of the Secret resource being referred to.\nIgnored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 63,
+                          "minLength": 1,
+                          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
                         }
                       },
                       "additionalProperties": false
@@ -110,25 +119,34 @@
                       ],
                       "properties": {
                         "key": {
-                          "description": "The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be\ndefaulted, in others it may be required.",
+                          "description": "A key in the referenced Secret.\nSome instances of this field may be defaulted, in others it may be required.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 253,
+                          "minLength": 1,
+                          "pattern": "^[-._a-zA-Z0-9]+$"
                         },
                         "name": {
                           "description": "The name of the Secret resource being referred to.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 253,
+                          "minLength": 1,
+                          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                         },
                         "namespace": {
-                          "description": "Namespace of the resource being referred to. Ignored if referent is not cluster-scoped. cluster-scoped defaults\nto the namespace of the referent.",
+                          "description": "The namespace of the Secret resource being referred to.\nIgnored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent.",
                           "type": [
                             "string",
                             "null"
-                          ]
+                          ],
+                          "maxLength": 63,
+                          "minLength": 1,
+                          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
                         }
                       },
                       "additionalProperties": false
@@ -171,14 +189,20 @@
                     },
                     "name": {
                       "description": "The name of the ServiceAccount resource being referred to.",
-                      "type": "string"
+                      "type": "string",
+                      "maxLength": 253,
+                      "minLength": 1,
+                      "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
                     },
                     "namespace": {
-                      "description": "Namespace of the resource being referred to. Ignored if referent is not cluster-scoped. cluster-scoped defaults\nto the namespace of the referent.",
+                      "description": "Namespace of the resource being referred to.\nIgnored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent.",
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "maxLength": 63,
+                      "minLength": 1,
+                      "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
                     }
                   },
                   "additionalProperties": false
@@ -231,6 +255,7 @@
       "version": "v1alpha1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }

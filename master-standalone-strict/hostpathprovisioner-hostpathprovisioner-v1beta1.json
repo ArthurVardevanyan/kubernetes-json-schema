@@ -111,7 +111,7 @@
                 ],
                 "properties": {
                   "accessModes": {
-                    "description": "accessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                    "description": "accessModes contains the desired access modes the volume should have.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                     "type": [
                       "array",
                       "null"
@@ -121,10 +121,11 @@
                         "string",
                         "null"
                       ]
-                    }
+                    },
+                    "x-kubernetes-list-type": "atomic"
                   },
                   "dataSource": {
-                    "description": "dataSource field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified. If the namespace is specified, then dataSourceRef will not be copied to dataSource.",
+                    "description": "dataSource field can be used to specify either:\n* An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot)\n* An existing PVC (PersistentVolumeClaim)\nIf the provisioner or an external controller can support the specified data source,\nit will create a new volume based on the contents of the specified data source.\nWhen the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,\nand dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.\nIf the namespace is specified, then dataSourceRef will not be copied to dataSource.",
                     "type": [
                       "object",
                       "null"
@@ -135,7 +136,7 @@
                     ],
                     "properties": {
                       "apiGroup": {
-                        "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+                        "description": "APIGroup is the group for the resource being referenced.\nIf APIGroup is not specified, the specified Kind must be in the core API group.\nFor any other third-party types, APIGroup is required.",
                         "type": [
                           "string",
                           "null"
@@ -154,7 +155,7 @@
                     "additionalProperties": false
                   },
                   "dataSourceRef": {
-                    "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the dataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, when namespace isn't specified in dataSourceRef, both fields (dataSource and dataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. When namespace is specified in dataSourceRef, dataSource isn't set to the same value and must be empty. There are three important differences between dataSource and dataSourceRef: * While dataSource only allows two specific types of objects, dataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While dataSource ignores disallowed values (dropping them), dataSourceRef preserves all values, and generates an error if a disallowed value is specified. * While dataSource only allows local objects, dataSourceRef allows objects in any namespaces. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
+                    "description": "dataSourceRef specifies the object from which to populate the volume with data, if a non-empty\nvolume is desired. This may be any object from a non-empty API group (non\ncore object) or a PersistentVolumeClaim object.\nWhen this field is specified, volume binding will only succeed if the type of\nthe specified object matches some installed volume populator or dynamic\nprovisioner.\nThis field will replace the functionality of the dataSource field and as such\nif both fields are non-empty, they must have the same value. For backwards\ncompatibility, when namespace isn't specified in dataSourceRef,\nboth fields (dataSource and dataSourceRef) will be set to the same\nvalue automatically if one of them is empty and the other is non-empty.\nWhen namespace is specified in dataSourceRef,\ndataSource isn't set to the same value and must be empty.\nThere are three important differences between dataSource and dataSourceRef:\n* While dataSource only allows two specific types of objects, dataSourceRef\n  allows any non-core object, as well as PersistentVolumeClaim objects.\n* While dataSource ignores disallowed values (dropping them), dataSourceRef\n  preserves all values, and generates an error if a disallowed value is\n  specified.\n* While dataSource only allows local objects, dataSourceRef allows objects\n  in any namespaces.\n(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.\n(Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
                     "type": [
                       "object",
                       "null"
@@ -165,7 +166,7 @@
                     ],
                     "properties": {
                       "apiGroup": {
-                        "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+                        "description": "APIGroup is the group for the resource being referenced.\nIf APIGroup is not specified, the specified Kind must be in the core API group.\nFor any other third-party types, APIGroup is required.",
                         "type": [
                           "string",
                           "null"
@@ -180,7 +181,7 @@
                         "type": "string"
                       },
                       "namespace": {
-                        "description": "Namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
+                        "description": "Namespace is the namespace of resource being referenced\nNote that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details.\n(Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled.",
                         "type": [
                           "string",
                           "null"
@@ -190,42 +191,14 @@
                     "additionalProperties": false
                   },
                   "resources": {
-                    "description": "resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                    "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                     "type": [
                       "object",
                       "null"
                     ],
                     "properties": {
-                      "claims": {
-                        "description": "Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. \n This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. \n This field is immutable. It can only be set for containers.",
-                        "type": [
-                          "array",
-                          "null"
-                        ],
-                        "items": {
-                          "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
-                          "type": [
-                            "object",
-                            "null"
-                          ],
-                          "required": [
-                            "name"
-                          ],
-                          "properties": {
-                            "name": {
-                              "description": "Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.",
-                              "type": "string"
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        "x-kubernetes-list-map-keys": [
-                          "name"
-                        ],
-                        "x-kubernetes-list-type": "map"
-                      },
                       "limits": {
-                        "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                        "description": "Limits describes the maximum amount of compute resources allowed.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                         "type": [
                           "object",
                           "null"
@@ -236,7 +209,7 @@
                         }
                       },
                       "requests": {
-                        "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+                        "description": "Requests describes the minimum amount of compute resources required.\nIf Requests is omitted for a container, it defaults to Limits if that is explicitly specified,\notherwise to an implementation-defined value. Requests cannot exceed Limits.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                         "type": [
                           "object",
                           "null"
@@ -263,7 +236,7 @@
                           "null"
                         ],
                         "items": {
-                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                          "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                           "type": [
                             "object",
                             "null"
@@ -278,11 +251,11 @@
                               "type": "string"
                             },
                             "operator": {
-                              "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                              "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                               "type": "string"
                             },
                             "values": {
-                              "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                              "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                               "type": [
                                 "array",
                                 "null"
@@ -292,14 +265,16 @@
                                   "string",
                                   "null"
                                 ]
-                              }
+                              },
+                              "x-kubernetes-list-type": "atomic"
                             }
                           },
                           "additionalProperties": false
-                        }
+                        },
+                        "x-kubernetes-list-type": "atomic"
                       },
                       "matchLabels": {
-                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                        "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                         "type": [
                           "object",
                           "null"
@@ -316,14 +291,21 @@
                     "additionalProperties": false
                   },
                   "storageClassName": {
-                    "description": "storageClassName is the name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+                    "description": "storageClassName is the name of the StorageClass required by the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1",
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "volumeAttributesClassName": {
+                    "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string value means that no VolumeAttributesClass\nwill be applied to the claim but it's not allowed to reset this field to empty string once it is set.\nIf unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass\nwill be set by the persistentvolume controller if it exists.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/\n(Alpha) Using this field requires the VolumeAttributesClass feature gate to be enabled.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "volumeMode": {
-                    "description": "volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.",
+                    "description": "volumeMode defines what type of volume is required by the claim.\nValue of Filesystem is implied when not included in claim spec.",
                     "type": [
                       "string",
                       "null"
@@ -352,7 +334,7 @@
           ],
           "properties": {
             "affinity": {
-              "description": "affinity enables pod affinity/anti-affinity placement expanding the types of constraints that can be expressed with nodeSelector. affinity is going to be applied to the relevant kind of pods in parallel with nodeSelector See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity",
+              "description": "affinity enables pod affinity/anti-affinity placement expanding the types of constraints\nthat can be expressed with nodeSelector.\naffinity is going to be applied to the relevant kind of pods in parallel with nodeSelector\nSee https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity",
               "type": [
                 "object",
                 "null"
@@ -366,13 +348,13 @@
                   ],
                   "properties": {
                     "preferredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.",
+                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node matches the corresponding matchExpressions; the\nnode(s) with the highest sum are the most preferred.",
                       "type": [
                         "array",
                         "null"
                       ],
                       "items": {
-                        "description": "An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).",
+                        "description": "An empty preferred scheduling term matches all objects with implicit weight 0\n(i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).",
                         "type": [
                           "object",
                           "null"
@@ -393,7 +375,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator\nthat relates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -408,11 +390,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                      "description": "Represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                      "description": "An array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. If the operator is Gt or Lt, the values\narray must have a single element, which will be interpreted as an integer.\nThis array is replaced during a strategic merge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -422,11 +404,13 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchFields": {
                                 "description": "A list of node selector requirements by node's fields.",
@@ -435,7 +419,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator\nthat relates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -450,11 +434,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                      "description": "Represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                      "description": "An array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. If the operator is Gt or Lt, the values\narray must have a single element, which will be interpreted as an integer.\nThis array is replaced during a strategic merge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -464,11 +448,13 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               }
                             },
                             "x-kubernetes-map-type": "atomic",
@@ -481,10 +467,11 @@
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "x-kubernetes-list-type": "atomic"
                     },
                     "requiredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.",
+                      "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to an update), the system\nmay or may not try to eventually evict the pod from its node.",
                       "type": [
                         "object",
                         "null"
@@ -497,7 +484,7 @@
                           "description": "Required. A list of node selector terms. The terms are ORed.",
                           "type": "array",
                           "items": {
-                            "description": "A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.",
+                            "description": "A null or empty node selector term matches no objects. The requirements of\nthem are ANDed.\nThe TopologySelectorTerm type implements a subset of the NodeSelectorTerm.",
                             "type": [
                               "object",
                               "null"
@@ -510,7 +497,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator\nthat relates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -525,11 +512,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                      "description": "Represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                      "description": "An array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. If the operator is Gt or Lt, the values\narray must have a single element, which will be interpreted as an integer.\nThis array is replaced during a strategic merge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -539,11 +526,13 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchFields": {
                                 "description": "A list of node selector requirements by node's fields.",
@@ -552,7 +541,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A node selector requirement is a selector that contains values, a key, and an operator\nthat relates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -567,11 +556,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+                                      "description": "Represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.",
+                                      "description": "An array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. If the operator is Gt or Lt, the values\narray must have a single element, which will be interpreted as an integer.\nThis array is replaced during a strategic merge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -581,16 +570,19 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               }
                             },
                             "x-kubernetes-map-type": "atomic",
                             "additionalProperties": false
-                          }
+                          },
+                          "x-kubernetes-list-type": "atomic"
                         }
                       },
                       "x-kubernetes-map-type": "atomic",
@@ -607,7 +599,7 @@
                   ],
                   "properties": {
                     "preferredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.",
+                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
                       "type": [
                         "array",
                         "null"
@@ -631,7 +623,7 @@
                             ],
                             "properties": {
                               "labelSelector": {
-                                "description": "A label query over a set of resources, in this case pods.",
+                                "description": "A label query over a set of resources, in this case pods.\nIf it's null, this PodAffinityTerm matches with no Pods.",
                                 "type": [
                                   "object",
                                   "null"
@@ -644,7 +636,7 @@
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -659,11 +651,11 @@
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                          "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -673,14 +665,16 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -696,8 +690,36 @@
                                 "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               },
+                              "matchLabelKeys": {
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "x-kubernetes-list-type": "atomic"
+                              },
+                              "mismatchLabelKeys": {
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "x-kubernetes-list-type": "atomic"
+                              },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
+                                "description": "A label query over the set of namespaces that the term applies to.\nThe term is applied to the union of the namespaces selected by this field\nand the ones listed in the namespaces field.\nnull selector and null or empty namespaces list means \"this pod's namespace\".\nAn empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -710,7 +732,7 @@
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -725,11 +747,11 @@
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                          "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -739,14 +761,16 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -763,7 +787,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to.\nThe term is applied to the union of the namespaces listed in this field\nand the ones selected by namespaceSelector.\nnull or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -773,32 +797,34 @@
                                     "string",
                                     "null"
                                   ]
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "topologyKey": {
-                                "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.",
+                                "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
                                 "type": "string"
                               }
                             },
                             "additionalProperties": false
                           },
                           "weight": {
-                            "description": "weight associated with matching the corresponding podAffinityTerm, in the range 1-100.",
+                            "description": "weight associated with matching the corresponding podAffinityTerm,\nin the range 1-100.",
                             "type": "integer",
                             "format": "int32"
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "x-kubernetes-list-type": "atomic"
                     },
                     "requiredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.",
+                      "description": "If the affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
                       "type": [
                         "array",
                         "null"
                       ],
                       "items": {
-                        "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running",
+                        "description": "Defines a set of pods (namely those matching the labelSelector\nrelative to the given namespace(s)) that this pod should be\nco-located (affinity) or not co-located (anti-affinity) with,\nwhere co-located is defined as running on a node whose value of\nthe label with key <topologyKey> matches that of any node on which\na pod of the set of pods is running",
                         "type": [
                           "object",
                           "null"
@@ -808,7 +834,7 @@
                         ],
                         "properties": {
                           "labelSelector": {
-                            "description": "A label query over a set of resources, in this case pods.",
+                            "description": "A label query over a set of resources, in this case pods.\nIf it's null, this PodAffinityTerm matches with no Pods.",
                             "type": [
                               "object",
                               "null"
@@ -821,7 +847,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -836,11 +862,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                      "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                      "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -850,14 +876,16 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchLabels": {
-                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                 "type": [
                                   "object",
                                   "null"
@@ -873,8 +901,36 @@
                             "x-kubernetes-map-type": "atomic",
                             "additionalProperties": false
                           },
+                          "matchLabelKeys": {
+                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "x-kubernetes-list-type": "atomic"
+                          },
+                          "mismatchLabelKeys": {
+                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "x-kubernetes-list-type": "atomic"
+                          },
                           "namespaceSelector": {
-                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
+                            "description": "A label query over the set of namespaces that the term applies to.\nThe term is applied to the union of the namespaces selected by this field\nand the ones listed in the namespaces field.\nnull selector and null or empty namespaces list means \"this pod's namespace\".\nAn empty selector ({}) matches all namespaces.",
                             "type": [
                               "object",
                               "null"
@@ -887,7 +943,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -902,11 +958,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                      "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                      "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -916,14 +972,16 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchLabels": {
-                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                 "type": [
                                   "object",
                                   "null"
@@ -940,7 +998,7 @@
                             "additionalProperties": false
                           },
                           "namespaces": {
-                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
+                            "description": "namespaces specifies a static list of namespace names that the term applies to.\nThe term is applied to the union of the namespaces listed in this field\nand the ones selected by namespaceSelector.\nnull or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                             "type": [
                               "array",
                               "null"
@@ -950,15 +1008,17 @@
                                 "string",
                                 "null"
                               ]
-                            }
+                            },
+                            "x-kubernetes-list-type": "atomic"
                           },
                           "topologyKey": {
-                            "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.",
+                            "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
                             "type": "string"
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "x-kubernetes-list-type": "atomic"
                     }
                   },
                   "additionalProperties": false
@@ -971,7 +1031,7 @@
                   ],
                   "properties": {
                     "preferredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding \"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.",
+                      "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
                       "type": [
                         "array",
                         "null"
@@ -995,7 +1055,7 @@
                             ],
                             "properties": {
                               "labelSelector": {
-                                "description": "A label query over a set of resources, in this case pods.",
+                                "description": "A label query over a set of resources, in this case pods.\nIf it's null, this PodAffinityTerm matches with no Pods.",
                                 "type": [
                                   "object",
                                   "null"
@@ -1008,7 +1068,7 @@
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -1023,11 +1083,11 @@
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                          "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -1037,14 +1097,16 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -1060,8 +1122,36 @@
                                 "x-kubernetes-map-type": "atomic",
                                 "additionalProperties": false
                               },
+                              "matchLabelKeys": {
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "x-kubernetes-list-type": "atomic"
+                              },
+                              "mismatchLabelKeys": {
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
+                                },
+                                "x-kubernetes-list-type": "atomic"
+                              },
                               "namespaceSelector": {
-                                "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
+                                "description": "A label query over the set of namespaces that the term applies to.\nThe term is applied to the union of the namespaces selected by this field\nand the ones listed in the namespaces field.\nnull selector and null or empty namespaces list means \"this pod's namespace\".\nAn empty selector ({}) matches all namespaces.",
                                 "type": [
                                   "object",
                                   "null"
@@ -1074,7 +1164,7 @@
                                       "null"
                                     ],
                                     "items": {
-                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                      "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                       "type": [
                                         "object",
                                         "null"
@@ -1089,11 +1179,11 @@
                                           "type": "string"
                                         },
                                         "operator": {
-                                          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                          "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                           "type": "string"
                                         },
                                         "values": {
-                                          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                          "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                           "type": [
                                             "array",
                                             "null"
@@ -1103,14 +1193,16 @@
                                               "string",
                                               "null"
                                             ]
-                                          }
+                                          },
+                                          "x-kubernetes-list-type": "atomic"
                                         }
                                       },
                                       "additionalProperties": false
-                                    }
+                                    },
+                                    "x-kubernetes-list-type": "atomic"
                                   },
                                   "matchLabels": {
-                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                    "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                     "type": [
                                       "object",
                                       "null"
@@ -1127,7 +1219,7 @@
                                 "additionalProperties": false
                               },
                               "namespaces": {
-                                "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
+                                "description": "namespaces specifies a static list of namespace names that the term applies to.\nThe term is applied to the union of the namespaces listed in this field\nand the ones selected by namespaceSelector.\nnull or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                                 "type": [
                                   "array",
                                   "null"
@@ -1137,32 +1229,34 @@
                                     "string",
                                     "null"
                                   ]
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "topologyKey": {
-                                "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.",
+                                "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
                                 "type": "string"
                               }
                             },
                             "additionalProperties": false
                           },
                           "weight": {
-                            "description": "weight associated with matching the corresponding podAffinityTerm, in the range 1-100.",
+                            "description": "weight associated with matching the corresponding podAffinityTerm,\nin the range 1-100.",
                             "type": "integer",
                             "format": "int32"
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "x-kubernetes-list-type": "atomic"
                     },
                     "requiredDuringSchedulingIgnoredDuringExecution": {
-                      "description": "If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.",
+                      "description": "If the anti-affinity requirements specified by this field are not met at\nscheduling time, the pod will not be scheduled onto the node.\nIf the anti-affinity requirements specified by this field cease to be met\nat some point during pod execution (e.g. due to a pod label update), the\nsystem may or may not try to eventually evict the pod from its node.\nWhen there are multiple elements, the lists of nodes corresponding to each\npodAffinityTerm are intersected, i.e. all terms must be satisfied.",
                       "type": [
                         "array",
                         "null"
                       ],
                       "items": {
-                        "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running",
+                        "description": "Defines a set of pods (namely those matching the labelSelector\nrelative to the given namespace(s)) that this pod should be\nco-located (affinity) or not co-located (anti-affinity) with,\nwhere co-located is defined as running on a node whose value of\nthe label with key <topologyKey> matches that of any node on which\na pod of the set of pods is running",
                         "type": [
                           "object",
                           "null"
@@ -1172,7 +1266,7 @@
                         ],
                         "properties": {
                           "labelSelector": {
-                            "description": "A label query over a set of resources, in this case pods.",
+                            "description": "A label query over a set of resources, in this case pods.\nIf it's null, this PodAffinityTerm matches with no Pods.",
                             "type": [
                               "object",
                               "null"
@@ -1185,7 +1279,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -1200,11 +1294,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                      "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                      "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -1214,14 +1308,16 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchLabels": {
-                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                 "type": [
                                   "object",
                                   "null"
@@ -1237,8 +1333,36 @@
                             "x-kubernetes-map-type": "atomic",
                             "additionalProperties": false
                           },
+                          "matchLabelKeys": {
+                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "x-kubernetes-list-type": "atomic"
+                          },
+                          "mismatchLabelKeys": {
+                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.",
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "x-kubernetes-list-type": "atomic"
+                          },
                           "namespaceSelector": {
-                            "description": "A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means \"this pod's namespace\". An empty selector ({}) matches all namespaces.",
+                            "description": "A label query over the set of namespaces that the term applies to.\nThe term is applied to the union of the namespaces selected by this field\nand the ones listed in the namespaces field.\nnull selector and null or empty namespaces list means \"this pod's namespace\".\nAn empty selector ({}) matches all namespaces.",
                             "type": [
                               "object",
                               "null"
@@ -1251,7 +1375,7 @@
                                   "null"
                                 ],
                                 "items": {
-                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
+                                  "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
                                   "type": [
                                     "object",
                                     "null"
@@ -1266,11 +1390,11 @@
                                       "type": "string"
                                     },
                                     "operator": {
-                                      "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.",
+                                      "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
                                       "type": "string"
                                     },
                                     "values": {
-                                      "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
+                                      "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
                                       "type": [
                                         "array",
                                         "null"
@@ -1280,14 +1404,16 @@
                                           "string",
                                           "null"
                                         ]
-                                      }
+                                      },
+                                      "x-kubernetes-list-type": "atomic"
                                     }
                                   },
                                   "additionalProperties": false
-                                }
+                                },
+                                "x-kubernetes-list-type": "atomic"
                               },
                               "matchLabels": {
-                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is \"key\", the operator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                                "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                                 "type": [
                                   "object",
                                   "null"
@@ -1304,7 +1430,7 @@
                             "additionalProperties": false
                           },
                           "namespaces": {
-                            "description": "namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
+                            "description": "namespaces specifies a static list of namespace names that the term applies to.\nThe term is applied to the union of the namespaces listed in this field\nand the ones selected by namespaceSelector.\nnull or empty namespaces list and null namespaceSelector means \"this pod's namespace\".",
                             "type": [
                               "array",
                               "null"
@@ -1314,15 +1440,17 @@
                                 "string",
                                 "null"
                               ]
-                            }
+                            },
+                            "x-kubernetes-list-type": "atomic"
                           },
                           "topologyKey": {
-                            "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.",
+                            "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching\nthe labelSelector in the specified namespaces, where co-located is defined as running on a node\nwhose value of the label with key topologyKey matches that of any node on which any of the\nselected pods is running.\nEmpty topologyKey is not allowed.",
                             "type": "string"
                           }
                         },
                         "additionalProperties": false
-                      }
+                      },
+                      "x-kubernetes-list-type": "atomic"
                     }
                   },
                   "additionalProperties": false
@@ -1331,7 +1459,7 @@
               "additionalProperties": false
             },
             "nodeSelector": {
-              "description": "nodeSelector is the node selector applied to the relevant kind of pods It specifies a map of key-value pairs: for the pod to be eligible to run on a node, the node must have each of the indicated key-value pairs as labels (it can have additional labels as well). See https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector",
+              "description": "nodeSelector is the node selector applied to the relevant kind of pods\nIt specifies a map of key-value pairs: for the pod to be eligible to run on a node,\nthe node must have each of the indicated key-value pairs as labels\n(it can have additional labels as well).\nSee https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector",
               "type": [
                 "object",
                 "null"
@@ -1344,41 +1472,41 @@
               }
             },
             "tolerations": {
-              "description": "tolerations is a list of tolerations applied to the relevant kind of pods See https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ for more info. These are additional tolerations other than default ones.",
+              "description": "tolerations is a list of tolerations applied to the relevant kind of pods\nSee https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ for more info.\nThese are additional tolerations other than default ones.",
               "type": [
                 "array",
                 "null"
               ],
               "items": {
-                "description": "The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.",
+                "description": "The pod this Toleration is attached to tolerates any taint that matches\nthe triple <key,value,effect> using the matching operator <operator>.",
                 "type": [
                   "object",
                   "null"
                 ],
                 "properties": {
                   "effect": {
-                    "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+                    "description": "Effect indicates the taint effect to match. Empty means match all taint effects.\nWhen specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "key": {
-                    "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+                    "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys.\nIf the key is empty, operator must be Exists; this combination means to match all values and all keys.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "operator": {
-                    "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+                    "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
                     "type": [
                       "string",
                       "null"
                     ]
                   },
                   "tolerationSeconds": {
-                    "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+                    "description": "TolerationSeconds represents the period of time the toleration (which must be\nof effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,\nit is not set, which means tolerate the taint forever (do not evict). Zero and\nnegative values will be treated as 0 (evict immediately) by the system.",
                     "type": [
                       "integer",
                       "null"
@@ -1386,7 +1514,7 @@
                     "format": "int64"
                   },
                   "value": {
-                    "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+                    "description": "Value is the taint value the toleration matches to.\nIf the operator is Exists, the value should be empty, otherwise just a regular string.",
                     "type": [
                       "string",
                       "null"
@@ -1416,7 +1544,7 @@
             "null"
           ],
           "items": {
-            "description": "Condition represents the state of the operator's reconciliation functionality.",
+            "description": "Condition represents the state of the operator's\nreconciliation functionality.",
             "type": [
               "object",
               "null"
@@ -1520,7 +1648,7 @@
                       "type": "object",
                       "properties": {
                         "accessModes": {
-                          "description": "accessModes contains the actual access modes the volume backing the PVC has. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+                          "description": "accessModes contains the actual access modes the volume backing the PVC has.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
                           "type": [
                             "array",
                             "null"
@@ -1530,16 +1658,17 @@
                               "string",
                               "null"
                             ]
-                          }
+                          },
+                          "x-kubernetes-list-type": "atomic"
                         },
                         "allocatedResourceStatuses": {
-                          "description": "allocatedResourceStatuses stores status of resource being resized for the given PVC. Key names follow standard Kubernetes label syntax. Valid values are either: * Un-prefixed keys: - storage - the capacity of the volume. * Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\" Apart from above values - keys that are unprefixed or have kubernetes.io prefix are considered reserved and hence may not be used. \n ClaimResourceStatus can be in any of following states: - ControllerResizeInProgress: State set when resize controller starts resizing the volume in control-plane. - ControllerResizeFailed: State set when resize has failed in resize controller with a terminal error. - NodeResizePending: State set when resize controller has finished resizing the volume but further resizing of volume is needed on the node. - NodeResizeInProgress: State set when kubelet starts resizing the volume. - NodeResizeFailed: State set when resizing has failed in kubelet with a terminal error. Transient errors don't set NodeResizeFailed. For example: if expanding a PVC for more capacity - this field can be one of the following states: - pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeInProgress\" - pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeFailed\" - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizePending\" - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeInProgress\" - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeFailed\" When this field is not set, it means that no resize operation is in progress for the given PVC. \n A controller that receives PVC update with previously unknown resourceName or ClaimResourceStatus should ignore the update for the purpose it was designed. For example - a controller that only is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid resources associated with PVC. \n This is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
+                          "description": "allocatedResourceStatuses stores status of resource being resized for the given PVC.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\n\nClaimResourceStatus can be in any of following states:\n\t- ControllerResizeInProgress:\n\t\tState set when resize controller starts resizing the volume in control-plane.\n\t- ControllerResizeFailed:\n\t\tState set when resize has failed in resize controller with a terminal error.\n\t- NodeResizePending:\n\t\tState set when resize controller has finished resizing the volume but further resizing of\n\t\tvolume is needed on the node.\n\t- NodeResizeInProgress:\n\t\tState set when kubelet starts resizing the volume.\n\t- NodeResizeFailed:\n\t\tState set when resizing has failed in kubelet with a terminal error. Transient errors don't set\n\t\tNodeResizeFailed.\nFor example: if expanding a PVC for more capacity - this field can be one of the following states:\n\t- pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeFailed\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizePending\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeFailed\"\nWhen this field is not set, it means that no resize operation is in progress for the given PVC.\n\n\nA controller that receives PVC update with previously unknown resourceName or ClaimResourceStatus\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.\n\n\nThis is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
                           "type": [
                             "object",
                             "null"
                           ],
                           "additionalProperties": {
-                            "description": "When a controller receives persistentvolume claim update with ClaimResourceStatus for a resource that it does not recognizes, then it should ignore that update and let other controllers handle it.",
+                            "description": "When a controller receives persistentvolume claim update with ClaimResourceStatus for a resource\nthat it does not recognizes, then it should ignore that update and let other controllers\nhandle it.",
                             "type": [
                               "string",
                               "null"
@@ -1548,7 +1677,7 @@
                           "x-kubernetes-map-type": "granular"
                         },
                         "allocatedResources": {
-                          "description": "allocatedResources tracks the resources allocated to a PVC including its capacity. Key names follow standard Kubernetes label syntax. Valid values are either: * Un-prefixed keys: - storage - the capacity of the volume. * Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\" Apart from above values - keys that are unprefixed or have kubernetes.io prefix are considered reserved and hence may not be used. \n Capacity reported here may be larger than the actual capacity when a volume expansion operation is requested. For storage quota, the larger value from allocatedResources and PVC.spec.resources is used. If allocatedResources is not set, PVC.spec.resources alone is used for quota calculation. If a volume expansion capacity request is lowered, allocatedResources is only lowered if there are no expansion operations in progress and if the actual volume capacity is equal or lower than the requested capacity. \n A controller that receives PVC update with previously unknown resourceName should ignore the update for the purpose it was designed. For example - a controller that only is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid resources associated with PVC. \n This is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
+                          "description": "allocatedResources tracks the resources allocated to a PVC including its capacity.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\n\nCapacity reported here may be larger than the actual capacity when a volume expansion operation\nis requested.\nFor storage quota, the larger value from allocatedResources and PVC.spec.resources is used.\nIf allocatedResources is not set, PVC.spec.resources alone is used for quota calculation.\nIf a volume expansion capacity request is lowered, allocatedResources is only\nlowered if there are no expansion operations in progress and if the actual volume capacity\nis equal or lower than the requested capacity.\n\n\nA controller that receives PVC update with previously unknown resourceName\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.\n\n\nThis is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
                           "type": [
                             "object",
                             "null"
@@ -1570,7 +1699,7 @@
                           }
                         },
                         "conditions": {
-                          "description": "conditions is the current Condition of persistent volume claim. If underlying persistent volume is being resized then the Condition will be set to 'ResizeStarted'.",
+                          "description": "conditions is the current Condition of persistent volume claim. If underlying persistent volume is being\nresized then the Condition will be set to 'Resizing'.",
                           "type": [
                             "array",
                             "null"
@@ -1610,7 +1739,7 @@
                                 ]
                               },
                               "reason": {
-                                "description": "reason is a unique, this should be a short, machine understandable string that gives the reason for condition's last transition. If it reports \"ResizeStarted\" that means the underlying persistent volume is being resized.",
+                                "description": "reason is a unique, this should be a short, machine understandable string that gives the reason\nfor condition's last transition. If it reports \"Resizing\" that means the underlying\npersistent volume is being resized.",
                                 "type": [
                                   "string",
                                   "null"
@@ -1625,7 +1754,42 @@
                               }
                             },
                             "additionalProperties": false
-                          }
+                          },
+                          "x-kubernetes-list-map-keys": [
+                            "type"
+                          ],
+                          "x-kubernetes-list-type": "map"
+                        },
+                        "currentVolumeAttributesClassName": {
+                          "description": "currentVolumeAttributesClassName is the current name of the VolumeAttributesClass the PVC is using.\nWhen unset, there is no VolumeAttributeClass applied to this PersistentVolumeClaim\nThis is an alpha field and requires enabling VolumeAttributesClass feature.",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "modifyVolumeStatus": {
+                          "description": "ModifyVolumeStatus represents the status object of ControllerModifyVolume operation.\nWhen this is unset, there is no ModifyVolume operation being attempted.\nThis is an alpha field and requires enabling VolumeAttributesClass feature.",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "required": [
+                            "status"
+                          ],
+                          "properties": {
+                            "status": {
+                              "description": "status is the status of the ControllerModifyVolume operation. It can be in any of following states:\n - Pending\n   Pending indicates that the PersistentVolumeClaim cannot be modified due to unmet requirements, such as\n   the specified VolumeAttributesClass not existing.\n - InProgress\n   InProgress indicates that the volume is being modified.\n - Infeasible\n  Infeasible indicates that the request has been rejected as invalid by the CSI driver. To\n\t  resolve the error, a valid VolumeAttributesClass needs to be specified.\nNote: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately.",
+                              "type": "string"
+                            },
+                            "targetVolumeAttributesClassName": {
+                              "description": "targetVolumeAttributesClassName is the name of the VolumeAttributesClass the PVC currently being reconciled",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
                         },
                         "phase": {
                           "description": "phase represents the current phase of PersistentVolumeClaim.",
@@ -1687,6 +1851,7 @@
       "version": "v1beta1"
     }
   ],
+  "x-kubernetes-selectable-fields": [],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/schema#"
 }
