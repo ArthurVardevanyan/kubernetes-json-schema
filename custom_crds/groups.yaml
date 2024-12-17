@@ -1,0 +1,60 @@
+# This is Custom Since I can't find the original CRD for groups.user.openshift.io
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: groups.user.openshift.io
+spec:
+  group: user.openshift.io
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: Group represents a referenceable set of Users
+          properties:
+            apiVersion:
+              description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values."
+              type: string
+              enum:
+                - user.openshift.io/v1
+            kind:
+              description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated."
+              type: string
+              enum:
+                - Group
+            metadata:
+              type: object
+              description: "metadata is the standard object's metadata."
+              properties:
+                name:
+                  type: string
+                  description: "Name of the object."
+                namespace:
+                  type: string
+                  description: "Namespace of the object."
+                labels:
+                  type: object
+                  additionalProperties:
+                    type: string
+                annotations:
+                  type: object
+                  additionalProperties:
+                    type: string
+            users:
+              description: "Users is the list of users in this group."
+              type: array
+              items:
+                type: string
+  names:
+    plural: groups
+    singular: group
+    kind: Group
+    shortNames:
+      - grp
+  scope: Namespaced
+  additionalPrinterColumns:
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp

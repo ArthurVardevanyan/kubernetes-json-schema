@@ -9,9 +9,32 @@ source .venv/bin/activate
 pip3 install setuptools==69.2.0 && pip3 install "cython<3.0.0" wheel && pip3 install pyyaml==5.4.1 --no-build-isolation
 pip3 install -r https://raw.githubusercontent.com/sabre1041/k8s-manifest-validation/main/scripts/requirements.txt
 
-python3 build_schema.py \
-    --destination "./" \
-    --url $(oc whoami --show-server) --token $(oc whoami -t) --strict STRICT
+# python3 build_schema.py \
+#     --destination "./" \
+#     --url $(oc whoami --show-server) --token $(oc whoami -t) --strict STRICT
+
+wget https://raw.githubusercontent.com/yannh/kubeconform/refs/heads/master/scripts/openapi2jsonschema.py
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+./openapi2jsonschema.py custom_crds/groups.yaml
+mv group-user.openshift.io-v1.json master-standalone-strict
+wget https://raw.githubusercontent.com/openshift/router/refs/heads/master/deploy/route_crd.yaml
+./openapi2jsonschema.py route_crd.yaml
+mv route-route.openshift.io-v1.json master-standalone-strict
+rm route_crd.yaml
+cd master-standalone-strict
+kubectl get crd -A -o yaml > dump.yaml
+../openapi2jsonschema.py dump.yaml
+rm dump.yaml
+cd ..
+yq eval '.properties.metadata.additionalProperties = true' -i ./master-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json
+```
+
+```bash
+    ./kubeconform -n 1 -verbose --summary -strict -debug \
+      -schema-location="../kubernetes-json-schema/master-standalone-strict/{{.ResourceKind}}-{{.Group}}-{{.ResourceAPIVersion}}.json" \
+      -schema-location 'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/{{.ResourceKind}}{{.KindSuffix}}.json' \
+      -schema-location "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json" \
+      -output text "${DIR}" | grep -v "is valid"
 ```
 
 ## Notes
@@ -61,3 +84,4 @@ The following API resources do not have valid OpenAPI specifications:
 ## REF
 
 - <https://github.com/sabre1041/k8s-manifest-validation>
+````

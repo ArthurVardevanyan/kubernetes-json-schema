@@ -1,0 +1,5 @@
+{
+  "description": "Schema for the tektonhubs API",
+  "type": "object",
+  "x-kubernetes-preserve-unknown-fields": true
+}

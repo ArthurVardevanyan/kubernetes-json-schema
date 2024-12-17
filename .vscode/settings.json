@@ -228,6 +228,7 @@
         "journactl",
         "journalctl",
         "jsonpath",
+        "jsonschema",
         "jwks",
         "keycloak",
         "keyfile",

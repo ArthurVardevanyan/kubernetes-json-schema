@@ -1,0 +1,5 @@
+{
+  "description": "Schema for the tektonpipelines API",
+  "type": "object",
+  "x-kubernetes-preserve-unknown-fields": true
+}

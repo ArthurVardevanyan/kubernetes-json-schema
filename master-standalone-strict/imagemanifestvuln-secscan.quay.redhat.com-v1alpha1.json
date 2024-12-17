@@ -1,0 +1,143 @@
+{
+  "properties": {
+    "spec": {
+      "properties": {
+        "features": {
+          "items": {
+            "properties": {
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "namespaceName": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "version": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "versionformat": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "vulnerabilities": {
+                "items": {
+                  "properties": {
+                    "description": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "fixedby": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "link": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "name": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "namespaceName": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "severity": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          },
+          "type": "array"
+        },
+        "image": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "manifest": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "namespaceName": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    },
+    "status": {
+      "properties": {
+        "affectedPods": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "object"
+        },
+        "criticalCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "defcon1Count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "fixableCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "highCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "highestSeverity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lastUpdate": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lowCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "mediumCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "negligibleCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unknownCount": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "spec"
+  ],
+  "type": "object"
+}
