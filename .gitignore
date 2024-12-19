@@ -38,7 +38,5 @@ override.tf.json
 .terraform.lock.hcl
 backend.conf
 .venv/*
-build_schema.py
 openshift-api-spec.json
-openapi2jsonschema.py
 secrets/*

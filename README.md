@@ -13,20 +13,45 @@ pip3 install -r https://raw.githubusercontent.com/sabre1041/k8s-manifest-validat
 #     --destination "./" \
 #     --url $(oc whoami --show-server) --token $(oc whoami -t) --strict STRICT
 
+# Temporary workaround, need to figure out how to use openapi spec to generate.
+#### Vendor Latest K8s CRDs
+bash ./k8s.sh
+
+#### Custom CRDS
 wget https://raw.githubusercontent.com/yannh/kubeconform/refs/heads/master/scripts/openapi2jsonschema.py
+chmod +x openapi2jsonschema.py
+
+# Custom Files
+cp custom_crds/oauthclient-oauth.openshift.io-v1.json custom-standalone-strict
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ./openapi2jsonschema.py custom_crds/groups.yaml
-mv group-user.openshift.io-v1.json master-standalone-strict
-wget https://raw.githubusercontent.com/openshift/router/refs/heads/master/deploy/route_crd.yaml
-./openapi2jsonschema.py route_crd.yaml
-mv route-route.openshift.io-v1.json master-standalone-strict
-rm route_crd.yaml
-cd master-standalone-strict
+mv group-user.openshift.io-v1.json custom-standalone-strict
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+./openapi2jsonschema.py custom_crds/users.yaml
+mv user-user.openshift.io-v1.json custom-standalone-strict
+./openapi2jsonschema.py https://raw.githubusercontent.com/openshift/router/refs/heads/master/deploy/route_crd.yaml
+mv route-route.openshift.io-v1.json custom-standalone-strict
+
+# Dumping From a Cluster (Do not dump from a cluster that doesn't have the latest versions of the stuff installed OCP + Addons, generally sb0100 is the newest)
+cd custom-standalone-strict
 kubectl get crd -A -o yaml > dump.yaml
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ../openapi2jsonschema.py dump.yaml
 rm dump.yaml
-cd ..
-yq eval '.properties.metadata.additionalProperties = true' -i ./master-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json
+cd ../..
+
+# Fixing Bad CRD
+yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json
+yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/egressfirewall-k8s.ovn.org-v1.json
+
+# Importing Some Other CRD Manually
+kubectl get crd myCRD.yaml > myCRD.yaml # If needing to pull from a cluster
+# Grab CRD from where it needs to be grabbed from.
+
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+./openapi2jsonschema.py myCRD.yaml
+mv myCRD.json custom-standalone-strict
+rm myCRD.yaml
 ```
 
 ```bash

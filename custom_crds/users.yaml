@@ -1,0 +1,72 @@
+# This is Custom Since I can't find the original CRD for users.user.openshift.io
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: users.user.openshift.io
+spec:
+  group: user.openshift.io
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          description: "Upon log in, every user of the system receives a User and Identity resource. Administrators may directly manipulate the attributes of the users for their own tracking, or set groups via the API. The user name is unique and is chosen based on the value provided by the identity provider - if a user already exists with the incoming name, the user name may have a number appended to it depending on the configuration of the system.\n\nCompatibility level 1: Stable within a major release for a minimum of 12 months or 3 minor releases (whichever is longer)."
+          type: object
+          required:
+            - groups
+          properties:
+            apiVersion:
+              description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
+              type: string
+              enum:
+                - "user.openshift.io/v1"
+            fullName:
+              description: "FullName is the full name of user"
+              type: string
+            groups:
+              description: "Groups specifies group names this user is a member of. This field is deprecated and will be removed in a future release. Instead, create a Group object containing the name of this User."
+              type: array
+              items:
+                type: string
+            identities:
+              description: "Identities are the identities associated with this user"
+              type: array
+              items:
+                type: string
+            kind:
+              description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+              type: string
+              enum:
+                - "User"
+            metadata:
+              type: object
+              description: "metadata is the standard object's metadata."
+              properties:
+                name:
+                  type: string
+                  description: "Name of the object."
+                namespace:
+                  type: string
+                  description: "Namespace of the object."
+                labels:
+                  type: object
+                  additionalProperties:
+                    type: string
+                annotations:
+                  type: object
+                  additionalProperties:
+                    type: string
+          additionalProperties: false
+          x-kubernetes-group-version-kind:
+            - group: "user.openshift.io"
+              kind: "User"
+              version: "v1"
+          $schema: "http://json-schema.org/schema#"
+  scope: Namespaced
+  names:
+    plural: users
+    singular: user
+    kind: User
+    shortNames:
+      - usr
