@@ -174,7 +174,7 @@
                 "type": "array"
               },
               "kubeAPIAudit": {
-                "description": "KubeAPIAudit filter Kube API server audit logs, as described in [Kubernetes Auditing].\n\n# Policy Filtering\n\nPolicy event rules are the same format as the [Kube Audit Policy] with some minor extensions.\nThe extensions are described here, see the [Kube Audit Policy] for the standard rule behavior.\nRules are checked in order, checking stops at the first matching rule.\n\nAn audit policy event contains meta-data describing who made the request.\nIt can also include the full body of the API request, and the response that was sent.\nThe `level` of an audit rule determines how much data is included in the event:\n\n  - None: the event is dropped.\n  - Metadata: Only the audit metadata is included, request and response bodies are removed.\n  - Request: Audit metadata and the request body are included, the response body is removed.\n  - RequestResponse: All data is included: metadata, request body and response body. Note the response body can be very large.\n    For example the a command like `oc get -A pods` generates a response body containing the YAML description of every pod in the cluster.\n\n# Extensions\n\nThe following features are extensions to the standard [Kube Audit Policy]\n\n## Wildcards\n\nNames of users, groups, namespaces, and resources can have a leading or trailing '*' character.\nFor example namespace 'openshift-*' matches 'openshift-apiserver' or 'openshift-authentication.\nResource '*/status' matches 'Pod/status' or 'Deployment/status'\n\n## Default Rules\n\nEvents that do not match any rule in the policy are filtered as follows:\n- User events (ie. non-system and non-serviceaccount) are forwarded\n- Read-only system events (get/list/watch etc) are dropped\n- Service account write events that occur within the same namespace as the service account are dropped\n- All other events are forwarded, subject to any configured [rate limits][#rate-lmiting]\n\nIf you want to disable these defaults, end your rules list with rule that has only a `level` field.\nAn empty rule matches any event, and prevents the defaults from taking effect.\n\n## Omit Response Codes\n\nYou can drop events based on the HTTP status code in the response. See the OmitResponseCodes field.\n\n[Kube Audit Policy]: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/#audit-k8s-io-v1-Policy\n[Kubernetes Auditing]: https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/",
+                "description": "KubeAPIAudit filter Kube API server audit logs, as described in [Kubernetes Auditing].\n\n# Policy Filtering\n\nPolicy event rules are the same format as the [Kube Audit Policy] with some minor extensions.\nThe extensions are described here, see the [Kube Audit Policy] for the standard rule behavior.\nRules are checked in order, checking stops at the first matching rule.\n\nAn audit policy event contains meta-data describing who made the request.\nIt can also include the full body of the API request, and the response that was sent.\nThe `level` of an audit rule determines how much data is included in the event:\n\n  - None: the event is dropped.\n  - Metadata: Only the audit metadata is included, request and response bodies are removed.\n  - Request: Audit metadata and the request body are included, the response body is removed.\n  - RequestResponse: All data is included: metadata, request body and response body. Note the response body can be very large.\n    For example the a command like `oc get -A pods` generates a response body containing the YAML description of every pod in the cluster.\n\n# Extensions\n\nThe following features are extensions to the standard [Kube Audit Policy]\n\n## Wildcards\n\nNames of users, groups, namespaces, and resources can have a leading or trailing '*' character.\nFor example namespace 'openshift-*' matches 'openshift-apiserver' or 'openshift-authentication.\nResource '*/status' matches 'Pod/status' or 'Deployment/status'\n\nEvents which include both a 'resource' and 'subresource' are evaluated by combing those\nfields with a forward slash.  This means rules that rely upon a resource type that may or\nmay not include the subresource should be adjusted to cover all the required use-cases (i.e. ['pod','pod/*']).\n\n## Default Rules\n\nEvents that do not match any rule in the policy are filtered as follows:\n- User events (ie. non-system and non-serviceaccount) are forwarded\n- Read-only system events (get/list/watch etc) are dropped\n- Service account write events that occur within the same namespace as the service account are dropped\n- All other events are forwarded, subject to any configured [rate limits][#rate-lmiting]\n\nIf you want to disable these defaults, end your rules list with rule that has only a `level` field.\nAn empty rule matches any event, and prevents the defaults from taking effect.\n\n## Omit Response Codes\n\nYou can drop events based on the HTTP status code in the response. See the OmitResponseCodes field.\n\n[Kube Audit Policy]: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/#audit-k8s-io-v1-Policy\n[Kubernetes Auditing]: https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/",
                 "properties": {
                   "omitResponseCodes": {
                     "description": "OmitResponseCodes is a list of HTTP status code for which no events are created.\nIf this field is missing or null, the default value used is [404, 409, 422, 429]\n(NotFound, Conflict, UnprocessableEntity, TooManyRequests)\nIf it is the empty list [], then no status codes are omitted.\nOtherwise, this field should be a list of integer status codes to omit.",
@@ -742,6 +742,7 @@
             "description": "OutputSpec defines a destination for log messages.",
             "properties": {
               "azureMonitor": {
+                "description": "AzureMonitor configures forwarding log events to the Azure Monitor Logs service",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -837,7 +838,7 @@
                 "additionalProperties": false
               },
               "cloudwatch": {
-                "description": "Cloudwatch provides configuration for the output type `cloudwatch`",
+                "description": "Cloudwatch configures forwarding log events to AWS Cloudwatch logs",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -992,7 +993,7 @@
                     "additionalProperties": false
                   },
                   "groupName": {
-                    "description": "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
+                    "description": "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by \"\\|\\|\" followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets \"{}\" and MUST end with a static fallback value separated with \"\\|\\|\".\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -1069,6 +1070,7 @@
                 "additionalProperties": false
               },
               "elasticsearch": {
+                "description": "Elasticsearch configures forwarding log events to an Elasticsearch cluster",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1162,7 +1164,7 @@
                     "additionalProperties": false
                   },
                   "index": {
-                    "description": "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
+                    "description": "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app|infra|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -1239,7 +1241,7 @@
                 "additionalProperties": false
               },
               "googleCloudLogging": {
-                "description": "GoogleCloudLogging provides configuration for sending logs to Google Cloud Logging.",
+                "description": "GoogleCloudLogging configures forwarding log events to GCP (formally Stackdriver) Operations",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1347,7 +1349,7 @@
                 "additionalProperties": false
               },
               "http": {
-                "description": "HTTP provided configuration for sending json encoded logs to a generic HTTP endpoint.",
+                "description": "HTTP configures forwarding log events to an HTTP server",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1448,7 +1450,7 @@
                     "type": "object"
                   },
                   "method": {
-                    "description": "Method specifies the Http method to be used for sending logs. If not set, 'POST' is used.",
+                    "description": "Method specifies the HTTP method to be used for sending logs. If not set, 'POST' is used.",
                     "enum": [
                       "GET",
                       "HEAD",
@@ -1460,6 +1462,16 @@
                       "PATCH"
                     ],
                     "type": "string"
+                  },
+                  "proxyURL": {
+                    "description": "ProxyURL URL of a HTTP or HTTPS proxy to be used instead of direct connection.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "invalid URL",
+                        "rule": "self == '' ||  isURL(self)"
+                      }
+                    ]
                   },
                   "timeout": {
                     "description": "Timeout specifies the Http request timeout in seconds. If not set, 10secs is used.",
@@ -1532,7 +1544,7 @@
                 "additionalProperties": false
               },
               "kafka": {
-                "description": "Kafka provides optional extra properties for `type: kafka`",
+                "description": "Kafka configures forwarding log events to Apache Kafka topics",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1668,7 +1680,7 @@
                 "additionalProperties": false
               },
               "loki": {
-                "description": "Loki provides optional extra properties for `type: loki`",
+                "description": "Loki configures forwarding log events to a Loki aggregation system",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1839,7 +1851,7 @@
                 "additionalProperties": false
               },
               "lokiStack": {
-                "description": "LokiStack provides optional extra properties for `type: lokistack`",
+                "description": "LokiStack configures forwarding log events to a Red Hat managed Loki deployment\nusing the Red Hat tenancy model",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1980,12 +1992,14 @@
                         "type": "string"
                       },
                       "namespace": {
-                        "description": "Namespace of the in-cluster LokiStack resource.\n\nIf unset, this defaults to \"openshift-logging\".",
+                        "description": "Namespace of the in-cluster LokiStack resource.",
+                        "minLength": 3,
                         "type": "string"
                       }
                     },
                     "required": [
-                      "name"
+                      "name",
+                      "namespace"
                     ],
                     "type": "object",
                     "additionalProperties": false
@@ -2061,7 +2075,7 @@
                 "type": "string"
               },
               "otlp": {
-                "description": "OTLP defines configuration for sending logs via OTLP using OTEL semantic conventions\nhttps://opentelemetry.io/docs/specs/otlp/#otlphttp",
+                "description": "OTLP configures forwarding log events to a receiver using the OpenTelemetry Protocol\nwith Red Openshift logging semantic conventions (ref: https://github.com/rhobs/observability-data-model/blob/main/cluster-logging.md)",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -2237,7 +2251,7 @@
                 "additionalProperties": false
               },
               "splunk": {
-                "description": "Splunk Deliver log data to Splunk\u2019s HTTP Event Collector\nProvides optional extra properties for `type: splunk_hec` ('splunk_hec_logs' after Vector 0.23",
+                "description": "Splunk configures forwarding log events to Splunk's HTTP event collector",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -2339,7 +2353,7 @@
                 "additionalProperties": false
               },
               "syslog": {
-                "description": "Syslog provides optional extra properties for output type `syslog`",
+                "description": "Syslog configures forwarding log events to a receiver using the syslog protocol",
                 "properties": {
                   "appName": {
                     "description": "AppName is APP-NAME part of the syslog-msg header.\n\nAppName needs to be specified if using rfc5424. The maximum length of the final values is truncated to 48\nThis supports template syntax to allow dynamic per-event values.\n\nThe AppName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}\n",
@@ -2356,6 +2370,7 @@
                   },
                   "facility": {
                     "description": "Facility to set on outgoing syslog records.\n\nFacility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1.\n\nThe value can be a decimal integer. Facility keywords are not standardized,\nthis API recognizes at least the following case-insensitive keywords\n(defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels):\n\n    kernel user mail daemon auth syslog lpr news\n    uucp cron authpriv ftp ntp security console solaris-cron\n    local0 local1 local2 local3 local4 local5 local6 local7",
+                    "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
                   "msgId": {
@@ -2383,6 +2398,7 @@
                   },
                   "severity": {
                     "description": "Severity to set on outgoing syslog records.\n\nSeverity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1\n\nThe value can be a decimal integer or one of these case-insensitive keywords:\n\n    Emergency Alert Critical Error Warning Notice Informational Debug",
+                    "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
                   "tuning": {

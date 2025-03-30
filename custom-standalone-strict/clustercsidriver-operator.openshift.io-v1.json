@@ -206,7 +206,7 @@
               "additionalProperties": false
             },
             "vSphere": {
-              "description": "vsphere is used to configure the vsphere CSI driver.",
+              "description": "vSphere is used to configure the vsphere CSI driver.",
               "properties": {
                 "globalMaxSnapshotsPerBlockVolume": {
                   "description": "globalMaxSnapshotsPerBlockVolume is a global configuration parameter that applies to volumes on all kinds of\ndatastores. If omitted, the platform chooses a default, which is subject to change over time, currently that default is 3.\nSnapshots can not be disabled using this parameter.\nIncreasing number of snapshots above 3 can have negative impact on performance, for more details see: https://kb.vmware.com/s/article/1025279\nVolume snapshot documentation: https://docs.vmware.com/en/VMware-vSphere-Container-Storage-Plug-in/3.0/vmware-vsphere-csp-getting-started/GUID-E0B41C69-7EEB-450F-A73D-5FD2FF39E891.html",
@@ -290,7 +290,7 @@
           "type": "string"
         },
         "storageClassState": {
-          "description": "StorageClassState determines if CSI operator should create and manage storage classes.\nIf this field value is empty or Managed - CSI operator will continuously reconcile\nstorage class and create if necessary.\nIf this field value is Unmanaged - CSI operator will not reconcile any previously created\nstorage class.\nIf this field value is Removed - CSI operator will delete the storage class it created previously.\nWhen omitted, this means the user has no opinion and the platform chooses a reasonable default,\nwhich is subject to change over time.\nThe current default behaviour is Managed.",
+          "description": "storageClassState determines if CSI operator should create and manage storage classes.\nIf this field value is empty or Managed - CSI operator will continuously reconcile\nstorage class and create if necessary.\nIf this field value is Unmanaged - CSI operator will not reconcile any previously created\nstorage class.\nIf this field value is Removed - CSI operator will delete the storage class it created previously.\nWhen omitted, this means the user has no opinion and the platform chooses a reasonable default,\nwhich is subject to change over time.\nThe current default behaviour is Managed.",
           "enum": [
             "",
             "Managed",

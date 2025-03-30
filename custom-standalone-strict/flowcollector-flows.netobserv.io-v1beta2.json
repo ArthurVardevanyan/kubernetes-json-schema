@@ -899,14 +899,17 @@
                   "type": "array"
                 },
                 "features": {
-                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF pod has to run as privileged.\nIf the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br>\n- `DNSTracking`: enable the DNS tracking feature.<br>\n- `FlowRTT`: enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>\n- `NetworkEvents`: enable the Network events monitoring feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF pod has to run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.\nIMPORTANT: this feature is available as a Developer Preview.<br>",
+                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: Enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIf the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br>\n- `DNSTracking`: Enable the DNS tracking feature.<br>\n- `FlowRTT`: Enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>\n- `NetworkEvents`: Enable the network events monitoring feature, such as correlating flows and network policies.\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.\nIMPORTANT: This feature is available as a Technology Preview.<br>\n- `PacketTranslation`: Enable enriching flows with packet translation information, such as Service NAT.<br>\n- `EbpfManager`: [Unsupported (*)]. Use eBPF Manager to manage network observability eBPF programs. Pre-requisite: the eBPF Manager operator (or upstream bpfman operator) must be installed.<br>\n- `UDNMapping`: [Unsupported (*)]. Enable interfaces mapping to User Defined Networks (UDN). <br>\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.",
                   "items": {
-                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track Network events [Developer Preview].<br>",
+                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track network events [Technology Preview].<br>\n- `PacketTranslation`, to enrich flows with packets translation information, such as Service NAT.<br>\n- `EbpfManager`, to enable using eBPF Manager to manage network observability eBPF programs. [Unsupported (*)].<br>\n- `UDNMapping`, to enable interfaces mapping to UDN. [Unsupported (*)].<br>",
                     "enum": [
                       "PacketDrop",
                       "DNSTracking",
                       "FlowRTT",
-                      "NetworkEvents"
+                      "NetworkEvents",
+                      "PacketTranslation",
+                      "EbpfManager",
+                      "UDNMapping"
                     ],
                     "type": "string"
                   },
@@ -916,7 +919,7 @@
                   "description": "`flowFilter` defines the eBPF agent configuration regarding flow filtering.",
                   "properties": {
                     "action": {
-                      "description": "`action` defines the action to perform on the flows that match the filter.",
+                      "description": "`action` defines the action to perform on the flows that match the filter. The available options are `Accept`, which is the default, and `Reject`.",
                       "enum": [
                         "Accept",
                         "Reject"
@@ -936,11 +939,11 @@
                           "type": "string"
                         }
                       ],
-                      "description": "`destPorts` defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `destPorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `destPorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                      "description": "`destPorts` optionally defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `destPorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `destPorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
                       "x-kubernetes-int-or-string": true
                     },
                     "direction": {
-                      "description": "`direction` defines the direction to filter flows by.",
+                      "description": "`direction` optionally defines a direction to filter flows by. The available options are `Ingress` and `Egress`.",
                       "enum": [
                         "Ingress",
                         "Egress"
@@ -952,16 +955,24 @@
                       "type": "boolean"
                     },
                     "icmpCode": {
-                      "description": "`icmpCode`, for Internet Control Message Protocol (ICMP) traffic, defines the ICMP code to filter flows by.",
+                      "description": "`icmpCode`, for Internet Control Message Protocol (ICMP) traffic, optionally defines the ICMP code to filter flows by.",
                       "type": "integer"
                     },
                     "icmpType": {
-                      "description": "`icmpType`, for ICMP traffic, defines the ICMP type to filter flows by.",
+                      "description": "`icmpType`, for ICMP traffic, optionally defines the ICMP type to filter flows by.",
                       "type": "integer"
                     },
-                    "peerIP": {
-                      "description": "`peerIP` defines the IP address to filter flows by.\nExample: `10.10.10.10`.",
+                    "peerCIDR": {
+                      "description": "`peerCIDR` defines the Peer IP CIDR to filter flows by.\nExamples: `10.10.10.0/24` or `100:100:100:100::/64`",
                       "type": "string"
+                    },
+                    "peerIP": {
+                      "description": "`peerIP` optionally defines the remote IP address to filter flows by.\nExample: `10.10.10.10`.",
+                      "type": "string"
+                    },
+                    "pktDrops": {
+                      "description": "`pktDrops` optionally filters only flows containing packet drops.",
+                      "type": "boolean"
                     },
                     "ports": {
                       "anyOf": [
@@ -972,11 +983,11 @@
                           "type": "string"
                         }
                       ],
-                      "description": "`ports` defines the ports to filter flows by. It is used both for source and destination ports.\nTo filter a single port, set a single port as an integer value. For example, `ports: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `ports: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                      "description": "`ports` optionally defines the ports to filter flows by. It is used both for source and destination ports.\nTo filter a single port, set a single port as an integer value. For example, `ports: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `ports: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
                       "x-kubernetes-int-or-string": true
                     },
                     "protocol": {
-                      "description": "`protocol` defines the protocol to filter flows by.",
+                      "description": "`protocol` optionally defines a protocol to filter flows by. The available options are `TCP`, `UDP`, `ICMP`, `ICMPv6`, and `SCTP`.",
                       "enum": [
                         "TCP",
                         "UDP",
@@ -985,6 +996,132 @@
                         "SCTP"
                       ],
                       "type": "string"
+                    },
+                    "rules": {
+                      "description": "`rules` defines a list of filtering rules on the eBPF Agents.\nWhen filtering is enabled, by default, flows that don't match any rule are rejected.\nTo change the default, you can define a rule that accepts everything: `{ action: \"Accept\", cidr: \"0.0.0.0/0\" }`, and then refine with rejecting rules.\n[Unsupported (*)].",
+                      "items": {
+                        "description": "`EBPFFlowFilterRule` defines the desired eBPF agent configuration regarding flow filtering rule.",
+                        "properties": {
+                          "action": {
+                            "description": "`action` defines the action to perform on the flows that match the filter. The available options are `Accept`, which is the default, and `Reject`.",
+                            "enum": [
+                              "Accept",
+                              "Reject"
+                            ],
+                            "type": "string"
+                          },
+                          "cidr": {
+                            "description": "`cidr` defines the IP CIDR to filter flows by.\nExamples: `10.10.10.0/24` or `100:100:100:100::/64`",
+                            "type": "string"
+                          },
+                          "destPorts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ],
+                            "description": "`destPorts` optionally defines the destination ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `destPorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `destPorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "direction": {
+                            "description": "`direction` optionally defines a direction to filter flows by. The available options are `Ingress` and `Egress`.",
+                            "enum": [
+                              "Ingress",
+                              "Egress"
+                            ],
+                            "type": "string"
+                          },
+                          "icmpCode": {
+                            "description": "`icmpCode`, for Internet Control Message Protocol (ICMP) traffic, optionally defines the ICMP code to filter flows by.",
+                            "type": "integer"
+                          },
+                          "icmpType": {
+                            "description": "`icmpType`, for ICMP traffic, optionally defines the ICMP type to filter flows by.",
+                            "type": "integer"
+                          },
+                          "peerCIDR": {
+                            "description": "`peerCIDR` defines the Peer IP CIDR to filter flows by.\nExamples: `10.10.10.0/24` or `100:100:100:100::/64`",
+                            "type": "string"
+                          },
+                          "peerIP": {
+                            "description": "`peerIP` optionally defines the remote IP address to filter flows by.\nExample: `10.10.10.10`.",
+                            "type": "string"
+                          },
+                          "pktDrops": {
+                            "description": "`pktDrops` optionally filters only flows containing packet drops.",
+                            "type": "boolean"
+                          },
+                          "ports": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ],
+                            "description": "`ports` optionally defines the ports to filter flows by. It is used both for source and destination ports.\nTo filter a single port, set a single port as an integer value. For example, `ports: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `ports: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "protocol": {
+                            "description": "`protocol` optionally defines a protocol to filter flows by. The available options are `TCP`, `UDP`, `ICMP`, `ICMPv6`, and `SCTP`.",
+                            "enum": [
+                              "TCP",
+                              "UDP",
+                              "ICMP",
+                              "ICMPv6",
+                              "SCTP"
+                            ],
+                            "type": "string"
+                          },
+                          "sampling": {
+                            "description": "`sampling` sampling rate for the matched flows, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
+                            "format": "int32",
+                            "type": "integer"
+                          },
+                          "sourcePorts": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ],
+                            "description": "`sourcePorts` optionally defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `sourcePorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `sourcePorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "tcpFlags": {
+                            "description": "`tcpFlags` optionally defines TCP flags to filter flows by.\nIn addition to the standard flags (RFC-9293), you can also filter by one of the three following combinations: `SYN-ACK`, `FIN-ACK`, and `RST-ACK`.",
+                            "enum": [
+                              "SYN",
+                              "SYN-ACK",
+                              "ACK",
+                              "FIN",
+                              "RST",
+                              "URG",
+                              "ECE",
+                              "CWR",
+                              "FIN-ACK",
+                              "RST-ACK"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "type": "object",
+                        "additionalProperties": false
+                      },
+                      "maxItems": 16,
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "sampling": {
+                      "description": "`sampling` sampling rate for the matched flows, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
+                      "format": "int32",
+                      "type": "integer"
                     },
                     "sourcePorts": {
                       "anyOf": [
@@ -995,11 +1132,11 @@
                           "type": "string"
                         }
                       ],
-                      "description": "`sourcePorts` defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `sourcePorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `sourcePorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
+                      "description": "`sourcePorts` optionally defines the source ports to filter flows by.\nTo filter a single port, set a single port as an integer value. For example, `sourcePorts: 80`.\nTo filter a range of ports, use a \"start-end\" range in string format. For example, `sourcePorts: \"80-100\"`.\nTo filter two ports, use a \"port1,port2\" in string format. For example, `ports: \"80,100\"`.",
                       "x-kubernetes-int-or-string": true
                     },
                     "tcpFlags": {
-                      "description": "`tcpFlags` defines the TCP flags to filter flows by.",
+                      "description": "`tcpFlags` optionally defines TCP flags to filter flows by.\nIn addition to the standard flags (RFC-9293), you can also filter by one of the three following combinations: `SYN-ACK`, `FIN-ACK`, and `RST-ACK`.",
                       "enum": [
                         "SYN",
                         "SYN-ACK",
@@ -1139,7 +1276,7 @@
                                   "type": "string"
                                 },
                                 "type": {
-                                  "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                                  "description": "Type for the file reference: `configmap` or `secret`.",
                                   "enum": [
                                     "configmap",
                                     "secret"
@@ -2904,7 +3041,7 @@
           "type": "string"
         },
         "exporters": {
-          "description": "`exporters` define additional optional exporters for custom consumption or storage.",
+          "description": "`exporters` defines additional optional exporters for custom consumption or storage.",
           "items": {
             "description": "`FlowCollectorExporter` defines an additional exporter to send enriched flows to.",
             "properties": {
@@ -2913,11 +3050,11 @@
                 "properties": {
                   "targetHost": {
                     "default": "",
-                    "description": "Address of the IPFIX external receiver",
+                    "description": "Address of the IPFIX external receiver.",
                     "type": "string"
                   },
                   "targetPort": {
-                    "description": "Port for the IPFIX external receiver",
+                    "description": "Port for the IPFIX external receiver.",
                     "type": "integer"
                   },
                   "transport": {
@@ -2964,7 +3101,7 @@
                             "type": "string"
                           },
                           "type": {
-                            "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                            "description": "Type for the file reference: `configmap` or `secret`.",
                             "enum": [
                               "configmap",
                               "secret"
@@ -2992,7 +3129,7 @@
                             "type": "string"
                           },
                           "type": {
-                            "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                            "description": "Type for the file reference: `configmap` or `secret`.",
                             "enum": [
                               "configmap",
                               "secret"
@@ -3021,7 +3158,7 @@
                     "description": "TLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.",
                     "properties": {
                       "caCert": {
-                        "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                        "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                         "properties": {
                           "certFile": {
                             "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3063,7 +3200,7 @@
                         "type": "boolean"
                       },
                       "userCert": {
-                        "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                        "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                         "properties": {
                           "certFile": {
                             "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3112,10 +3249,10 @@
                 "additionalProperties": false
               },
               "openTelemetry": {
-                "description": "Open telemetry configuration, such as the IP address and port to send enriched logs, metrics and or traces to.",
+                "description": "OpenTelemetry configuration, such as the IP address and port to send enriched logs or metrics to.",
                 "properties": {
                   "fieldsMapping": {
-                    "description": "Custom fields mapping to an OpenTelemetry conformant format.\nBy default, network observability format proposal is used: https://github.com/rhobs/observability-data-model/blob/main/network-observability.md#format-proposal .\nAs there is currently no accepted otlp standard for L3/4 network logs, you can freely override it with your own.",
+                    "description": "Custom fields mapping to an OpenTelemetry conformant format.\nBy default, network observability format proposal is used: https://github.com/rhobs/observability-data-model/blob/main/network-observability.md#format-proposal .\nAs there is currently no accepted standard for L3 or L4 enriched network logs, you can freely override it with your own.",
                     "items": {
                       "properties": {
                         "input": {
@@ -3141,11 +3278,11 @@
                     "type": "object"
                   },
                   "logs": {
-                    "description": "Open telemetry configuration for logs.",
+                    "description": "OpenTelemetry configuration for logs.",
                     "properties": {
                       "enable": {
                         "default": true,
-                        "description": "Set `enable` to `true` to send logs to Open Telemetry receiver.",
+                        "description": "Set `enable` to `true` to send logs to an OpenTelemetry receiver.",
                         "type": "boolean"
                       }
                     },
@@ -3153,16 +3290,16 @@
                     "additionalProperties": false
                   },
                   "metrics": {
-                    "description": "Open telemetry configuration for metrics.",
+                    "description": "OpenTelemetry configuration for metrics.",
                     "properties": {
                       "enable": {
                         "default": true,
-                        "description": "Set `enable` to `true` to send metrics to Open Telemetry receiver.",
+                        "description": "Set `enable` to `true` to send metrics to an OpenTelemetry receiver.",
                         "type": "boolean"
                       },
                       "pushTimeInterval": {
                         "default": "20s",
-                        "description": "How often should metrics be sent to collector",
+                        "description": "Specify how often metrics are sent to a collector.",
                         "type": "string"
                       }
                     },
@@ -3170,7 +3307,7 @@
                     "additionalProperties": false
                   },
                   "protocol": {
-                    "description": "Protocol of Open Telemetry connection. The available options are `http` and `grpc`.",
+                    "description": "Protocol of the OpenTelemetry connection. The available options are `http` and `grpc`.",
                     "enum": [
                       "http",
                       "grpc"
@@ -3179,18 +3316,18 @@
                   },
                   "targetHost": {
                     "default": "",
-                    "description": "Address of the Open Telemetry receiver",
+                    "description": "Address of the OpenTelemetry receiver.",
                     "type": "string"
                   },
                   "targetPort": {
-                    "description": "Port for the Open Telemetry receiver",
+                    "description": "Port for the OpenTelemetry receiver.",
                     "type": "integer"
                   },
                   "tls": {
                     "description": "TLS client configuration.",
                     "properties": {
                       "caCert": {
-                        "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                        "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                         "properties": {
                           "certFile": {
                             "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3232,7 +3369,7 @@
                         "type": "boolean"
                       },
                       "userCert": {
-                        "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                        "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                         "properties": {
                           "certFile": {
                             "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3276,7 +3413,7 @@
                 "additionalProperties": false
               },
               "type": {
-                "description": "`type` selects the type of exporters. The available options are `Kafka` and `IPFIX`.",
+                "description": "`type` selects the type of exporters. The available options are `Kafka`, `IPFIX`, and `OpenTelemetry`.",
                 "enum": [
                   "Kafka",
                   "IPFIX",
@@ -3321,7 +3458,7 @@
                       "type": "string"
                     },
                     "type": {
-                      "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                      "description": "Type for the file reference: `configmap` or `secret`.",
                       "enum": [
                         "configmap",
                         "secret"
@@ -3349,7 +3486,7 @@
                       "type": "string"
                     },
                     "type": {
-                      "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                      "description": "Type for the file reference: `configmap` or `secret`.",
                       "enum": [
                         "configmap",
                         "secret"
@@ -3378,7 +3515,7 @@
               "description": "TLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.",
               "properties": {
                 "caCert": {
-                  "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                  "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                   "properties": {
                     "certFile": {
                       "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3420,7 +3557,7 @@
                   "type": "boolean"
                 },
                 "userCert": {
-                  "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                  "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                   "properties": {
                     "certFile": {
                       "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3556,7 +3693,7 @@
                   "description": "TLS client configuration for Loki status URL.",
                   "properties": {
                     "caCert": {
-                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3598,7 +3735,7 @@
                       "type": "boolean"
                     },
                     "userCert": {
-                      "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                      "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3646,7 +3783,7 @@
                   "description": "TLS client configuration for Loki URL.",
                   "properties": {
                     "caCert": {
-                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3688,7 +3825,7 @@
                       "type": "boolean"
                     },
                     "userCert": {
-                      "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                      "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3749,7 +3886,7 @@
                   "description": "TLS client configuration for Loki URL.",
                   "properties": {
                     "caCert": {
-                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3791,7 +3928,7 @@
                       "type": "boolean"
                     },
                     "userCert": {
-                      "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                      "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3853,7 +3990,7 @@
                   "description": "TLS client configuration for Loki URL.",
                   "properties": {
                     "caCert": {
-                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                      "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3895,7 +4032,7 @@
                       "type": "boolean"
                     },
                     "userCert": {
-                      "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                      "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                       "properties": {
                         "certFile": {
                           "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -3977,18 +4114,14 @@
           "description": "`networkPolicy` defines ingress network policy settings for network observability components isolation.",
           "properties": {
             "additionalNamespaces": {
-              "default": [
-                "openshift-console",
-                "openshift-monitoring"
-              ],
-              "description": "`additionalNamespaces` contains additional namespaces allowed to connect to the network observability namespace.\nIt gives some flexibility in the network policy configuration, however should you need a more specific\nconfiguration, you can disable it and install your own instead.",
+              "description": "`additionalNamespaces` contains additional namespaces allowed to connect to the network observability namespace.\nIt provides flexibility in the network policy configuration, but if you need a more specific\nconfiguration, you can disable it and install your own instead.",
               "items": {
                 "type": "string"
               },
               "type": "array"
             },
             "enable": {
-              "description": "Set `enable` to `true` to deploy network policies on the namespaces used by network observability (main and privileged). It is disabled by default.\nThese network policies better isolate the network observability components to prevent undesired connections to them.\nWe recommend you either enable it, or create your own network policy for network observability.",
+              "description": "Set `enable` to `true` to deploy network policies on the namespaces used by network observability (main and privileged). It is disabled by default.\nThese network policies better isolate the network observability components to prevent undesired connections to them.\nTo increase the security of connections, enable this option or create your own network policy.",
               "type": "boolean"
             }
           },
@@ -4902,13 +5035,13 @@
                   "additionalProperties": false
                 },
                 "secondaryNetworks": {
-                  "description": "Define secondary networks to be checked for resources identification.\nIn order to guarantee a correct identification, it is important that the indexed values form an unique identifier across the cluster.\nIf there are collisions in the indexes (same index used by several resources), those resources might be wrongly labelled.",
+                  "description": "Defines secondary networks to be checked for resources identification.\nTo guarantee a correct identification, indexed values must form an unique identifier across the cluster.\nIf the same index is used by several resources, those resources might be incorrectly labeled.",
                   "items": {
                     "properties": {
                       "index": {
-                        "description": "`index` is a list of fields to use for indexing the pods. They should form a unique Pod identifier across the cluster.\nCan be any of: MAC, IP, Interface",
+                        "description": "`index` is a list of fields to use for indexing the pods. They should form a unique Pod identifier across the cluster.\nCan be any of: `MAC`, `IP`, `Interface`.\nFields absent from the 'k8s.v1.cni.cncf.io/network-status' annotation must not be added to the index.",
                         "items": {
-                          "description": "Field to index for secondary network pod identification, can be any of: MAC, IP, Interface",
+                          "description": "Field to index for secondary network pod identification, can be any of: `MAC`, `IP`, `Interface`.",
                           "enum": [
                             "MAC",
                             "IP",
@@ -4940,6 +5073,93 @@
               "default": "",
               "description": "`clusterName` is the name of the cluster to appear in the flows data. This is useful in a multi-cluster context. When using OpenShift, leave empty to make it automatically determined.",
               "type": "string"
+            },
+            "deduper": {
+              "description": "`deduper` allows you to sample or drop flows identified as duplicates, in order to save on resource usage.\n[Unsupported (*)].",
+              "properties": {
+                "mode": {
+                  "default": "Disabled",
+                  "description": "Set the Processor de-duplication mode. It comes in addition to the Agent-based deduplication because the Agent cannot de-duplicate same flows reported from different nodes.<br>\n- Use `Drop` to drop every flow considered as duplicates, allowing saving more on resource usage but potentially losing some information such as the network interfaces used from peer, or network events.<br>\n- Use `Sample` to randomly keep only one flow on 50, which is the default, among the ones considered as duplicates. This is a compromise between dropping every duplicate or keeping every duplicate. This sampling action comes in addition to the Agent-based sampling. If both Agent and Processor sampling values are `50`, the combined sampling is 1:2500.<br>\n- Use `Disabled` to turn off Processor-based de-duplication.<br>",
+                  "enum": [
+                    "Disabled",
+                    "Drop",
+                    "Sample"
+                  ],
+                  "type": "string"
+                },
+                "sampling": {
+                  "default": 50,
+                  "description": "`sampling` is the sampling rate when deduper `mode` is `Sample`.",
+                  "format": "int32",
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "filters": {
+              "description": "`filters` lets you define custom filters to limit the amount of generated flows.\nThese filters provide more flexibility than the eBPF Agent filters (in `spec.agent.ebpf.flowFilter`), such as allowing to filter by Kubernetes namespace,\nbut with a lesser improvement in performance.\n[Unsupported (*)].",
+              "items": {
+                "description": "`FLPFilterSet` defines the desired configuration for FLP-based filtering satisfying all conditions.",
+                "properties": {
+                  "allOf": {
+                    "description": "`filters` is a list of matches that must be all satisfied in order to remove a flow.",
+                    "items": {
+                      "description": "`FLPSingleFilter` defines the desired configuration for a single FLP-based filter.",
+                      "properties": {
+                        "field": {
+                          "description": "Name of the field to filter on.\nRefer to the documentation for the list of available fields: https://github.com/netobserv/network-observability-operator/blob/main/docs/flows-format.adoc.",
+                          "type": "string"
+                        },
+                        "matchType": {
+                          "default": "Equal",
+                          "description": "Type of matching to apply.",
+                          "enum": [
+                            "Equal",
+                            "NotEqual",
+                            "Presence",
+                            "Absence",
+                            "MatchRegex",
+                            "NotMatchRegex"
+                          ],
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Value to filter on. When `matchType` is `Equal` or `NotEqual`, you can use field injection with `$(SomeField)` to refer to any other field of the flow.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "field",
+                        "matchType"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "type": "array"
+                  },
+                  "outputTarget": {
+                    "description": "If specified, these filters only target a single output: `Loki`, `Metrics` or `Exporters`. By default, all outputs are targeted.",
+                    "enum": [
+                      "",
+                      "Loki",
+                      "Metrics",
+                      "Exporters"
+                    ],
+                    "type": "string"
+                  },
+                  "sampling": {
+                    "description": "`sampling` is an optional sampling rate to apply to this filter.",
+                    "format": "int32",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              },
+              "type": "array"
             },
             "imagePullPolicy": {
               "default": "IfNotPresent",
@@ -5463,7 +5683,7 @@
             },
             "logTypes": {
               "default": "Flows",
-              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br>\n- `Flows` (default) to export regular network flows<br>\n- `Conversations` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates<br>\n- `EndedConversations` to generate only ended conversations events<br>\n- `All` to generate both network flows and all conversations events<br>",
+              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br>\n- `Flows` to export regular network flows. This is the default.<br>\n- `Conversations` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates.<br>\n- `EndedConversations` to generate only ended conversations events.<br>\n- `All` to generate both network flows and all conversations events. It is not recommended due to the impact on resources footprint.<br>",
               "enum": [
                 "Flows",
                 "Conversations",
@@ -5488,7 +5708,7 @@
                   "type": "array"
                 },
                 "includeList": {
-                  "description": "`includeList` is a list of metric names to specify which ones to generate.\nThe names correspond to the names in Prometheus without the prefix. For example,\n`namespace_egress_packets_total` shows up as `netobserv_namespace_egress_packets_total` in Prometheus.\nNote that the more metrics you add, the bigger is the impact on Prometheus workload resources.\nMetrics enabled by default are:\n`namespace_flows_total`, `node_ingress_bytes_total`, `node_egress_bytes_total`, `workload_ingress_bytes_total`,\n`workload_egress_bytes_total`, `namespace_drop_packets_total` (when `PacketDrop` feature is enabled),\n`namespace_rtt_seconds` (when `FlowRTT` feature is enabled), `namespace_dns_latency_seconds` (when `DNSTracking` feature is enabled).\nMore information, with full list of available metrics: https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md",
+                  "description": "`includeList` is a list of metric names to specify which ones to generate.\nThe names correspond to the names in Prometheus without the prefix. For example,\n`namespace_egress_packets_total` shows up as `netobserv_namespace_egress_packets_total` in Prometheus.\nNote that the more metrics you add, the bigger is the impact on Prometheus workload resources.\nMetrics enabled by default are:\n`namespace_flows_total`, `node_ingress_bytes_total`, `node_egress_bytes_total`, `workload_ingress_bytes_total`,\n`workload_egress_bytes_total`, `namespace_drop_packets_total` (when `PacketDrop` feature is enabled),\n`namespace_rtt_seconds` (when `FlowRTT` feature is enabled), `namespace_dns_latency_seconds` (when `DNSTracking` feature is enabled),\n`namespace_network_policy_events_total` (when `NetworkEvents` feature is enabled).\nMore information, with full list of available metrics: https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md",
                   "items": {
                     "description": "Metric name. More information in https://github.com/netobserv/network-observability-operator/blob/main/docs/Metrics.md.",
                     "enum": [
@@ -5518,7 +5738,10 @@
                       "workload_rtt_seconds",
                       "namespace_dns_latency_seconds",
                       "node_dns_latency_seconds",
-                      "workload_dns_latency_seconds"
+                      "workload_dns_latency_seconds",
+                      "node_network_policy_events_total",
+                      "namespace_network_policy_events_total",
+                      "workload_network_policy_events_total"
                     ],
                     "type": "string"
                   },
@@ -5591,7 +5814,7 @@
                               "type": "string"
                             },
                             "type": {
-                              "description": "Type for the file reference: \"configmap\" or \"secret\".",
+                              "description": "Type for the file reference: `configmap` or `secret`.",
                               "enum": [
                                 "configmap",
                                 "secret"
@@ -5768,7 +5991,7 @@
                       "description": "TLS client configuration for Prometheus URL.",
                       "properties": {
                         "caCert": {
-                          "description": "`caCert` defines the reference of the certificate for the Certificate Authority",
+                          "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
                           "properties": {
                             "certFile": {
                               "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -5810,7 +6033,7 @@
                           "type": "boolean"
                         },
                         "userCert": {
-                          "description": "`userCert` defines the user certificate reference and is used for mTLS (you can ignore it when using one-way TLS)",
+                          "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
                           "properties": {
                             "certFile": {
                               "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
@@ -5887,7 +6110,7 @@
       "description": "`FlowCollectorStatus` defines the observed state of FlowCollector",
       "properties": {
         "conditions": {
-          "description": "`conditions` represent the latest available observations of an object's state",
+          "description": "`conditions` represents the latest available observations of an object's state",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {

@@ -33,25 +33,25 @@
                 "type": "string"
               },
               "simpleMacvlanConfig": {
-                "description": "SimpleMacvlanConfig configures the macvlan interface in case of type:NetworkTypeSimpleMacvlan",
+                "description": "simpleMacvlanConfig configures the macvlan interface in case of type:NetworkTypeSimpleMacvlan",
                 "properties": {
                   "ipamConfig": {
-                    "description": "IPAMConfig configures IPAM module will be used for IP Address Management (IPAM).",
+                    "description": "ipamConfig configures IPAM module will be used for IP Address Management (IPAM).",
                     "properties": {
                       "staticIPAMConfig": {
-                        "description": "StaticIPAMConfig configures the static IP address in case of type:IPAMTypeStatic",
+                        "description": "staticIPAMConfig configures the static IP address in case of type:IPAMTypeStatic",
                         "properties": {
                           "addresses": {
-                            "description": "Addresses configures IP address for the interface",
+                            "description": "addresses configures IP address for the interface",
                             "items": {
                               "description": "StaticIPAMAddresses provides IP address and Gateway for static IPAM addresses",
                               "properties": {
                                 "address": {
-                                  "description": "Address is the IP address in CIDR format",
+                                  "description": "address is the IP address in CIDR format",
                                   "type": "string"
                                 },
                                 "gateway": {
-                                  "description": "Gateway is IP inside of subnet to designate as the gateway",
+                                  "description": "gateway is IP inside of subnet to designate as the gateway",
                                   "type": "string"
                                 }
                               },
@@ -62,14 +62,14 @@
                             "x-kubernetes-list-type": "atomic"
                           },
                           "dns": {
-                            "description": "DNS configures DNS for the interface",
+                            "description": "dns configures DNS for the interface",
                             "properties": {
                               "domain": {
-                                "description": "Domain configures the domainname the local domain used for short hostname lookups",
+                                "description": "domain configures the domainname the local domain used for short hostname lookups",
                                 "type": "string"
                               },
                               "nameservers": {
-                                "description": "Nameservers points DNS servers for IP lookup",
+                                "description": "nameservers points DNS servers for IP lookup",
                                 "items": {
                                   "type": "string"
                                 },
@@ -77,7 +77,7 @@
                                 "x-kubernetes-list-type": "atomic"
                               },
                               "search": {
-                                "description": "Search configures priority ordered search domains for short hostname lookups",
+                                "description": "search configures priority ordered search domains for short hostname lookups",
                                 "items": {
                                   "type": "string"
                                 },
@@ -89,16 +89,16 @@
                             "additionalProperties": false
                           },
                           "routes": {
-                            "description": "Routes configures IP routes for the interface",
+                            "description": "routes configures IP routes for the interface",
                             "items": {
                               "description": "StaticIPAMRoutes provides Destination/Gateway pairs for static IPAM routes",
                               "properties": {
                                 "destination": {
-                                  "description": "Destination points the IP route destination",
+                                  "description": "destination points the IP route destination",
                                   "type": "string"
                                 },
                                 "gateway": {
-                                  "description": "Gateway is the route's next-hop IP address\nIf unset, a default gateway is assumed (as determined by the CNI plugin).",
+                                  "description": "gateway is the route's next-hop IP address\nIf unset, a default gateway is assumed (as determined by the CNI plugin).",
                                   "type": "string"
                                 }
                               },
@@ -113,7 +113,7 @@
                         "additionalProperties": false
                       },
                       "type": {
-                        "description": "Type is the type of IPAM module will be used for IP Address Management(IPAM).\nThe supported values are IPAMTypeDHCP, IPAMTypeStatic",
+                        "description": "type is the type of IPAM module will be used for IP Address Management(IPAM).\nThe supported values are IPAMTypeDHCP, IPAMTypeStatic",
                         "type": "string"
                       }
                     },
@@ -155,6 +155,35 @@
           ],
           "x-kubernetes-list-type": "map"
         },
+        "additionalRoutingCapabilities": {
+          "description": "additionalRoutingCapabilities describes components and relevant\nconfiguration providing additional routing capabilities. When set, it\nenables such components and the usage of the routing capabilities they\nprovide for the machine network. Upstream operators, like MetalLB\noperator, requiring these capabilities may rely on, or automatically set\nthis attribute. Network plugins may leverage advanced routing\ncapabilities acquired through the enablement of these components but may\nrequire specific configuration on their side to do so; refer to their\nrespective documentation and configuration options.",
+          "properties": {
+            "providers": {
+              "description": "providers is a set of enabled components that provide additional routing\ncapabilities. Entries on this list must be unique. The  only valid value\nis currrently \"FRR\" which provides FRR routing capabilities through the\ndeployment of FRR.",
+              "items": {
+                "description": "RoutingCapabilitiesProvider is a component providing routing capabilities.",
+                "enum": [
+                  "FRR"
+                ],
+                "type": "string"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array",
+              "x-kubernetes-list-type": "atomic",
+              "x-kubernetes-validations": [
+                {
+                  "rule": "self.all(x, self.exists_one(y, x == y))"
+                }
+              ]
+            }
+          },
+          "required": [
+            "providers"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
         "clusterNetwork": {
           "description": "clusterNetwork is the IP address pool to use for pod IPs.\nSome network providers support multiple ClusterNetworks.\nOthers only support one. This is equivalent to the cluster-cidr.",
           "items": {
@@ -179,7 +208,7 @@
           "description": "defaultNetwork is the \"default\" network that all pods will receive",
           "properties": {
             "openshiftSDNConfig": {
-              "description": "openShiftSDNConfig was previously used to configure the openshift-sdn plugin.\nDEPRECATED: OpenShift SDN is no longer supported.",
+              "description": "openshiftSDNConfig was previously used to configure the openshift-sdn plugin.\nDEPRECATED: OpenShift SDN is no longer supported.",
               "properties": {
                 "enableUnidling": {
                   "description": "enableUnidling controls whether or not the service proxy will support idling\nand unidling of services. By default, unidling is enabled.",
@@ -230,7 +259,7 @@
                   "description": "gatewayConfig holds the configuration for node gateway options.",
                   "properties": {
                     "ipForwarding": {
-                      "description": "IPForwarding controls IP forwarding for all traffic on OVN-Kubernetes managed interfaces (such as br-ex).\nBy default this is set to Restricted, and Kubernetes related traffic is still forwarded appropriately, but other\nIP traffic will not be routed by the OCP node. If there is a desire to allow the host to forward traffic across\nOVN-Kubernetes managed interfaces, then set this field to \"Global\".\nThe supported values are \"Restricted\" and \"Global\".",
+                      "description": "ipForwarding controls IP forwarding for all traffic on OVN-Kubernetes managed interfaces (such as br-ex).\nBy default this is set to Restricted, and Kubernetes related traffic is still forwarded appropriately, but other\nIP traffic will not be routed by the OCP node. If there is a desire to allow the host to forward traffic across\nOVN-Kubernetes managed interfaces, then set this field to \"Global\".\nThe supported values are \"Restricted\" and \"Global\".",
                       "type": "string"
                     },
                     "ipv4": {
@@ -282,7 +311,7 @@
                     },
                     "routingViaHost": {
                       "default": false,
-                      "description": "RoutingViaHost allows pod egress traffic to exit via the ovn-k8s-mp0 management port\ninto the host before sending it out. If this is not set, traffic will always egress directly\nfrom OVN to outside without touching the host stack. Setting this to true means hardware\noffload will not be supported. Default is false if GatewayConfig is specified.",
+                      "description": "routingViaHost allows pod egress traffic to exit via the ovn-k8s-mp0 management port\ninto the host before sending it out. If this is not set, traffic will always egress directly\nfrom OVN to outside without touching the host stack. Setting this to true means hardware\noffload will not be supported. Default is false if GatewayConfig is specified.",
                       "type": "boolean"
                     }
                   },
@@ -296,10 +325,10 @@
                   "type": "integer"
                 },
                 "hybridOverlayConfig": {
-                  "description": "HybridOverlayConfig configures an additional overlay network for peers that are\nnot using OVN.",
+                  "description": "hybridOverlayConfig configures an additional overlay network for peers that are\nnot using OVN.",
                   "properties": {
                     "hybridClusterNetwork": {
-                      "description": "HybridClusterNetwork defines a network space given to nodes on an additional overlay network.",
+                      "description": "hybridClusterNetwork defines a network space given to nodes on an additional overlay network.",
                       "items": {
                         "description": "ClusterNetworkEntry is a subnet from which to allocate PodIPs. A network of size\nHostPrefix (in CIDR notation) will be allocated when nodes join the cluster. If\nthe HostPrefix field is not used by the plugin, it can be left unset.\nNot all network providers support multiple ClusterNetworks",
                         "properties": {
@@ -319,7 +348,7 @@
                       "x-kubernetes-list-type": "atomic"
                     },
                     "hybridOverlayVXLANPort": {
-                      "description": "HybridOverlayVXLANPort defines the VXLAN port number to be used by the additional overlay network.\nDefault is 4789",
+                      "description": "hybridOverlayVXLANPort defines the VXLAN port number to be used by the additional overlay network.\nDefault is 4789",
                       "format": "int32",
                       "type": "integer"
                     }

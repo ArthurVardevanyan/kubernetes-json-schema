@@ -87,7 +87,7 @@
         "conditions": {
           "description": "conditions represents the state of the per-node Profile application",
           "items": {
-            "description": "ProfileStatusCondition represents a partial state of the per-node Profile application.",
+            "description": "StatusCondition represents a partial state of the per-node Profile application.",
             "properties": {
               "lastTransitionTime": {
                 "description": "lastTransitionTime is the time of the last update to the current status property.",
@@ -120,6 +120,11 @@
             "additionalProperties": false
           },
           "type": "array"
+        },
+        "observedGeneration": {
+          "description": "If set, this represents the .metadata.generation that the conditions were set based upon.",
+          "format": "int64",
+          "type": "integer"
         },
         "tunedProfile": {
           "description": "the current profile in use by the Tuned daemon",

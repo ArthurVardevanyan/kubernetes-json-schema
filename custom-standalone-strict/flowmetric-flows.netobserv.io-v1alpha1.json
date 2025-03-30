@@ -152,6 +152,13 @@
           },
           "type": "array"
         },
+        "flatten": {
+          "description": "`flatten` is a list of array-type fields that must be flattened, such as Interfaces or NetworkEvents. Flattened fields generate one metric per item in that field.\nFor instance, when flattening `Interfaces` on a bytes counter, a flow having Interfaces [br-ex, ens5] increases one counter for `br-ex` and another for `ens5`.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "labels": {
           "description": "`labels` is a list of fields that should be used as Prometheus labels, also known as dimensions.\nFrom choosing labels results the level of granularity of this metric, and the available aggregations at query time.\nIt must be done carefully as it impacts the metric cardinality (cf https://rhobs-handbook.netlify.app/products/openshiftmonitoring/telemetry.md/#what-is-the-cardinality-of-a-metric).\nIn general, avoid setting very high cardinality labels such as IP or MAC addresses.\n\"SrcK8S_OwnerName\" or \"DstK8S_OwnerName\" should be preferred over \"SrcK8S_Name\" or \"DstK8S_Name\" as much as possible.\nRefer to the documentation for the list of available fields: https://docs.openshift.com/container-platform/latest/observability/network_observability/json-flows-format-reference.html.",
           "items": {
@@ -167,7 +174,7 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "`remap` allows to use different names for the generated metric labels than the flow fields. Use the origin flow fields as keys, and the desired label names as values.",
+          "description": "Set the `remap` property to use different names for the generated metric labels than the flow fields. Use the origin flow fields as keys, and the desired label names as values.",
           "type": "object"
         },
         "type": {

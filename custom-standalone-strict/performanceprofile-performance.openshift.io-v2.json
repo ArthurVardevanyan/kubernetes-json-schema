@@ -108,6 +108,11 @@
           "type": "object",
           "additionalProperties": false
         },
+        "kernelPageSize": {
+          "default": "4k",
+          "description": "KernelPageSize defines the kernel page size. 4k is the default, 64k is only supported on aarch64",
+          "type": "string"
+        },
         "machineConfigLabel": {
           "additionalProperties": {
             "type": "string"

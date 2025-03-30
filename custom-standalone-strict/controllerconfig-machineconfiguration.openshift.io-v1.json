@@ -13,7 +13,7 @@
       "type": "object"
     },
     "spec": {
-      "description": "ControllerConfigSpec is the spec for ControllerConfig resource.",
+      "description": "spec contains the desired controller config configuration.",
       "properties": {
         "additionalTrustBundle": {
           "description": "additionalTrustBundle is a certificate bundle that will be added to the nodes\ntrusted certificate store.",
@@ -22,15 +22,15 @@
           "type": "string"
         },
         "baseOSContainerImage": {
-          "description": "BaseOSContainerImage is the new-format container image for operating system updates.",
+          "description": "baseOSContainerImage is the new-format container image for operating system updates.",
           "type": "string"
         },
         "baseOSExtensionsContainerImage": {
-          "description": "BaseOSExtensionsContainerImage is the matching extensions container for the new-format container",
+          "description": "baseOSExtensionsContainerImage is the matching extensions container for the new-format container",
           "type": "string"
         },
         "cloudProviderCAData": {
-          "description": "cloudProvider specifies the cloud provider CA data",
+          "description": "cloudProviderCAData specifies the cloud provider CA data",
           "format": "byte",
           "nullable": true,
           "type": "string"
@@ -259,7 +259,7 @@
                   "description": "cloudConfig is a reference to a ConfigMap containing the cloud provider configuration file.\nThis configuration file is used to configure the Kubernetes cloud provider integration\nwhen using the built-in cloud provider integration or the external cloud controller manager.\nThe namespace for this config map is openshift-config.\n\ncloudConfig should only be consumed by the kube_cloud_config controller.\nThe controller is responsible for using the user configuration in the spec\nfor various platforms and combining that with the user provided ConfigMap in this field\nto create a stitched kube cloud config.\nThe controller generates a ConfigMap `kube-cloud-config` in `openshift-config-managed` namespace\nwith the kube cloud config is stored in `cloud.conf` key.\nAll the clients are expected to use the generated ConfigMap only.",
                   "properties": {
                     "key": {
-                      "description": "Key allows pointing to a specific key/value inside of the configmap.  This is useful for logical file references.",
+                      "description": "key allows pointing to a specific key/value inside of the configmap.  This is useful for logical file references.",
                       "type": "string"
                     },
                     "name": {
@@ -273,11 +273,11 @@
                   "description": "platformSpec holds desired information specific to the underlying\ninfrastructure provider.",
                   "properties": {
                     "alibabaCloud": {
-                      "description": "AlibabaCloud contains settings specific to the Alibaba Cloud infrastructure provider.",
+                      "description": "alibabaCloud contains settings specific to the Alibaba Cloud infrastructure provider.",
                       "type": "object"
                     },
                     "aws": {
-                      "description": "AWS contains settings specific to the Amazon Web Services infrastructure provider.",
+                      "description": "aws contains settings specific to the Amazon Web Services infrastructure provider.",
                       "properties": {
                         "serviceEndpoints": {
                           "description": "serviceEndpoints list contains custom endpoints which will override default\nservice endpoint of AWS Services.\nThere must be only one ServiceEndpoint for a service.",
@@ -306,11 +306,11 @@
                       "additionalProperties": false
                     },
                     "azure": {
-                      "description": "Azure contains settings specific to the Azure infrastructure provider.",
+                      "description": "azure contains settings specific to the Azure infrastructure provider.",
                       "type": "object"
                     },
                     "baremetal": {
-                      "description": "BareMetal contains settings specific to the BareMetal platform.",
+                      "description": "baremetal contains settings specific to the BareMetal platform.",
                       "properties": {
                         "apiServerInternalIPs": {
                           "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API\nserver that can be used by components inside the cluster, like kubelets\nusing the infrastructure rather than Kubernetes networking. These are the\nIPs for a self-hosted load balancer in front of the API servers.\nIn dual stack clusters this list contains two IP addresses, one from IPv4\nfamily and one from IPv6.\nIn single stack clusters a single IP address is expected.\nWhen omitted, values from the status.apiServerInternalIPs will be used.\nOnce set, the list cannot be completely removed (but its second entry can).",
@@ -398,7 +398,7 @@
                       "additionalProperties": false
                     },
                     "equinixMetal": {
-                      "description": "EquinixMetal contains settings specific to the Equinix Metal infrastructure provider.",
+                      "description": "equinixMetal contains settings specific to the Equinix Metal infrastructure provider.",
                       "type": "object"
                     },
                     "external": {
@@ -406,7 +406,7 @@
                       "properties": {
                         "platformName": {
                           "default": "Unknown",
-                          "description": "PlatformName holds the arbitrary string representing the infrastructure provider name, expected to be set at the installation time.\nThis field is solely for informational and reporting purposes and is not expected to be used for decision-making.",
+                          "description": "platformName holds the arbitrary string representing the infrastructure provider name, expected to be set at the installation time.\nThis field is solely for informational and reporting purposes and is not expected to be used for decision-making.",
                           "type": "string",
                           "x-kubernetes-validations": [
                             {
@@ -420,19 +420,19 @@
                       "additionalProperties": false
                     },
                     "gcp": {
-                      "description": "GCP contains settings specific to the Google Cloud Platform infrastructure provider.",
+                      "description": "gcp contains settings specific to the Google Cloud Platform infrastructure provider.",
                       "type": "object"
                     },
                     "ibmcloud": {
-                      "description": "IBMCloud contains settings specific to the IBMCloud infrastructure provider.",
+                      "description": "ibmcloud contains settings specific to the IBMCloud infrastructure provider.",
                       "type": "object"
                     },
                     "kubevirt": {
-                      "description": "Kubevirt contains settings specific to the kubevirt infrastructure provider.",
+                      "description": "kubevirt contains settings specific to the kubevirt infrastructure provider.",
                       "type": "object"
                     },
                     "nutanix": {
-                      "description": "Nutanix contains settings specific to the Nutanix infrastructure provider.",
+                      "description": "nutanix contains settings specific to the Nutanix infrastructure provider.",
                       "properties": {
                         "failureDomains": {
                           "description": "failureDomains configures failure domains information for the Nutanix platform.\nWhen set, the failure domains defined here may be used to spread Machines across\nprism element clusters to improve fault tolerance of the cluster.",
@@ -619,7 +619,7 @@
                       "additionalProperties": false
                     },
                     "openstack": {
-                      "description": "OpenStack contains settings specific to the OpenStack infrastructure provider.",
+                      "description": "openstack contains settings specific to the OpenStack infrastructure provider.",
                       "properties": {
                         "apiServerInternalIPs": {
                           "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API\nserver that can be used by components inside the cluster, like kubelets\nusing the infrastructure rather than Kubernetes networking. These are the\nIPs for a self-hosted load balancer in front of the API servers.\nIn dual stack clusters this list contains two IP addresses, one from IPv4\nfamily and one from IPv6.\nIn single stack clusters a single IP address is expected.\nWhen omitted, values from the status.apiServerInternalIPs will be used.\nOnce set, the list cannot be completely removed (but its second entry can).",
@@ -707,11 +707,11 @@
                       "additionalProperties": false
                     },
                     "ovirt": {
-                      "description": "Ovirt contains settings specific to the oVirt infrastructure provider.",
+                      "description": "ovirt contains settings specific to the oVirt infrastructure provider.",
                       "type": "object"
                     },
                     "powervs": {
-                      "description": "PowerVS contains settings specific to the IBM Power Systems Virtual Servers infrastructure provider.",
+                      "description": "powervs contains settings specific to the IBM Power Systems Virtual Servers infrastructure provider.",
                       "properties": {
                         "serviceEndpoints": {
                           "description": "serviceEndpoints is a list of custom endpoints which will override the default\nservice endpoints of a Power VS service.",
@@ -786,7 +786,7 @@
                       "type": "string"
                     },
                     "vsphere": {
-                      "description": "VSphere contains settings specific to the VSphere infrastructure provider.",
+                      "description": "vsphere contains settings specific to the VSphere infrastructure provider.",
                       "properties": {
                         "apiServerInternalIPs": {
                           "description": "apiServerInternalIPs are the IP addresses to contact the Kubernetes API\nserver that can be used by components inside the cluster, like kubelets\nusing the infrastructure rather than Kubernetes networking. These are the\nIPs for a self-hosted load balancer in front of the API servers.\nIn dual stack clusters this list contains two IP addresses, one from IPv4\nfamily and one from IPv6.\nIn single stack clusters a single IP address is expected.\nWhen omitted, values from the status.apiServerInternalIPs will be used.\nOnce set, the list cannot be completely removed (but its second entry can).",
@@ -854,7 +854,7 @@
                                 "type": "string"
                               },
                               "topology": {
-                                "description": "Topology describes a given failure domain using vSphere constructs",
+                                "description": "topology describes a given failure domain using vSphere constructs",
                                 "properties": {
                                   "computeCluster": {
                                     "description": "computeCluster the absolute path of the vCenter cluster\nin which virtual machine will be located.\nThe absolute path is of the form /<datacenter>/host/<cluster>.\nThe maximum length of the path is 2048 characters.",
@@ -1248,7 +1248,7 @@
                   "description": "platformStatus holds status information specific to the underlying\ninfrastructure provider.",
                   "properties": {
                     "alibabaCloud": {
-                      "description": "AlibabaCloud contains settings specific to the Alibaba Cloud infrastructure provider.",
+                      "description": "alibabaCloud contains settings specific to the Alibaba Cloud infrastructure provider.",
                       "properties": {
                         "region": {
                           "description": "region specifies the region for Alibaba Cloud resources created for the cluster.",
@@ -1300,7 +1300,7 @@
                       "additionalProperties": false
                     },
                     "aws": {
-                      "description": "AWS contains settings specific to the Amazon Web Services infrastructure provider.",
+                      "description": "aws contains settings specific to the Amazon Web Services infrastructure provider.",
                       "properties": {
                         "region": {
                           "description": "region holds the default AWS region for new AWS resources created by the cluster.",
@@ -1312,18 +1312,28 @@
                             "description": "AWSResourceTag is a tag to apply to AWS resources created for the cluster.",
                             "properties": {
                               "key": {
-                                "description": "key is the key of the tag",
+                                "description": "key sets the key of the AWS resource tag key-value pair. Key is required when defining an AWS resource tag.\nKey should consist of between 1 and 128 characters, and may\ncontain only the set of alphanumeric characters, space (' '), '_', '.', '/', '=', '+', '-', ':', and '@'.",
                                 "maxLength": 128,
                                 "minLength": 1,
-                                "pattern": "^[0-9A-Za-z_.:/=+-@]+$",
-                                "type": "string"
+                                "type": "string",
+                                "x-kubernetes-validations": [
+                                  {
+                                    "message": "invalid AWS resource tag key. The string can contain only the set of alphanumeric characters, space (' '), '_', '.', '/', '=', '+', '-', ':', '@'",
+                                    "rule": "self.matches('^[0-9A-Za-z_.:/=+-@ ]+$')"
+                                  }
+                                ]
                               },
                               "value": {
-                                "description": "value is the value of the tag.\nSome AWS service do not support empty values. Since tags are added to resources in many services, the\nlength of the tag value must meet the requirements of all services.",
+                                "description": "value sets the value of the AWS resource tag key-value pair. Value is required when defining an AWS resource tag.\nValue should consist of between 1 and 256 characters, and may\ncontain only the set of alphanumeric characters, space (' '), '_', '.', '/', '=', '+', '-', ':', and '@'.\nSome AWS service do not support empty values. Since tags are added to resources in many services, the\nlength of the tag value must meet the requirements of all services.",
                                 "maxLength": 256,
                                 "minLength": 1,
-                                "pattern": "^[0-9A-Za-z_.:/=+-@]+$",
-                                "type": "string"
+                                "type": "string",
+                                "x-kubernetes-validations": [
+                                  {
+                                    "message": "invalid AWS resource tag value. The string can contain only the set of alphanumeric characters, space (' '), '_', '.', '/', '=', '+', '-', ':', '@'",
+                                    "rule": "self.matches('^[0-9A-Za-z_.:/=+-@ ]+$')"
+                                  }
+                                ]
                               }
                             },
                             "required": [
@@ -1338,7 +1348,7 @@
                           "x-kubernetes-list-type": "atomic"
                         },
                         "serviceEndpoints": {
-                          "description": "ServiceEndpoints list contains custom endpoints which will override default\nservice endpoint of AWS Services.\nThere must be only one ServiceEndpoint for a service.",
+                          "description": "serviceEndpoints list contains custom endpoints which will override default\nservice endpoint of AWS Services.\nThere must be only one ServiceEndpoint for a service.",
                           "items": {
                             "description": "AWSServiceEndpoint store the configuration of a custom url to\noverride existing defaults of AWS Services.",
                             "properties": {
@@ -1364,7 +1374,7 @@
                       "additionalProperties": false
                     },
                     "azure": {
-                      "description": "Azure contains settings specific to the Azure infrastructure provider.",
+                      "description": "azure contains settings specific to the Azure infrastructure provider.",
                       "properties": {
                         "armEndpoint": {
                           "description": "armEndpoint specifies a URL to use for resource management in non-soverign clouds such as Azure Stack.",
@@ -1438,7 +1448,7 @@
                       "additionalProperties": false
                     },
                     "baremetal": {
-                      "description": "BareMetal contains settings specific to the BareMetal platform.",
+                      "description": "baremetal contains settings specific to the BareMetal platform.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.\n\nDeprecated: Use APIServerInternalIPs instead.",
@@ -1537,7 +1547,7 @@
                       "additionalProperties": false
                     },
                     "equinixMetal": {
-                      "description": "EquinixMetal contains settings specific to the Equinix Metal infrastructure provider.",
+                      "description": "equinixMetal contains settings specific to the Equinix Metal infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.",
@@ -1552,7 +1562,7 @@
                       "additionalProperties": false
                     },
                     "external": {
-                      "description": "External contains settings specific to the generic External infrastructure provider.",
+                      "description": "external contains settings specific to the generic External infrastructure provider.",
                       "properties": {
                         "cloudControllerManager": {
                           "description": "cloudControllerManager contains settings specific to the external Cloud Controller Manager (a.k.a. CCM or CPI).\nWhen omitted, new nodes will be not tainted\nand no extra initialization from the cloud controller manager is expected.",
@@ -1593,7 +1603,7 @@
                       "additionalProperties": false
                     },
                     "gcp": {
-                      "description": "GCP contains settings specific to the Google Cloud Platform infrastructure provider.",
+                      "description": "gcp contains settings specific to the Google Cloud Platform infrastructure provider.",
                       "properties": {
                         "projectID": {
                           "description": "resourceGroupName is the Project ID for new GCP resources created for the cluster.",
@@ -1712,30 +1722,30 @@
                       "additionalProperties": false
                     },
                     "ibmcloud": {
-                      "description": "IBMCloud contains settings specific to the IBMCloud infrastructure provider.",
+                      "description": "ibmcloud contains settings specific to the IBMCloud infrastructure provider.",
                       "properties": {
                         "cisInstanceCRN": {
-                          "description": "CISInstanceCRN is the CRN of the Cloud Internet Services instance managing\nthe DNS zone for the cluster's base domain",
+                          "description": "cisInstanceCRN is the CRN of the Cloud Internet Services instance managing\nthe DNS zone for the cluster's base domain",
                           "type": "string"
                         },
                         "dnsInstanceCRN": {
-                          "description": "DNSInstanceCRN is the CRN of the DNS Services instance managing the DNS zone\nfor the cluster's base domain",
+                          "description": "dnsInstanceCRN is the CRN of the DNS Services instance managing the DNS zone\nfor the cluster's base domain",
                           "type": "string"
                         },
                         "location": {
-                          "description": "Location is where the cluster has been deployed",
+                          "description": "location is where the cluster has been deployed",
                           "type": "string"
                         },
                         "providerType": {
-                          "description": "ProviderType indicates the type of cluster that was created",
+                          "description": "providerType indicates the type of cluster that was created",
                           "type": "string"
                         },
                         "resourceGroupName": {
-                          "description": "ResourceGroupName is the Resource Group for new IBMCloud resources created for the cluster.",
+                          "description": "resourceGroupName is the Resource Group for new IBMCloud resources created for the cluster.",
                           "type": "string"
                         },
                         "serviceEndpoints": {
-                          "description": "serviceEndpoints is a list of custom endpoints which will override the default\nservice endpoints of an IBM Cloud service. These endpoints are consumed by\ncomponents within the cluster to reach the respective IBM Cloud Services.",
+                          "description": "serviceEndpoints is a list of custom endpoints which will override the default\nservice endpoints of an IBM service. These endpoints are used by components\nwithin the cluster when trying to reach the IBM Cloud Services that have been\noverriden. The CCCMO reads in the IBMCloudPlatformSpec and validates each\nendpoint is resolvable. Once validated, the cloud config and IBMCloudPlatformStatus\nare updated to reflect the same custom endpoints.",
                           "items": {
                             "description": "IBMCloudServiceEndpoint stores the configuration of a custom url to\noverride existing defaults of IBM Cloud Services.",
                             "properties": {
@@ -1759,7 +1769,8 @@
                                 "type": "string"
                               },
                               "url": {
-                                "description": "url is fully qualified URI with scheme https, that overrides the default generated\nendpoint for a client.\nThis must be provided and cannot be empty.",
+                                "description": "url is fully qualified URI with scheme https, that overrides the default generated\nendpoint for a client.\nThis must be provided and cannot be empty. The path must follow the pattern\n/v[0,9]+ or /api/v[0,9]+",
+                                "maxLength": 300,
                                 "type": "string",
                                 "x-kubernetes-validations": [
                                   {
@@ -1787,7 +1798,7 @@
                       "additionalProperties": false
                     },
                     "kubevirt": {
-                      "description": "Kubevirt contains settings specific to the kubevirt infrastructure provider.",
+                      "description": "kubevirt contains settings specific to the kubevirt infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.",
@@ -1802,7 +1813,7 @@
                       "additionalProperties": false
                     },
                     "nutanix": {
-                      "description": "Nutanix contains settings specific to the Nutanix infrastructure provider.",
+                      "description": "nutanix contains settings specific to the Nutanix infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.\n\nDeprecated: Use APIServerInternalIPs instead.",
@@ -1874,7 +1885,7 @@
                       "additionalProperties": false
                     },
                     "openstack": {
-                      "description": "OpenStack contains settings specific to the OpenStack infrastructure provider.",
+                      "description": "openstack contains settings specific to the OpenStack infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.\n\nDeprecated: Use APIServerInternalIPs instead.",
@@ -1977,7 +1988,7 @@
                       "additionalProperties": false
                     },
                     "ovirt": {
-                      "description": "Ovirt contains settings specific to the oVirt infrastructure provider.",
+                      "description": "ovirt contains settings specific to the oVirt infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.\n\nDeprecated: Use APIServerInternalIPs instead.",
@@ -2053,14 +2064,14 @@
                       "additionalProperties": false
                     },
                     "powervs": {
-                      "description": "PowerVS contains settings specific to the Power Systems Virtual Servers infrastructure provider.",
+                      "description": "powervs contains settings specific to the Power Systems Virtual Servers infrastructure provider.",
                       "properties": {
                         "cisInstanceCRN": {
-                          "description": "CISInstanceCRN is the CRN of the Cloud Internet Services instance managing\nthe DNS zone for the cluster's base domain",
+                          "description": "cisInstanceCRN is the CRN of the Cloud Internet Services instance managing\nthe DNS zone for the cluster's base domain",
                           "type": "string"
                         },
                         "dnsInstanceCRN": {
-                          "description": "DNSInstanceCRN is the CRN of the DNS Services instance managing the DNS zone\nfor the cluster's base domain",
+                          "description": "dnsInstanceCRN is the CRN of the DNS Services instance managing the DNS zone\nfor the cluster's base domain",
                           "type": "string"
                         },
                         "region": {
@@ -2162,7 +2173,7 @@
                       "type": "string"
                     },
                     "vsphere": {
-                      "description": "VSphere contains settings specific to the VSphere infrastructure provider.",
+                      "description": "vsphere contains settings specific to the VSphere infrastructure provider.",
                       "properties": {
                         "apiServerInternalIP": {
                           "description": "apiServerInternalIP is an IP address to contact the Kubernetes API server that can be used\nby components inside the cluster, like kubelets using the infrastructure rather\nthan Kubernetes networking. It is the IP that the Infrastructure.status.apiServerInternalURI\npoints to. It is the IP for a self-hosted load balancer in front of the API servers.\n\nDeprecated: Use APIServerInternalIPs instead.",
@@ -2292,24 +2303,24 @@
           "type": "string"
         },
         "network": {
-          "description": "Network contains additional network related information",
+          "description": "network contains additional network related information",
           "nullable": true,
           "properties": {
             "mtuMigration": {
-              "description": "MTUMigration contains the MTU migration configuration.",
+              "description": "mtuMigration contains the MTU migration configuration.",
               "nullable": true,
               "properties": {
                 "machine": {
-                  "description": "Machine contains MTU migration configuration for the machine's uplink.",
+                  "description": "machine contains MTU migration configuration for the machine's uplink.",
                   "properties": {
                     "from": {
-                      "description": "From is the MTU to migrate from.",
+                      "description": "from is the MTU to migrate from.",
                       "format": "int32",
                       "minimum": 0,
                       "type": "integer"
                     },
                     "to": {
-                      "description": "To is the MTU to migrate to.",
+                      "description": "to is the MTU to migrate to.",
                       "format": "int32",
                       "minimum": 0,
                       "type": "integer"
@@ -2319,16 +2330,16 @@
                   "additionalProperties": false
                 },
                 "network": {
-                  "description": "Network contains MTU migration configuration for the default network.",
+                  "description": "network contains MTU migration configuration for the default network.",
                   "properties": {
                     "from": {
-                      "description": "From is the MTU to migrate from.",
+                      "description": "from is the MTU to migrate from.",
                       "format": "int32",
                       "minimum": 0,
                       "type": "integer"
                     },
                     "to": {
-                      "description": "To is the MTU to migrate to.",
+                      "description": "to is the MTU to migrate to.",
                       "format": "int32",
                       "minimum": 0,
                       "type": "integer"
@@ -2353,7 +2364,7 @@
           "type": "string"
         },
         "osImageURL": {
-          "description": "OSImageURL is the old-format container image that contains the OS update payload.",
+          "description": "osImageURL is the old-format container image that contains the OS update payload.",
           "type": "string"
         },
         "platform": {
@@ -2446,7 +2457,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "ControllerConfigStatus is the status for ControllerConfig",
+      "description": "status contains observed information about the controller config.",
       "properties": {
         "conditions": {
           "description": "conditions represents the latest available observations of current state.",

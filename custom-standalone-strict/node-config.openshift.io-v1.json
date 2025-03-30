@@ -16,7 +16,7 @@
       "description": "spec holds user settable values for configuration",
       "properties": {
         "cgroupMode": {
-          "description": "CgroupMode determines the cgroups version on the node",
+          "description": "cgroupMode determines the cgroups version on the node",
           "enum": [
             "v1",
             "v2",
@@ -25,7 +25,7 @@
           "type": "string"
         },
         "workerLatencyProfile": {
-          "description": "WorkerLatencyProfile determins the how fast the kubelet is updating\nthe status and corresponding reaction of the cluster",
+          "description": "workerLatencyProfile determins the how fast the kubelet is updating\nthe status and corresponding reaction of the cluster",
           "enum": [
             "Default",
             "MediumUpdateAverageReaction",

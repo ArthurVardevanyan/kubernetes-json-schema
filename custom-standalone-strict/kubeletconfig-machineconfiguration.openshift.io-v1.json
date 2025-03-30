@@ -13,7 +13,7 @@
       "type": "object"
     },
     "spec": {
-      "description": "KubeletConfigSpec defines the desired state of KubeletConfig",
+      "description": "spec contains the desired kubelet configuration.",
       "properties": {
         "autoSizingReserved": {
           "type": "boolean"
@@ -28,7 +28,7 @@
           "type": "integer"
         },
         "machineConfigPoolSelector": {
-          "description": "MachineConfigPoolSelector selects which pools the KubeletConfig shoud apply to.\nA nil selector will result in no pools being selected.",
+          "description": "machineConfigPoolSelector selects which pools the KubeletConfig shoud apply to.\nA nil selector will result in no pools being selected.",
           "properties": {
             "matchExpressions": {
               "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
@@ -137,7 +137,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "KubeletConfigStatus defines the observed state of a KubeletConfig",
+      "description": "status contains observed information about the kubelet configuration.",
       "properties": {
         "conditions": {
           "description": "conditions represents the latest available observations of current state.",
