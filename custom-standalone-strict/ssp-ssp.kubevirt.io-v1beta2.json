@@ -16,7 +16,7 @@
       "description": "SSPSpec defines the desired state of SSP",
       "properties": {
         "commonInstancetypes": {
-          "description": "CommonInstancetypes is the configuration of the common-instancetypes operand\n\n\nDeprecated: This functionality will be removed in a future release.",
+          "description": "CommonInstancetypes is ignored.\nDeprecated: This field is ignored.",
           "properties": {
             "url": {
               "description": "URL of a remote Kustomize target from which to generate and deploy resources.\n\n\nThe following caveats apply to the provided URL:\n\n\n* Only 'https://' and 'git://' URLs are supported.\n\n\n* The URL must include '?ref=$ref' or '?version=$ref' pinning it to a specific\n  reference. It is recommended that the reference be a specific commit or tag\n  to ensure the generated contents does not change over time. As such it is\n  recommended not to use branches as the ref for the time being.\n\n\n* Only VirtualMachineClusterPreference and VirtualMachineClusterInstancetype\n  resources generated from the URL are deployed by the operand.\n\n\nSee the following Kustomize documentation for more details:\n\n\nremote targets\nhttps://github.com/kubernetes-sigs/kustomize/blob/master/examples/remoteBuild.md",
@@ -870,7 +870,7 @@
           "description": "FeatureGates for SSP",
           "properties": {
             "deployCommonInstancetypes": {
-              "description": "Enables deployment of the common-instancetypes bundles, defaults to true.",
+              "description": "Deprecated: This field is ignored.",
               "type": "boolean"
             },
             "deployTektonTaskResources": {
@@ -878,6 +878,7 @@
               "type": "boolean"
             },
             "deployVmConsoleProxy": {
+              "description": "Deprecated: This field is ignored.",
               "type": "boolean"
             }
           },
@@ -1805,6 +1806,16 @@
                 "Custom"
               ],
               "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "tokenGenerationService": {
+          "description": "TokenGenerationService configures the service for generating tokens to access VNC for a VM.",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
             }
           },
           "type": "object",

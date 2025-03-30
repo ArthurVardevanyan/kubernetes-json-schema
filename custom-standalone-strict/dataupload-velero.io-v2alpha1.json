@@ -2,11 +2,11 @@
   "description": "DataUpload acts as the protocol between data mover plugins and data mover controller for the datamover backup operation",
   "properties": {
     "apiVersion": {
-      "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
       "type": "string"
     },
     "kind": {
-      "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "description": "Kind is a string value representing the REST resource this object represents.\nServers may infer this from the endpoint the client submits requests to.\nCannot be updated.\nIn CamelCase.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
       "type": "string"
     },
     "metadata": {
@@ -16,11 +16,11 @@
       "description": "DataUploadSpec is the specification for a DataUpload.",
       "properties": {
         "backupStorageLocation": {
-          "description": "BackupStorageLocation is the name of the backup storage location where the backup repository is stored.",
+          "description": "BackupStorageLocation is the name of the backup storage location\nwhere the backup repository is stored.",
           "type": "string"
         },
         "cancel": {
-          "description": "Cancel indicates request to cancel the ongoing DataUpload. It can be set when the DataUpload is in InProgress phase",
+          "description": "Cancel indicates request to cancel the ongoing DataUpload. It can be set\nwhen the DataUpload is in InProgress phase",
           "type": "boolean"
         },
         "csiSnapshot": {
@@ -56,11 +56,11 @@
           "type": "object"
         },
         "datamover": {
-          "description": "DataMover specifies the data mover to be used by the backup. If DataMover is \"\" or \"velero\", the built-in data mover will be used.",
+          "description": "DataMover specifies the data mover to be used by the backup.\nIf DataMover is \"\" or \"velero\", the built-in data mover will be used.",
           "type": "string"
         },
         "operationTimeout": {
-          "description": "OperationTimeout specifies the time used to wait internal operations, before returning error as timeout.",
+          "description": "OperationTimeout specifies the time used to wait internal operations,\nbefore returning error as timeout.",
           "type": "string"
         },
         "snapshotType": {
@@ -68,7 +68,7 @@
           "type": "string"
         },
         "sourceNamespace": {
-          "description": "SourceNamespace is the original namespace where the volume is backed up from. It is the same namespace for SourcePVC and CSI namespaced objects.",
+          "description": "SourceNamespace is the original namespace where the volume is backed up from.\nIt is the same namespace for SourcePVC and CSI namespaced objects.",
           "type": "string"
         },
         "sourcePVC": {
@@ -90,7 +90,7 @@
       "description": "DataUploadStatus is the current status of a DataUpload.",
       "properties": {
         "completionTimestamp": {
-          "description": "CompletionTimestamp records the time a backup was completed. Completion time is recorded even on failed backups. Completion time is recorded before uploading the backup object. The server's time is used for CompletionTimestamps",
+          "description": "CompletionTimestamp records the time a backup was completed.\nCompletion time is recorded even on failed backups.\nCompletion time is recorded before uploading the backup object.\nThe server's time is used for CompletionTimestamps",
           "format": "date-time",
           "nullable": true,
           "type": "string"
@@ -130,7 +130,7 @@
           "type": "string"
         },
         "progress": {
-          "description": "Progress holds the total number of bytes of the volume and the current number of backed up bytes. This can be used to display progress information about the backup operation.",
+          "description": "Progress holds the total number of bytes of the volume and the current\nnumber of backed up bytes. This can be used to display progress information\nabout the backup operation.",
           "properties": {
             "bytesDone": {
               "format": "int64",
@@ -149,7 +149,7 @@
           "type": "string"
         },
         "startTimestamp": {
-          "description": "StartTimestamp records the time a backup was started. Separate from CreationTimestamp, since that value changes on restores. The server's time is used for StartTimestamps",
+          "description": "StartTimestamp records the time a backup was started.\nSeparate from CreationTimestamp, since that value changes\non restores.\nThe server's time is used for StartTimestamps",
           "format": "date-time",
           "nullable": true,
           "type": "string"

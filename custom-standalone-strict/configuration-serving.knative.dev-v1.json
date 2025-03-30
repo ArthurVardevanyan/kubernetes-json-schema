@@ -112,7 +112,7 @@
                                     },
                                     "name": {
                                       "default": "",
-                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                       "type": "string"
                                     },
                                     "optional": {
@@ -148,7 +148,7 @@
                                     },
                                     "name": {
                                       "default": "",
-                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                       "type": "string"
                                     },
                                     "optional": {
@@ -190,7 +190,7 @@
                               "properties": {
                                 "name": {
                                   "default": "",
-                                  "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                  "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                   "type": "string"
                                 },
                                 "optional": {
@@ -211,7 +211,7 @@
                               "properties": {
                                 "name": {
                                   "default": "",
-                                  "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                  "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                   "type": "string"
                                 },
                                 "optional": {
@@ -270,13 +270,11 @@
                                 "type": "integer"
                               },
                               "service": {
-                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\n\nIf this is not specified, the default behavior is defined by gRPC.",
+                                "default": "",
+                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\nIf this is not specified, the default behavior is defined by gRPC.",
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "port"
-                            ],
                             "type": "object",
                             "additionalProperties": false
                           },
@@ -406,18 +404,10 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "containerPort"
-                          ],
                           "type": "object",
                           "additionalProperties": false
                         },
-                        "type": "array",
-                        "x-kubernetes-list-map-keys": [
-                          "containerPort",
-                          "protocol"
-                        ],
-                        "x-kubernetes-list-type": "map"
+                        "type": "array"
                       },
                       "readinessProbe": {
                         "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
@@ -451,13 +441,11 @@
                                 "type": "integer"
                               },
                               "service": {
-                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\n\nIf this is not specified, the default behavior is defined by gRPC.",
+                                "default": "",
+                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\nIf this is not specified, the default behavior is defined by gRPC.",
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "port"
-                            ],
                             "type": "object",
                             "additionalProperties": false
                           },
@@ -566,28 +554,6 @@
                       "resources": {
                         "description": "Compute Resources required by this container.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
                         "properties": {
-                          "claims": {
-                            "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\n\nThis field is immutable. It can only be set for containers.",
-                            "items": {
-                              "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
-                              "properties": {
-                                "name": {
-                                  "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "type": "object",
-                              "additionalProperties": false
-                            },
-                            "type": "array",
-                            "x-kubernetes-list-map-keys": [
-                              "name"
-                            ],
-                            "x-kubernetes-list-type": "map"
-                          },
                           "limits": {
                             "additionalProperties": {
                               "anyOf": [
@@ -656,6 +622,10 @@
                             "type": "object",
                             "additionalProperties": false
                           },
+                          "privileged": {
+                            "description": "Run container in privileged mode. This can only be set to explicitly to 'false'",
+                            "type": "boolean"
+                          },
                           "readOnlyRootFilesystem": {
                             "description": "Whether this container has a read-only root filesystem.\nDefault is false.\nNote that this field cannot be set when spec.os.name is windows.",
                             "type": "boolean"
@@ -682,7 +652,7 @@
                                 "type": "string"
                               },
                               "type": {
-                                "description": "type indicates which kind of seccomp profile will be applied.\nValid options are:\n\n\nLocalhost - a profile defined in a file on the node should be used.\nRuntimeDefault - the container runtime default profile should be used.\nUnconfined - no profile should be applied.",
+                                "description": "type indicates which kind of seccomp profile will be applied.\nValid options are:\n\nLocalhost - a profile defined in a file on the node should be used.\nRuntimeDefault - the container runtime default profile should be used.\nUnconfined - no profile should be applied.",
                                 "type": "string"
                               }
                             },
@@ -728,13 +698,11 @@
                                 "type": "integer"
                               },
                               "service": {
-                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\n\nIf this is not specified, the default behavior is defined by gRPC.",
+                                "default": "",
+                                "description": "Service is the name of the service to place in the gRPC HealthCheckRequest\n(see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).\n\nIf this is not specified, the default behavior is defined by gRPC.",
                                 "type": "string"
                               }
                             },
-                            "required": [
-                              "port"
-                            ],
                             "type": "object",
                             "additionalProperties": false
                           },
@@ -903,7 +871,7 @@
                   "type": "string"
                 },
                 "enableServiceLinks": {
-                  "description": "EnableServiceLinks indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Knative defaults this to false.",
+                  "description": "EnableServiceLinks indicates whether information aboutservices should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Knative defaults this to false.",
                   "type": "boolean"
                 },
                 "hostAliases": {
@@ -917,18 +885,15 @@
                 },
                 "hostIPC": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-hostipc",
-                  "type": "boolean",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "boolean"
                 },
                 "hostNetwork": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-hostnetwork",
-                  "type": "boolean",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "boolean"
                 },
                 "hostPID": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-hostpid",
-                  "type": "boolean",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "boolean"
                 },
                 "idleTimeoutSeconds": {
                   "description": "IdleTimeoutSeconds is the maximum duration in seconds a request will be allowed\nto stay open while not receiving any bytes from the user's application. If\nunspecified, a system default will be provided.",
@@ -942,7 +907,7 @@
                     "properties": {
                       "name": {
                         "default": "",
-                        "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                        "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                         "type": "string"
                       }
                     },
@@ -957,7 +922,7 @@
                   "x-kubernetes-list-type": "map"
                 },
                 "initContainers": {
-                  "description": "List of initialization containers belonging to the pod.\nInit containers are executed in order prior to containers being started. If any\ninit container fails, the pod is considered to have failed and is handled according\nto its restartPolicy. The name for an init container or normal container must be\nunique among all containers.\nInit containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes.\nThe resourceRequirements of an init container are taken into account during scheduling\nby finding the highest request/limit for each resource type, and then using the max of\nof that value or the sum of the normal containers. Limits are applied to init containers\nin a similar fashion.\nInit containers cannot currently be added or removed.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/",
+                  "description": "This is accessible behind a feature flag - kubernetes.podspec-init-containers",
                   "items": {
                     "description": "This is accessible behind a feature flag - kubernetes.podspec-init-containers",
                     "type": "object",
@@ -966,15 +931,16 @@
                   "type": "array"
                 },
                 "nodeSelector": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-nodeselector",
                   "type": "object",
-                  "x-kubernetes-map-type": "atomic",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "x-kubernetes-map-type": "atomic"
                 },
                 "priorityClassName": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-priorityclassname",
-                  "type": "string",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "string"
                 },
                 "responseStartTimeoutSeconds": {
                   "description": "ResponseStartTimeoutSeconds is the maximum duration in seconds that the request\nrouting layer will wait for a request delivered to a container to begin\nsending any network traffic.",
@@ -983,13 +949,11 @@
                 },
                 "runtimeClassName": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-runtimeclassname",
-                  "type": "string",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "string"
                 },
                 "schedulerName": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-schedulername",
-                  "type": "string",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "type": "string"
                 },
                 "securityContext": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-securitycontext",
@@ -1001,9 +965,8 @@
                   "type": "string"
                 },
                 "shareProcessNamespace": {
-                  "description": "This is accessible behind a feature flag - kubernetes.podspec-shareproccessnamespace",
-                  "type": "boolean",
-                  "x-kubernetes-preserve-unknown-fields": true
+                  "description": "This is accessible behind a feature flag - kubernetes.podspec-shareprocessnamespace",
+                  "type": "boolean"
                 },
                 "timeoutSeconds": {
                   "description": "TimeoutSeconds is the maximum duration in seconds that the request instance\nis allowed to respond to a request. If unspecified, a system default will\nbe provided.",
@@ -1017,8 +980,7 @@
                     "type": "object",
                     "x-kubernetes-preserve-unknown-fields": true
                   },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
+                  "type": "array"
                 },
                 "topologySpreadConstraints": {
                   "description": "This is accessible behind a feature flag - kubernetes.podspec-topologyspreadconstraints",
@@ -1073,7 +1035,7 @@
                           },
                           "name": {
                             "default": "",
-                            "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                            "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                             "type": "string"
                           },
                           "optional": {
@@ -1086,7 +1048,12 @@
                         "additionalProperties": false
                       },
                       "emptyDir": {
-                        "description": "This is accessible behind a feature flag - kubernetes.podspec-emptydir",
+                        "description": "This is accessible behind a feature flag - kubernetes.podspec-volumes-emptydir",
+                        "type": "object",
+                        "x-kubernetes-preserve-unknown-fields": true
+                      },
+                      "hostPath": {
+                        "description": "This is accessible behind a feature flag - kubernetes.podspec-volumes-hostpath",
                         "type": "object",
                         "x-kubernetes-preserve-unknown-fields": true
                       },
@@ -1108,9 +1075,9 @@
                             "type": "integer"
                           },
                           "sources": {
-                            "description": "sources is the list of volume projections",
+                            "description": "sources is the list of volume projections. Each entry in this list\nhandles one source.",
                             "items": {
-                              "description": "Projection that may be projected along with other supported volume types",
+                              "description": "Projection that may be projected along with other supported volume types.\nExactly one of these fields must be set.",
                               "properties": {
                                 "configMap": {
                                   "description": "configMap information about the configMap data to project",
@@ -1146,7 +1113,7 @@
                                     },
                                     "name": {
                                       "default": "",
-                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                       "type": "string"
                                     },
                                     "optional": {
@@ -1274,7 +1241,7 @@
                                     },
                                     "name": {
                                       "default": "",
-                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nTODO: Add other useful fields. apiVersion, kind, uid?\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names\nTODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.",
+                                      "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
                                       "type": "string"
                                     },
                                     "optional": {

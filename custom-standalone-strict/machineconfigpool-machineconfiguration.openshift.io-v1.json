@@ -13,7 +13,7 @@
       "type": "object"
     },
     "spec": {
-      "description": "MachineConfigPoolSpec is the spec for MachineConfigPool resource.",
+      "description": "spec contains the desired machine config pool configuration.",
       "properties": {
         "configuration": {
           "description": "The targeted MachineConfig object for the machine config pool.",
@@ -207,7 +207,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "MachineConfigPoolStatus is the status for MachineConfigPool resource.",
+      "description": "status contains observed information about the machine config pool.",
       "properties": {
         "certExpirys": {
           "description": "certExpirys keeps track of important certificate expiration data",

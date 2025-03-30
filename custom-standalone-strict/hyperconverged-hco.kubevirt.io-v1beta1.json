@@ -2559,8 +2559,8 @@
           "type": "object",
           "x-kubernetes-validations": [
             {
-              "message": "Automatic CPU limits are incompatible with a VMI CPU allocation ratio of 1",
-              "rule": "!has(self.vmiCPUAllocationRatio) || self.vmiCPUAllocationRatio != 1"
+              "message": "vmiCPUAllocationRatio must be greater than 0",
+              "rule": "!has(self.vmiCPUAllocationRatio) || self.vmiCPUAllocationRatio > 0"
             }
           ],
           "additionalProperties": false
@@ -4533,6 +4533,5 @@
       "additionalProperties": false
     }
   },
-  "type": "object",
-  "additionalProperties": true
+  "type": "object"
 }

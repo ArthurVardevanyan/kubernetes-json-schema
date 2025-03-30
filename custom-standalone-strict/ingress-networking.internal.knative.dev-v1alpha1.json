@@ -1,5 +1,5 @@
 {
-  "description": "Ingress is a collection of rules that allow inbound connections to reach the endpoints defined\nby a backend. An Ingress can be configured to give services externally-reachable URLs, load\nbalance traffic, offer name based virtual hosting, etc.\n\n\nThis is heavily based on K8s Ingress https://godoc.org/k8s.io/api/networking/v1beta1#Ingress\nwhich some highlighted modifications.",
+  "description": "Ingress is a collection of rules that allow inbound connections to reach the endpoints defined\nby a backend. An Ingress can be configured to give services externally-reachable URLs, load\nbalance traffic, offer name based virtual hosting, etc.\n\nThis is heavily based on K8s Ingress https://godoc.org/k8s.io/api/networking/v1beta1#Ingress\nwhich some highlighted modifications.",
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -35,7 +35,7 @@
                 "description": "HTTP represents a rule to apply against incoming requests. If the\nrule is satisfied, the request is routed to the specified backend.",
                 "properties": {
                   "paths": {
-                    "description": "A collection of paths that map requests to backends.\n\n\nIf they are multiple matching paths, the first match takes precedence.",
+                    "description": "A collection of paths that map requests to backends.\n\nIf they are multiple matching paths, the first match takes precedence.",
                     "items": {
                       "description": "HTTPIngressPath associates a path regex with a backend. Incoming URLs matching\nthe path are forwarded to the backend.",
                       "properties": {
@@ -43,7 +43,7 @@
                           "additionalProperties": {
                             "type": "string"
                           },
-                          "description": "AppendHeaders allow specifying additional HTTP headers to add\nbefore forwarding a request to the destination service.\n\n\nNOTE: This differs from K8s Ingress which doesn't allow header appending.",
+                          "description": "AppendHeaders allow specifying additional HTTP headers to add\nbefore forwarding a request to the destination service.\n\nNOTE: This differs from K8s Ingress which doesn't allow header appending.",
                           "type": "object"
                         },
                         "headers": {
@@ -68,7 +68,7 @@
                           "type": "string"
                         },
                         "rewriteHost": {
-                          "description": "RewriteHost rewrites the incoming request's host header.\n\n\nThis field is currently experimental and not supported by all Ingress\nimplementations.",
+                          "description": "RewriteHost rewrites the incoming request's host header.\n\nThis field is currently experimental and not supported by all Ingress\nimplementations.",
                           "type": "string"
                         },
                         "splits": {
@@ -80,11 +80,11 @@
                                 "additionalProperties": {
                                   "type": "string"
                                 },
-                                "description": "AppendHeaders allow specifying additional HTTP headers to add\nbefore forwarding a request to the destination service.\n\n\nNOTE: This differs from K8s Ingress which doesn't allow header appending.",
+                                "description": "AppendHeaders allow specifying additional HTTP headers to add\nbefore forwarding a request to the destination service.\n\nNOTE: This differs from K8s Ingress which doesn't allow header appending.",
                                 "type": "object"
                               },
                               "percent": {
-                                "description": "Specifies the split percentage, a number between 0 and 100.  If\nonly one split is specified, we default to 100.\n\n\nNOTE: This differs from K8s Ingress to allow percentage split.",
+                                "description": "Specifies the split percentage, a number between 0 and 100.  If\nonly one split is specified, we default to 100.\n\nNOTE: This differs from K8s Ingress to allow percentage split.",
                                 "type": "integer"
                               },
                               "serviceName": {
@@ -92,7 +92,7 @@
                                 "type": "string"
                               },
                               "serviceNamespace": {
-                                "description": "Specifies the namespace of the referenced service.\n\n\nNOTE: This differs from K8s Ingress to allow routing to different namespaces.",
+                                "description": "Specifies the namespace of the referenced service.\n\nNOTE: This differs from K8s Ingress to allow routing to different namespaces.",
                                 "type": "string"
                               },
                               "servicePort": {
@@ -241,7 +241,7 @@
                     "type": "string"
                   },
                   "domainInternal": {
-                    "description": "DomainInternal is set if there is a cluster-local DNS name to access the Ingress.\n\n\nNOTE: This differs from K8s Ingress, since we also desire to have a cluster-local\n      DNS name to allow routing in case of not having a mesh.",
+                    "description": "DomainInternal is set if there is a cluster-local DNS name to access the Ingress.\n\nNOTE: This differs from K8s Ingress, since we also desire to have a cluster-local\n      DNS name to allow routing in case of not having a mesh.",
                     "type": "string"
                   },
                   "ip": {
@@ -275,7 +275,7 @@
                     "type": "string"
                   },
                   "domainInternal": {
-                    "description": "DomainInternal is set if there is a cluster-local DNS name to access the Ingress.\n\n\nNOTE: This differs from K8s Ingress, since we also desire to have a cluster-local\n      DNS name to allow routing in case of not having a mesh.",
+                    "description": "DomainInternal is set if there is a cluster-local DNS name to access the Ingress.\n\nNOTE: This differs from K8s Ingress, since we also desire to have a cluster-local\n      DNS name to allow routing in case of not having a mesh.",
                     "type": "string"
                   },
                   "ip": {
