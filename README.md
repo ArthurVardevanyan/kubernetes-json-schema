@@ -38,7 +38,7 @@ kubectl get crd -A -o yaml > dump.yaml
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ../openapi2jsonschema.py dump.yaml
 rm dump.yaml
-cd ../..
+cd ../
 
 # Fixing Bad CRD
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json

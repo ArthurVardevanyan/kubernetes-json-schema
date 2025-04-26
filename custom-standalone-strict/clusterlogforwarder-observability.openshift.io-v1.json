@@ -327,7 +327,7 @@
                 "additionalProperties": false
               },
               "type": {
-                "description": "Type of filter.",
+                "description": "Type of filter.\n\nPossible filter types are:\n\n1. detectMultilineException - Enables multi-line error detection of container logs. No additional configuration required.\n2. drop - Drop whole log records based on the evaluation of a set of regex tests. See field `drop` for configuration.\n3. kubeAPIAudit - Remove unwanted audit events and reduce event size to create a manageable audit trail. See field `kubeAPIaudit` for configuration.\n4. openshiftLabels - Labels to be applied to log records passing through a pipeline. See field `openshiftLabels` for configuration.\n5. parse - Enables parsing of log entries into structured logs. No additional configuration required.\n6. prune - Prune log record fields to reduce the size of logs flowing into a log store. See field `prune` for configuration.",
                 "enum": [
                   "openshiftLabels",
                   "detectMultilineException",
@@ -2064,7 +2064,7 @@
                   },
                   {
                     "message": "'snappy' compression cannot be used when data model is 'Otel'",
-                    "rule": "!has(self.tuning) || self.tuning.compression != 'snappy' || !has(self.dataModel) || self.dataModel == 'Viaq'"
+                    "rule": "!has(self.tuning) || !has(self.tuning.compression) || self.tuning.compression != 'snappy' || !has(self.dataModel) || self.dataModel == 'Viaq'"
                   }
                 ],
                 "additionalProperties": false
@@ -2361,7 +2361,7 @@
                     "type": "string"
                   },
                   "enrichment": {
-                    "description": "Enrichment is an additional modification the log message before forwarding it to the receiver",
+                    "description": "Enrichment is an additional modification to the log message before forwarding it to the receiver.\n\nSupported values are:\n1. None\n   - Adds no additional enrichment to the record\n2. KubernetesMinimal\n   - Adds namespace_name, pod_name, and container_name to the beginning of the message body (e.g. namespace_name=myproject, container_name=server, pod_name=pod-123, message={\"foo\":\"bar\"}).\nThis may result in the message body being an invalid JSON structure.",
                     "enum": [
                       "None",
                       "KubernetesMinimal"
@@ -2389,7 +2389,7 @@
                     "type": "string"
                   },
                   "rfc": {
-                    "description": "SyslogRFCType sets which RFC the generated messages conform to.",
+                    "description": "The RFC to which the generated messages conform to.\n\nSupported values are:\n1. RFC3164\n2. RFC5424",
                     "enum": [
                       "RFC3164",
                       "RFC5424"
@@ -2418,7 +2418,7 @@
                     "additionalProperties": false
                   },
                   "url": {
-                    "description": "An absolute URL, with a scheme. Valid schemes are: `tcp`, `tls`, `udp` and `udps`\nFor example, to send syslog records using secure UDP:\n    url: udps://syslog.example.com:1234",
+                    "description": "An absolute URL, with a scheme. Valid schemes are: `tcp`, `tls`, `udp`\nFor example, to send syslog records using UDP:\n    url: udp://syslog.example.com:514",
                     "type": "string",
                     "x-kubernetes-validations": [
                       {
