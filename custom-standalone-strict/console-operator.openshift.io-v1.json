@@ -103,7 +103,7 @@
               "description": "customLogoFile replaces the default OpenShift logo in the masthead and about dialog. It is a reference to a\nConfigMap in the openshift-config namespace. This can be created with a command like\n'oc create configmap custom-logo --from-file=/path/to/file -n openshift-config'.\nImage size must be less than 1 MB due to constraints on the ConfigMap size.\nThe ConfigMap key should include a file extension so that the console serves the file\nwith the correct MIME type.\nRecommended logo specifications:\nDimensions: Max height of 68px and max width of 200px\nSVG format preferred",
               "properties": {
                 "key": {
-                  "description": "key allows pointing to a specific key/value inside of the configmap.  This is useful for logical file references.",
+                  "description": "Key allows pointing to a specific key/value inside of the configmap.  This is useful for logical file references.",
                   "type": "string"
                 },
                 "name": {
@@ -126,7 +126,7 @@
                     "description": "DeveloperConsoleCatalogCategory for the developer console catalog.",
                     "properties": {
                       "id": {
-                        "description": "id is an identifier used in the URL to enable deep linking in console.\nID is required and must have 1-32 URL safe (A-Z, a-z, 0-9, - and _) characters.",
+                        "description": "ID is an identifier used in the URL to enable deep linking in console.\nID is required and must have 1-32 URL safe (A-Z, a-z, 0-9, - and _) characters.",
                         "maxLength": 32,
                         "minLength": 1,
                         "pattern": "^[A-Za-z0-9-_]+$",
@@ -144,7 +144,7 @@
                           "description": "DeveloperConsoleCatalogCategoryMeta are the key identifiers of a developer catalog category.",
                           "properties": {
                             "id": {
-                              "description": "id is an identifier used in the URL to enable deep linking in console.\nID is required and must have 1-32 URL safe (A-Z, a-z, 0-9, - and _) characters.",
+                              "description": "ID is an identifier used in the URL to enable deep linking in console.\nID is required and must have 1-32 URL safe (A-Z, a-z, 0-9, - and _) characters.",
                               "maxLength": 32,
                               "minLength": 1,
                               "pattern": "^[A-Za-z0-9-_]+$",
