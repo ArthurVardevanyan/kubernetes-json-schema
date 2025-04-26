@@ -43,6 +43,7 @@ cd ../
 # Fixing Bad CRD
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/egressfirewall-k8s.ovn.org-v1.json
+yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/logfilemetricexporter-logging.openshift.io-v1alpha1.json
 
 # Importing Some Other CRD Manually
 kubectl get crd myCRD.yaml > myCRD.yaml # If needing to pull from a cluster

@@ -19,7 +19,7 @@
         }
       },
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "spec": {
       "description": "LogFileMetricExporterSpec defines the desired state of LogFileMetricExporter",
