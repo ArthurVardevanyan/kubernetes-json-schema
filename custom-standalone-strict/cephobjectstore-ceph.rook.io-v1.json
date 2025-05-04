@@ -146,7 +146,12 @@
                   "type": "boolean"
                 },
                 "mode": {
-                  "description": "Mode is the mirroring mode: either pool or image",
+                  "description": "Mode is the mirroring mode: pool, image or init-only.",
+                  "enum": [
+                    "pool",
+                    "image",
+                    "init-only"
+                  ],
                   "type": "string"
                 },
                 "peers": {
@@ -1647,6 +1652,25 @@
               "description": "PriorityClassName sets priority classes on the rgw pods",
               "type": "string"
             },
+            "readAffinity": {
+              "description": "ReadAffinity defines the RGW read affinity policy to optimize the read requests for the RGW clients\nNote: Only supported from Ceph Tentacle (v20)",
+              "properties": {
+                "type": {
+                  "description": "Type defines the RGW ReadAffinity type\nlocalize: read from the nearest OSD based on crush location of the RGW client\nbalance: picks a random OSD from the PG's active set\ndefault: read from the primary OSD",
+                  "enum": [
+                    "localize",
+                    "balance",
+                    "default"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
             "resources": {
               "description": "The resource requirements for the rgw pods",
               "nullable": true,
@@ -1727,6 +1751,35 @@
                 "type": "string"
               },
               "description": "RgwConfig sets Ceph RGW config values for the gateway clients that serve this object store.\nValues are modified at runtime without RGW restart.\nThis feature is intended for advanced users. It allows breaking configurations to be easily\napplied. Use with caution.",
+              "nullable": true,
+              "type": "object"
+            },
+            "rgwConfigFromSecret": {
+              "additionalProperties": {
+                "description": "SecretKeySelector selects a key of a Secret.",
+                "properties": {
+                  "key": {
+                    "description": "The key of the secret to select from.  Must be a valid secret key.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "default": "",
+                    "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "description": "Specify whether the Secret or its key must be defined",
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "key"
+                ],
+                "type": "object",
+                "x-kubernetes-map-type": "atomic",
+                "additionalProperties": false
+              },
+              "description": "RgwConfigFromSecret works exactly like RgwConfig but takes config value from Secret Key reference.\nValues are modified at runtime without RGW restart.\nThis feature is intended for advanced users. It allows breaking configurations to be easily\napplied. Use with caution.",
               "nullable": true,
               "type": "object"
             },
@@ -2222,7 +2275,12 @@
                   "type": "boolean"
                 },
                 "mode": {
-                  "description": "Mode is the mirroring mode: either pool or image",
+                  "description": "Mode is the mirroring mode: pool, image or init-only.",
+                  "enum": [
+                    "pool",
+                    "image",
+                    "init-only"
+                  ],
                   "type": "string"
                 },
                 "peers": {
@@ -2621,7 +2679,7 @@
           "nullable": true,
           "properties": {
             "name": {
-              "description": "RGW Zone the Object Store is in",
+              "description": "CephObjectStoreZone name this CephObjectStore is part of",
               "type": "string"
             }
           },
