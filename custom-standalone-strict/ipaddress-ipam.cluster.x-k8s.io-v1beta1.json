@@ -13,10 +13,12 @@
       "type": "object"
     },
     "spec": {
-      "description": "IPAddressSpec is the desired state of an IPAddress.",
+      "description": "spec is the desired state of IPAddress.",
       "properties": {
         "address": {
           "description": "address is the IP address.",
+          "maxLength": 39,
+          "minLength": 1,
           "type": "string"
         },
         "claimRef": {
@@ -34,6 +36,8 @@
         },
         "gateway": {
           "description": "gateway is the network gateway of the network the address is from.",
+          "maxLength": 39,
+          "minLength": 1,
           "type": "string"
         },
         "poolRef": {

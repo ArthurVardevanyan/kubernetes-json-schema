@@ -201,6 +201,31 @@
         "paused": {
           "description": "paused specifies whether or not changes to this machine config pool should be stopped.\nThis includes generating new desiredMachineConfig and update of machines.",
           "type": "boolean"
+        },
+        "pinnedImageSets": {
+          "description": "pinnedImageSets specifies a sequence of PinnedImageSetRef objects for the\npool. Nodes within this pool will preload and pin images defined in the\nPinnedImageSet. Before pulling images the MachineConfigDaemon will ensure\nthe total uncompressed size of all the images does not exceed available\nresources. If the total size of the images exceeds the available\nresources the controller will report a Degraded status to the\nMachineConfigPool and not attempt to pull any images. Also to help ensure\nthe kubelet can mitigate storage risk, the pinned_image configuration and\nsubsequent service reload will happen only after all of the images have\nbeen pulled for each set. Images from multiple PinnedImageSets are loaded\nand pinned sequentially as listed. Duplicate and existing images will be\nskipped.\n\nAny failure to prefetch or pin images will result in a Degraded pool.\nResolving these failures is the responsibility of the user. The admin\nshould be proactive in ensuring adequate storage and proper image\nauthentication exists in advance.",
+          "items": {
+            "properties": {
+              "name": {
+                "description": "name is a reference to the name of a PinnedImageSet.  Must adhere to\nRFC-1123 (https://tools.ietf.org/html/rfc1123).\nMade up of one of more period-separated (.) segments, where each segment\nconsists of alphanumeric characters and hyphens (-), must begin and end\nwith an alphanumeric character, and is at most 63 characters in length.\nThe total length of the name must not exceed 253 characters.",
+                "maxLength": 253,
+                "minLength": 1,
+                "pattern": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object",
+            "additionalProperties": false
+          },
+          "maxItems": 100,
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
         }
       },
       "type": "object",
@@ -363,6 +388,100 @@
           "description": "observedGeneration represents the generation observed by the controller.",
           "format": "int64",
           "type": "integer"
+        },
+        "poolSynchronizersStatus": {
+          "description": "poolSynchronizersStatus is the status of the machines managed by the pool synchronizers.",
+          "items": {
+            "properties": {
+              "availableMachineCount": {
+                "description": "availableMachineCount is the number of machines managed by the node synchronizer which are available.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "machineCount": {
+                "description": "machineCount is the number of machines that are managed by the node synchronizer.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "observedGeneration": {
+                "description": "observedGeneration is the last generation change that has been applied.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "observedGeneration must not move backwards except to zero",
+                    "rule": "self >= oldSelf || (self == 0 && oldSelf > 0)"
+                  }
+                ]
+              },
+              "poolSynchronizerType": {
+                "description": "poolSynchronizerType describes the type of the pool synchronizer.",
+                "enum": [
+                  "PinnedImageSets"
+                ],
+                "maxLength": 256,
+                "type": "string"
+              },
+              "readyMachineCount": {
+                "description": "readyMachineCount is the number of machines managed by the node synchronizer that are in a ready state.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "unavailableMachineCount": {
+                "description": "unavailableMachineCount is the number of machines managed by the node synchronizer but are unavailable.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "updatedMachineCount": {
+                "description": "updatedMachineCount is the number of machines that have been updated by the node synchronizer.",
+                "format": "int64",
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "availableMachineCount",
+              "machineCount",
+              "poolSynchronizerType",
+              "readyMachineCount",
+              "unavailableMachineCount",
+              "updatedMachineCount"
+            ],
+            "type": "object",
+            "x-kubernetes-validations": [
+              {
+                "message": "machineCount must be greater than or equal to updatedMachineCount",
+                "rule": "self.machineCount >= self.updatedMachineCount"
+              },
+              {
+                "message": "machineCount must be greater than or equal to availableMachineCount",
+                "rule": "self.machineCount >= self.availableMachineCount"
+              },
+              {
+                "message": "machineCount must be greater than or equal to unavailableMachineCount",
+                "rule": "self.machineCount >= self.unavailableMachineCount"
+              },
+              {
+                "message": "machineCount must be greater than or equal to readyMachineCount",
+                "rule": "self.machineCount >= self.readyMachineCount"
+              },
+              {
+                "message": "availableMachineCount must be greater than or equal to readyMachineCount",
+                "rule": "self.availableMachineCount >= self.readyMachineCount"
+              }
+            ],
+            "additionalProperties": false
+          },
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "poolSynchronizerType"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "readyMachineCount": {
           "description": "readyMachineCount represents the total number of ready machines targeted by the pool.",

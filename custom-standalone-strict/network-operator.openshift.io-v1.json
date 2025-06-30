@@ -527,6 +527,15 @@
                   "type": "object",
                   "additionalProperties": false
                 },
+                "routeAdvertisements": {
+                  "description": "routeAdvertisements determines if the functionality to advertise cluster\nnetwork routes through a dynamic routing protocol, such as BGP, is\nenabled or not. This functionality is configured through the\novn-kubernetes RouteAdvertisements CRD. Requires the 'FRR' routing\ncapability provider to be enabled as an additional routing capability.\nAllowed values are \"Enabled\", \"Disabled\" and ommited. When omitted, this\nmeans the user has no opinion and the platform is left to choose\nreasonable defaults. These defaults are subject to change over time. The\ncurrent default is \"Disabled\".",
+                  "enum": [
+                    "",
+                    "Enabled",
+                    "Disabled"
+                  ],
+                  "type": "string"
+                },
                 "v4InternalSubnet": {
                   "description": "v4InternalSubnet is a v4 subnet used internally by ovn-kubernetes in case the\ndefault one is being already used by something else. It must not overlap with\nany other subnet being used by OpenShift or by the node network. The size of the\nsubnet must be larger than the number of nodes. The value cannot be changed\nafter installation.\nDefault is 100.64.0.0/16",
                   "type": "string"
@@ -797,6 +806,10 @@
       },
       "type": "object",
       "x-kubernetes-validations": [
+        {
+          "message": "Route advertisements cannot be Enabled if 'FRR' routing capability provider is not available",
+          "rule": "(has(self.additionalRoutingCapabilities) && ('FRR' in self.additionalRoutingCapabilities.providers)) || !has(self.defaultNetwork) || !has(self.defaultNetwork.ovnKubernetesConfig) || !has(self.defaultNetwork.ovnKubernetesConfig.routeAdvertisements) || self.defaultNetwork.ovnKubernetesConfig.routeAdvertisements != 'Enabled'"
+        },
         {
           "message": "invalid value for IPForwarding, valid values are 'Restricted' or 'Global'",
           "rule": "!has(self.defaultNetwork) || !has(self.defaultNetwork.ovnKubernetesConfig) || !has(self.defaultNetwork.ovnKubernetesConfig.gatewayConfig) || !has(self.defaultNetwork.ovnKubernetesConfig.gatewayConfig.ipForwarding) || self.defaultNetwork.ovnKubernetesConfig.gatewayConfig.ipForwarding == oldSelf.defaultNetwork.ovnKubernetesConfig.gatewayConfig.ipForwarding || self.defaultNetwork.ovnKubernetesConfig.gatewayConfig.ipForwarding == 'Restricted' || self.defaultNetwork.ovnKubernetesConfig.gatewayConfig.ipForwarding == 'Global'"
