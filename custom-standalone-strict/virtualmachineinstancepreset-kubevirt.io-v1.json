@@ -676,7 +676,7 @@
                         "type": "object"
                       },
                       "state": {
-                        "description": "State represents the requested operational state of the interface.\nThe (only) value supported is 'absent', expressing a request to remove the interface.",
+                        "description": "State represents the requested operational state of the interface.\nThe supported values are:\n'absent', expressing a request to remove the interface.\n'down', expressing a request to set the link down.\n'up', expressing a request to set the link up.\nEmpty value functions as 'up'.",
                         "type": "string"
                       },
                       "tag": {
@@ -726,6 +726,10 @@
                 "tpm": {
                   "description": "Whether to emulate a TPM device.",
                   "properties": {
+                    "enabled": {
+                      "description": "Enabled allows a user to explictly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine\nDefaults to True",
+                      "type": "boolean"
+                    },
                     "persistent": {
                       "description": "Persistent indicates the state of the TPM device should be kept accross reboots\nDefaults to false",
                       "type": "boolean"
@@ -741,6 +745,17 @@
                 "watchdog": {
                   "description": "Watchdog describes a watchdog device which can be added to the vmi.",
                   "properties": {
+                    "diag288": {
+                      "description": "diag288 watchdog device (specific to s390x architecture).",
+                      "properties": {
+                        "action": {
+                          "description": "The action to take. Valid values are poweroff, reset, shutdown.\nDefaults to reset.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
                     "i6300esb": {
                       "description": "i6300esb watchdog device.",
                       "properties": {
@@ -1123,8 +1138,20 @@
               "type": "object",
               "additionalProperties": false
             },
+            "ioThreads": {
+              "description": "IOThreads specifies the IOThreads options.",
+              "properties": {
+                "supplementalPoolThreadCount": {
+                  "description": "SupplementalPoolThreadCount specifies how many iothreads are allocated for the supplementalPool policy.",
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
             "ioThreadsPolicy": {
-              "description": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto",
+              "description": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto, supplementalPool",
               "type": "string"
             },
             "launchSecurity": {

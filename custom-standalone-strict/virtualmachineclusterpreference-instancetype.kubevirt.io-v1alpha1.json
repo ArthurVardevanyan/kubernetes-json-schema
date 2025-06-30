@@ -298,6 +298,10 @@
             "preferredTPM": {
               "description": "PreferredTPM optionally defines the preferred TPM device to be used.",
               "properties": {
+                "enabled": {
+                  "description": "Enabled allows a user to explictly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine\nDefaults to True",
+                  "type": "boolean"
+                },
                 "persistent": {
                   "description": "Persistent indicates the state of the TPM device should be kept accross reboots\nDefaults to false",
                   "type": "boolean"
@@ -615,11 +619,11 @@
               "type": "boolean"
             },
             "preferredUseEfi": {
-              "description": "PreferredUseEfi optionally enables EFI",
+              "description": "PreferredUseEfi optionally enables EFI\n\nDeprecated: Will be removed with v1beta2 or v1",
               "type": "boolean"
             },
             "preferredUseSecureBoot": {
-              "description": "PreferredUseSecureBoot optionally enables SecureBoot and the OVMF roms will be swapped for SecureBoot-enabled ones.\n\nRequires PreferredUseEfi and PreferredSmm to be enabled.",
+              "description": "PreferredUseSecureBoot optionally enables SecureBoot and the OVMF roms will be swapped for SecureBoot-enabled ones.\n\nRequires PreferredUseEfi and PreferredSmm to be enabled.\n\nDeprecated: Will be removed with v1beta2 or v1",
               "type": "boolean"
             }
           },

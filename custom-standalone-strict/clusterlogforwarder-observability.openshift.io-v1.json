@@ -795,7 +795,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1016,7 +1016,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1181,7 +1181,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1306,7 +1306,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1492,7 +1492,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1635,7 +1635,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1799,7 +1799,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2017,7 +2017,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2181,7 +2181,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2300,7 +2300,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2369,7 +2369,7 @@
                     "type": "string"
                   },
                   "facility": {
-                    "description": "Facility to set on outgoing syslog records.\n\nFacility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1.\n\nThe value can be a decimal integer. Facility keywords are not standardized,\nthis API recognizes at least the following case-insensitive keywords\n(defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels):\n\n    kernel user mail daemon auth syslog lpr news\n    uucp cron authpriv ftp ntp security console solaris-cron\n    local0 local1 local2 local3 local4 local5 local6 local7",
+                    "description": "Facility to set on outgoing syslog records.\n\nFacility values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1.\n\nThe value can be a decimal integer. Facility keywords are not standardized,\nthis API recognizes at least the following case-insensitive keywords\n(defined by https://en.wikipedia.org/wiki/Syslog#Facility_Levels):\n\n    kernel user mail daemon auth syslog lpr news\n    uucp cron authpriv ftp ntp security console solaris-cron\n    local0 local1 local2 local3 local4 local5 local6 local7\n\nThe Facility can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. {.foo||\"user\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -2397,7 +2397,7 @@
                     "type": "string"
                   },
                   "severity": {
-                    "description": "Severity to set on outgoing syslog records.\n\nSeverity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1\n\nThe value can be a decimal integer or one of these case-insensitive keywords:\n\n    Emergency Alert Critical Error Warning Notice Informational Debug",
+                    "description": "Severity to set on outgoing syslog records.\n\nSeverity values are defined in https://tools.ietf.org/html/rfc5424#section-6.2.1\n\nThe value can be a decimal integer or one of these case-insensitive keywords:\n\n    Emergency Alert Critical Error Warning Notice Informational Debug\n\nThe Severity can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. {.foo||\"Error\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -2406,7 +2406,7 @@
                     "nullable": true,
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"

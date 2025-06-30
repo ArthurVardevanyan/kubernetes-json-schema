@@ -548,32 +548,6 @@
                       "resources": {
                         "description": "Resources represents the minimum resources the volume should have.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                         "properties": {
-                          "claims": {
-                            "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
-                            "items": {
-                              "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
-                              "properties": {
-                                "name": {
-                                  "description": "Name must match the name of one entry in pod.spec.resourceClaims of\nthe Pod where this field is used. It makes that resource available\ninside a container.",
-                                  "type": "string"
-                                },
-                                "request": {
-                                  "description": "Request is the name chosen for a request in the referenced claim.\nIf empty, everything from the claim is made available, otherwise\nonly the result of this request.",
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "type": "object",
-                              "additionalProperties": false
-                            },
-                            "type": "array",
-                            "x-kubernetes-list-map-keys": [
-                              "name"
-                            ],
-                            "x-kubernetes-list-type": "map"
-                          },
                           "limits": {
                             "additionalProperties": {
                               "anyOf": [
@@ -2385,7 +2359,7 @@
                                 "type": "object"
                               },
                               "state": {
-                                "description": "State represents the requested operational state of the interface.\nThe (only) value supported is 'absent', expressing a request to remove the interface.",
+                                "description": "State represents the requested operational state of the interface.\nThe supported values are:\n'absent', expressing a request to remove the interface.\n'down', expressing a request to set the link down.\n'up', expressing a request to set the link up.\nEmpty value functions as 'up'.",
                                 "type": "string"
                               },
                               "tag": {
@@ -2435,6 +2409,10 @@
                         "tpm": {
                           "description": "Whether to emulate a TPM device.",
                           "properties": {
+                            "enabled": {
+                              "description": "Enabled allows a user to explictly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine\nDefaults to True",
+                              "type": "boolean"
+                            },
                             "persistent": {
                               "description": "Persistent indicates the state of the TPM device should be kept accross reboots\nDefaults to false",
                               "type": "boolean"
@@ -2450,6 +2428,17 @@
                         "watchdog": {
                           "description": "Watchdog describes a watchdog device which can be added to the vmi.",
                           "properties": {
+                            "diag288": {
+                              "description": "diag288 watchdog device (specific to s390x architecture).",
+                              "properties": {
+                                "action": {
+                                  "description": "The action to take. Valid values are poweroff, reset, shutdown.\nDefaults to reset.",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object",
+                              "additionalProperties": false
+                            },
                             "i6300esb": {
                               "description": "i6300esb watchdog device.",
                               "properties": {
@@ -2832,8 +2821,20 @@
                       "type": "object",
                       "additionalProperties": false
                     },
+                    "ioThreads": {
+                      "description": "IOThreads specifies the IOThreads options.",
+                      "properties": {
+                        "supplementalPoolThreadCount": {
+                          "description": "SupplementalPoolThreadCount specifies how many iothreads are allocated for the supplementalPool policy.",
+                          "format": "int32",
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
                     "ioThreadsPolicy": {
-                      "description": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto",
+                      "description": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto, supplementalPool",
                       "type": "string"
                     },
                     "launchSecurity": {
@@ -3628,7 +3629,7 @@
                             "type": "boolean"
                           },
                           "name": {
-                            "description": "Name of both the DataVolume and the PVC in the same namespace.\nAfter PVC population the DataVolume is garbage collected by default.",
+                            "description": "Name of both the DataVolume and the PVC in the same namespace.",
                             "type": "string"
                           }
                         },
@@ -4003,6 +4004,41 @@
           "format": "int64",
           "type": "integer"
         },
+        "instancetypeRef": {
+          "description": "InstancetypeRef captures the state of any referenced instance type from the VirtualMachine",
+          "nullable": true,
+          "properties": {
+            "controllerRevisionRef": {
+              "description": "ControllerRef specifies the ControllerRevision storing a copy of the object captured\nwhen it is first seen by the VirtualMachine controller",
+              "properties": {
+                "name": {
+                  "description": "Name of the ControllerRevision",
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "inferFromVolume": {
+              "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the resource",
+              "type": "string"
+            },
+            "inferFromVolumeFailurePolicy": {
+              "description": "InferFromVolumeFailurePolicy controls what should happen on failure when inferring the resource",
+              "type": "string"
+            },
+            "kind": {
+              "description": "Kind specifies the kind of resource",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name is the name of resource",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "memoryDumpRequest": {
           "description": "MemoryDumpRequest tracks memory dump request phase and info of getting a memory\ndump to the given pvc",
           "nullable": true,
@@ -4049,6 +4085,41 @@
           "description": "ObservedGeneration is the generation observed by the vmi when started.",
           "format": "int64",
           "type": "integer"
+        },
+        "preferenceRef": {
+          "description": "PreferenceRef captures the state of any referenced preference from the VirtualMachine",
+          "nullable": true,
+          "properties": {
+            "controllerRevisionRef": {
+              "description": "ControllerRef specifies the ControllerRevision storing a copy of the object captured\nwhen it is first seen by the VirtualMachine controller",
+              "properties": {
+                "name": {
+                  "description": "Name of the ControllerRevision",
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "inferFromVolume": {
+              "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the resource",
+              "type": "string"
+            },
+            "inferFromVolumeFailurePolicy": {
+              "description": "InferFromVolumeFailurePolicy controls what should happen on failure when inferring the resource",
+              "type": "string"
+            },
+            "kind": {
+              "description": "Kind specifies the kind of resource",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name is the name of resource",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
         },
         "printableStatus": {
           "default": "Stopped",
@@ -4286,7 +4357,7 @@
                             "type": "boolean"
                           },
                           "name": {
-                            "description": "Name of both the DataVolume and the PVC in the same namespace.\nAfter PVC population the DataVolume is garbage collected by default.",
+                            "description": "Name of both the DataVolume and the PVC in the same namespace.",
                             "type": "string"
                           }
                         },

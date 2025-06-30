@@ -71,6 +71,85 @@
           "type": "object",
           "additionalProperties": false
         },
+        "contentSecurityPolicy": {
+          "description": "contentSecurityPolicy is a list of Content-Security-Policy (CSP) directives for the plugin.\nEach directive specifies a list of values, appropriate for the given directive type,\nfor example a list of remote endpoints for fetch directives such as ScriptSrc.\nConsole web application uses CSP to detect and mitigate certain types of attacks,\nsuch as cross-site scripting (XSS) and data injection attacks.\nDynamic plugins should specify this field if need to load assets from outside\nthe cluster or if violation reports are observed. Dynamic plugins should always prefer\nloading their assets from within the cluster, either by vendoring them, or fetching\nfrom a cluster service.\nCSP violation reports can be viewed in the browser's console logs during development and\ntesting of the plugin in the OpenShift web console.\nAvailable directive types are DefaultSrc, ScriptSrc, StyleSrc, ImgSrc, FontSrc and ConnectSrc.\nEach of the available directives may be defined only once in the list.\nThe value 'self' is automatically included in all fetch directives by the OpenShift web\nconsole's backend.\nFor more information about the CSP directives, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy\n\nThe OpenShift web console server aggregates the CSP directives and values across\nits own default values and all enabled ConsolePlugin CRs, merging them into a single\npolicy string that is sent to the browser via `Content-Security-Policy` HTTP response header.\n\nExample:\n  ConsolePlugin A directives:\n    script-src: https://script1.com/, https://script2.com/\n    font-src: https://font1.com/\n\n  ConsolePlugin B directives:\n    script-src: https://script2.com/, https://script3.com/\n    font-src: https://font2.com/\n    img-src: https://img1.com/\n\n  Unified set of CSP directives, passed to the OpenShift web console server:\n    script-src: https://script1.com/, https://script2.com/, https://script3.com/\n    font-src: https://font1.com/, https://font2.com/\n    img-src: https://img1.com/\n\n  OpenShift web console server CSP response header:\n    Content-Security-Policy: default-src 'self'; base-uri 'self'; script-src 'self' https://script1.com/ https://script2.com/ https://script3.com/; font-src 'self' https://font1.com/ https://font2.com/; img-src 'self' https://img1.com/; style-src 'self'; frame-src 'none'; object-src 'none'",
+          "items": {
+            "description": "ConsolePluginCSP holds configuration for a specific CSP directive",
+            "properties": {
+              "directive": {
+                "description": "directive specifies which Content-Security-Policy directive to configure.\nAvailable directive types are DefaultSrc, ScriptSrc, StyleSrc, ImgSrc, FontSrc and ConnectSrc.\nDefaultSrc directive serves as a fallback for the other CSP fetch directives.\nFor more information about the DefaultSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src\nScriptSrc directive specifies valid sources for JavaScript.\nFor more information about the ScriptSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src\nStyleSrc directive specifies valid sources for stylesheets.\nFor more information about the StyleSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src\nImgSrc directive specifies a valid sources of images and favicons.\nFor more information about the ImgSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src\nFontSrc directive specifies valid sources for fonts loaded using @font-face.\nFor more information about the FontSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src\nConnectSrc directive restricts the URLs which can be loaded using script interfaces.\nFor more information about the ConnectSrc directive, see:\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src",
+                "enum": [
+                  "DefaultSrc",
+                  "ScriptSrc",
+                  "StyleSrc",
+                  "ImgSrc",
+                  "FontSrc",
+                  "ConnectSrc"
+                ],
+                "type": "string"
+              },
+              "values": {
+                "description": "values defines an array of values to append to the console defaults for this directive.\nEach ConsolePlugin may define their own directives with their values. These will be set\nby the OpenShift web console's backend, as part of its Content-Security-Policy header.\nThe array can contain at most 16 values. Each directive value must have a maximum length\nof 1024 characters and must not contain whitespace, commas (,), semicolons (;) or single\nquotes ('). The value '*' is not permitted.\nEach value in the array must be unique.",
+                "items": {
+                  "description": "CSPDirectiveValue is single value for a Content-Security-Policy directive.\nEach directive value must have a maximum length of 1024 characters and must not contain\nwhitespace, commas (,), semicolons (;) or single quotes ('). The value '*' is not permitted.",
+                  "maxLength": 1024,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "CSP directive value cannot contain a quote",
+                      "rule": "!self.contains(\"'\")"
+                    },
+                    {
+                      "message": "CSP directive value cannot contain a whitespace",
+                      "rule": "!self.matches('\\\\s')"
+                    },
+                    {
+                      "message": "CSP directive value cannot contain a comma",
+                      "rule": "!self.contains(',')"
+                    },
+                    {
+                      "message": "CSP directive value cannot contain a semi-colon",
+                      "rule": "!self.contains(';')"
+                    },
+                    {
+                      "message": "CSP directive value cannot be a wildcard",
+                      "rule": "self != '*'"
+                    }
+                  ]
+                },
+                "maxItems": 16,
+                "minItems": 1,
+                "type": "array",
+                "x-kubernetes-list-type": "atomic",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "each CSP directive value must be unique",
+                    "rule": "self.all(x, self.exists_one(y, x == y))"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "directive",
+              "values"
+            ],
+            "type": "object",
+            "additionalProperties": false
+          },
+          "maxItems": 5,
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "directive"
+          ],
+          "x-kubernetes-list-type": "map",
+          "x-kubernetes-validations": [
+            {
+              "message": "the total combined size of values of all directives must not exceed 8192 (8kb)",
+              "rule": "self.map(x, x.values.map(y, y.size()).sum()).sum() < 8192"
+            }
+          ]
+        },
         "displayName": {
           "description": "displayName is the display name of the plugin.\nThe dispalyName should be between 1 and 128 characters.",
           "maxLength": 128,

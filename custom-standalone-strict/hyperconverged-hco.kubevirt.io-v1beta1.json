@@ -31,14 +31,13 @@
             "renewBefore": "12h0m0s"
           }
         },
+        "deployVmConsoleProxy": false,
+        "enableApplicationAwareQuota": false,
+        "enableCommonBootImageImport": true,
         "featureGates": {
-          "autoResourceLimits": false,
           "deployKubeSecondaryDNS": false,
-          "deployVmConsoleProxy": false,
           "disableMDevConfiguration": false,
           "downwardMetrics": false,
-          "enableApplicationAwareQuota": false,
-          "enableCommonBootImageImport": true,
           "persistentReservation": false
         },
         "liveMigrationConfig": {
@@ -55,11 +54,23 @@
         "uninstallStrategy": "BlockUninstallIfWorkloadsExist",
         "virtualMachineOptions": {
           "disableFreePageReporting": false,
-          "disableSerialConsoleLog": true
+          "disableSerialConsoleLog": false
         }
       },
       "description": "HyperConvergedSpec defines the desired state of HyperConverged",
       "properties": {
+        "CommonInstancetypesDeployment": {
+          "description": "CommonInstancetypesDeployment holds the configuration of common-instancetypes deployment within KubeVirt.",
+          "properties": {
+            "enabled": {
+              "description": "Enabled controls the deployment of common-instancetypes resources, defaults to True.",
+              "nullable": true,
+              "type": "boolean"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "applicationAwareConfig": {
           "description": "ApplicationAwareConfig set the AAQ configurations",
           "properties": {
@@ -1005,6 +1016,21 @@
           "description": "DefaultRuntimeClass defines a cluster default for the RuntimeClass to be used for VMIs pods if not set there.\nDefault RuntimeClass can be changed when kubevirt is running, existing VMIs are not impacted till\nthe next restart/live-migration when they are eventually going to consume the new default RuntimeClass.",
           "type": "string"
         },
+        "deployVmConsoleProxy": {
+          "default": false,
+          "description": "deploy VM console proxy resources in SSP operator",
+          "type": "boolean"
+        },
+        "enableApplicationAwareQuota": {
+          "default": false,
+          "description": "EnableApplicationAwareQuota if true, enables the Application Aware Quota feature",
+          "type": "boolean"
+        },
+        "enableCommonBootImageImport": {
+          "default": true,
+          "description": "Opt-in to automatic delivery/updates of the common data import cron templates.\nThere are two sources for the data import cron templates: hard coded list of common templates, and custom (user\ndefined) templates that can be added to the dataImportCronTemplates field. This field only controls the common\ntemplates. It is possible to use custom templates by adding them to the dataImportCronTemplates field.",
+          "type": "boolean"
+        },
         "evictionStrategy": {
           "description": "EvictionStrategy defines at the cluster level if the VirtualMachineInstance should be\nmigrated instead of shut-off in case of a node drain. If the VirtualMachineInstance specific\nfield is set it overrides the cluster level one.\nAllowed values:\n- `None` no eviction strategy at cluster level.\n- `LiveMigrate` migrate the VM on eviction; a not live migratable VM with no specific strategy will block the drain of the node util manually evicted.\n- `LiveMigrateIfPossible` migrate the VM on eviction if live migration is possible, otherwise directly evict.\n- `External` block the drain, track eviction and notify an external controller.\nDefaults to LiveMigrate with multiple worker nodes, None on single worker clusters.",
           "enum": [
@@ -1017,13 +1043,9 @@
         },
         "featureGates": {
           "default": {
-            "autoResourceLimits": false,
             "deployKubeSecondaryDNS": false,
-            "deployVmConsoleProxy": false,
             "disableMDevConfiguration": false,
             "downwardMetrics": false,
-            "enableApplicationAwareQuota": false,
-            "enableCommonBootImageImport": true,
             "persistentReservation": false
           },
           "description": "featureGates is a map of feature gate flags. Setting a flag to `true` will enable\nthe feature. Setting `false` or removing the feature gate, disables the feature.",
@@ -1034,8 +1056,7 @@
               "type": "boolean"
             },
             "autoResourceLimits": {
-              "default": false,
-              "description": "Enable KubeVirt to set automatic limits when they are needed.\nIf ResourceQuota with set memory limits is associated with a namespace, each pod in that namespace must have memory limits set.\nBy default, KubeVirt does not set such limits to the virt-launcher pod.\nWhen this feature gate is enabled, KubeVirt will set limits to the virt-launcher pod if they are not set manually\nand if a resource quota with memory limits is associated with the creation namespace.\nNote: this feature is in Developer Preview.",
+              "description": "Deprecated: this field is ignored and will be removed in the next version of the API.",
               "type": "boolean"
             },
             "deployKubeSecondaryDNS": {
@@ -1044,7 +1065,7 @@
               "type": "boolean"
             },
             "deployKubevirtIpamController": {
-              "description": "Deploy KubevirtIpamController by CNAO.\nDeprecated: this field is ignored and will be removed in the next version of the API.",
+              "description": "Deprecated: this field is ignored and will be removed in the next version of the API.",
               "type": "boolean"
             },
             "deployTektonTaskResources": {
@@ -1052,8 +1073,7 @@
               "type": "boolean"
             },
             "deployVmConsoleProxy": {
-              "default": false,
-              "description": "deploy VM console proxy resources in SSP operator",
+              "description": "Deprecated: This field is ignored and will be removed on the next version of the API.\nUse spec.deployVmConsoleProxy instead",
               "type": "boolean"
             },
             "disableMDevConfiguration": {
@@ -1067,13 +1087,11 @@
               "type": "boolean"
             },
             "enableApplicationAwareQuota": {
-              "default": false,
-              "description": "EnableApplicationAwareQuota if true, enables the Application Aware Quota feature",
+              "description": "Deprecated: This field is ignored and will be removed on the next version of the API.\nUse spec.enableApplicationAwareQuota instead",
               "type": "boolean"
             },
             "enableCommonBootImageImport": {
-              "default": true,
-              "description": "Opt-in to automatic delivery/updates of the common data import cron templates.\nThere are two sources for the data import cron templates: hard coded list of common templates, and custom\ntemplates that can be added to the dataImportCronTemplates field. This feature gates only control the common\ntemplates. It is possible to use custom templates by adding them to the dataImportCronTemplates field.",
+              "description": "Deprecated: This field is ignored. Use spec.enableCommonBootImageImport instead",
               "type": "boolean"
             },
             "enableManagedTenantQuota": {
@@ -1980,6 +1998,23 @@
           "type": "object",
           "additionalProperties": false
         },
+        "instancetypeConfig": {
+          "description": "InstancetypeConfig holds the configuration of instance type related functionality within KubeVirt.",
+          "properties": {
+            "referencePolicy": {
+              "description": "ReferencePolicy defines how an instance type or preference should be referenced by the VM after submission, supported values are:\nreference (default) - Where a copy of the original object is stashed in a ControllerRevision and referenced by the VM.\nexpand - Where the instance type or preference are expanded into the VM if no revisionNames have been populated.\nexpandAll - Where the instance type or preference are expanded into the VM regardless of revisionNames previously being populated.",
+              "enum": [
+                "reference",
+                "expand",
+                "expandAll"
+              ],
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "ksmConfiguration": {
           "description": "KSMConfiguration holds the information regarding\nthe enabling the KSM in the nodes (if available).",
           "properties": {
@@ -2596,7 +2631,7 @@
           "description": "TLSSecurityProfile specifies the settings for TLS connections to be propagated to all kubevirt-hyperconverged components.\nIf unset, the hyperconverged cluster operator will consume the value set on the APIServer CR on OCP/OKD or Intermediate if on vanilla k8s.\nNote that only Old, Intermediate and Custom profiles are currently supported, and the maximum available\nMinTLSVersions is VersionTLS12.",
           "properties": {
             "custom": {
-              "description": "custom is a user-defined TLS security profile. Be extremely careful using a custom\nprofile as invalid configurations can be catastrophic. An example custom profile\nlooks like this:\n\n  ciphers:\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n  minTLSVersion: TLSv1.1",
+              "description": "custom is a user-defined TLS security profile. Be extremely careful using a custom\nprofile as invalid configurations can be catastrophic. An example custom profile\nlooks like this:\n\n  ciphers:\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n  minTLSVersion: VersionTLS11",
               "nullable": true,
               "properties": {
                 "ciphers": {
@@ -2604,10 +2639,11 @@
                   "items": {
                     "type": "string"
                   },
-                  "type": "array"
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
                 },
                 "minTLSVersion": {
-                  "description": "minTLSVersion is used to specify the minimal version of the TLS protocol\nthat is negotiated during the TLS handshake. For example, to use TLS\nversions 1.1, 1.2 and 1.3 (yaml):\n\n  minTLSVersion: TLSv1.1\n\nNOTE: currently the highest minTLSVersion allowed is VersionTLS12",
+                  "description": "minTLSVersion is used to specify the minimal version of the TLS protocol\nthat is negotiated during the TLS handshake. For example, to use TLS\nversions 1.1, 1.2 and 1.3 (yaml):\n\n  minTLSVersion: VersionTLS11\n\nNOTE: currently the highest minTLSVersion allowed is VersionTLS12",
                   "enum": [
                     "VersionTLS10",
                     "VersionTLS11",
@@ -2621,17 +2657,17 @@
               "additionalProperties": false
             },
             "intermediate": {
-              "description": "intermediate is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29\n\nand looks like this (yaml):\n\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n    - ECDHE-RSA-AES256-GCM-SHA384\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - DHE-RSA-AES128-GCM-SHA256\n    - DHE-RSA-AES256-GCM-SHA384\n  minTLSVersion: TLSv1.2",
+              "description": "intermediate is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n\n    - ECDHE-RSA-AES256-GCM-SHA384\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - DHE-RSA-AES128-GCM-SHA256\n\n    - DHE-RSA-AES256-GCM-SHA384\n\n  minTLSVersion: VersionTLS12",
               "nullable": true,
               "type": "object"
             },
             "modern": {
-              "description": "modern is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Modern_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256\n  minTLSVersion: TLSv1.3\n\nNOTE: Currently unsupported.",
+              "description": "modern is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Modern_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n  minTLSVersion: VersionTLS13",
               "nullable": true,
               "type": "object"
             },
             "old": {
-              "description": "old is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Old_backward_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n    - ECDHE-RSA-AES256-GCM-SHA384\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - DHE-RSA-AES128-GCM-SHA256\n    - DHE-RSA-AES256-GCM-SHA384\n    - DHE-RSA-CHACHA20-POLY1305\n    - ECDHE-ECDSA-AES128-SHA256\n    - ECDHE-RSA-AES128-SHA256\n    - ECDHE-ECDSA-AES128-SHA\n    - ECDHE-RSA-AES128-SHA\n    - ECDHE-ECDSA-AES256-SHA384\n    - ECDHE-RSA-AES256-SHA384\n    - ECDHE-ECDSA-AES256-SHA\n    - ECDHE-RSA-AES256-SHA\n    - DHE-RSA-AES128-SHA256\n    - DHE-RSA-AES256-SHA256\n    - AES128-GCM-SHA256\n    - AES256-GCM-SHA384\n    - AES128-SHA256\n    - AES256-SHA256\n    - AES128-SHA\n    - AES256-SHA\n    - DES-CBC3-SHA\n  minTLSVersion: TLSv1.0",
+              "description": "old is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Old_backward_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n\n    - ECDHE-RSA-AES256-GCM-SHA384\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - DHE-RSA-AES128-GCM-SHA256\n\n    - DHE-RSA-AES256-GCM-SHA384\n\n    - DHE-RSA-CHACHA20-POLY1305\n\n    - ECDHE-ECDSA-AES128-SHA256\n\n    - ECDHE-RSA-AES128-SHA256\n\n    - ECDHE-ECDSA-AES128-SHA\n\n    - ECDHE-RSA-AES128-SHA\n\n    - ECDHE-ECDSA-AES256-SHA384\n\n    - ECDHE-RSA-AES256-SHA384\n\n    - ECDHE-ECDSA-AES256-SHA\n\n    - ECDHE-RSA-AES256-SHA\n\n    - DHE-RSA-AES128-SHA256\n\n    - DHE-RSA-AES256-SHA256\n\n    - AES128-GCM-SHA256\n\n    - AES256-GCM-SHA384\n\n    - AES128-SHA256\n\n    - AES256-SHA256\n\n    - AES128-SHA\n\n    - AES256-SHA\n\n    - DES-CBC3-SHA\n\n  minTLSVersion: VersionTLS10",
               "nullable": true,
               "type": "object"
             },
@@ -2673,7 +2709,7 @@
         "virtualMachineOptions": {
           "default": {
             "disableFreePageReporting": false,
-            "disableSerialConsoleLog": true
+            "disableSerialConsoleLog": false
           },
           "description": "VirtualMachineOptions holds the cluster level information regarding the virtual machine.",
           "properties": {
@@ -2683,7 +2719,7 @@
               "type": "boolean"
             },
             "disableSerialConsoleLog": {
-              "default": true,
+              "default": false,
               "description": "DisableSerialConsoleLog disables logging the auto-attached default serial console.\nIf not set, serial console logs will be written to a file and then streamed from a container named `guest-console-log`.\nThe value can be individually overridden for each VM, not relevant if AutoattachSerialConsole is disabled for the VM.",
               "type": "boolean"
             }
