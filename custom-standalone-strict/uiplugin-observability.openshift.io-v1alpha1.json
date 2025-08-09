@@ -97,6 +97,15 @@
               "x-kubernetes-map-type": "atomic",
               "additionalProperties": false
             },
+            "schema": {
+              "description": "Schema is the schema to use for logs querying and display.\n\nDefatults to \"viaq\" if not specified, \"select\" is used to allow users to select the schema from the UI.",
+              "enum": [
+                "viaq",
+                "otel",
+                "select"
+              ],
+              "type": "string"
+            },
             "timeout": {
               "description": "Timeout is the maximum duration before a query timeout.\n\nThe value is expected to be a sequence of digits followed by an optional unit suffix, which can be 's' (seconds)\nor 'm' (minutes). If the unit is omitted, it defaults to seconds.",
               "pattern": "^([0-9]+)([sm]{0,1})$",

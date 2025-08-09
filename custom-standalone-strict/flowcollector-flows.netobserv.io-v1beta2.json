@@ -22,8 +22,15 @@
               "description": "`ebpf` describes the settings related to the eBPF-based flow reporter when `spec.agent.type`\nis set to `eBPF`.",
               "properties": {
                 "advanced": {
-                  "description": "`advanced` allows setting some aspects of the internal configuration of the eBPF agent.\nThis section is aimed mostly for debugging and fine-grained performance optimizations,\nsuch as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk.",
+                  "description": "`advanced` allows setting some aspects of the internal configuration of the eBPF agent.\nThis section is aimed mostly for debugging and fine-grained performance optimizations,\nsuch as `GOGC` and `GOMAXPROCS` env vars. Set these values at your own risk. You can also\noverride the default Linux capabilities from there.",
                   "properties": {
+                    "capOverride": {
+                      "description": "Linux capabilities override, when not running as privileged. Default capabilities are BPF, PERFMON and NET_ADMIN.",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
                     "env": {
                       "additionalProperties": {
                         "type": "string"
@@ -899,9 +906,9 @@
                   "type": "array"
                 },
                 "features": {
-                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: Enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIf the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br>\n- `DNSTracking`: Enable the DNS tracking feature.<br>\n- `FlowRTT`: Enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>\n- `NetworkEvents`: Enable the network events monitoring feature, such as correlating flows and network policies.\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.\nIMPORTANT: This feature is available as a Technology Preview.<br>\n- `PacketTranslation`: Enable enriching flows with packet translation information, such as Service NAT.<br>\n- `EbpfManager`: [Unsupported (*)]. Use eBPF Manager to manage network observability eBPF programs. Pre-requisite: the eBPF Manager operator (or upstream bpfman operator) must be installed.<br>\n- `UDNMapping`: [Unsupported (*)]. Enable interfaces mapping to User Defined Networks (UDN). <br>\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.",
+                  "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: Enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIf the `spec.agent.ebpf.privileged` parameter is not set, an error is reported.<br>\n- `DNSTracking`: Enable the DNS tracking feature.<br>\n- `FlowRTT`: Enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>\n- `NetworkEvents`: Enable the network events monitoring feature, such as correlating flows and network policies.\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.\nIMPORTANT: This feature is available as a Technology Preview.<br>\n- `PacketTranslation`: Enable enriching flows with packet translation information, such as Service NAT.<br>\n- `EbpfManager`: [Unsupported (*)]. Use eBPF Manager to manage network observability eBPF programs. Pre-requisite: the eBPF Manager operator (or upstream bpfman operator) must be installed.<br>\n- `UDNMapping`: Enable interfaces mapping to User Defined Networks (UDN). <br>\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature. <br>\n- `IPSec`, to track flows between nodes with IPsec encryption. <br>",
                   "items": {
-                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track network events [Technology Preview].<br>\n- `PacketTranslation`, to enrich flows with packets translation information, such as Service NAT.<br>\n- `EbpfManager`, to enable using eBPF Manager to manage network observability eBPF programs. [Unsupported (*)].<br>\n- `UDNMapping`, to enable interfaces mapping to UDN. [Unsupported (*)].<br>",
+                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track network events [Technology Preview].<br>\n- `PacketTranslation`, to enrich flows with packets translation information, such as Service NAT.<br>\n- `EbpfManager`, to enable using eBPF Manager to manage network observability eBPF programs. [Unsupported (*)].<br>\n- `UDNMapping`, to enable interfaces mapping to UDN. <br>\n- `IPSec`, to track flows between nodes with IPsec encryption. <br>",
                     "enum": [
                       "PacketDrop",
                       "DNSTracking",
@@ -909,7 +916,8 @@
                       "NetworkEvents",
                       "PacketTranslation",
                       "EbpfManager",
-                      "UDNMapping"
+                      "UDNMapping",
+                      "IPSec"
                     ],
                     "type": "string"
                   },
@@ -998,7 +1006,7 @@
                       "type": "string"
                     },
                     "rules": {
-                      "description": "`rules` defines a list of filtering rules on the eBPF Agents.\nWhen filtering is enabled, by default, flows that don't match any rule are rejected.\nTo change the default, you can define a rule that accepts everything: `{ action: \"Accept\", cidr: \"0.0.0.0/0\" }`, and then refine with rejecting rules.\n[Unsupported (*)].",
+                      "description": "`rules` defines a list of filtering rules on the eBPF Agents.\nWhen filtering is enabled, by default, flows that don't match any rule are rejected.\nTo change the default, you can define a rule that accepts everything: `{ action: \"Accept\", cidr: \"0.0.0.0/0\" }`, and then refine with rejecting rules.",
                       "items": {
                         "description": "`EBPFFlowFilterRule` defines the desired eBPF agent configuration regarding flow filtering rule.",
                         "properties": {
@@ -1078,7 +1086,7 @@
                             "type": "string"
                           },
                           "sampling": {
-                            "description": "`sampling` sampling rate for the matched flows, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
+                            "description": "`sampling` is the sampling ratio for the matched packets, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
                             "format": "int32",
                             "type": "integer"
                           },
@@ -1119,7 +1127,7 @@
                       "type": "array"
                     },
                     "sampling": {
-                      "description": "`sampling` sampling rate for the matched flows, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
+                      "description": "`sampling` is the sampling ratio for the matched packets, overriding the global sampling defined at `spec.agent.ebpf.sampling`.",
                       "format": "int32",
                       "type": "integer"
                     },
@@ -1313,7 +1321,7 @@
                   "additionalProperties": false
                 },
                 "privileged": {
-                  "description": "Privileged mode for the eBPF Agent container. When ignored or set to `false`, the operator sets\ngranular capabilities (BPF, PERFMON, NET_ADMIN, SYS_RESOURCE) to the container.\nIf for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF\nis in use, then you can turn on this mode for more global privileges.\nSome agent features require the privileged mode, such as packet drops tracking (see `features`) and SR-IOV support.",
+                  "description": "Privileged mode for the eBPF Agent container. When ignored or set to `false`, the operator sets\ngranular capabilities (BPF, PERFMON, NET_ADMIN) to the container.\nIf for some reason these capabilities cannot be set, such as if an old kernel version not knowing CAP_BPF\nis in use, then you can turn on this mode for more global privileges.\nSome agent features require the privileged mode, such as packet drops tracking (see `features`) and SR-IOV support.",
                   "type": "boolean"
                 },
                 "resources": {
@@ -1392,7 +1400,7 @@
                 },
                 "sampling": {
                   "default": 50,
-                  "description": "Sampling rate of the flow reporter. 100 means one flow on 100 is sent. 0 or 1 means all flows are sampled.",
+                  "description": "Sampling ratio of the eBPF probe. 100 means one packet on 100 is sent. 0 or 1 means all packets are sampled.",
                   "format": "int32",
                   "minimum": 0,
                   "type": "integer"
@@ -3054,6 +3062,7 @@
                     "type": "string"
                   },
                   "targetPort": {
+                    "default": 4739,
                     "description": "Port for the IPFIX external receiver.",
                     "type": "integer"
                   },
@@ -3320,6 +3329,7 @@
                     "type": "string"
                   },
                   "targetPort": {
+                    "default": 4317,
                     "description": "Port for the OpenTelemetry receiver.",
                     "type": "integer"
                   },
@@ -4108,7 +4118,13 @@
         "namespace": {
           "default": "netobserv",
           "description": "Namespace where network observability pods are deployed.",
-          "type": "string"
+          "type": "string",
+          "x-kubernetes-validations": [
+            {
+              "message": "Namespace is immutable. If you need to change it, delete and recreate the resource.",
+              "rule": "self == oldSelf"
+            }
+          ]
         },
         "networkPolicy": {
           "description": "`networkPolicy` defines ingress network policy settings for network observability components isolation.",
@@ -4187,7 +4203,6 @@
                   "type": "integer"
                 },
                 "profilePort": {
-                  "default": 6060,
                   "description": "`profilePort` allows setting up a Go pprof profiler listening to this port",
                   "format": "int32",
                   "maximum": 65535,
@@ -5075,11 +5090,11 @@
               "type": "string"
             },
             "deduper": {
-              "description": "`deduper` allows you to sample or drop flows identified as duplicates, in order to save on resource usage.\n[Unsupported (*)].",
+              "description": "`deduper` allows you to sample or drop flows identified as duplicates, in order to save on resource usage.",
               "properties": {
                 "mode": {
                   "default": "Disabled",
-                  "description": "Set the Processor de-duplication mode. It comes in addition to the Agent-based deduplication because the Agent cannot de-duplicate same flows reported from different nodes.<br>\n- Use `Drop` to drop every flow considered as duplicates, allowing saving more on resource usage but potentially losing some information such as the network interfaces used from peer, or network events.<br>\n- Use `Sample` to randomly keep only one flow on 50, which is the default, among the ones considered as duplicates. This is a compromise between dropping every duplicate or keeping every duplicate. This sampling action comes in addition to the Agent-based sampling. If both Agent and Processor sampling values are `50`, the combined sampling is 1:2500.<br>\n- Use `Disabled` to turn off Processor-based de-duplication.<br>",
+                  "description": "Set the Processor de-duplication mode. It comes in addition to the Agent-based deduplication, since the Agent cannot de-duplicate same flows reported from different nodes.<br>\n- Use `Drop` to drop every flow considered as duplicates, allowing saving more on resource usage but potentially losing some information such as the network interfaces used from peer, or network events.<br>\n- Use `Sample` to randomly keep only one flow on 50, which is the default, among the ones considered as duplicates. This is a compromise between dropping every duplicate or keeping every duplicate. This sampling action comes in addition to the Agent-based sampling. If both Agent and Processor sampling values are `50`, the combined sampling is 1:2500.<br>\n- Use `Disabled` to turn off Processor-based de-duplication.<br>",
                   "enum": [
                     "Disabled",
                     "Drop",
@@ -5089,7 +5104,7 @@
                 },
                 "sampling": {
                   "default": 50,
-                  "description": "`sampling` is the sampling rate when deduper `mode` is `Sample`.",
+                  "description": "`sampling` is the sampling ratio when deduper `mode` is `Sample`. For example, a value of `50` means that 1 flow in 50 is sampled.",
                   "format": "int32",
                   "minimum": 0,
                   "type": "integer"
@@ -5099,48 +5114,12 @@
               "additionalProperties": false
             },
             "filters": {
-              "description": "`filters` lets you define custom filters to limit the amount of generated flows.\nThese filters provide more flexibility than the eBPF Agent filters (in `spec.agent.ebpf.flowFilter`), such as allowing to filter by Kubernetes namespace,\nbut with a lesser improvement in performance.\n[Unsupported (*)].",
+              "description": "`filters` lets you define custom filters to limit the amount of generated flows.\nThese filters provide more flexibility than the eBPF Agent filters (in `spec.agent.ebpf.flowFilter`), such as allowing to filter by Kubernetes namespace,\nbut with a lesser improvement in performance.",
               "items": {
                 "description": "`FLPFilterSet` defines the desired configuration for FLP-based filtering satisfying all conditions.",
                 "properties": {
-                  "allOf": {
-                    "description": "`filters` is a list of matches that must be all satisfied in order to remove a flow.",
-                    "items": {
-                      "description": "`FLPSingleFilter` defines the desired configuration for a single FLP-based filter.",
-                      "properties": {
-                        "field": {
-                          "description": "Name of the field to filter on.\nRefer to the documentation for the list of available fields: https://github.com/netobserv/network-observability-operator/blob/main/docs/flows-format.adoc.",
-                          "type": "string"
-                        },
-                        "matchType": {
-                          "default": "Equal",
-                          "description": "Type of matching to apply.",
-                          "enum": [
-                            "Equal",
-                            "NotEqual",
-                            "Presence",
-                            "Absence",
-                            "MatchRegex",
-                            "NotMatchRegex"
-                          ],
-                          "type": "string"
-                        },
-                        "value": {
-                          "description": "Value to filter on. When `matchType` is `Equal` or `NotEqual`, you can use field injection with `$(SomeField)` to refer to any other field of the flow.",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "field",
-                        "matchType"
-                      ],
-                      "type": "object",
-                      "additionalProperties": false
-                    },
-                    "type": "array"
-                  },
                   "outputTarget": {
-                    "description": "If specified, these filters only target a single output: `Loki`, `Metrics` or `Exporters`. By default, all outputs are targeted.",
+                    "description": "If specified, these filters target a single output: `Loki`, `Metrics` or `Exporters`. By default, all outputs are targeted.",
                     "enum": [
                       "",
                       "Loki",
@@ -5149,8 +5128,12 @@
                     ],
                     "type": "string"
                   },
+                  "query": {
+                    "description": "A query that selects the network flows to keep. More information about this query language in https://github.com/netobserv/flowlogs-pipeline/blob/main/docs/filtering.md.",
+                    "type": "string"
+                  },
                   "sampling": {
-                    "description": "`sampling` is an optional sampling rate to apply to this filter.",
+                    "description": "`sampling` is an optional sampling ratio to apply to this filter. For example, a value of `50` means that 1 matching flow in 50 is sampled.",
                     "format": "int32",
                     "minimum": 0,
                     "type": "integer"
@@ -5683,7 +5666,7 @@
             },
             "logTypes": {
               "default": "Flows",
-              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br>\n- `Flows` to export regular network flows. This is the default.<br>\n- `Conversations` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates.<br>\n- `EndedConversations` to generate only ended conversations events.<br>\n- `All` to generate both network flows and all conversations events. It is not recommended due to the impact on resources footprint.<br>",
+              "description": "`logTypes` defines the desired record types to generate. Possible values are:<br>\n- `Flows` to export regular network flows. This is the default.<br>\n- `Conversations` to generate events for started conversations, ended conversations as well as periodic \"tick\" updates. Note that in this mode, Prometheus metrics are not accurate on long-standing conversations.<br>\n- `EndedConversations` to generate only ended conversations events. Note that in this mode, Prometheus metrics are not accurate on long-standing conversations.<br>\n- `All` to generate both network flows and all conversations events. It is not recommended due to the impact on resources footprint.<br>",
               "enum": [
                 "Flows",
                 "Conversations",
@@ -5741,7 +5724,9 @@
                       "workload_dns_latency_seconds",
                       "node_network_policy_events_total",
                       "namespace_network_policy_events_total",
-                      "workload_network_policy_events_total"
+                      "workload_network_policy_events_total",
+                      "node_ipsec_flows_total",
+                      "node_to_node_ingress_flows_total"
                     ],
                     "type": "string"
                   },

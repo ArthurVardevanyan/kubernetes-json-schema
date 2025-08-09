@@ -183,7 +183,7 @@
                       "envFrom": {
                         "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                         "items": {
-                          "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                          "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                           "properties": {
                             "configMapRef": {
                               "description": "The ConfigMap to select from",
@@ -203,7 +203,7 @@
                               "additionalProperties": false
                             },
                             "prefix": {
-                              "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                              "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                               "type": "string"
                             },
                             "secretRef": {
@@ -1063,6 +1063,11 @@
                       },
                       "hostPath": {
                         "description": "This is accessible behind a feature flag - kubernetes.podspec-volumes-hostpath",
+                        "type": "object",
+                        "x-kubernetes-preserve-unknown-fields": true
+                      },
+                      "image": {
+                        "description": "This is accessible behind a feature flag - kubernetes.podspec-volumes-image",
                         "type": "object",
                         "x-kubernetes-preserve-unknown-fields": true
                       },

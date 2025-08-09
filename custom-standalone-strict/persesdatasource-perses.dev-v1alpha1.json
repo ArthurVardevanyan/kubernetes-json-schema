@@ -16,6 +16,118 @@
       "properties": {
         "client": {
           "properties": {
+            "basicAuth": {
+              "description": "BasicAuth basic auth config for perses client",
+              "properties": {
+                "name": {
+                  "description": "Name of basic auth k8s resource (when type is secret or configmap)",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Namsespace of certificate k8s resource (when type is secret or configmap)",
+                  "type": "string"
+                },
+                "password_path": {
+                  "description": "Path to password",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "Type source type of secret",
+                  "enum": [
+                    "secret",
+                    "configmap",
+                    "file"
+                  ],
+                  "type": "string"
+                },
+                "username": {
+                  "description": "Username for basic auth",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "password_path",
+                "type",
+                "username"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "kubernetesAuth": {
+              "description": "KubernetesAuth configuration for perses client",
+              "properties": {
+                "enable": {
+                  "description": "Enable kubernetes auth for perses client",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "enable"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "oauth": {
+              "description": "OAuth configuration for perses client",
+              "properties": {
+                "authStyle": {
+                  "description": "AuthStyle optionally specifies how the endpoint wants the\nclient ID & client secret sent. The zero value means to\nauto-detect.",
+                  "type": "integer"
+                },
+                "clientIDPath": {
+                  "description": "Path to client id",
+                  "type": "string"
+                },
+                "clientSecretPath": {
+                  "description": "Path to client secret",
+                  "type": "string"
+                },
+                "endpointParams": {
+                  "additionalProperties": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "description": "EndpointParams specifies additional parameters for requests to the token endpoint.",
+                  "type": "object"
+                },
+                "name": {
+                  "description": "Name of basic auth k8s resource (when type is secret or configmap)",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Namsespace of certificate k8s resource (when type is secret or configmap)",
+                  "type": "string"
+                },
+                "scopes": {
+                  "description": "Scope specifies optional requested permissions.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "tokenURL": {
+                  "description": "TokenURL is the resource server's token endpoint\nURL. This is a constant specific to each server.",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "Type source type of secret",
+                  "enum": [
+                    "secret",
+                    "configmap",
+                    "file"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "tokenURL",
+                "type"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
             "tls": {
               "description": "TLS the equivalent to the tls_config for perses client",
               "properties": {
@@ -27,7 +139,11 @@
                       "type": "string"
                     },
                     "name": {
-                      "description": "Name of certificate k8s resource (when type is secret or configmap)",
+                      "description": "Name of basic auth k8s resource (when type is secret or configmap)",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namsespace of certificate k8s resource (when type is secret or configmap)",
                       "type": "string"
                     },
                     "privateKeyPath": {
@@ -35,7 +151,7 @@
                       "type": "string"
                     },
                     "type": {
-                      "description": "Type source type of certificate",
+                      "description": "Type source type of secret",
                       "enum": [
                         "secret",
                         "configmap",
@@ -67,7 +183,11 @@
                       "type": "string"
                     },
                     "name": {
-                      "description": "Name of certificate k8s resource (when type is secret or configmap)",
+                      "description": "Name of basic auth k8s resource (when type is secret or configmap)",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namsespace of certificate k8s resource (when type is secret or configmap)",
                       "type": "string"
                     },
                     "privateKeyPath": {
@@ -75,7 +195,7 @@
                       "type": "string"
                     },
                     "type": {
-                      "description": "Type source type of certificate",
+                      "description": "Type source type of secret",
                       "enum": [
                         "secret",
                         "configmap",
