@@ -20,14 +20,20 @@
             "description": "BundleSource is the set of sources whose data will be appended and synced to\nthe BundleTarget in all Namespaces.",
             "properties": {
               "configMap": {
-                "description": "ConfigMap is a reference (by name) to a ConfigMap's `data` key, or to a\nlist of ConfigMap's `data` key using label selector, in the trust Namespace.",
+                "description": "ConfigMap is a reference (by name) to a ConfigMap's `data` key(s), or to a\nlist of ConfigMap's `data` key(s) using label selector, in the trust Namespace.",
                 "properties": {
+                  "includeAllKeys": {
+                    "description": "IncludeAllKeys is a flag to include all keys in the object's `data` field to be used. False by default.\nThis field must not be true when `Key` is set.",
+                    "type": "boolean"
+                  },
                   "key": {
-                    "description": "Key is the key of the entry in the object's `data` field to be used.",
+                    "description": "Key of the entry in the object's `data` field to be used.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "name": {
                     "description": "Name is the name of the source object in the trust Namespace.\nThis field must be left empty when `selector` is set",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "selector": {
@@ -78,10 +84,8 @@
                     "additionalProperties": false
                   }
                 },
-                "required": [
-                  "key"
-                ],
                 "type": "object",
+                "x-kubernetes-map-type": "atomic",
                 "additionalProperties": false
               },
               "inLine": {
@@ -89,14 +93,20 @@
                 "type": "string"
               },
               "secret": {
-                "description": "Secret is a reference (by name) to a Secret's `data` key, or to a\nlist of Secret's `data` key using label selector, in the trust Namespace.",
+                "description": "Secret is a reference (by name) to a Secret's `data` key(s), or to a\nlist of Secret's `data` key(s) using label selector, in the trust Namespace.",
                 "properties": {
+                  "includeAllKeys": {
+                    "description": "IncludeAllKeys is a flag to include all keys in the object's `data` field to be used. False by default.\nThis field must not be true when `Key` is set.",
+                    "type": "boolean"
+                  },
                   "key": {
-                    "description": "Key is the key of the entry in the object's `data` field to be used.",
+                    "description": "Key of the entry in the object's `data` field to be used.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "name": {
                     "description": "Name is the name of the source object in the trust Namespace.\nThis field must be left empty when `selector` is set",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "selector": {
@@ -147,10 +157,8 @@
                     "additionalProperties": false
                   }
                 },
-                "required": [
-                  "key"
-                ],
                 "type": "object",
+                "x-kubernetes-map-type": "atomic",
                 "additionalProperties": false
               },
               "useDefaultCAs": {
@@ -159,9 +167,13 @@
               }
             },
             "type": "object",
+            "x-kubernetes-map-type": "atomic",
             "additionalProperties": false
           },
-          "type": "array"
+          "maxItems": 100,
+          "minItems": 1,
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         },
         "target": {
           "description": "Target is the target location in all namespaces to sync source data to.",
@@ -170,10 +182,11 @@
               "description": "AdditionalFormats specifies any additional formats to write to the target",
               "properties": {
                 "jks": {
-                  "description": "JKS requests a JKS-formatted binary trust bundle to be written to the target.\nThe bundle has \"changeit\" as the default password.\nFor more information refer to this link https://cert-manager.io/docs/faq/#keystore-passwords",
+                  "description": "JKS requests a JKS-formatted binary trust bundle to be written to the target.\nThe bundle has \"changeit\" as the default password.\nFor more information refer to this link https://cert-manager.io/docs/faq/#keystore-passwords\nDeprecated: Writing JKS is subject for removal. Please migrate to PKCS12.\nPKCS#12 trust stores created by trust-manager are compatible with Java.",
                   "properties": {
                     "key": {
                       "description": "Key is the key of the entry in the object's `data` field to be used.",
+                      "minLength": 1,
                       "type": "string"
                     },
                     "password": {
@@ -188,13 +201,15 @@
                     "key"
                   ],
                   "type": "object",
+                  "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
                 },
                 "pkcs12": {
-                  "description": "PKCS12 requests a PKCS12-formatted binary trust bundle to be written to the target.\nThe bundle is by default created without a password.",
+                  "description": "PKCS12 requests a PKCS12-formatted binary trust bundle to be written to the target.\n\nThe bundle is by default created without a password.\nFor more information refer to this link https://cert-manager.io/docs/faq/#keystore-passwords",
                   "properties": {
                     "key": {
                       "description": "Key is the key of the entry in the object's `data` field to be used.",
+                      "minLength": 1,
                       "type": "string"
                     },
                     "password": {
@@ -202,12 +217,22 @@
                       "description": "Password for PKCS12 trust store",
                       "maxLength": 128,
                       "type": "string"
+                    },
+                    "profile": {
+                      "description": "Profile specifies the certificate encryption algorithms and the HMAC algorithm\nused to create the PKCS12 trust store.\n\nIf provided, allowed values are:\n`LegacyRC2`: Deprecated. Not supported by default in OpenSSL 3 or Java 20.\n`LegacyDES`: Less secure algorithm. Use this option for maximal compatibility.\n`Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms (e.g. because of company policy).\n\nDefault value is `LegacyRC2` for backward compatibility.",
+                      "enum": [
+                        "LegacyRC2",
+                        "LegacyDES",
+                        "Modern2023"
+                      ],
+                      "type": "string"
                     }
                   },
                   "required": [
                     "key"
                   ],
                   "type": "object",
+                  "x-kubernetes-map-type": "atomic",
                   "additionalProperties": false
                 }
               },
@@ -219,7 +244,29 @@
               "properties": {
                 "key": {
                   "description": "Key is the key of the entry in the object's `data` field to be used.",
+                  "minLength": 1,
                   "type": "string"
+                },
+                "metadata": {
+                  "description": "Metadata is an optional set of labels and annotations to be copied to the target.",
+                  "properties": {
+                    "annotations": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Annotations is a key value map to be copied to the target.",
+                      "type": "object"
+                    },
+                    "labels": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Labels is a key value map to be copied to the target.",
+                      "type": "object"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
               "required": [
@@ -231,15 +278,48 @@
             "namespaceSelector": {
               "description": "NamespaceSelector will, if set, only sync the target resource in\nNamespaces which match the selector.",
               "properties": {
+                "matchExpressions": {
+                  "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                  "items": {
+                    "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
+                    "properties": {
+                      "key": {
+                        "description": "key is the label key that the selector applies to.",
+                        "type": "string"
+                      },
+                      "operator": {
+                        "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
+                        "type": "string"
+                      },
+                      "values": {
+                        "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array",
+                        "x-kubernetes-list-type": "atomic"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "operator"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
+                },
                 "matchLabels": {
                   "additionalProperties": {
                     "type": "string"
                   },
-                  "description": "MatchLabels matches on the set of labels that must be present on a\nNamespace for the Bundle target to be synced there.",
+                  "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
                   "type": "object"
                 }
               },
               "type": "object",
+              "x-kubernetes-map-type": "atomic",
               "additionalProperties": false
             },
             "secret": {
@@ -247,7 +327,29 @@
               "properties": {
                 "key": {
                   "description": "Key is the key of the entry in the object's `data` field to be used.",
+                  "minLength": 1,
                   "type": "string"
+                },
+                "metadata": {
+                  "description": "Metadata is an optional set of labels and annotations to be copied to the target.",
+                  "properties": {
+                    "annotations": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Annotations is a key value map to be copied to the target.",
+                      "type": "object"
+                    },
+                    "labels": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Labels is a key value map to be copied to the target.",
+                      "type": "object"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
               "required": [
@@ -262,8 +364,7 @@
         }
       },
       "required": [
-        "sources",
-        "target"
+        "sources"
       ],
       "type": "object",
       "additionalProperties": false
@@ -274,33 +375,33 @@
         "conditions": {
           "description": "List of status conditions to indicate the status of the Bundle.\nKnown condition types are `Bundle`.",
           "items": {
-            "description": "BundleCondition contains condition information for a Bundle.",
+            "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {
               "lastTransitionTime": {
-                "description": "LastTransitionTime is the timestamp corresponding to the last status\nchange of this condition.",
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
                 "format": "date-time",
                 "type": "string"
               },
               "message": {
-                "description": "Message is a human-readable description of the details of the last\ntransition, complementing reason.",
+                "description": "message is a human readable message indicating details about the transition.\nThis may be an empty string.",
                 "maxLength": 32768,
                 "type": "string"
               },
               "observedGeneration": {
-                "description": "If set, this represents the .metadata.generation that the condition was\nset based upon.\nFor instance, if .metadata.generation is currently 12, but the\n.status.condition[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the Bundle.",
+                "description": "observedGeneration represents the .metadata.generation that the condition was set based upon.\nFor instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the instance.",
                 "format": "int64",
                 "minimum": 0,
                 "type": "integer"
               },
               "reason": {
-                "description": "Reason is a brief machine-readable explanation for the condition's last\ntransition.\nThe value should be a CamelCase string.\nThis field may not be empty.",
+                "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.\nProducers of specific condition types may define expected values and meanings for this field,\nand whether the values are considered a guaranteed API.\nThe value should be a CamelCase string.\nThis field may not be empty.",
                 "maxLength": 1024,
                 "minLength": 1,
                 "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$",
                 "type": "string"
               },
               "status": {
-                "description": "Status of the condition, one of True, False, Unknown.",
+                "description": "status of the condition, one of True, False, Unknown.",
                 "enum": [
                   "True",
                   "False",
@@ -309,7 +410,7 @@
                 "type": "string"
               },
               "type": {
-                "description": "Type of the condition, known values are (`Synced`).",
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.",
                 "maxLength": 316,
                 "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$",
                 "type": "string"
@@ -317,6 +418,7 @@
             },
             "required": [
               "lastTransitionTime",
+              "message",
               "reason",
               "status",
               "type"

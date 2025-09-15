@@ -25,7 +25,7 @@
             }
           ],
           "default": "100%",
-          "description": "Any farther remediation is only allowed if at most \"MaxUnhealthy\" machines selected by\n\"selector\" are not healthy.\nExpects either a postive integer value or a percentage value.\nPercentage values must be positive whole numbers and are capped at 100%.\nBoth 0 and 0% are valid and will block all remediation.",
+          "description": "Any farther remediation is only allowed if at most \"MaxUnhealthy\" machines selected by\n\"selector\" are not healthy.\nExpects either a postive integer value or a percentage value.\nPercentage values must be positive whole numbers and are capped at 100%.\nBoth 0 and 0% are valid and will block all remediation.\nDefaults to 100% if not set.",
           "pattern": "^((100|[0-9]{1,2})%|[0-9]+)$",
           "x-kubernetes-int-or-string": true
         },

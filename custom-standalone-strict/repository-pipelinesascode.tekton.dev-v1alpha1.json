@@ -312,6 +312,20 @@
         "settings": {
           "description": "Settings contains the configuration settings for the repository, including\nauthorization policies, provider-specific configuration, and provenance settings.",
           "properties": {
+            "github": {
+              "properties": {
+                "comment_strategy": {
+                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests",
+                  "enum": [
+                    "",
+                    "disable_all"
+                  ],
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
             "github_app_token_scope_repos": {
               "description": "GithubAppTokenScopeRepos lists repositories that can access the GitHub App token when using the\nGitHub App authentication method. This allows specific repositories to use tokens generated for\nthe GitHub App installation, useful for cross-repository access.",
               "items": {
@@ -323,10 +337,9 @@
               "description": "Gitlab contains GitLab-specific settings for repositories hosted on GitLab.",
               "properties": {
                 "comment_strategy": {
-                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'status-comment': Posts a single comment and updates it with pipeline results\n- 'pipeline-runs-comment': Creates a new comment for each PipelineRun\n- 'disable_all': Disables all comments on merge requests",
+                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests",
                   "enum": [
-                    "status-comment",
-                    "pipeline-runs-comment",
+                    "",
                     "disable_all"
                   ],
                   "type": "string"

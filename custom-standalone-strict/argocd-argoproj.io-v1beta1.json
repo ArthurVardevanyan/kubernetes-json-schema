@@ -187,6 +187,14 @@
               "description": "LogLevel describes the log level that should be used by the ApplicationSet controller. Defaults to ArgoCDDefaultLogLevel if not set.  Valid options are debug,info, error, and warn.",
               "type": "string"
             },
+            "logformat": {
+              "description": "LogFormat refers to the log format used by the ApplicationSet component. Defaults to ArgoCDDefaultLogFormat if not configured. Valid options are text or json.",
+              "enum": [
+                "text",
+                "json"
+              ],
+              "type": "string"
+            },
             "resources": {
               "description": "Resources defines the Compute Resources required by the container for ApplicationSet.",
               "properties": {
@@ -323,7 +331,7 @@
                 "description": "Volume represents a named volume in a pod that may be accessed by any container in the pod.",
                 "properties": {
                   "awsElasticBlockStore": {
-                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree\nawsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
@@ -350,7 +358,7 @@
                     "additionalProperties": false
                   },
                   "azureDisk": {
-                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.",
+                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.\nDeprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type\nare redirected to the disk.csi.azure.com CSI driver.",
                     "properties": {
                       "cachingMode": {
                         "description": "cachingMode is the Host Caching mode: None, Read Only, Read Write.",
@@ -387,7 +395,7 @@
                     "additionalProperties": false
                   },
                   "azureFile": {
-                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.",
+                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.\nDeprecated: AzureFile is deprecated. All operations for the in-tree azureFile type\nare redirected to the file.csi.azure.com CSI driver.",
                     "properties": {
                       "readOnly": {
                         "description": "readOnly defaults to false (read/write). ReadOnly here will force\nthe ReadOnly setting in VolumeMounts.",
@@ -410,7 +418,7 @@
                     "additionalProperties": false
                   },
                   "cephfs": {
-                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime",
+                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime.\nDeprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.",
                     "properties": {
                       "monitors": {
                         "description": "monitors is Required: Monitors is a collection of Ceph monitors\nMore info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it",
@@ -457,7 +465,7 @@
                     "additionalProperties": false
                   },
                   "cinder": {
-                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
+                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nDeprecated: Cinder is deprecated. All operations for the in-tree cinder type\nare redirected to the cinder.csi.openstack.org CSI driver.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
@@ -543,7 +551,7 @@
                     "additionalProperties": false
                   },
                   "csi": {
-                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers (Beta feature).",
+                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the CSI driver that handles this volume.\nConsult with your admin for the correct name as registered in the cluster.",
@@ -921,7 +929,7 @@
                     "additionalProperties": false
                   },
                   "flexVolume": {
-                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.",
+                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.\nDeprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the driver to use for this volume.",
@@ -963,7 +971,7 @@
                     "additionalProperties": false
                   },
                   "flocker": {
-                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running",
+                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running.\nDeprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.",
                     "properties": {
                       "datasetName": {
                         "description": "datasetName is Name of the dataset stored as metadata -> name on the dataset for Flocker\nshould be considered as deprecated",
@@ -978,7 +986,7 @@
                     "additionalProperties": false
                   },
                   "gcePersistentDisk": {
-                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
+                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: GCEPersistentDisk is deprecated. All operations for the in-tree\ngcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
@@ -1005,7 +1013,7 @@
                     "additionalProperties": false
                   },
                   "gitRepo": {
-                    "description": "gitRepo represents a git repository at a particular revision.\nDEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
+                    "description": "gitRepo represents a git repository at a particular revision.\nDeprecated: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
                     "properties": {
                       "directory": {
                         "description": "directory is the target directory name.\nMust not contain or start with '..'.  If '.' is supplied, the volume directory will be the\ngit repository.  Otherwise, if specified, the volume will contain the git repository in\nthe subdirectory with the given name.",
@@ -1027,7 +1035,7 @@
                     "additionalProperties": false
                   },
                   "glusterfs": {
-                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
+                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nDeprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
                     "properties": {
                       "endpoints": {
                         "description": "endpoints is the endpoint name that details Glusterfs topology.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod",
@@ -1068,7 +1076,7 @@
                     "additionalProperties": false
                   },
                   "image": {
-                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
+                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
                     "properties": {
                       "pullPolicy": {
                         "description": "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.",
@@ -1199,7 +1207,7 @@
                     "additionalProperties": false
                   },
                   "photonPersistentDisk": {
-                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine",
+                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.\nDeprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -1217,7 +1225,7 @@
                     "additionalProperties": false
                   },
                   "portworxVolume": {
-                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine",
+                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine.\nDeprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type\nare redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate\nis on.",
                     "properties": {
                       "fsType": {
                         "description": "fSType represents the filesystem type to mount\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -1533,7 +1541,7 @@
                     "additionalProperties": false
                   },
                   "quobyte": {
-                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime",
+                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime.\nDeprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.",
                     "properties": {
                       "group": {
                         "description": "group to map volume access to\nDefault is no group",
@@ -1568,7 +1576,7 @@
                     "additionalProperties": false
                   },
                   "rbd": {
-                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
+                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nDeprecated: RBD is deprecated and the in-tree rbd type is no longer supported.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#rbd",
@@ -1627,7 +1635,7 @@
                     "additionalProperties": false
                   },
                   "scaleIO": {
-                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.",
+                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.\nDeprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "default": "xfs",
@@ -1739,7 +1747,7 @@
                     "additionalProperties": false
                   },
                   "storageos": {
-                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.",
+                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.\nDeprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -1775,7 +1783,7 @@
                     "additionalProperties": false
                   },
                   "vsphereVolume": {
-                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine",
+                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.\nDeprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type\nare redirected to the csi.vsphere.vmware.com CSI driver.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -1975,6 +1983,47 @@
           "type": "object",
           "additionalProperties": false
         },
+        "argoCDAgent": {
+          "description": "ArgoCDAgent defines configurations for the ArgoCD Agent component.",
+          "properties": {
+            "principal": {
+              "description": "Principal defines configurations for the Principal component of Argo CD Agent.",
+              "properties": {
+                "allowedNamespaces": {
+                  "description": "AllowedNamespaces is the list of namespaces that the Principal component is allowed to access.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "auth": {
+                  "description": "Auth is the authentication method for the Principal component.",
+                  "type": "string"
+                },
+                "enabled": {
+                  "description": "Enabled is the flag to enable the Principal component during Argo CD installation. (optional, default `false`)",
+                  "type": "boolean"
+                },
+                "image": {
+                  "description": "Image is the name of Argo CD Agent image",
+                  "type": "string"
+                },
+                "jwtAllowGenerate": {
+                  "description": "JWTAllowGenerate is the flag to enable the JWT generation during Argo CD installation.",
+                  "type": "boolean"
+                },
+                "logLevel": {
+                  "description": "LogLevel refers to the log level used by the Principal component. Defaults to info if not configured. Valid options are debug, info, trace, error, and warn.",
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "banner": {
           "description": "Banner defines an additional banner to be displayed in Argo CD UI",
           "properties": {
@@ -2001,7 +2050,7 @@
           "type": "object"
         },
         "configManagementPlugins": {
-          "description": "ConfigManagementPlugins is used to specify additional config management plugins.",
+          "description": "Deprecated: ConfigManagementPlugins field is no longer supported. Argo CD now requires plugins to be defined as sidecar containers of repo server component. See '.spec.repo.sidecarContainers'. ConfigManagementPlugins was previously used to specify additional config management plugins.",
           "type": "string"
         },
         "controller": {
@@ -2313,7 +2362,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -2333,7 +2382,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -2375,7 +2424,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -2390,7 +2439,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -2448,7 +2497,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -2463,7 +2512,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -2496,7 +2545,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -2511,7 +2560,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -2569,7 +2618,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -2584,7 +2633,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -2612,6 +2661,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -2621,7 +2674,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -2641,7 +2694,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -2661,7 +2714,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -2734,7 +2787,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -2823,7 +2876,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -2843,7 +2896,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -2863,7 +2916,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -2936,7 +2989,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -3216,7 +3269,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -3236,7 +3289,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -3256,7 +3309,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -3329,7 +3382,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -3774,7 +3827,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -3794,7 +3847,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -3836,7 +3889,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -3851,7 +3904,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -3909,7 +3962,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -3924,7 +3977,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -3957,7 +4010,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -3972,7 +4025,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -4030,7 +4083,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -4045,7 +4098,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -4073,6 +4126,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -4082,7 +4139,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -4102,7 +4159,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -4122,7 +4179,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -4195,7 +4252,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -4284,7 +4341,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -4304,7 +4361,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -4324,7 +4381,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -4397,7 +4454,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -4677,7 +4734,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -4697,7 +4754,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -4717,7 +4774,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -4790,7 +4847,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -4985,7 +5042,7 @@
                 "description": "Volume represents a named volume in a pod that may be accessed by any container in the pod.",
                 "properties": {
                   "awsElasticBlockStore": {
-                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree\nawsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
@@ -5012,7 +5069,7 @@
                     "additionalProperties": false
                   },
                   "azureDisk": {
-                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.",
+                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.\nDeprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type\nare redirected to the disk.csi.azure.com CSI driver.",
                     "properties": {
                       "cachingMode": {
                         "description": "cachingMode is the Host Caching mode: None, Read Only, Read Write.",
@@ -5049,7 +5106,7 @@
                     "additionalProperties": false
                   },
                   "azureFile": {
-                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.",
+                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.\nDeprecated: AzureFile is deprecated. All operations for the in-tree azureFile type\nare redirected to the file.csi.azure.com CSI driver.",
                     "properties": {
                       "readOnly": {
                         "description": "readOnly defaults to false (read/write). ReadOnly here will force\nthe ReadOnly setting in VolumeMounts.",
@@ -5072,7 +5129,7 @@
                     "additionalProperties": false
                   },
                   "cephfs": {
-                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime",
+                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime.\nDeprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.",
                     "properties": {
                       "monitors": {
                         "description": "monitors is Required: Monitors is a collection of Ceph monitors\nMore info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it",
@@ -5119,7 +5176,7 @@
                     "additionalProperties": false
                   },
                   "cinder": {
-                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
+                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nDeprecated: Cinder is deprecated. All operations for the in-tree cinder type\nare redirected to the cinder.csi.openstack.org CSI driver.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
@@ -5205,7 +5262,7 @@
                     "additionalProperties": false
                   },
                   "csi": {
-                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers (Beta feature).",
+                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the CSI driver that handles this volume.\nConsult with your admin for the correct name as registered in the cluster.",
@@ -5583,7 +5640,7 @@
                     "additionalProperties": false
                   },
                   "flexVolume": {
-                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.",
+                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.\nDeprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the driver to use for this volume.",
@@ -5625,7 +5682,7 @@
                     "additionalProperties": false
                   },
                   "flocker": {
-                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running",
+                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running.\nDeprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.",
                     "properties": {
                       "datasetName": {
                         "description": "datasetName is Name of the dataset stored as metadata -> name on the dataset for Flocker\nshould be considered as deprecated",
@@ -5640,7 +5697,7 @@
                     "additionalProperties": false
                   },
                   "gcePersistentDisk": {
-                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
+                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: GCEPersistentDisk is deprecated. All operations for the in-tree\ngcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
@@ -5667,7 +5724,7 @@
                     "additionalProperties": false
                   },
                   "gitRepo": {
-                    "description": "gitRepo represents a git repository at a particular revision.\nDEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
+                    "description": "gitRepo represents a git repository at a particular revision.\nDeprecated: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
                     "properties": {
                       "directory": {
                         "description": "directory is the target directory name.\nMust not contain or start with '..'.  If '.' is supplied, the volume directory will be the\ngit repository.  Otherwise, if specified, the volume will contain the git repository in\nthe subdirectory with the given name.",
@@ -5689,7 +5746,7 @@
                     "additionalProperties": false
                   },
                   "glusterfs": {
-                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
+                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nDeprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
                     "properties": {
                       "endpoints": {
                         "description": "endpoints is the endpoint name that details Glusterfs topology.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod",
@@ -5730,7 +5787,7 @@
                     "additionalProperties": false
                   },
                   "image": {
-                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
+                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
                     "properties": {
                       "pullPolicy": {
                         "description": "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.",
@@ -5861,7 +5918,7 @@
                     "additionalProperties": false
                   },
                   "photonPersistentDisk": {
-                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine",
+                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.\nDeprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -5879,7 +5936,7 @@
                     "additionalProperties": false
                   },
                   "portworxVolume": {
-                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine",
+                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine.\nDeprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type\nare redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate\nis on.",
                     "properties": {
                       "fsType": {
                         "description": "fSType represents the filesystem type to mount\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -6195,7 +6252,7 @@
                     "additionalProperties": false
                   },
                   "quobyte": {
-                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime",
+                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime.\nDeprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.",
                     "properties": {
                       "group": {
                         "description": "group to map volume access to\nDefault is no group",
@@ -6230,7 +6287,7 @@
                     "additionalProperties": false
                   },
                   "rbd": {
-                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
+                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nDeprecated: RBD is deprecated and the in-tree rbd type is no longer supported.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#rbd",
@@ -6289,7 +6346,7 @@
                     "additionalProperties": false
                   },
                   "scaleIO": {
-                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.",
+                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.\nDeprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "default": "xfs",
@@ -6401,7 +6458,7 @@
                     "additionalProperties": false
                   },
                   "storageos": {
-                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.",
+                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.\nDeprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -6437,7 +6494,7 @@
                     "additionalProperties": false
                   },
                   "vsphereVolume": {
-                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine",
+                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.\nDeprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type\nare redirected to the csi.vsphere.vmware.com CSI driver.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -6863,7 +6920,7 @@
           "additionalProperties": false
         },
         "initialRepositories": {
-          "description": "InitialRepositories to configure Argo CD with upon creation of the cluster.",
+          "description": "Deprecated: InitialRepositories to configure Argo CD with upon creation of the cluster.",
           "type": "string"
         },
         "initialSSHKnownHosts": {
@@ -7113,6 +7170,14 @@
             },
             "logLevel": {
               "description": "LogLevel describes the log level that should be used by the argocd-notifications. Defaults to ArgoCDDefaultLogLevel if not set.  Valid options are debug,info, error, and warn.",
+              "type": "string"
+            },
+            "logformat": {
+              "description": "LogFormat refers to the log format used by the argocd-notifications. Defaults to ArgoCDDefaultLogFormat if not configured. Valid options are text or json.",
+              "enum": [
+                "text",
+                "json"
+              ],
               "type": "string"
             },
             "replicas": {
@@ -7810,7 +7875,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -7830,7 +7895,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -7872,7 +7937,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -7887,7 +7952,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -7945,7 +8010,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -7960,7 +8025,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -7993,7 +8058,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -8008,7 +8073,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -8066,7 +8131,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -8081,7 +8146,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -8109,6 +8174,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -8118,7 +8187,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -8138,7 +8207,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -8158,7 +8227,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -8231,7 +8300,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -8320,7 +8389,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -8340,7 +8409,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -8360,7 +8429,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -8433,7 +8502,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -8713,7 +8782,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -8733,7 +8802,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -8753,7 +8822,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -8826,7 +8895,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -9225,7 +9294,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -9245,7 +9314,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -9287,7 +9356,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -9302,7 +9371,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -9360,7 +9429,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -9375,7 +9444,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -9408,7 +9477,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -9423,7 +9492,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -9481,7 +9550,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -9496,7 +9565,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -9524,6 +9593,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -9533,7 +9606,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -9553,7 +9626,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -9573,7 +9646,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -9646,7 +9719,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -9735,7 +9808,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -9755,7 +9828,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -9775,7 +9848,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -9848,7 +9921,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -10128,7 +10201,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -10148,7 +10221,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -10168,7 +10241,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -10241,7 +10314,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -10444,7 +10517,7 @@
                 "description": "Volume represents a named volume in a pod that may be accessed by any container in the pod.",
                 "properties": {
                   "awsElasticBlockStore": {
-                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree\nawsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
@@ -10471,7 +10544,7 @@
                     "additionalProperties": false
                   },
                   "azureDisk": {
-                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.",
+                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.\nDeprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type\nare redirected to the disk.csi.azure.com CSI driver.",
                     "properties": {
                       "cachingMode": {
                         "description": "cachingMode is the Host Caching mode: None, Read Only, Read Write.",
@@ -10508,7 +10581,7 @@
                     "additionalProperties": false
                   },
                   "azureFile": {
-                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.",
+                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.\nDeprecated: AzureFile is deprecated. All operations for the in-tree azureFile type\nare redirected to the file.csi.azure.com CSI driver.",
                     "properties": {
                       "readOnly": {
                         "description": "readOnly defaults to false (read/write). ReadOnly here will force\nthe ReadOnly setting in VolumeMounts.",
@@ -10531,7 +10604,7 @@
                     "additionalProperties": false
                   },
                   "cephfs": {
-                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime",
+                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime.\nDeprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.",
                     "properties": {
                       "monitors": {
                         "description": "monitors is Required: Monitors is a collection of Ceph monitors\nMore info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it",
@@ -10578,7 +10651,7 @@
                     "additionalProperties": false
                   },
                   "cinder": {
-                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
+                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nDeprecated: Cinder is deprecated. All operations for the in-tree cinder type\nare redirected to the cinder.csi.openstack.org CSI driver.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
@@ -10664,7 +10737,7 @@
                     "additionalProperties": false
                   },
                   "csi": {
-                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers (Beta feature).",
+                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the CSI driver that handles this volume.\nConsult with your admin for the correct name as registered in the cluster.",
@@ -11042,7 +11115,7 @@
                     "additionalProperties": false
                   },
                   "flexVolume": {
-                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.",
+                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.\nDeprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the driver to use for this volume.",
@@ -11084,7 +11157,7 @@
                     "additionalProperties": false
                   },
                   "flocker": {
-                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running",
+                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running.\nDeprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.",
                     "properties": {
                       "datasetName": {
                         "description": "datasetName is Name of the dataset stored as metadata -> name on the dataset for Flocker\nshould be considered as deprecated",
@@ -11099,7 +11172,7 @@
                     "additionalProperties": false
                   },
                   "gcePersistentDisk": {
-                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
+                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: GCEPersistentDisk is deprecated. All operations for the in-tree\ngcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
@@ -11126,7 +11199,7 @@
                     "additionalProperties": false
                   },
                   "gitRepo": {
-                    "description": "gitRepo represents a git repository at a particular revision.\nDEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
+                    "description": "gitRepo represents a git repository at a particular revision.\nDeprecated: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
                     "properties": {
                       "directory": {
                         "description": "directory is the target directory name.\nMust not contain or start with '..'.  If '.' is supplied, the volume directory will be the\ngit repository.  Otherwise, if specified, the volume will contain the git repository in\nthe subdirectory with the given name.",
@@ -11148,7 +11221,7 @@
                     "additionalProperties": false
                   },
                   "glusterfs": {
-                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
+                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nDeprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
                     "properties": {
                       "endpoints": {
                         "description": "endpoints is the endpoint name that details Glusterfs topology.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod",
@@ -11189,7 +11262,7 @@
                     "additionalProperties": false
                   },
                   "image": {
-                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
+                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
                     "properties": {
                       "pullPolicy": {
                         "description": "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.",
@@ -11320,7 +11393,7 @@
                     "additionalProperties": false
                   },
                   "photonPersistentDisk": {
-                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine",
+                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.\nDeprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -11338,7 +11411,7 @@
                     "additionalProperties": false
                   },
                   "portworxVolume": {
-                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine",
+                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine.\nDeprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type\nare redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate\nis on.",
                     "properties": {
                       "fsType": {
                         "description": "fSType represents the filesystem type to mount\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -11654,7 +11727,7 @@
                     "additionalProperties": false
                   },
                   "quobyte": {
-                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime",
+                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime.\nDeprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.",
                     "properties": {
                       "group": {
                         "description": "group to map volume access to\nDefault is no group",
@@ -11689,7 +11762,7 @@
                     "additionalProperties": false
                   },
                   "rbd": {
-                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
+                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nDeprecated: RBD is deprecated and the in-tree rbd type is no longer supported.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#rbd",
@@ -11748,7 +11821,7 @@
                     "additionalProperties": false
                   },
                   "scaleIO": {
-                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.",
+                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.\nDeprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "default": "xfs",
@@ -11860,7 +11933,7 @@
                     "additionalProperties": false
                   },
                   "storageos": {
-                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.",
+                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.\nDeprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -11896,7 +11969,7 @@
                     "additionalProperties": false
                   },
                   "vsphereVolume": {
-                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine",
+                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.\nDeprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type\nare redirected to the csi.vsphere.vmware.com CSI driver.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -11935,7 +12008,7 @@
           "additionalProperties": false
         },
         "repositoryCredentials": {
-          "description": "RepositoryCredentials are the Git pull credentials to configure Argo CD with upon creation of the cluster.",
+          "description": "Deprecated: RepositoryCredentials are the Git pull credentials to configure Argo CD with upon creation of the cluster.",
           "type": "string"
         },
         "resourceActions": {
@@ -12553,7 +12626,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -12573,7 +12646,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -12615,7 +12688,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -12630,7 +12703,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -12688,7 +12761,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -12703,7 +12776,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -12736,7 +12809,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -12751,7 +12824,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -12809,7 +12882,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -12824,7 +12897,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -12852,6 +12925,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -12861,7 +12938,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -12881,7 +12958,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -12901,7 +12978,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -12974,7 +13051,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -13063,7 +13140,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -13083,7 +13160,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -13103,7 +13180,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -13176,7 +13253,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -13456,7 +13533,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -13476,7 +13553,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -13496,7 +13573,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -13569,7 +13646,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -14073,7 +14150,7 @@
                   "envFrom": {
                     "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                     "items": {
-                      "description": "EnvFromSource represents the source of a set of ConfigMaps",
+                      "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                       "properties": {
                         "configMapRef": {
                           "description": "The ConfigMap to select from",
@@ -14093,7 +14170,7 @@
                           "additionalProperties": false
                         },
                         "prefix": {
-                          "description": "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.",
+                          "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
                           "type": "string"
                         },
                         "secretRef": {
@@ -14135,7 +14212,7 @@
                         "description": "PostStart is called immediately after a container is created. If the handler fails,\nthe container is terminated and restarted according to its restart policy.\nOther management of the container blocks until the hook completes.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -14150,7 +14227,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -14208,7 +14285,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -14223,7 +14300,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -14256,7 +14333,7 @@
                         "description": "PreStop is called immediately before a container is terminated due to an\nAPI request or management event such as liveness/startup probe failure,\npreemption, resource contention, etc. The handler is not called if the\ncontainer crashes or exits. The Pod's termination grace period countdown begins before the\nPreStop hook is executed. Regardless of the outcome of the handler, the\ncontainer will eventually terminate within the Pod's termination grace\nperiod (unless delayed by finalizers). Other management of the container blocks until the hook completes\nor until the termination grace period is reached.\nMore info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks",
                         "properties": {
                           "exec": {
-                            "description": "Exec specifies the action to take.",
+                            "description": "Exec specifies a command to execute in the container.",
                             "properties": {
                               "command": {
                                 "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -14271,7 +14348,7 @@
                             "additionalProperties": false
                           },
                           "httpGet": {
-                            "description": "HTTPGet specifies the http request to perform.",
+                            "description": "HTTPGet specifies an HTTP GET request to perform.",
                             "properties": {
                               "host": {
                                 "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -14329,7 +14406,7 @@
                             "additionalProperties": false
                           },
                           "sleep": {
-                            "description": "Sleep represents the duration that the container should sleep before being terminated.",
+                            "description": "Sleep represents a duration that the container should sleep.",
                             "properties": {
                               "seconds": {
                                 "description": "Seconds is the number of seconds to sleep.",
@@ -14344,7 +14421,7 @@
                             "additionalProperties": false
                           },
                           "tcpSocket": {
-                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor the backward compatibility. There are no validation of this field and\nlifecycle hooks will fail in runtime when tcp handler is specified.",
+                            "description": "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept\nfor backward compatibility. There is no validation of this field and\nlifecycle hooks will fail at runtime when it is specified.",
                             "properties": {
                               "host": {
                                 "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -14372,6 +14449,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "stopSignal": {
+                        "description": "StopSignal defines which signal will be sent to a container when it is being stopped.\nIf not specified, the default is defined by the container runtime in use.\nStopSignal can only be set for Pods with a non-empty .spec.os.name",
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -14381,7 +14462,7 @@
                     "description": "Periodic probe of container liveness.\nContainer will be restarted if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -14401,7 +14482,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -14421,7 +14502,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -14494,7 +14575,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -14583,7 +14664,7 @@
                     "description": "Periodic probe of container service readiness.\nContainer will be removed from service endpoints if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -14603,7 +14684,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -14623,7 +14704,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -14696,7 +14777,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -14976,7 +15057,7 @@
                     "description": "StartupProbe indicates that the Pod has successfully initialized.\nIf specified, no other probes are executed until this completes successfully.\nIf this probe fails, the Pod will be restarted, just as if the livenessProbe failed.\nThis can be used to provide different probe parameters at the beginning of a Pod's lifecycle,\nwhen it might take a long time to load data or warm a cache, than during steady-state operation.\nThis cannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes",
                     "properties": {
                       "exec": {
-                        "description": "Exec specifies the action to take.",
+                        "description": "Exec specifies a command to execute in the container.",
                         "properties": {
                           "command": {
                             "description": "Command is the command line to execute inside the container, the working directory for the\ncommand  is root ('/') in the container's filesystem. The command is simply exec'd, it is\nnot run inside a shell, so traditional shell instructions ('|', etc) won't work. To use\na shell, you need to explicitly call out to that shell.\nExit status of 0 is treated as live/healthy and non-zero is unhealthy.",
@@ -14996,7 +15077,7 @@
                         "type": "integer"
                       },
                       "grpc": {
-                        "description": "GRPC specifies an action involving a GRPC port.",
+                        "description": "GRPC specifies a GRPC HealthCheckRequest.",
                         "properties": {
                           "port": {
                             "description": "Port number of the gRPC service. Number must be in the range 1 to 65535.",
@@ -15016,7 +15097,7 @@
                         "additionalProperties": false
                       },
                       "httpGet": {
-                        "description": "HTTPGet specifies the http request to perform.",
+                        "description": "HTTPGet specifies an HTTP GET request to perform.",
                         "properties": {
                           "host": {
                             "description": "Host name to connect to, defaults to the pod IP. You probably want to set\n\"Host\" in httpHeaders instead.",
@@ -15089,7 +15170,7 @@
                         "type": "integer"
                       },
                       "tcpSocket": {
-                        "description": "TCPSocket specifies an action involving a TCP port.",
+                        "description": "TCPSocket specifies a connection to a TCP port.",
                         "properties": {
                           "host": {
                             "description": "Optional: Host name to connect to, defaults to the pod IP.",
@@ -15284,7 +15365,7 @@
                 "description": "Volume represents a named volume in a pod that may be accessed by any container in the pod.",
                 "properties": {
                   "awsElasticBlockStore": {
-                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+                    "description": "awsElasticBlockStore represents an AWS Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree\nawsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
@@ -15311,7 +15392,7 @@
                     "additionalProperties": false
                   },
                   "azureDisk": {
-                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.",
+                    "description": "azureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.\nDeprecated: AzureDisk is deprecated. All operations for the in-tree azureDisk type\nare redirected to the disk.csi.azure.com CSI driver.",
                     "properties": {
                       "cachingMode": {
                         "description": "cachingMode is the Host Caching mode: None, Read Only, Read Write.",
@@ -15348,7 +15429,7 @@
                     "additionalProperties": false
                   },
                   "azureFile": {
-                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.",
+                    "description": "azureFile represents an Azure File Service mount on the host and bind mount to the pod.\nDeprecated: AzureFile is deprecated. All operations for the in-tree azureFile type\nare redirected to the file.csi.azure.com CSI driver.",
                     "properties": {
                       "readOnly": {
                         "description": "readOnly defaults to false (read/write). ReadOnly here will force\nthe ReadOnly setting in VolumeMounts.",
@@ -15371,7 +15452,7 @@
                     "additionalProperties": false
                   },
                   "cephfs": {
-                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime",
+                    "description": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime.\nDeprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.",
                     "properties": {
                       "monitors": {
                         "description": "monitors is Required: Monitors is a collection of Ceph monitors\nMore info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it",
@@ -15418,7 +15499,7 @@
                     "additionalProperties": false
                   },
                   "cinder": {
-                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
+                    "description": "cinder represents a cinder volume attached and mounted on kubelets host machine.\nDeprecated: Cinder is deprecated. All operations for the in-tree cinder type\nare redirected to the cinder.csi.openstack.org CSI driver.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://examples.k8s.io/mysql-cinder-pd/README.md",
@@ -15504,7 +15585,7 @@
                     "additionalProperties": false
                   },
                   "csi": {
-                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers (Beta feature).",
+                    "description": "csi (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the CSI driver that handles this volume.\nConsult with your admin for the correct name as registered in the cluster.",
@@ -15882,7 +15963,7 @@
                     "additionalProperties": false
                   },
                   "flexVolume": {
-                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.",
+                    "description": "flexVolume represents a generic volume resource that is\nprovisioned/attached using an exec based plugin.\nDeprecated: FlexVolume is deprecated. Consider using a CSIDriver instead.",
                     "properties": {
                       "driver": {
                         "description": "driver is the name of the driver to use for this volume.",
@@ -15924,7 +16005,7 @@
                     "additionalProperties": false
                   },
                   "flocker": {
-                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running",
+                    "description": "flocker represents a Flocker volume attached to a kubelet's host machine. This depends on the Flocker control service being running.\nDeprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.",
                     "properties": {
                       "datasetName": {
                         "description": "datasetName is Name of the dataset stored as metadata -> name on the dataset for Flocker\nshould be considered as deprecated",
@@ -15939,7 +16020,7 @@
                     "additionalProperties": false
                   },
                   "gcePersistentDisk": {
-                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
+                    "description": "gcePersistentDisk represents a GCE Disk resource that is attached to a\nkubelet's host machine and then exposed to the pod.\nDeprecated: GCEPersistentDisk is deprecated. All operations for the in-tree\ngcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk",
@@ -15966,7 +16047,7 @@
                     "additionalProperties": false
                   },
                   "gitRepo": {
-                    "description": "gitRepo represents a git repository at a particular revision.\nDEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
+                    "description": "gitRepo represents a git repository at a particular revision.\nDeprecated: GitRepo is deprecated. To provision a container with a git repo, mount an\nEmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir\ninto the Pod's container.",
                     "properties": {
                       "directory": {
                         "description": "directory is the target directory name.\nMust not contain or start with '..'.  If '.' is supplied, the volume directory will be the\ngit repository.  Otherwise, if specified, the volume will contain the git repository in\nthe subdirectory with the given name.",
@@ -15988,7 +16069,7 @@
                     "additionalProperties": false
                   },
                   "glusterfs": {
-                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
+                    "description": "glusterfs represents a Glusterfs mount on the host that shares a pod's lifetime.\nDeprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md",
                     "properties": {
                       "endpoints": {
                         "description": "endpoints is the endpoint name that details Glusterfs topology.\nMore info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod",
@@ -16029,7 +16110,7 @@
                     "additionalProperties": false
                   },
                   "image": {
-                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
+                    "description": "image represents an OCI object (a container image or artifact) pulled and mounted on the kubelet's host machine.\nThe volume is resolved at pod startup depending on which PullPolicy value is provided:\n\n- Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\n- Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\n- IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\n\nThe volume gets re-resolved if the pod gets deleted and recreated, which means that new remote content will become available on pod recreation.\nA failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.\nThe types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.\nThe OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.\nThe volume will be mounted read-only (ro) and non-executable files (noexec).\nSub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.\nThe field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.",
                     "properties": {
                       "pullPolicy": {
                         "description": "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.",
@@ -16160,7 +16241,7 @@
                     "additionalProperties": false
                   },
                   "photonPersistentDisk": {
-                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine",
+                    "description": "photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine.\nDeprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -16178,7 +16259,7 @@
                     "additionalProperties": false
                   },
                   "portworxVolume": {
-                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine",
+                    "description": "portworxVolume represents a portworx volume attached and mounted on kubelets host machine.\nDeprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type\nare redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate\nis on.",
                     "properties": {
                       "fsType": {
                         "description": "fSType represents the filesystem type to mount\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -16494,7 +16575,7 @@
                     "additionalProperties": false
                   },
                   "quobyte": {
-                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime",
+                    "description": "quobyte represents a Quobyte mount on the host that shares a pod's lifetime.\nDeprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.",
                     "properties": {
                       "group": {
                         "description": "group to map volume access to\nDefault is no group",
@@ -16529,7 +16610,7 @@
                     "additionalProperties": false
                   },
                   "rbd": {
-                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
+                    "description": "rbd represents a Rados Block Device mount on the host that shares a pod's lifetime.\nDeprecated: RBD is deprecated and the in-tree rbd type is no longer supported.\nMore info: https://examples.k8s.io/volumes/rbd/README.md",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type of the volume that you want to mount.\nTip: Ensure that the filesystem type is supported by the host operating system.\nExamples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#rbd",
@@ -16588,7 +16669,7 @@
                     "additionalProperties": false
                   },
                   "scaleIO": {
-                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.",
+                    "description": "scaleIO represents a ScaleIO persistent volume attached and mounted on Kubernetes nodes.\nDeprecated: ScaleIO is deprecated and the in-tree scaleIO type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "default": "xfs",
@@ -16700,7 +16781,7 @@
                     "additionalProperties": false
                   },
                   "storageos": {
-                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.",
+                    "description": "storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes.\nDeprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is the filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",
@@ -16736,7 +16817,7 @@
                     "additionalProperties": false
                   },
                   "vsphereVolume": {
-                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine",
+                    "description": "vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine.\nDeprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type\nare redirected to the csi.vsphere.vmware.com CSI driver.",
                     "properties": {
                       "fsType": {
                         "description": "fsType is filesystem type to mount.\nMust be a filesystem type supported by the host operating system.\nEx. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.",

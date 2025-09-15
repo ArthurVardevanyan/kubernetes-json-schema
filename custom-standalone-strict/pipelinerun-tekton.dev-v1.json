@@ -1874,6 +1874,9 @@
                   "description": "EnableStepActions is a no-op flag since StepActions are stable",
                   "type": "boolean"
                 },
+                "enableWaitExponentialBackoff": {
+                  "type": "boolean"
+                },
                 "enforceNonfalsifiability": {
                   "type": "string"
                 },
@@ -1917,7 +1920,7 @@
                   "type": "object"
                 },
                 "entryPoint": {
-                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.8/git-clone.yaml\"",
+                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
                   "type": "string"
                 },
                 "uri": {

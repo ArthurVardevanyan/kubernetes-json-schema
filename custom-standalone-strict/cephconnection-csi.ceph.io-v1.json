@@ -1,5 +1,5 @@
 {
-  "description": "IPAMClaim is the Schema for the IPAMClaim API",
+  "description": "CephConnection is the Schema for the cephconnections API",
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -13,39 +13,46 @@
       "type": "object"
     },
     "spec": {
+      "description": "CephConnectionSpec defines the desired state of CephConnection",
       "properties": {
-        "interface": {
-          "description": "The pod interface name for which this allocation was created",
-          "type": "string"
+        "monitors": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
         },
-        "network": {
-          "description": "The network name for which this persistent allocation was created",
-          "type": "string"
+        "rbdMirrorDaemonCount": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "readAffinity": {
+          "description": "ReadAffinitySpec capture Ceph CSI read affinity settings",
+          "properties": {
+            "crushLocationLabels": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "crushLocationLabels"
+          ],
+          "type": "object",
+          "additionalProperties": false
         }
       },
       "required": [
-        "interface",
-        "network"
+        "monitors"
       ],
       "type": "object",
       "additionalProperties": false
     },
     "status": {
-      "description": "IPAMClaimStatus contains the observed status of the IPAMClaim.",
-      "properties": {
-        "ips": {
-          "description": "The list of IP addresses (v4, v6) that were allocated for the pod interface",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "ips"
-      ],
-      "type": "object",
-      "additionalProperties": false
+      "description": "CephConnectionStatus defines the observed state of CephConnection",
+      "type": "object"
     }
   },
   "type": "object"
