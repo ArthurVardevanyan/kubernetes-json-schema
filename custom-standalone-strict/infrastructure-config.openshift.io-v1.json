@@ -1392,6 +1392,102 @@
             "gcp": {
               "description": "gcp contains settings specific to the Google Cloud Platform infrastructure provider.",
               "properties": {
+                "cloudLoadBalancerConfig": {
+                  "default": {
+                    "dnsType": "PlatformDefault"
+                  },
+                  "description": "cloudLoadBalancerConfig holds configuration related to DNS and cloud\nload balancers. It allows configuration of in-cluster DNS as an alternative\nto the platform default DNS implementation.\nWhen using the ClusterHosted DNS type, Load Balancer IP addresses\nmust be provided for the API and internal API load balancers as well as the\ningress load balancer.",
+                  "nullable": true,
+                  "properties": {
+                    "clusterHosted": {
+                      "description": "clusterHosted holds the IP addresses of API, API-Int and Ingress Load\nBalancers on Cloud Platforms. The DNS solution hosted within the cluster\nuse these IP addresses to provide resolution for API, API-Int and Ingress\nservices.",
+                      "properties": {
+                        "apiIntLoadBalancerIPs": {
+                          "description": "apiIntLoadBalancerIPs holds Load Balancer IPs for the internal API service.\nThese Load Balancer IP addresses can be IPv4 and/or IPv6 addresses.\nEntries in the apiIntLoadBalancerIPs must be unique.\nA maximum of 16 IP addresses are permitted.",
+                          "format": "ip",
+                          "items": {
+                            "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                            "maxLength": 39,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-kubernetes-validations": [
+                              {
+                                "message": "value must be a valid IP address",
+                                "rule": "isIP(self)"
+                              }
+                            ]
+                          },
+                          "maxItems": 16,
+                          "type": "array",
+                          "x-kubernetes-list-type": "set"
+                        },
+                        "apiLoadBalancerIPs": {
+                          "description": "apiLoadBalancerIPs holds Load Balancer IPs for the API service.\nThese Load Balancer IP addresses can be IPv4 and/or IPv6 addresses.\nCould be empty for private clusters.\nEntries in the apiLoadBalancerIPs must be unique.\nA maximum of 16 IP addresses are permitted.",
+                          "format": "ip",
+                          "items": {
+                            "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                            "maxLength": 39,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-kubernetes-validations": [
+                              {
+                                "message": "value must be a valid IP address",
+                                "rule": "isIP(self)"
+                              }
+                            ]
+                          },
+                          "maxItems": 16,
+                          "type": "array",
+                          "x-kubernetes-list-type": "set"
+                        },
+                        "ingressLoadBalancerIPs": {
+                          "description": "ingressLoadBalancerIPs holds IPs for Ingress Load Balancers.\nThese Load Balancer IP addresses can be IPv4 and/or IPv6 addresses.\nEntries in the ingressLoadBalancerIPs must be unique.\nA maximum of 16 IP addresses are permitted.",
+                          "format": "ip",
+                          "items": {
+                            "description": "IP is an IP address (for example, \"10.0.0.0\" or \"fd00::\").",
+                            "maxLength": 39,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-kubernetes-validations": [
+                              {
+                                "message": "value must be a valid IP address",
+                                "rule": "isIP(self)"
+                              }
+                            ]
+                          },
+                          "maxItems": 16,
+                          "type": "array",
+                          "x-kubernetes-list-type": "set"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "dnsType": {
+                      "default": "PlatformDefault",
+                      "description": "dnsType indicates the type of DNS solution in use within the cluster. Its default value of\n`PlatformDefault` indicates that the cluster's DNS is the default provided by the cloud platform.\nIt can be set to `ClusterHosted` to bypass the configuration of the cloud default DNS. In this mode,\nthe cluster needs to provide a self-hosted DNS solution for the cluster's installation to succeed.\nThe cluster's use of the cloud's Load Balancers is unaffected by this setting.\nThe value is immutable after it has been set at install time.\nCurrently, there is no way for the customer to add additional DNS entries into the cluster hosted DNS.\nEnabling this functionality allows the user to start their own DNS solution outside the cluster after\ninstallation is complete. The customer would be responsible for configuring this custom DNS solution,\nand it can be run in addition to the in-cluster DNS solution.",
+                      "enum": [
+                        "ClusterHosted",
+                        "PlatformDefault"
+                      ],
+                      "type": "string",
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "dnsType is immutable",
+                          "rule": "oldSelf == '' || self == oldSelf"
+                        }
+                      ]
+                    }
+                  },
+                  "type": "object",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "clusterHosted is permitted only when dnsType is ClusterHosted",
+                      "rule": "has(self.dnsType) && self.dnsType != 'ClusterHosted' ? !has(self.clusterHosted) : true"
+                    }
+                  ],
+                  "additionalProperties": false
+                },
                 "projectID": {
                   "description": "resourceGroupName is the Project ID for new GCP resources created for the cluster.",
                   "type": "string"
@@ -1532,7 +1628,7 @@
                   "type": "string"
                 },
                 "serviceEndpoints": {
-                  "description": "serviceEndpoints is a list of custom endpoints which will override the default\nservice endpoints of an IBM service. These endpoints are used by components\nwithin the cluster when trying to reach the IBM Cloud Services that have been\noverriden. The CCCMO reads in the IBMCloudPlatformSpec and validates each\nendpoint is resolvable. Once validated, the cloud config and IBMCloudPlatformStatus\nare updated to reflect the same custom endpoints.",
+                  "description": "serviceEndpoints is a list of custom endpoints which will override the default\nservice endpoints of an IBM service. These endpoints are used by components\nwithin the cluster when trying to reach the IBM Cloud Services that have been\noverridden. The CCCMO reads in the IBMCloudPlatformSpec and validates each\nendpoint is resolvable. Once validated, the cloud config and IBMCloudPlatformStatus\nare updated to reflect the same custom endpoints.",
                   "items": {
                     "description": "IBMCloudServiceEndpoint stores the configuration of a custom url to\noverride existing defaults of IBM Cloud Services.",
                     "properties": {

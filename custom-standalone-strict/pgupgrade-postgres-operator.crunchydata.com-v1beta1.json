@@ -807,7 +807,7 @@
         "fromPostgresVersion": {
           "description": "The major version of PostgreSQL before the upgrade.",
           "format": "int32",
-          "maximum": 17,
+          "maximum": 18,
           "minimum": 11,
           "type": "integer"
         },
@@ -944,7 +944,7 @@
         "toPostgresVersion": {
           "description": "The major version of PostgreSQL to be upgraded to.",
           "format": "int32",
-          "maximum": 17,
+          "maximum": 18,
           "minimum": 11,
           "type": "integer"
         },

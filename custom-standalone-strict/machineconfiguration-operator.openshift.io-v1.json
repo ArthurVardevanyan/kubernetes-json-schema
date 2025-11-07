@@ -52,7 +52,7 @@
                     "type": "string"
                   },
                   "resource": {
-                    "description": "resource is the machine management resource's type.\nThe only current valid value is machinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.",
+                    "description": "resource is the machine management resource's type.\nValid values are machinesets and controlplanemachinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.\ncontrolplanemachinesets means that the machine manager will only register resources of the kind ControlPlaneMachineSet.",
                     "enum": [
                       "machinesets"
                     ],
@@ -62,7 +62,7 @@
                     "description": "selection allows granular control of the machine management resources that will be registered for boot image updates.",
                     "properties": {
                       "mode": {
-                        "description": "mode determines how machine managers will be selected for updates.\nValid values are All and Partial.\nAll means that every resource matched by the machine manager will be updated.\nPartial requires specified selector(s) and allows customisation of which resources matched by the machine manager will be updated.\nNone means that every resource matched by the machine manager will not be updated.",
+                        "description": "mode determines how machine managers will be selected for updates.\nValid values are All, Partial and None.\nAll means that every resource matched by the machine manager will be updated.\nPartial requires specified selector(s) and allows customisation of which resources matched by the machine manager will be updated.\nPartial is not permitted for the controlplanemachinesets resource type as they are a singleton within the cluster.\nNone means that every resource matched by the machine manager will not be updated.",
                         "enum": [
                           "All",
                           "Partial",
@@ -645,7 +645,7 @@
                     "type": "string"
                   },
                   "resource": {
-                    "description": "resource is the machine management resource's type.\nThe only current valid value is machinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.",
+                    "description": "resource is the machine management resource's type.\nValid values are machinesets and controlplanemachinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.\ncontrolplanemachinesets means that the machine manager will only register resources of the kind ControlPlaneMachineSet.",
                     "enum": [
                       "machinesets"
                     ],
@@ -655,7 +655,7 @@
                     "description": "selection allows granular control of the machine management resources that will be registered for boot image updates.",
                     "properties": {
                       "mode": {
-                        "description": "mode determines how machine managers will be selected for updates.\nValid values are All and Partial.\nAll means that every resource matched by the machine manager will be updated.\nPartial requires specified selector(s) and allows customisation of which resources matched by the machine manager will be updated.\nNone means that every resource matched by the machine manager will not be updated.",
+                        "description": "mode determines how machine managers will be selected for updates.\nValid values are All, Partial and None.\nAll means that every resource matched by the machine manager will be updated.\nPartial requires specified selector(s) and allows customisation of which resources matched by the machine manager will be updated.\nPartial is not permitted for the controlplanemachinesets resource type as they are a singleton within the cluster.\nNone means that every resource matched by the machine manager will not be updated.",
                         "enum": [
                           "All",
                           "Partial",

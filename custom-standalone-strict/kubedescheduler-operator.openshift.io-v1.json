@@ -23,6 +23,11 @@
         "evictionLimits": {
           "description": "evictionLimits restrict the number of evictions during each descheduling run",
           "properties": {
+            "node": {
+              "description": "node restricts the maximum number of evictions per node",
+              "format": "int32",
+              "type": "integer"
+            },
             "total": {
               "description": "total restricts the maximum number of overall evictions",
               "format": "int32",
@@ -175,7 +180,8 @@
               "EvictPodsWithLocalStorage",
               "EvictPodsWithPVC",
               "CompactAndScale",
-              "DevKubeVirtRelieveAndMigrate"
+              "DevKubeVirtRelieveAndMigrate",
+              "KubeVirtRelieveAndMigrate"
             ],
             "type": "string"
           },
