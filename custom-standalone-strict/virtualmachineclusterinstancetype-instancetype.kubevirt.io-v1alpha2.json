@@ -80,11 +80,20 @@
           "description": "Optionally defines any GPU devices associated with the instancetype.",
           "items": {
             "properties": {
+              "claimName": {
+                "description": "ClaimName needs to be provided from the list vmi.spec.resourceClaims[].name where this\ndevice is allocated",
+                "type": "string"
+              },
               "deviceName": {
+                "description": "DeviceName is the name of the device provisioned by device-plugins",
                 "type": "string"
               },
               "name": {
                 "description": "Name of the GPU device as exposed by a device plugin",
+                "type": "string"
+              },
+              "requestName": {
+                "description": "RequestName needs to be provided from resourceClaim.spec.devices.requests[].name where this\ndevice is requested",
                 "type": "string"
               },
               "tag": {
@@ -120,7 +129,6 @@
               }
             },
             "required": [
-              "deviceName",
               "name"
             ],
             "type": "object",
@@ -133,11 +141,19 @@
           "description": "Optionally defines any HostDevices associated with the instancetype.",
           "items": {
             "properties": {
+              "claimName": {
+                "description": "ClaimName needs to be provided from the list vmi.spec.resourceClaims[].name where this\ndevice is allocated",
+                "type": "string"
+              },
               "deviceName": {
-                "description": "DeviceName is the resource name of the host device exposed by a device plugin",
+                "description": "DeviceName is the name of the device provisioned by device-plugins",
                 "type": "string"
               },
               "name": {
+                "type": "string"
+              },
+              "requestName": {
+                "description": "RequestName needs to be provided from resourceClaim.spec.devices.requests[].name where this\ndevice is requested",
                 "type": "string"
               },
               "tag": {
@@ -146,7 +162,6 @@
               }
             },
             "required": [
-              "deviceName",
               "name"
             ],
             "type": "object",

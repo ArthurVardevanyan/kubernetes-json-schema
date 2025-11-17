@@ -1682,10 +1682,11 @@
                                     "description": "PodDNSConfigOption defines DNS resolver options of a pod.",
                                     "properties": {
                                       "name": {
-                                        "description": "Required.",
+                                        "description": "Name is this DNS resolver option's name.\nRequired.",
                                         "type": "string"
                                       },
                                       "value": {
+                                        "description": "Value is this DNS resolver option's value.",
                                         "type": "string"
                                       }
                                     },
@@ -2003,7 +2004,7 @@
                                             "type": "integer"
                                           },
                                           "cache": {
-                                            "description": "Cache specifies which kvm disk cache mode should be used.\nSupported values are: CacheNone, CacheWriteThrough.",
+                                            "description": "Cache specifies which kvm disk cache mode should be used.\nSupported values are:\nnone: Guest I/O not cached on the host, but may be kept in a disk cache.\nwritethrough: Guest I/O cached on the host but written through to the physical medium. Slowest but with most guarantees.\nwriteback: Guest I/O cached on the host.\nDefaults to none if the storage supports O_DIRECT, otherwise writethrough.",
                                             "type": "string"
                                           },
                                           "cdrom": {
@@ -2132,11 +2133,20 @@
                                       "description": "Whether to attach a GPU device to the vmi.",
                                       "items": {
                                         "properties": {
+                                          "claimName": {
+                                            "description": "ClaimName needs to be provided from the list vmi.spec.resourceClaims[].name where this\ndevice is allocated",
+                                            "type": "string"
+                                          },
                                           "deviceName": {
+                                            "description": "DeviceName is the name of the device provisioned by device-plugins",
                                             "type": "string"
                                           },
                                           "name": {
                                             "description": "Name of the GPU device as exposed by a device plugin",
+                                            "type": "string"
+                                          },
+                                          "requestName": {
+                                            "description": "RequestName needs to be provided from resourceClaim.spec.devices.requests[].name where this\ndevice is requested",
                                             "type": "string"
                                           },
                                           "tag": {
@@ -2172,7 +2182,6 @@
                                           }
                                         },
                                         "required": [
-                                          "deviceName",
                                           "name"
                                         ],
                                         "type": "object",
@@ -2185,11 +2194,19 @@
                                       "description": "Whether to attach a host device to the vmi.",
                                       "items": {
                                         "properties": {
+                                          "claimName": {
+                                            "description": "ClaimName needs to be provided from the list vmi.spec.resourceClaims[].name where this\ndevice is allocated",
+                                            "type": "string"
+                                          },
                                           "deviceName": {
-                                            "description": "DeviceName is the resource name of the host device exposed by a device plugin",
+                                            "description": "DeviceName is the name of the device provisioned by device-plugins",
                                             "type": "string"
                                           },
                                           "name": {
+                                            "type": "string"
+                                          },
+                                          "requestName": {
+                                            "description": "RequestName needs to be provided from resourceClaim.spec.devices.requests[].name where this\ndevice is requested",
                                             "type": "string"
                                           },
                                           "tag": {
@@ -2198,7 +2215,6 @@
                                           }
                                         },
                                         "required": [
-                                          "deviceName",
                                           "name"
                                         ],
                                         "type": "object",
@@ -2397,6 +2413,20 @@
                                       "description": "If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.",
                                       "type": "boolean"
                                     },
+                                    "panicDevices": {
+                                      "description": "PanicDevices provides additional crash information when a guest crashes.",
+                                      "items": {
+                                        "properties": {
+                                          "model": {
+                                            "description": "Model specifies what type of panic device is provided.\nThe panic model used when this attribute is missing depends on the hypervisor and guest arch.\nOne of: isa, hyperv, pvpanic.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object",
+                                        "additionalProperties": false
+                                      },
+                                      "type": "array"
+                                    },
                                     "rng": {
                                       "description": "Whether to have random number generator from host",
                                       "type": "object"
@@ -2423,7 +2453,7 @@
                                       "description": "Whether to emulate a TPM device.",
                                       "properties": {
                                         "enabled": {
-                                          "description": "Enabled allows a user to explictly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine\nDefaults to True",
+                                          "description": "Enabled allows a user to explicitly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine\nDefaults to True",
                                           "type": "boolean"
                                         },
                                         "persistent": {
@@ -2437,6 +2467,17 @@
                                     "useVirtioTransitional": {
                                       "description": "Fall back to legacy virtio 0.9 support if virtio bus is selected on devices.\nThis is helpful for old machines like CentOS6 or RHEL6 which\ndo not understand virtio_non_transitional (virtio 1.0).",
                                       "type": "boolean"
+                                    },
+                                    "video": {
+                                      "description": "Video describes the video device configuration for the vmi.",
+                                      "properties": {
+                                        "type": {
+                                          "description": "Type specifies the video device type (e.g., virtio, vga, bochs, ramfb).\nIf not specified, the default is architecture-dependent (VGA for BIOS-based VMs, Bochs for EFI-based VMs on AMD64; virtio for Arm and s390x).",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object",
+                                      "additionalProperties": false
                                     },
                                     "watchdog": {
                                       "description": "Watchdog describes a watchdog device which can be added to the vmi.",
@@ -2740,6 +2781,10 @@
                                     "acpi": {
                                       "description": "Information that can be set in the ACPI table",
                                       "properties": {
+                                        "msdmNameRef": {
+                                          "description": "Similar to SlicNameRef, another ACPI entry that is used in more recent Windows versions.\nThe above points to the spec of MSDM too.",
+                                          "type": "string"
+                                        },
                                         "slicNameRef": {
                                           "description": "SlicNameRef should match the volume name of a secret object. The data in the secret should\nbe a binary blob that follows the ACPI SLIC standard, see:\nhttps://learn.microsoft.com/en-us/previous-versions/windows/hardware/design/dn653305(v=vs.85)",
                                           "type": "string"
@@ -2993,7 +3038,7 @@
                               "additionalProperties": false
                             },
                             "evictionStrategy": {
-                              "description": "EvictionStrategy describes the strategy to follow when a node drain occurs.\nThe possible options are:\n- \"None\": No action will be taken, according to the specified 'RunStrategy' the VirtualMachine will be restarted or shutdown.\n- \"LiveMigrate\": the VirtualMachineInstance will be migrated instead of being shutdown.\n- \"LiveMigrateIfPossible\": the same as \"LiveMigrate\" but only if the VirtualMachine is Live-Migratable, otherwise it will behave as \"None\".\n- \"External\": the VirtualMachineInstance will be protected by a PDB and 'vmi.Status.EvacuationNodeName' will be set on eviction. This is mainly useful for cluster-api-provider-kubevirt (capk) which needs a way for VMI's to be blocked from eviction, yet signal capk that eviction has been called on the VMI so the capk controller can handle tearing the VMI down. Details can be found in the commit description https://github.com/kubevirt/kubevirt/commit/c1d77face705c8b126696bac9a3ee3825f27f1fa.",
+                              "description": "EvictionStrategy describes the strategy to follow when a node drain occurs.\nThe possible options are:\n- \"None\": No action will be taken, according to the specified 'RunStrategy' the VirtualMachine will be restarted or shutdown.\n- \"LiveMigrate\": the VirtualMachineInstance will be migrated instead of being shutdown.\n- \"LiveMigrateIfPossible\": the same as \"LiveMigrate\" but only if the VirtualMachine is Live-Migratable, otherwise it will behave as \"None\".\n- \"External\": the VirtualMachineInstance will be protected and 'vmi.Status.EvacuationNodeName' will be set on eviction. This is mainly useful for cluster-api-provider-kubevirt (capk) which needs a way for VMI's to be blocked from eviction, yet signal capk that eviction has been called on the VMI so the capk controller can handle tearing the VMI down. Details can be found in the commit description https://github.com/kubevirt/kubevirt/commit/c1d77face705c8b126696bac9a3ee3825f27f1fa.",
                               "type": "string"
                             },
                             "hostname": {
@@ -3332,6 +3377,36 @@
                               },
                               "type": "object",
                               "additionalProperties": false
+                            },
+                            "resourceClaims": {
+                              "description": "ResourceClaims define which ResourceClaims must be allocated\nand reserved before the VMI, hence virt-launcher pod is allowed to start. The resources\nwill be made available to the domain which consumes them\nby name.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate in kubernetes\n https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/\nThis field should only be configured if one of the feature-gates GPUsWithDRA or HostDevicesWithDRA is enabled.\nThis feature is in alpha.",
+                              "items": {
+                                "description": "PodResourceClaim references exactly one ResourceClaim, either directly\nor by naming a ResourceClaimTemplate which is then turned into a ResourceClaim\nfor the pod.\n\nIt adds a name to it that uniquely identifies the ResourceClaim inside the Pod.\nContainers that need access to the ResourceClaim reference it with this name.",
+                                "properties": {
+                                  "name": {
+                                    "description": "Name uniquely identifies this resource claim inside the pod.\nThis must be a DNS_LABEL.",
+                                    "type": "string"
+                                  },
+                                  "resourceClaimName": {
+                                    "description": "ResourceClaimName is the name of a ResourceClaim object in the same\nnamespace as this pod.\n\nExactly one of ResourceClaimName and ResourceClaimTemplateName must\nbe set.",
+                                    "type": "string"
+                                  },
+                                  "resourceClaimTemplateName": {
+                                    "description": "ResourceClaimTemplateName is the name of a ResourceClaimTemplate\nobject in the same namespace as this pod.\n\nThe template will be used to create a new ResourceClaim, which will\nbe bound to this pod. When this pod is deleted, the ResourceClaim\nwill also be deleted. The pod name and resource name, along with a\ngenerated component, will be used to form a unique name for the\nResourceClaim, which will be recorded in pod.status.resourceClaimStatuses.\n\nThis field is immutable and no changes will be made to the\ncorresponding ResourceClaim by the control plane after creating the\nResourceClaim.\n\nExactly one of ResourceClaimName and ResourceClaimTemplateName must\nbe set.",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "name"
+                                ],
+                                "type": "object",
+                                "additionalProperties": false
+                              },
+                              "type": "array",
+                              "x-kubernetes-list-map-keys": [
+                                "name"
+                              ],
+                              "x-kubernetes-list-type": "map"
                             },
                             "schedulerName": {
                               "description": "If specified, the VMI will be dispatched by specified scheduler.\nIf not specified, the VMI will be dispatched by default scheduler.",
@@ -4252,7 +4327,7 @@
                                     "type": "integer"
                                   },
                                   "cache": {
-                                    "description": "Cache specifies which kvm disk cache mode should be used.\nSupported values are: CacheNone, CacheWriteThrough.",
+                                    "description": "Cache specifies which kvm disk cache mode should be used.\nSupported values are:\nnone: Guest I/O not cached on the host, but may be kept in a disk cache.\nwritethrough: Guest I/O cached on the host but written through to the physical medium. Slowest but with most guarantees.\nwriteback: Guest I/O cached on the host.\nDefaults to none if the storage supports O_DIRECT, otherwise writethrough.",
                                     "type": "string"
                                   },
                                   "cdrom": {

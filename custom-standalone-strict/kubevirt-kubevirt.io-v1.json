@@ -300,6 +300,10 @@
             "developerConfiguration": {
               "description": "DeveloperConfiguration holds developer options",
               "properties": {
+                "clusterProfiler": {
+                  "description": "Enable the ability to pprof profile KubeVirt control plane",
+                  "type": "boolean"
+                },
                 "cpuAllocationRatio": {
                   "description": "For each requested virtual CPU, CPUAllocationRatio defines how much physical CPU to request per VMI\nfrom the hosting node. The value is in fraction of a CPU thread (or core on non-hyperthreaded nodes).\nFor example, a value of 1 means 1 physical CPU thread per VMI CPU thread.\nA value of 100 would be 1% of a physical thread allocated for each requested VMI thread.\nThis option has no effect on VMIs that request dedicated CPUs. More information at:\nhttps://kubevirt.io/user-guide/operations/node_overcommit/#node-cpu-allocation-ratio\nDefaults to 10",
                   "type": "integer"
@@ -356,6 +360,9 @@
                       "type": "integer"
                     },
                     "virtOperator": {
+                      "type": "integer"
+                    },
+                    "virtSynchronizationController": {
                       "type": "integer"
                     }
                   },
@@ -2071,6 +2078,10 @@
           "description": "The namespace the service monitor will be deployed\n When ServiceMonitorNamespace is set, then we'll install the service monitor object in that namespace\notherwise we will use the monitoring namespace.",
           "type": "string"
         },
+        "synchronizationPort": {
+          "description": "Specify the port to listen on for VMI status synchronization traffic. Default is 9185",
+          "type": "string"
+        },
         "uninstallStrategy": {
           "description": "Specifies if kubevirt can be deleted if workloads are still present.\nThis is mainly a precaution to avoid accidental data loss",
           "type": "string"
@@ -3057,6 +3068,13 @@
         "phase": {
           "description": "KubeVirtPhase is a label for the phase of a KubeVirt deployment at the current time.",
           "type": "string"
+        },
+        "synchronizationAddresses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         },
         "targetDeploymentConfig": {
           "type": "string"

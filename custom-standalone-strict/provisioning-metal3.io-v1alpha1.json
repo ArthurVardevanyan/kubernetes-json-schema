@@ -60,6 +60,10 @@
         "prometheusExporter": {
           "description": "PrometheusExporter configures sensor data collection and Prometheus metrics export.\nWhen enabled, this configures Ironic to collect sensor data, deploys the\nironic-prometheus-exporter container, and creates supporting resources\n(ServiceMonitor, Service ports) to expose hardware sensor metrics for Prometheus.",
           "properties": {
+            "disableDefaultPrometheusRules": {
+              "description": "DisableDefaultPrometheusRules controls whether default hardware health\nalerting rules should NOT be deployed alongside the prometheus exporter.\nWhen false (default), default prometheus rules are deployed.",
+              "type": "boolean"
+            },
             "enabled": {
               "description": "Enabled controls whether sensor data collection is active.\nWhen true, configures Ironic to collect sensor data, deploys the\nironic-prometheus-exporter container, and creates supporting resources.",
               "type": "boolean"
@@ -153,6 +157,7 @@
             "description": "OperatorCondition is just the standard condition fields.",
             "properties": {
               "lastTransitionTime": {
+                "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
                 "format": "date-time",
                 "type": "string"
               },
@@ -163,13 +168,24 @@
                 "type": "string"
               },
               "status": {
+                "description": "status of the condition, one of True, False, Unknown.",
+                "enum": [
+                  "True",
+                  "False",
+                  "Unknown"
+                ],
                 "type": "string"
               },
               "type": {
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.",
+                "maxLength": 316,
+                "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$",
                 "type": "string"
               }
             },
             "required": [
+              "lastTransitionTime",
+              "status",
               "type"
             ],
             "type": "object",
@@ -212,11 +228,34 @@
                 "type": "string"
               }
             },
+            "required": [
+              "group",
+              "name",
+              "namespace",
+              "resource"
+            ],
             "type": "object",
             "additionalProperties": false
           },
           "type": "array",
-          "x-kubernetes-list-type": "atomic"
+          "x-kubernetes-list-map-keys": [
+            "group",
+            "resource",
+            "namespace",
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
+        },
+        "latestAvailableRevision": {
+          "description": "latestAvailableRevision is the deploymentID of the most recent deployment",
+          "format": "int32",
+          "type": "integer",
+          "x-kubernetes-validations": [
+            {
+              "message": "must only increase",
+              "rule": "self >= oldSelf"
+            }
+          ]
         },
         "observedGeneration": {
           "description": "observedGeneration is the last generation change you've dealt with",

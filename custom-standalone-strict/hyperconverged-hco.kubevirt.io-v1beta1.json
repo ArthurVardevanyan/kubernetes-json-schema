@@ -35,9 +35,12 @@
         "enableApplicationAwareQuota": false,
         "enableCommonBootImageImport": true,
         "featureGates": {
+          "decentralizedLiveMigration": false,
+          "declarativeHotplugVolumes": false,
           "deployKubeSecondaryDNS": false,
           "disableMDevConfiguration": false,
           "downwardMetrics": false,
+          "enableMultiArchBootImageImport": false,
           "persistentReservation": false
         },
         "liveMigrationConfig": {
@@ -640,6 +643,17 @@
                                     "description": "ImageStream is the name of image stream for import",
                                     "type": "string"
                                   },
+                                  "platform": {
+                                    "description": "Platform describes the minimum runtime requirements of the image",
+                                    "properties": {
+                                      "architecture": {
+                                        "description": "Architecture specifies the image target CPU architecture",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object",
+                                    "additionalProperties": false
+                                  },
                                   "pullMethod": {
                                     "description": "PullMethod can be either \"pod\" (default import), or \"node\" (node docker cache based import)",
                                     "type": "string"
@@ -706,6 +720,10 @@
                                 "properties": {
                                   "backingFile": {
                                     "description": "BackingFile is the path to the virtual hard disk to migrate from vCenter/ESXi",
+                                    "type": "string"
+                                  },
+                                  "extraArgs": {
+                                    "description": "ExtraArgs is a reference to a ConfigMap containing extra arguments to pass directly to the VDDK library",
                                     "type": "string"
                                   },
                                   "initImageURL": {
@@ -1043,9 +1061,12 @@
         },
         "featureGates": {
           "default": {
+            "decentralizedLiveMigration": false,
+            "declarativeHotplugVolumes": false,
             "deployKubeSecondaryDNS": false,
             "disableMDevConfiguration": false,
             "downwardMetrics": false,
+            "enableMultiArchBootImageImport": false,
             "persistentReservation": false
           },
           "description": "featureGates is a map of feature gate flags. Setting a flag to `true` will enable\nthe feature. Setting `false` or removing the feature gate, disables the feature.",
@@ -1057,6 +1078,16 @@
             },
             "autoResourceLimits": {
               "description": "Deprecated: this field is ignored and will be removed in the next version of the API.",
+              "type": "boolean"
+            },
+            "decentralizedLiveMigration": {
+              "default": false,
+              "description": "DecentralizedLiveMigration enables the decentralized live migration (cross-cluster migration) feature.\nThis feature allows live migration of VirtualMachineInstances between different clusters.\nThis feature is in Developer Preview.",
+              "type": "boolean"
+            },
+            "declarativeHotplugVolumes": {
+              "default": false,
+              "description": "DeclarativeHotplugVolumes enables the use of the declarative volume hotplug feature in KubeVirt.\nWhen set to true, the \"DeclarativeHotplugVolumes\" feature gate is enabled instead of \"HotplugVolumes\".\nWhen set to false or nil, the \"HotplugVolumes\" feature gate is enabled (default behavior).\nThis feature is in Developer Preview.",
               "type": "boolean"
             },
             "deployKubeSecondaryDNS": {
@@ -1096,6 +1127,11 @@
             },
             "enableManagedTenantQuota": {
               "description": "Deprecated: This field is ignored and will be removed on the next version of the API.",
+              "type": "boolean"
+            },
+            "enableMultiArchBootImageImport": {
+              "default": false,
+              "description": "EnableMultiArchBootImageImport allows the HCO to run on heterogeneous clusters with different CPU architectures.\nSetting this field to true will allow the HCO to create Golden Images for different CPU architectures.\n\nThis feature is in Developer Preview.",
               "type": "boolean"
             },
             "nonRoot": {
@@ -1144,12 +1180,12 @@
           "default": {
             "memoryOvercommitPercentage": 100
           },
-          "description": "HigherWorkloadDensity holds configurataion aimed to increase virtual machine density",
+          "description": "HigherWorkloadDensity holds configuration aimed to increase virtual machine density",
           "properties": {
             "memoryOvercommitPercentage": {
               "default": 100,
               "description": "MemoryOvercommitPercentage is the percentage of memory we want to give VMIs compared to the amount\ngiven to its parent pod (virt-launcher). For example, a value of 102 means the VMI will\n\"see\" 2% more memory than its parent pod. Values under 100 are effectively \"undercommits\".\nOvercommits can lead to memory exhaustion, which in turn can lead to crashes. Use carefully.",
-              "minimum": 1,
+              "minimum": 10,
               "type": "integer"
             }
           },
@@ -1412,7 +1448,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -1420,7 +1456,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -1562,7 +1598,7 @@
                                 "additionalProperties": false
                               },
                               "matchLabelKeys": {
-                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -1570,7 +1606,7 @@
                                 "x-kubernetes-list-type": "atomic"
                               },
                               "mismatchLabelKeys": {
-                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -1709,7 +1745,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -1717,7 +1753,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -1859,7 +1895,7 @@
                                 "additionalProperties": false
                               },
                               "matchLabelKeys": {
-                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -1867,7 +1903,7 @@
                                 "x-kubernetes-list-type": "atomic"
                               },
                               "mismatchLabelKeys": {
-                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -2131,6 +2167,36 @@
           "type": "object",
           "additionalProperties": false
         },
+        "liveUpdateConfiguration": {
+          "description": "LiveUpdateConfiguration holds the cluster configuration for live update of virtual machines - max cpu sockets,\nmax guest memory and max hotplug ratio. This setting can affect VM CPU and memory settings.",
+          "properties": {
+            "maxCpuSockets": {
+              "description": "MaxCpuSockets provides a MaxSockets value for VMs that do not provide their own.\nFor VMs with more sockets than maximum the MaxSockets will be set to equal number of sockets.",
+              "format": "int32",
+              "type": "integer"
+            },
+            "maxGuest": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "MaxGuest defines the maximum amount memory that can be allocated\nto the guest using hotplug.",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
+            },
+            "maxHotplugRatio": {
+              "description": "MaxHotplugRatio is the ratio used to define the max amount\nof a hotplug resource that can be made available to a VM\nwhen the specific Max* setting is not defined (MaxCpuSockets, MaxGuest)\nExample: VM is configured with 512Mi of guest memory, if MaxGuest is not\ndefined and MaxHotplugRatio is 2 then MaxGuest = 1Gi\ndefaults to 4",
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "localStorageClassName": {
           "description": "Deprecated: LocalStorageClassName the name of the local storage class.",
           "type": "string"
@@ -2166,6 +2232,9 @@
                   "type": "integer"
                 },
                 "virtOperator": {
+                  "type": "integer"
+                },
+                "virtSynchronizationController": {
                   "type": "integer"
                 }
               },
@@ -2728,7 +2797,7 @@
           "additionalProperties": false
         },
         "vmStateStorageClass": {
-          "description": "VMStateStorageClass is the name of the storage class to use for the PVCs created to preserve VM state, like TPM.\nThe storage class must support RWX in filesystem mode.",
+          "description": "VMStateStorageClass is the name of the storage class to use for the PVCs created to preserve VM state, like TPM.",
           "type": "string"
         },
         "workloadUpdateStrategy": {
@@ -3025,7 +3094,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -3033,7 +3102,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -3175,7 +3244,7 @@
                                 "additionalProperties": false
                               },
                               "matchLabelKeys": {
-                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -3183,7 +3252,7 @@
                                 "x-kubernetes-list-type": "atomic"
                               },
                               "mismatchLabelKeys": {
-                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -3322,7 +3391,7 @@
                                     "additionalProperties": false
                                   },
                                   "matchLabelKeys": {
-                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -3330,7 +3399,7 @@
                                     "x-kubernetes-list-type": "atomic"
                                   },
                                   "mismatchLabelKeys": {
-                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                    "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                     "items": {
                                       "type": "string"
                                     },
@@ -3472,7 +3541,7 @@
                                 "additionalProperties": false
                               },
                               "matchLabelKeys": {
-                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -3480,7 +3549,7 @@
                                 "x-kubernetes-list-type": "atomic"
                               },
                               "mismatchLabelKeys": {
-                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                                "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                                 "items": {
                                   "type": "string"
                                 },
@@ -4107,6 +4176,17 @@
                                     "description": "ImageStream is the name of image stream for import",
                                     "type": "string"
                                   },
+                                  "platform": {
+                                    "description": "Platform describes the minimum runtime requirements of the image",
+                                    "properties": {
+                                      "architecture": {
+                                        "description": "Architecture specifies the image target CPU architecture",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object",
+                                    "additionalProperties": false
+                                  },
                                   "pullMethod": {
                                     "description": "PullMethod can be either \"pod\" (default import), or \"node\" (node docker cache based import)",
                                     "type": "string"
@@ -4173,6 +4253,10 @@
                                 "properties": {
                                   "backingFile": {
                                     "description": "BackingFile is the path to the virtual hard disk to migrate from vCenter/ESXi",
+                                    "type": "string"
+                                  },
+                                  "extraArgs": {
+                                    "description": "ExtraArgs is a reference to a ConfigMap containing extra arguments to pass directly to the VDDK library",
                                     "type": "string"
                                   },
                                   "initImageURL": {
@@ -4475,9 +4559,69 @@
                     "description": "CommonTemplate indicates whether this is a common template (true), or a custom one (false)",
                     "type": "boolean"
                   },
+                  "conditions": {
+                    "description": "Conditions is a list of conditions that describe the state of the DataImportCronTemplate.",
+                    "items": {
+                      "description": "Condition contains details for one aspect of the current state of this API Resource.",
+                      "properties": {
+                        "lastTransitionTime": {
+                          "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "message": {
+                          "description": "message is a human readable message indicating details about the transition.\nThis may be an empty string.",
+                          "maxLength": 32768,
+                          "type": "string"
+                        },
+                        "observedGeneration": {
+                          "description": "observedGeneration represents the .metadata.generation that the condition was set based upon.\nFor instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the instance.",
+                          "format": "int64",
+                          "minimum": 0,
+                          "type": "integer"
+                        },
+                        "reason": {
+                          "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.\nProducers of specific condition types may define expected values and meanings for this field,\nand whether the values are considered a guaranteed API.\nThe value should be a CamelCase string.\nThis field may not be empty.",
+                          "maxLength": 1024,
+                          "minLength": 1,
+                          "pattern": "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$",
+                          "type": "string"
+                        },
+                        "status": {
+                          "description": "status of the condition, one of True, False, Unknown.",
+                          "enum": [
+                            "True",
+                            "False",
+                            "Unknown"
+                          ],
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "type of condition in CamelCase or in foo.example.com/CamelCase.",
+                          "maxLength": 316,
+                          "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "lastTransitionTime",
+                        "message",
+                        "reason",
+                        "status",
+                        "type"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "type": "array"
+                  },
                   "modified": {
                     "description": "Modified indicates if a common template was customized. Always false for custom templates.",
                     "type": "boolean"
+                  },
+                  "originalSupportedArchitectures": {
+                    "description": "OriginalSupportedArchitectures is a comma-separated list of CPU architectures that the original\ntemplate supports.",
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -4496,6 +4640,27 @@
         "infrastructureHighlyAvailable": {
           "description": "InfrastructureHighlyAvailable describes whether the cluster has only one worker node\n(false) or more (true).",
           "type": "boolean"
+        },
+        "nodeInfo": {
+          "description": "NodeInfo holds information about the cluster nodes",
+          "properties": {
+            "controlPlaneArchitectures": {
+              "description": "ControlPlaneArchitectures is a distinct list of the CPU architecture of the control-plane nodes.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "workloadsArchitectures": {
+              "description": "WorkloadsArchitectures is a distinct list of the CPU architectures of the workloads nodes in the cluster.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
         },
         "observedGeneration": {
           "description": "ObservedGeneration reflects the HyperConverged resource generation. If the ObservedGeneration is less than the\nresource generation in metadata, the status is out of date",
