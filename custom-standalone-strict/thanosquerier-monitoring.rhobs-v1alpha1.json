@@ -16,7 +16,7 @@
       "description": "ThanosQuerierSpec defines a single Thanos Querier instance. This means a\nlabel selector by which Monitoring Stack instances to query are selected, and\nan optional namespace selector and a list of replica labels by which to\ndeduplicate.",
       "properties": {
         "namespaceSelector": {
-          "description": "Selector to select which namespaces the Monitoring Stack objects are discovered from.",
+          "description": "namespaceSelector defines in which namespaces the MonitoringStack\nresources are discovered from.\n\nBy default, resources are only discovered in the current namespace.",
           "properties": {
             "any": {
               "description": "Boolean describing whether all namespaces are selected in contrast to a\nlist restricting them.",
@@ -34,13 +34,14 @@
           "additionalProperties": false
         },
         "replicaLabels": {
+          "description": "replicaLabels is the list of labels used to deduplicate the data between\nhighly-available replicas.\n\nThanos Querier is always configured with `prometheus_replica` as replica\nlabel.",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "selector": {
-          "description": "Selector to select Monitoring stacks to unify",
+          "description": "selector is the label selector used to select MonitoringStack\nresources.\n\nBy default, all resources are matched.",
           "properties": {
             "matchExpressions": {
               "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
@@ -87,7 +88,7 @@
           "additionalProperties": false
         },
         "webTLSConfig": {
-          "description": "Configure TLS options for the Thanos web server.",
+          "description": "webTLSConfig configures the TLS options for the Thanos web server.",
           "properties": {
             "certificate": {
               "description": "Reference to the TLS public certificate for the web server.",

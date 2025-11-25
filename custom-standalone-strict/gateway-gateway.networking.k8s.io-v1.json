@@ -18,7 +18,7 @@
         "addresses": {
           "description": "Addresses requested for this Gateway. This is optional and behavior can\ndepend on the implementation. If a value is set in the spec and the\nrequested address is invalid or unavailable, the implementation MUST\nindicate this in the associated entry in GatewayStatus.Addresses.\n\nThe Addresses field represents a request for the address(es) on the\n\"outside of the Gateway\", that traffic bound for this Gateway will use.\nThis could be the IP address or hostname of an external load balancer or\nother networking infrastructure, or some other address that traffic will\nbe sent to.\n\nIf no Addresses are specified, the implementation MAY schedule the\nGateway in an implementation-specific manner, assigning an appropriate\nset of Addresses.\n\nThe implementation MUST bind all Listeners to every GatewayAddress that\nit assigns to the Gateway and add a corresponding entry in\nGatewayStatus.Addresses.\n\nSupport: Extended",
           "items": {
-            "description": "GatewayAddress describes an address that can be bound to a Gateway.",
+            "description": "GatewaySpecAddress describes an address that can be bound to a Gateway.",
             "oneOf": [
               {
                 "properties": {
@@ -61,15 +61,11 @@
                 "type": "string"
               },
               "value": {
-                "description": "Value of the address. The validity of the values will depend\non the type and support by the controller.\n\nExamples: `1.2.3.4`, `128::1`, `my-ip-address`.",
+                "description": "When a value is unspecified, an implementation SHOULD automatically\nassign an address matching the requested type if possible.\n\nIf an implementation does not support an empty value, they MUST set the\n\"Programmed\" condition in status to False with a reason of \"AddressNotAssigned\".\n\nExamples: `1.2.3.4`, `128::1`, `my-ip-address`.",
                 "maxLength": 253,
-                "minLength": 1,
                 "type": "string"
               }
             },
-            "required": [
-              "value"
-            ],
             "type": "object",
             "x-kubernetes-validations": [
               {
@@ -233,8 +229,7 @@
                         "enum": [
                           "All",
                           "Selector",
-                          "Same",
-                          "None"
+                          "Same"
                         ],
                         "type": "string"
                       },

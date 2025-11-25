@@ -415,7 +415,7 @@
                               "description": "ResourceAttributes includes the authorization attributes available for resource requests to the Authorizer interface",
                               "properties": {
                                 "fieldSelector": {
-                                  "description": "fieldSelector describes the limitation on access based on field.  It can only limit access, not broaden it.\n\nThis field  is alpha-level. To use this field, you must enable the\n`AuthorizeWithSelectors` feature gate (disabled by default).",
+                                  "description": "fieldSelector describes the limitation on access based on field.  It can only limit access, not broaden it.",
                                   "properties": {
                                     "rawSelector": {
                                       "description": "rawSelector is the serialization of a field selector that would be included in a query parameter.\nWebhook implementations are encouraged to ignore rawSelector.\nThe kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present.",
@@ -462,7 +462,7 @@
                                   "type": "string"
                                 },
                                 "labelSelector": {
-                                  "description": "labelSelector describes the limitation on access based on labels.  It can only limit access, not broaden it.\n\nThis field  is alpha-level. To use this field, you must enable the\n`AuthorizeWithSelectors` feature gate (disabled by default).",
+                                  "description": "labelSelector describes the limitation on access based on labels.  It can only limit access, not broaden it.",
                                   "properties": {
                                     "rawSelector": {
                                       "description": "rawSelector is the serialization of a field selector that would be included in a query parameter.\nWebhook implementations are encouraged to ignore rawSelector.\nThe kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present.",
@@ -540,7 +540,7 @@
                               "description": "ResourceAttributes includes the authorization attributes available for resource requests to the Authorizer interface",
                               "properties": {
                                 "fieldSelector": {
-                                  "description": "fieldSelector describes the limitation on access based on field.  It can only limit access, not broaden it.\n\nThis field  is alpha-level. To use this field, you must enable the\n`AuthorizeWithSelectors` feature gate (disabled by default).",
+                                  "description": "fieldSelector describes the limitation on access based on field.  It can only limit access, not broaden it.",
                                   "properties": {
                                     "rawSelector": {
                                       "description": "rawSelector is the serialization of a field selector that would be included in a query parameter.\nWebhook implementations are encouraged to ignore rawSelector.\nThe kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present.",
@@ -587,7 +587,7 @@
                                   "type": "string"
                                 },
                                 "labelSelector": {
-                                  "description": "labelSelector describes the limitation on access based on labels.  It can only limit access, not broaden it.\n\nThis field  is alpha-level. To use this field, you must enable the\n`AuthorizeWithSelectors` feature gate (disabled by default).",
+                                  "description": "labelSelector describes the limitation on access based on labels.  It can only limit access, not broaden it.",
                                   "properties": {
                                     "rawSelector": {
                                       "description": "rawSelector is the serialization of a field selector that would be included in a query parameter.\nWebhook implementations are encouraged to ignore rawSelector.\nThe kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present.",

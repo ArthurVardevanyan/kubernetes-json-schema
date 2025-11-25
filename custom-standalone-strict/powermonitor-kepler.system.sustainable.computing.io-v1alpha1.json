@@ -1,5 +1,5 @@
 {
-  "description": "Kepler is deprecated and will be removed in a future release. Please use PowerMonitor instead.",
+  "description": "PowerMonitor is the Schema for the PowerMonitor API",
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -13,10 +13,78 @@
       "type": "object"
     },
     "spec": {
-      "description": "KeplerSpec defines the desired state of Kepler",
+      "description": "PowerMonitorSpec defines the desired state of Power Monitor",
       "properties": {
-        "exporter": {
+        "kepler": {
           "properties": {
+            "config": {
+              "properties": {
+                "additionalConfigMaps": {
+                  "description": "AdditionalConfigMaps is a list of ConfigMap names that will be merged with the default ConfigMap\nThese AdditionalConfigMaps must exist in the same namespace as PowerMonitor components",
+                  "items": {
+                    "description": "ConfigMapRef defines a reference to a ConfigMap",
+                    "properties": {
+                      "name": {
+                        "description": "Name of the ConfigMap",
+                        "minLength": 1,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
+                },
+                "logLevel": {
+                  "default": "info",
+                  "type": "string"
+                },
+                "maxTerminated": {
+                  "default": 500,
+                  "description": "MaxTerminated controls terminated workload tracking behavior\nNegative values: track unlimited terminated workloads (no capacity limit)\nZero: disable terminated workload tracking completely\nPositive values: track top N terminated workloads by energy consumption",
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "metricLevels": {
+                  "default": [
+                    "node",
+                    "pod",
+                    "vm"
+                  ],
+                  "description": "MetricLevels specifies which metrics levels to export\nValid values are combinations of: node, process, container, vm, pod",
+                  "items": {
+                    "enum": [
+                      "node",
+                      "process",
+                      "container",
+                      "vm",
+                      "pod"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "set"
+                },
+                "sampleRate": {
+                  "default": "5s",
+                  "description": "SampleRate specifies the interval for monitoring resources (processes, containers, vms, etc.)\nMust be a positive duration (e.g., \"5s\", \"1m\", \"30s\"). Negative values are not allowed.",
+                  "pattern": "^[0-9]+(\\.[0-9]+)?(ns|us|ms|s|m|h)$",
+                  "type": "string"
+                },
+                "staleness": {
+                  "default": "500ms",
+                  "description": "Staleness specifies how long to wait before considering calculated power values as stale\nMust be a positive duration (e.g., \"500ms\", \"5s\", \"1h\"). Negative values are not allowed.",
+                  "pattern": "^[0-9]+(\\.[0-9]+)?(ns|us|ms|s|m|h)$",
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
             "deployment": {
               "properties": {
                 "nodeSelector": {
@@ -29,12 +97,26 @@
                   "description": "Defines which Nodes the Pod is scheduled on",
                   "type": "object"
                 },
-                "port": {
-                  "default": 9103,
-                  "format": "int32",
-                  "maximum": 65535,
-                  "minimum": 1,
-                  "type": "integer"
+                "security": {
+                  "description": "If set, defines the security mode and allowed SANames",
+                  "properties": {
+                    "allowedSANames": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array",
+                      "x-kubernetes-list-type": "atomic"
+                    },
+                    "mode": {
+                      "enum": [
+                        "none",
+                        "rbac"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 },
                 "tolerations": {
                   "default": [
@@ -79,47 +161,23 @@
               },
               "type": "object",
               "additionalProperties": false
-            },
-            "redfish": {
-              "description": "RedfishSpec for connecting to Redfish API",
-              "properties": {
-                "probeInterval": {
-                  "default": "60s",
-                  "description": "ProbeInterval controls how frequently power info is queried from Redfish",
-                  "type": "string"
-                },
-                "secretRef": {
-                  "description": "SecretRef refers to the name of secret which contains credentials to initialize RedfishClient",
-                  "maxLength": 63,
-                  "minLength": 1,
-                  "type": "string"
-                },
-                "skipSSLVerify": {
-                  "default": false,
-                  "description": "SkipSSLVerify controls if RedfishClient will skip verifying server",
-                  "type": "boolean"
-                }
-              },
-              "required": [
-                "secretRef",
-                "skipSSLVerify"
-              ],
-              "type": "object",
-              "additionalProperties": false
             }
           },
           "type": "object",
           "additionalProperties": false
         }
       },
+      "required": [
+        "kepler"
+      ],
       "type": "object",
       "additionalProperties": false
     },
     "status": {
-      "description": "KeplerStatus defines the observed state of Kepler",
+      "description": "PowerMonitorStatus defines the observed state of Power Monitor",
       "properties": {
         "conditions": {
-          "description": "conditions represent the latest available observations of kepler-internal",
+          "description": "conditions represent the latest available observations of power-monitor",
           "items": {
             "properties": {
               "lastTransitionTime": {
@@ -164,87 +222,40 @@
           "type": "array",
           "x-kubernetes-list-type": "atomic"
         },
-        "exporter": {
-          "description": "ExporterStatus defines the observed state of Kepler Exporter",
+        "kepler": {
           "properties": {
-            "conditions": {
-              "description": "conditions represent the latest available observations of the kepler-exporter",
-              "items": {
-                "properties": {
-                  "lastTransitionTime": {
-                    "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
-                  "message": {
-                    "description": "message is a human readable message indicating details about the transition.\nThis may be an empty string.",
-                    "maxLength": 32768,
-                    "type": "string"
-                  },
-                  "observedGeneration": {
-                    "description": "observedGeneration represents the .metadata.generation that the condition was set based upon.\nFor instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date\nwith respect to the current state of the instance.",
-                    "format": "int64",
-                    "minimum": 0,
-                    "type": "integer"
-                  },
-                  "reason": {
-                    "description": "reason contains a programmatic identifier indicating the reason for the condition's last transition.",
-                    "type": "string"
-                  },
-                  "status": {
-                    "description": "status of the condition, one of True, False, Unknown.",
-                    "type": "string"
-                  },
-                  "type": {
-                    "description": "Type of Kepler Condition - Reconciled, Available ...",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "lastTransitionTime",
-                  "message",
-                  "reason",
-                  "status",
-                  "type"
-                ],
-                "type": "object",
-                "additionalProperties": false
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
             "currentNumberScheduled": {
-              "description": "The number of nodes that are running at least 1 kepler pod and are\nsupposed to run the kepler pod.",
+              "description": "The number of nodes that are running at least 1 power-monitor pod and are\nsupposed to run the power-monitor pod.",
               "format": "int32",
               "type": "integer"
             },
             "desiredNumberScheduled": {
-              "description": "The total number of nodes that should be running the kepler\npod (including nodes correctly running the kepler pod).",
+              "description": "The total number of nodes that should be running the power-monitor\npod (including nodes correctly running the power-monitor pod).",
               "format": "int32",
               "type": "integer"
             },
             "numberAvailable": {
-              "description": "The number of nodes that should be running the kepler pod and have one or\nmore of the kepler pod running and available",
+              "description": "The number of nodes that should be running the power-monitor pod and have one or\nmore of the power-monitor pod running and available",
               "format": "int32",
               "type": "integer"
             },
             "numberMisscheduled": {
-              "description": "The number of nodes that are running the kepler pod, but are not supposed\nto run the kepler pod.",
+              "description": "The number of nodes that are running the power-monitor pod, but are not supposed\nto run the power-monitor pod.",
               "format": "int32",
               "type": "integer"
             },
             "numberReady": {
-              "description": "numberReady is the number of nodes that should be running the kepler pod\nand have one or more of the kepler pod running with a Ready Condition.",
+              "description": "numberReady is the number of nodes that should be running the power-monitor pod\nand have one or more of the power-monitor pod running with a Ready Condition.",
               "format": "int32",
               "type": "integer"
             },
             "numberUnavailable": {
-              "description": "The number of nodes that should be running the\nkepler pod and have none of the kepler pod running and available",
+              "description": "The number of nodes that should be running the\npower-monitor pod and have none of the power-monitor pod running and available",
               "format": "int32",
               "type": "integer"
             },
             "updatedNumberScheduled": {
-              "description": "The total number of nodes that are running updated kepler pod",
+              "description": "The total number of nodes that are running updated power-monitor pod",
               "format": "int32",
               "type": "integer"
             }
@@ -259,6 +270,9 @@
           "additionalProperties": false
         }
       },
+      "required": [
+        "conditions"
+      ],
       "type": "object",
       "additionalProperties": false
     }
