@@ -45,6 +45,14 @@ yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalon
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/egressfirewall-k8s.ovn.org-v1.json
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/logfilemetricexporter-logging.openshift.io-v1alpha1.json
 
+# Fix Tekton Task schema by adding required JSON Schema properties (only if not already present)
+if ! grep -q '"$schema"' ./custom-standalone-strict/task-tekton.dev-v1.json; then
+  sed -i '1s/^{$/{\n  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",/' ./custom-standalone-strict/task-tekton.dev-v1.json
+fi
+if ! grep -q '"$schema"' ./custom-standalone-strict/pipeline-tekton.dev-v1.json; then
+  sed -i '1s/^{$/{\n  "$schema": "http:\/\/json-schema.org\/draft-07\/schema#",/' ./custom-standalone-strict/pipeline-tekton.dev-v1.json
+fi
+
 # Importing Some Other CRD Manually
 kubectl get crd myCRD.yaml > myCRD.yaml # If needing to pull from a cluster
 # Grab CRD from where it needs to be grabbed from.
@@ -110,4 +118,7 @@ The following API resources do not have valid OpenAPI specifications:
 ## REF
 
 - <https://github.com/sabre1041/k8s-manifest-validation>
-````
+
+```
+
+```
