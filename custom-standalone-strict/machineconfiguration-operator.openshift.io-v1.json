@@ -54,7 +54,8 @@
                   "resource": {
                     "description": "resource is the machine management resource's type.\nValid values are machinesets and controlplanemachinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.\ncontrolplanemachinesets means that the machine manager will only register resources of the kind ControlPlaneMachineSet.",
                     "enum": [
-                      "machinesets"
+                      "machinesets",
+                      "controlplanemachinesets"
                     ],
                     "type": "string"
                   },
@@ -147,6 +148,12 @@
                   "selection"
                 ],
                 "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "Only All or None selection mode is permitted for ControlPlaneMachineSets",
+                    "rule": "self.resource != 'controlplanemachinesets' || self.selection.mode == 'All' || self.selection.mode == 'None'"
+                  }
+                ],
                 "additionalProperties": false
               },
               "maxItems": 5,
@@ -647,7 +654,8 @@
                   "resource": {
                     "description": "resource is the machine management resource's type.\nValid values are machinesets and controlplanemachinesets.\nmachinesets means that the machine manager will only register resources of the kind MachineSet.\ncontrolplanemachinesets means that the machine manager will only register resources of the kind ControlPlaneMachineSet.",
                     "enum": [
-                      "machinesets"
+                      "machinesets",
+                      "controlplanemachinesets"
                     ],
                     "type": "string"
                   },
@@ -740,6 +748,12 @@
                   "selection"
                 ],
                 "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "Only All or None selection mode is permitted for ControlPlaneMachineSets",
+                    "rule": "self.resource != 'controlplanemachinesets' || self.selection.mode == 'All' || self.selection.mode == 'None'"
+                  }
+                ],
                 "additionalProperties": false
               },
               "maxItems": 5,

@@ -124,7 +124,7 @@
           "type": "boolean"
         },
         "externallyProvisioned": {
-          "description": "ExternallyProvisioned means something else has provisioned the\nimage running on the host, and the operator should only manage\nthe power status. This field is used for integration with already\nprovisioned hosts and when pivoting hosts between clusters. If\nunsure, leave this field as false.",
+          "description": "ExternallyProvisioned means something else has provisioned the\nimage running on the host, and the operator should only manage\nthe power status. This field is used for integration with already\nprovisioned hosts and when pivoting hosts between clusters.\n\nThis field can be set to true either:\n1. During initial host creation (e.g., for pre-provisioned hosts)\n2. After inspection completes when the host reaches Available state\n\nWhen used in environments with Cluster API Provider Metal3 (CAPM3),\nensure hosts are labeled appropriately so CAPM3's host selector can\ndistinguish them from CAPM3-managed hosts. If unsure, leave this\nfield as false.",
           "type": "boolean"
         },
         "firmware": {
@@ -166,7 +166,7 @@
           "description": "Image holds the details of the image to be provisioned. Populating\nthe image will cause the host to start provisioning.",
           "properties": {
             "checksum": {
-              "description": "Checksum is the checksum for the image. Required for all formats\nexcept for \"live-iso\".",
+              "description": "Checksum is the checksum for the image. Required for all formats\nexcept for \"live-iso\" and OCI images (oci://).",
               "type": "string"
             },
             "checksumType": {
@@ -952,7 +952,7 @@
               "description": "Image holds the details of the last image successfully\nprovisioned to the host.",
               "properties": {
                 "checksum": {
-                  "description": "Checksum is the checksum for the image. Required for all formats\nexcept for \"live-iso\".",
+                  "description": "Checksum is the checksum for the image. Required for all formats\nexcept for \"live-iso\" and OCI images (oci://).",
                   "type": "string"
                 },
                 "checksumType": {

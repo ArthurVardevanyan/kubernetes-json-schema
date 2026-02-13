@@ -1633,6 +1633,27 @@
           },
           "type": "array"
         },
+        "logLevel": {
+          "default": "info",
+          "description": "LogLevel defines the log level for nmstate operations.\nValid values are \"info\" (default, minimal output) and \"debug\" (verbose output for debugging).",
+          "enum": [
+            "info",
+            "debug"
+          ],
+          "type": "string"
+        },
+        "metricsConfiguration": {
+          "description": "MetricsConfiguration is an optional configuration for metrics server.\nIf MetricsConfiguration is specified, the handler will use the config defined here instead of its default values.",
+          "properties": {
+            "bindAddress": {
+              "default": ":8089",
+              "description": "BindAddress is the TCP address that the controller should bind to\nfor serving metrics. It can be set to \"0\" to disable the metrics serving.",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "nodeSelector": {
           "additionalProperties": {
             "type": "string"

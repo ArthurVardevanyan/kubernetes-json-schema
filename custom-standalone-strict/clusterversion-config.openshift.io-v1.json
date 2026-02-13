@@ -451,6 +451,7 @@
                   "type": "object",
                   "additionalProperties": false
                 },
+                "maxItems": 200,
                 "minItems": 1,
                 "type": "array",
                 "x-kubernetes-list-map-keys": [
@@ -466,6 +467,7 @@
             "type": "object",
             "additionalProperties": false
           },
+          "maxItems": 500,
           "type": "array",
           "x-kubernetes-list-type": "atomic"
         },
@@ -555,7 +557,7 @@
             "description": "UpdateHistory is a single attempted update to the cluster.",
             "properties": {
               "acceptedRisks": {
-                "description": "acceptedRisks records risks which were accepted to initiate the update.\nFor example, it may menition an Upgradeable=False or missing signature\nthat was overridden via desiredUpdate.force, or an update that was\ninitiated despite not being in the availableUpdates set of recommended\nupdate targets.",
+                "description": "acceptedRisks records risks which were accepted to initiate the update.\nFor example, it may mention an Upgradeable=False or missing signature\nthat was overridden via desiredUpdate.force, or an update that was\ninitiated despite not being in the availableUpdates set of recommended\nupdate targets.",
                 "type": "string"
               },
               "completionTime": {
