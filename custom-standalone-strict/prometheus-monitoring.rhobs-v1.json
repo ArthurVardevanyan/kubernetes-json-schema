@@ -1100,6 +1100,7 @@
                   },
                   "pathPrefix": {
                     "description": "pathPrefix defines the prefix for the HTTP path alerts are pushed to.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "port": {
@@ -1225,7 +1226,13 @@
                     "type": "array"
                   },
                   "scheme": {
-                    "description": "scheme to use when firing alerts.",
+                    "description": "scheme defines the HTTP scheme to use when sending alerts.",
+                    "enum": [
+                      "http",
+                      "https",
+                      "HTTP",
+                      "HTTPS"
+                    ],
                     "type": "string"
                   },
                   "sigv4": {
@@ -1292,7 +1299,7 @@
                         "additionalProperties": false
                       },
                       "useFIPSSTSEndpoint": {
-                        "description": "useFIPSSTSEndpoint defines FIPS mode for AWS STS endpoint.\nIt requires Prometheus >= v2.54.0.",
+                        "description": "useFIPSSTSEndpoint defines the FIPS mode for the AWS STS endpoint.\nIt requires Prometheus >= v2.54.0.",
                         "type": "boolean"
                       }
                     },
@@ -6167,13 +6174,11 @@
                     "description": "managedIdentity defines the Azure User-assigned Managed identity.\nCannot be set at the same time as `oauth` or `sdk`.",
                     "properties": {
                       "clientId": {
-                        "description": "clientId defines defines the Azure User-assigned Managed identity.",
+                        "description": "clientId defines the Azure User-assigned Managed identity.\n\nFor Prometheus >= 3.5.0 and Thanos >= 0.40.0, this field is allowed to be empty to support system-assigned managed identities.",
+                        "minLength": 1,
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "clientId"
-                    ],
                     "type": "object",
                     "additionalProperties": false
                   },
@@ -6327,7 +6332,7 @@
                 "type": "string"
               },
               "metadataConfig": {
-                "description": "metadataConfig defines how to send a series metadata to the remote storage.",
+                "description": "metadataConfig defines how to send a series metadata to the remote storage.\n\nWhen the field is empty, **no metadata** is sent. But when the field is\nnull, metadata is sent.",
                 "properties": {
                   "maxSamplesPerSend": {
                     "description": "maxSamplesPerSend defines the maximum number of metadata samples per send.\n\nIt requires Prometheus >= v2.29.0.",
@@ -6853,7 +6858,7 @@
                     "additionalProperties": false
                   },
                   "useFIPSSTSEndpoint": {
-                    "description": "useFIPSSTSEndpoint defines FIPS mode for AWS STS endpoint.\nIt requires Prometheus >= v2.54.0.",
+                    "description": "useFIPSSTSEndpoint defines the FIPS mode for the AWS STS endpoint.\nIt requires Prometheus >= v2.54.0.",
                     "type": "boolean"
                   }
                 },

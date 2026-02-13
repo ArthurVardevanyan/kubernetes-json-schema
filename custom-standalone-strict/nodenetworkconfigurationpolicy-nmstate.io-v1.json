@@ -94,13 +94,6 @@
         "unavailableNodeCount": {
           "description": "UnavailableNodeCount represents the total number of potentially unavailable nodes that are\nprocessing a NodeNetworkConfigurationPolicy",
           "type": "integer"
-        },
-        "unavailableNodeCountMap": {
-          "additionalProperties": {
-            "type": "integer"
-          },
-          "description": "UnavailableNodeCountMap represents the total number of potentially unavailable nodes that are\nprocessing a NodeNetworkConfigurationPolicy per Generation (Map Key)",
-          "type": "object"
         }
       },
       "type": "object",

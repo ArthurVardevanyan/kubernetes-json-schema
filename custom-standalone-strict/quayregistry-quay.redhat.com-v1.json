@@ -903,6 +903,10 @@
                     "type": "object",
                     "additionalProperties": false
                   },
+                  "storageClassName": {
+                    "description": "StorageClassName is the name of the StorageClass to use for the PVC.",
+                    "type": "string"
+                  },
                   "volumeSize": {
                     "anyOf": [
                       {

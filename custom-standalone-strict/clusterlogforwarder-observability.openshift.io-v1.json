@@ -1094,7 +1094,7 @@
                 "description": "The PruneFilterSpec consists of two arrays, namely in and notIn, which dictate the fields to be pruned.",
                 "properties": {
                   "in": {
-                    "description": "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_id`\n\n - `.hostname`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `In` CANNOT contain `.log_type`, `.log_source` or `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field.",
+                    "description": "`In` is an array of dot-delimited field paths. Fields included here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_id`\n\n - `.hostname`\n\n - '.kubernetes.labels.foobar'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `In` CANNOT contain `.log_type`, `.log_source` or `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` CANNOT be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned.",
                     "items": {
                       "description": "FieldPath represents a path to find a value for a given field.  The format must be a value that can be converted to a\nvalid collector configuration. It is a dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`",
                       "pattern": "^(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")*$",
@@ -1103,7 +1103,7 @@
                     "type": "array"
                   },
                   "notIn": {
-                    "description": "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.log_source'\n\n - '.message'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `NotIn` MUST contain `.log_type`, `.log_source` and `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field.",
+                    "description": "`NotIn` is an array of dot-delimited field paths. All fields besides the ones listed here are removed from the log record.\n\nEach field path expression must start with a \".\"\n\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\n\nIf segments contain characters outside of this range, the segment must be quoted otherwise paths do NOT need to be quoted.\n\nExamples:\n\n - `.kubernetes.namespace_name`\n\n - `.log_type`\n\n - '.log_source'\n\n - '.message'\n\n - `.kubernetes.labels.\"foo-bar/baz\"`\n\nNOTE1: `NotIn` MUST contain `.log_type`, `.log_source` and `.message` as those fields are required and cannot be pruned.\n\nNOTE2: If this filter is used in a pipeline with GoogleCloudLogging, `.hostname` MUST be added to this list as it is a required field.\n\nNOTE3: If used in a pipeline with a Lokistack output type, see Lokistack output documentation for additional fields that cannot be pruned.",
                     "items": {
                       "description": "FieldPath represents a path to find a value for a given field.  The format must be a value that can be converted to a\nvalid collector configuration. It is a dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`",
                       "pattern": "^(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")*$",
@@ -1252,6 +1252,19 @@
                   "tuning": {
                     "description": "Tuning is the container input tuning spec for this container sources",
                     "properties": {
+                      "maxMessageSize": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ],
+                        "description": "MaxMessageSize  The maximum message length in bytes that a single log event can be when all\npartial log lines are merged.  Messages exceeding this limit are dropped.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      },
                       "rateLimitPerContainer": {
                         "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.",
                         "properties": {
@@ -1312,6 +1325,50 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "tuning": {
+                    "description": "Tuning is the infrastructure input tuning spec, for now available only for container sources",
+                    "properties": {
+                      "container": {
+                        "description": "Container is the input tuning spec for container sources",
+                        "properties": {
+                          "maxMessageSize": {
+                            "anyOf": [
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ],
+                            "description": "MaxMessageSize  The maximum message length in bytes that a single log event can be when all\npartial log lines are merged.  Messages exceeding this limit are dropped.",
+                            "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                            "x-kubernetes-int-or-string": true
+                          },
+                          "rateLimitPerContainer": {
+                            "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.",
+                            "properties": {
+                              "maxRecordsPerSecond": {
+                                "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline",
+                                "exclusiveMinimum": true,
+                                "format": "int64",
+                                "minimum": 0,
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "maxRecordsPerSecond"
+                            ],
+                            "type": "object",
+                            "additionalProperties": false
+                          }
+                        },
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
                   }
                 },
                 "type": "object",
@@ -1577,6 +1634,7 @@
                   },
                   "logType": {
                     "description": "LogType the record type of the data that is being submitted.\nCan only contain letters, numbers, and underscores (_), and may not exceed 100 characters.\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-collector-api?tabs=powershell#request-headers",
+                    "minLength": 1,
                     "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_]{0,99}$",
                     "type": "string"
                   },
@@ -1621,7 +1679,8 @@
                 },
                 "required": [
                   "authentication",
-                  "customerId"
+                  "customerId",
+                  "logType"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -1994,6 +2053,13 @@
                     },
                     "type": "object",
                     "additionalProperties": false
+                  },
+                  "headers": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Headers specify optional headers to be sent with the request",
+                    "type": "object"
                   },
                   "index": {
                     "description": "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `\\|\\|` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `\\|\\|`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app\\|infra\\|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}",
@@ -2683,7 +2749,7 @@
                 "additionalProperties": false
               },
               "lokiStack": {
-                "description": "LokiStack configures forwarding log events to a Red Hat managed Loki deployment\nusing the Red Hat tenancy model",
+                "description": "LokiStack configures forwarding log events to a Red Hat managed Loki deployment\nusing the Red Hat tenancy model\n\nThe listed labelKeys cannot be pruned as they are required as default stream labels for LokiStack.\n1. .kubernetes.container_name\n2. .kubernetes.namespace_name\n3. .kubernetes.pod_name\n\nIf these fields are not present in the log record, they will be set to the empty string.",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",

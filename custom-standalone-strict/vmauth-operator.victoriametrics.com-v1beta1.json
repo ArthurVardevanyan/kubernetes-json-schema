@@ -58,8 +58,12 @@
           "description": "ConfigReloaderExtraArgs that will be passed to  VMAuths config-reloader container\nfor example resyncInterval: \"30s\"",
           "type": "object"
         },
+        "configReloaderImage": {
+          "description": "ConfigReloaderImage defines image:tag for config-reloader container",
+          "type": "string"
+        },
         "configReloaderImageTag": {
-          "description": "ConfigReloaderImageTag defines image:tag for config-reloader container",
+          "description": "ConfigReloaderImageTag defines image:tag for config-reloader container\nDeprecated: use configReloaderImage instead",
           "type": "string"
         },
         "configReloaderResources": {
@@ -1030,6 +1034,107 @@
           "type": "object",
           "additionalProperties": false
         },
+        "httpRoute": {
+          "description": "HTTPRoute enables httproute configuration for VMAuth.",
+          "properties": {
+            "annotations": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Annotations is an unstructured key value map stored with a resource that may be\nset by external tools to store and retrieve arbitrary metadata. They are not\nqueryable and should be preserved when modifying objects.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations",
+              "type": "object"
+            },
+            "extraRules": {
+              "description": "ExtraRules defines custom HTTPRouteRule in raw form, bypassing Gateway API CEL validations.",
+              "items": {
+                "type": "object",
+                "x-kubernetes-preserve-unknown-fields": true
+              },
+              "type": "array",
+              "x-kubernetes-preserve-unknown-fields": true
+            },
+            "hostnames": {
+              "description": "Hostnames defines a set of hostnames that should match against the HTTP Host\nheader to select a HTTPRoute used to process the request.",
+              "items": {
+                "description": "Hostname is the fully qualified domain name of a network host. This matches\nthe RFC 1123 definition of a hostname with 2 notable exceptions:\n\n 1. IPs are not allowed.\n 2. A hostname may be prefixed with a wildcard label (`*.`). The wildcard\n    label must appear by itself as the first label.\n\nHostname can be \"precise\" which is a domain name without the terminating\ndot of a network host (e.g. \"foo.example.com\") or \"wildcard\", which is a\ndomain name prefixed with a single wildcard label (e.g. `*.example.com`).\n\nNote that as per RFC1035 and RFC1123, a *label* must consist of lower case\nalphanumeric characters or '-', and must start and end with an alphanumeric\ncharacter. No other punctuation is allowed.",
+                "maxLength": 253,
+                "minLength": 1,
+                "pattern": "^(\\*\\.)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "labels": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Labels Map of string keys and values that can be used to organize and categorize\n(scope and select) objects. May match selectors of replication controllers\nand services.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels",
+              "type": "object"
+            },
+            "name": {
+              "description": "Name must be unique within a namespace. Is required when creating resources, although\nsome resources may allow a client to request the generation of an appropriate name\nautomatically. Name is primarily intended for creation idempotence and configuration\ndefinition.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names",
+              "type": "string"
+            },
+            "parentRefs": {
+              "description": "ParentRefs references the resources (usually Gateways) that a Route wants to be attached to.",
+              "items": {
+                "description": "ParentReference identifies an API object (usually a Gateway) that can be considered\na parent of this resource (usually a route). There are two kinds of parent resources\nwith \"Core\" support:\n\n* Gateway (Gateway conformance profile)\n* Service (Mesh conformance profile, ClusterIP Services only)\n\nThis API may be extended in the future to support additional kinds of parent\nresources.\n\nThe API object must be valid in the cluster; the Group and Kind must\nbe registered in the cluster for this reference to be valid.",
+                "properties": {
+                  "group": {
+                    "default": "gateway.networking.k8s.io",
+                    "description": "Group is the group of the referent.\nWhen unspecified, \"gateway.networking.k8s.io\" is inferred.\nTo set the core API group (such as for a \"Service\" kind referent),\nGroup must be explicitly set to \"\" (empty string).\n\nSupport: Core",
+                    "maxLength": 253,
+                    "pattern": "^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
+                    "type": "string"
+                  },
+                  "kind": {
+                    "default": "Gateway",
+                    "description": "Kind is kind of the referent.\n\nThere are two kinds of parent resources with \"Core\" support:\n\n* Gateway (Gateway conformance profile)\n* Service (Mesh conformance profile, ClusterIP Services only)\n\nSupport for other resources is Implementation-Specific.",
+                    "maxLength": 63,
+                    "minLength": 1,
+                    "pattern": "^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$",
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Name is the name of the referent.\n\nSupport: Core",
+                    "maxLength": 253,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "description": "Namespace is the namespace of the referent. When unspecified, this refers\nto the local namespace of the Route.\n\nNote that there are specific rules for ParentRefs which cross namespace\nboundaries. Cross-namespace references are only valid if they are explicitly\nallowed by something in the namespace they are referring to. For example:\nGateway has the AllowedRoutes field, and ReferenceGrant provides a\ngeneric way to enable any other kind of cross-namespace reference.\n\n<gateway:experimental:description>\nParentRefs from a Route to a Service in the same namespace are \"producer\"\nroutes, which apply default routing rules to inbound connections from\nany namespace to the Service.\n\nParentRefs from a Route to a Service in a different namespace are\n\"consumer\" routes, and these routing rules are only applied to outbound\nconnections originating from the same namespace as the Route, for which\nthe intended destination of the connections are a Service targeted as a\nParentRef of the Route.\n</gateway:experimental:description>\n\nSupport: Core",
+                    "maxLength": 63,
+                    "minLength": 1,
+                    "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+                    "type": "string"
+                  },
+                  "port": {
+                    "description": "Port is the network port this Route targets. It can be interpreted\ndifferently based on the type of parent resource.\n\nWhen the parent resource is a Gateway, this targets all listeners\nlistening on the specified port that also support this kind of Route(and\nselect this Route). It's not recommended to set `Port` unless the\nnetworking behaviors specified in a Route must apply to a specific port\nas opposed to a listener(s) whose port(s) may be changed. When both Port\nand SectionName are specified, the name and port of the selected listener\nmust match both specified values.\n\n<gateway:experimental:description>\nWhen the parent resource is a Service, this targets a specific port in the\nService spec. When both Port (experimental) and SectionName are specified,\nthe name and port of the selected port must match both specified values.\n</gateway:experimental:description>\n\nImplementations MAY choose to support other parent resources.\nImplementations supporting other types of parent resources MUST clearly\ndocument how/if Port is interpreted.\n\nFor the purpose of status, an attachment is considered successful as\nlong as the parent resource accepts it partially. For example, Gateway\nlisteners can restrict which Routes can attach to them by Route kind,\nnamespace, or hostname. If 1 of 2 Gateway listeners accept attachment\nfrom the referencing Route, the Route MUST be considered successfully\nattached. If no Gateway listeners accept attachment from this Route,\nthe Route MUST be considered detached from the Gateway.\n\nSupport: Extended",
+                    "format": "int32",
+                    "maximum": 65535,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "sectionName": {
+                    "description": "SectionName is the name of a section within the target resource. In the\nfollowing resources, SectionName is interpreted as the following:\n\n* Gateway: Listener name. When both Port (experimental) and SectionName\nare specified, the name and port of the selected listener must match\nboth specified values.\n* Service: Port name. When both Port (experimental) and SectionName\nare specified, the name and port of the selected listener must match\nboth specified values.\n\nImplementations MAY choose to support attaching Routes to other resources.\nIf that is the case, they MUST clearly document how SectionName is\ninterpreted.\n\nWhen unspecified (empty string), this will reference the entire resource.\nFor the purpose of status, an attachment is considered successful if at\nleast one section in the parent resource accepts it. For example, Gateway\nlisteners can restrict which Routes can attach to them by Route kind,\nnamespace, or hostname. If 1 of 2 Gateway listeners accept attachment from\nthe referencing Route, the Route MUST be considered successfully\nattached. If no Gateway listeners accept attachment from this Route, the\nRoute MUST be considered detached from the Gateway.\n\nSupport: Core",
+                    "maxLength": 253,
+                    "minLength": 1,
+                    "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
+              "type": "array"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "image": {
           "description": "Image - docker image settings\nif no specified operator uses default version from operator config",
           "properties": {
@@ -1228,6 +1333,13 @@
             "name": {
               "description": "Name must be unique within a namespace. Is required when creating resources, although\nsome resources may allow a client to request the generation of an appropriate name\nautomatically. Name is primarily intended for creation idempotence and configuration\ndefinition.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names",
               "type": "string"
+            },
+            "paths": {
+              "description": "Paths defines ingress paths parameter for default rule",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
             "tlsHosts": {
               "description": "TlsHosts configures TLS access for ingress, tlsSecretName must be defined for it.",
@@ -1793,6 +1905,232 @@
               },
               "type": "array"
             },
+            "targetRefs": {
+              "description": "TargetRefs - reference to endpoints, which user may access.",
+              "items": {
+                "description": "TargetRef describes target for user traffic forwarding.\none of target types can be chosen:\ncrd or static per targetRef.\nuser can define multiple targetRefs with different ref Types.",
+                "properties": {
+                  "crd": {
+                    "description": "CRD describes exist operator's CRD object,\noperator generates access url based on CRD params.",
+                    "properties": {
+                      "kind": {
+                        "description": "Kind one of:\nVMAgent,VMAlert, VMSingle, VMCluster/vmselect, VMCluster/vmstorage,VMCluster/vminsert,VMAlertManager, VLSingle, VLCluster/vlinsert, VLCluster/vlselect, VLCluster/vlstorage, VTSingle, VTCluster/vtinsert, VTCluster/vtselect, VTCluster/vtstorage and VLAgent",
+                        "enum": [
+                          "VMAgent",
+                          "VMAlert",
+                          "VMSingle",
+                          "VLogs",
+                          "VMAlertManager",
+                          "VMAlertmanager",
+                          "VMCluster/vmselect",
+                          "VMCluster/vmstorage",
+                          "VMCluster/vminsert",
+                          "VLSingle",
+                          "VLCluster/vlinsert",
+                          "VLCluster/vlselect",
+                          "VLCluster/vlstorage",
+                          "VLAgent",
+                          "VTCluster/vtinsert",
+                          "VTCluster/vtselect",
+                          "VTCluster/vtstorage",
+                          "VTSingle"
+                        ],
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name target CRD object name",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace target CRD object namespace.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "name",
+                      "namespace"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "discover_backend_ips": {
+                    "description": "DiscoverBackendIPs instructs discovering URLPrefix backend IPs via DNS.",
+                    "type": "boolean"
+                  },
+                  "drop_src_path_prefix_parts": {
+                    "description": "DropSrcPathPrefixParts is the number of `/`-delimited request path prefix parts to drop before proxying the request to backend.\nSee [here](https://docs.victoriametrics.com/victoriametrics/vmauth/#dropping-request-path-prefix) for more details.",
+                    "type": "integer"
+                  },
+                  "headers": {
+                    "description": "RequestHeaders represent additional http headers, that vmauth uses\nin form of [\"header_key: header_value\"]\nmultiple values for header key:\n[\"header_key: value1,value2\"]\nit's available since 1.68.0 version of vmauth",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "hosts": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "load_balancing_policy": {
+                    "description": "LoadBalancingPolicy defines load balancing policy to use for backend urls.\nSupported policies: least_loaded, first_available.\nSee [here](https://docs.victoriametrics.com/victoriametrics/vmauth/#load-balancing) for more details (default \"least_loaded\")",
+                    "enum": [
+                      "least_loaded",
+                      "first_available"
+                    ],
+                    "type": "string"
+                  },
+                  "paths": {
+                    "description": "Paths - matched path to route.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "query_args": {
+                    "description": "QueryArgs appends list of query arguments to generated URL",
+                    "items": {
+                      "description": "QueryArg defines item for query arguments",
+                      "properties": {
+                        "name": {
+                          "description": "Name of query argument",
+                          "type": "string"
+                        },
+                        "values": {
+                          "description": "Values of query argument",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "values"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "type": "array"
+                  },
+                  "response_headers": {
+                    "description": "ResponseHeaders represent additional http headers, that vmauth adds for request response\nin form of [\"header_key: header_value\"]\nmultiple values for header key:\n[\"header_key: value1,value2\"]\nit's available since 1.93.0 version of vmauth",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "retry_status_codes": {
+                    "description": "RetryStatusCodes defines http status codes in numeric format for request retries\nCan be defined per target or at VMUser.spec level\ne.g. [429,503]",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "src_headers": {
+                    "description": "SrcHeaders is an optional list of headers, which must match request headers.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "src_query_args": {
+                    "description": "SrcQueryArgs is an optional list of query args, which must match request URL query args.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "static": {
+                    "description": "Static - user defined url for traffic forward,\nfor instance http://vmsingle:8428",
+                    "properties": {
+                      "url": {
+                        "description": "URL http url for given staticRef.",
+                        "type": "string"
+                      },
+                      "urls": {
+                        "description": "URLs allows setting multiple urls for load-balancing at vmauth-side.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "target_path_suffix": {
+                    "description": "TargetPathSuffix allows to add some suffix to the target path\nIt allows to hide tenant configuration from user with crd as ref.\nit also may contain any url encoded params.",
+                    "type": "string"
+                  },
+                  "targetRefBasicAuth": {
+                    "description": "TargetRefBasicAuth allow an target endpoint to authenticate over basic authentication",
+                    "properties": {
+                      "password": {
+                        "description": "The secret in the service scrape namespace that contains the password\nfor authentication.\nIt must be at them same namespace as CRD",
+                        "properties": {
+                          "key": {
+                            "description": "The key of the secret to select from.  Must be a valid secret key.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "default": "",
+                            "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                            "type": "string"
+                          },
+                          "optional": {
+                            "description": "Specify whether the Secret or its key must be defined",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "key"
+                        ],
+                        "type": "object",
+                        "x-kubernetes-map-type": "atomic",
+                        "additionalProperties": false
+                      },
+                      "username": {
+                        "description": "The secret in the service scrape namespace that contains the username\nfor authentication.\nIt must be at them same namespace as CRD",
+                        "properties": {
+                          "key": {
+                            "description": "The key of the secret to select from.  Must be a valid secret key.",
+                            "type": "string"
+                          },
+                          "name": {
+                            "default": "",
+                            "description": "Name of the referent.\nThis field is effectively required, but due to backwards compatibility is\nallowed to be empty. Instances of this type with an empty value here are\nalmost certainly wrong.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                            "type": "string"
+                          },
+                          "optional": {
+                            "description": "Specify whether the Secret or its key must be defined",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "key"
+                        ],
+                        "type": "object",
+                        "x-kubernetes-map-type": "atomic",
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "password",
+                      "username"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  }
+                },
+                "type": "object",
+                "additionalProperties": false
+              },
+              "type": "array"
+            },
             "tlsConfig": {
               "description": "TLSConfig defines tls configuration for the backend connection",
               "properties": {
@@ -1955,6 +2293,7 @@
               "additionalProperties": false
             },
             "url_map": {
+              "description": "URLMap defines url map for destination\nDeprecated since 0.67: use targetRefs instead",
               "items": {
                 "description": "UnauthorizedAccessConfigURLMap defines element of url_map routing configuration\nFor UnauthorizedAccessConfig and VMAuthUnauthorizedUserAccessSpec.URLMap",
                 "properties": {
@@ -2034,7 +2373,7 @@
               "type": "array"
             },
             "url_prefix": {
-              "description": "URLPrefix defines prefix prefix for destination",
+              "description": "URLPrefix defines url prefix for destination\nDeprecated since 0.67: use targetRefs instead",
               "x-kubernetes-preserve-unknown-fields": true
             }
           },
@@ -2062,7 +2401,7 @@
           "type": "boolean"
         },
         "useVMConfigReloader": {
-          "description": "UseVMConfigReloader replaces prometheus-like config-reloader\nwith vm one. It uses secrets watch instead of file watch\nwhich greatly increases speed of config updates",
+          "description": "UseVMConfigReloader replaces prometheus-like config-reloader\nwith vm one. It uses secrets watch instead of file watch\nwhich greatly increases speed of config updates\nRemoved since v0.67.0: this property is ignored and no longer needed",
           "type": "boolean"
         },
         "userNamespaceSelector": {

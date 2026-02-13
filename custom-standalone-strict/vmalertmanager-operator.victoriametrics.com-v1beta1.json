@@ -443,8 +443,12 @@
           "description": "ConfigReloaderExtraArgs that will be passed to  VMAuths config-reloader container\nfor example resyncInterval: \"30s\"",
           "type": "object"
         },
+        "configReloaderImage": {
+          "description": "ConfigReloaderImage defines image:tag for config-reloader container",
+          "type": "string"
+        },
         "configReloaderImageTag": {
-          "description": "ConfigReloaderImageTag defines image:tag for config-reloader container",
+          "description": "ConfigReloaderImageTag defines image:tag for config-reloader container\nDeprecated: use configReloaderImage instead",
           "type": "string"
         },
         "configReloaderResources": {
@@ -1898,7 +1902,7 @@
           "type": "boolean"
         },
         "useVMConfigReloader": {
-          "description": "UseVMConfigReloader replaces prometheus-like config-reloader\nwith vm one. It uses secrets watch instead of file watch\nwhich greatly increases speed of config updates",
+          "description": "UseVMConfigReloader replaces prometheus-like config-reloader\nwith vm one. It uses secrets watch instead of file watch\nwhich greatly increases speed of config updates\nRemoved since v0.67.0: this property is ignored and no longer needed",
           "type": "boolean"
         },
         "volumeMounts": {

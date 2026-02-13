@@ -4603,7 +4603,6 @@
                                           "x-kubernetes-list-type": "atomic"
                                         },
                                         "ip": {
-                                          "default": "",
                                           "description": "IP address of the host file entry.",
                                           "type": "string"
                                         }

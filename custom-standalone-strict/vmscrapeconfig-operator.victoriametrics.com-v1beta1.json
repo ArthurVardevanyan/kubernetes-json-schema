@@ -1831,6 +1831,10 @@
               "attach_metadata": {
                 "description": "AttachMetadata configures metadata attaching from service discovery",
                 "properties": {
+                  "namespace": {
+                    "description": "Namespace instructs vmagent to add namespace specific metadata from service discovery\nValid for roles: pod, service, endpoints, endpointslice, ingress.",
+                    "type": "boolean"
+                  },
                   "node": {
                     "description": "Node instructs vmagent to add node specific metadata from service discovery\nValid for roles: pod, endpoints, endpointslice.",
                     "type": "boolean"
@@ -2182,6 +2186,14 @@
               },
               "role": {
                 "description": "Role of the Kubernetes entities that should be discovered.",
+                "enum": [
+                  "node",
+                  "pod",
+                  "service",
+                  "endpoints",
+                  "endpointslice",
+                  "ingress"
+                ],
                 "type": "string"
               },
               "selectors": {
@@ -2196,6 +2208,14 @@
                       "type": "string"
                     },
                     "role": {
+                      "enum": [
+                        "node",
+                        "pod",
+                        "service",
+                        "endpoints",
+                        "endpointslice",
+                        "ingress"
+                      ],
                       "type": "string"
                     }
                   },
@@ -2427,7 +2447,7 @@
                 "type": "string"
               },
               "source_labels": {
-                "description": "UnderScoreSourceLabels - additional form of source labels source_labels\nfor compatibility with original relabel config.\nif set  both sourceLabels and source_labels, sourceLabels has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
+                "description": "UnderScoreSourceLabels - additional form of source labels source_labels\nfor compatibility with original relabel config.\nif set both sourceLabels and source_labels, sourceLabels has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
                 "items": {
                   "type": "string"
                 },
@@ -2441,7 +2461,7 @@
                 "type": "array"
               },
               "target_label": {
-                "description": "UnderScoreTargetLabel - additional form of target label - target_label\nfor compatibility with original relabel config.\nif set  both targetLabel and target_label, targetLabel has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
+                "description": "UnderScoreTargetLabel - additional form of target label - target_label\nfor compatibility with original relabel config.\nif set both targetLabel and target_label, targetLabel has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
                 "type": "string"
               },
               "targetLabel": {
@@ -2930,7 +2950,7 @@
                 "type": "string"
               },
               "source_labels": {
-                "description": "UnderScoreSourceLabels - additional form of source labels source_labels\nfor compatibility with original relabel config.\nif set  both sourceLabels and source_labels, sourceLabels has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
+                "description": "UnderScoreSourceLabels - additional form of source labels source_labels\nfor compatibility with original relabel config.\nif set both sourceLabels and source_labels, sourceLabels has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
                 "items": {
                   "type": "string"
                 },
@@ -2944,7 +2964,7 @@
                 "type": "array"
               },
               "target_label": {
-                "description": "UnderScoreTargetLabel - additional form of target label - target_label\nfor compatibility with original relabel config.\nif set  both targetLabel and target_label, targetLabel has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
+                "description": "UnderScoreTargetLabel - additional form of target label - target_label\nfor compatibility with original relabel config.\nif set both targetLabel and target_label, targetLabel has priority.\nfor details https://github.com/VictoriaMetrics/operator/issues/131",
                 "type": "string"
               },
               "targetLabel": {

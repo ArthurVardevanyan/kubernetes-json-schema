@@ -1340,8 +1340,10 @@
                 "type": "string"
               },
               "scheme": {
-                "description": "scheme defines the HTTP Scheme default \"http\"",
+                "description": "scheme defines the HTTP Scheme.",
                 "enum": [
+                  "http",
+                  "https",
                   "HTTP",
                   "HTTPS"
                 ],
@@ -12112,8 +12114,10 @@
           "type": "array"
         },
         "scheme": {
-          "description": "scheme defines the protocol scheme used for requests.\nIf empty, Prometheus uses HTTP by default.",
+          "description": "scheme defines the protocol scheme used for requests.",
           "enum": [
+            "http",
+            "https",
             "HTTP",
             "HTTPS"
           ],

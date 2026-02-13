@@ -43,6 +43,7 @@
         },
         "enableCrushUpdates": {
           "description": "Allow rook operator to change the pool CRUSH tunables once the pool is created",
+          "nullable": true,
           "type": "boolean"
         },
         "enableRBDStats": {

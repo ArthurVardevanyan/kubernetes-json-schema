@@ -93,7 +93,7 @@
                           "description": "EnvVar represents an environment variable present in a Container.",
                           "properties": {
                             "name": {
-                              "description": "Name of the environment variable. Must be a C_IDENTIFIER.",
+                              "description": "Name of the environment variable.\nMay consist of any printable ASCII characters except '='.",
                               "type": "string"
                             },
                             "value": {
@@ -181,7 +181,7 @@
                         "x-kubernetes-list-type": "map"
                       },
                       "envFrom": {
-                        "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source must be a C_IDENTIFIER. All invalid keys\nwill be reported as an event when the container is starting. When a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
+                        "description": "List of sources to populate environment variables in the container.\nThe keys defined within a source may consist of any printable ASCII characters except '='.\nWhen a key exists in multiple\nsources, the value associated with the last source will take precedence.\nValues defined by an Env with a duplicate key will take precedence.\nCannot be updated.",
                         "items": {
                           "description": "EnvFromSource represents the source of a set of ConfigMaps or Secrets",
                           "properties": {
@@ -203,7 +203,7 @@
                               "additionalProperties": false
                             },
                             "prefix": {
-                              "description": "Optional text to prepend to the name of each environment variable. Must be a C_IDENTIFIER.",
+                              "description": "Optional text to prepend to the name of each environment variable.\nMay consist of any printable ASCII characters except '='.",
                               "type": "string"
                             },
                             "secretRef": {

@@ -4170,7 +4170,7 @@
                 },
                 {
                   "message": "TLS is always enabled",
-                  "rule": "!has(self.ssl) && !self.exists(k, k.startsWith(\"ssl_\"))"
+                  "rule": "!has(self.ssl) && !self.exists(k, k.startsWith(\"ssl_\") && !(k == 'ssl_groups' || k == 'ssl_ecdh_curve'))"
                 },
                 {
                   "message": "domain socket paths cannot be changed",
@@ -16107,6 +16107,12 @@
         "postgresVersion"
       ],
       "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "message": "The ssl_groups parameter is only available in pg18 and greater",
+          "rule": "!has(self.config) || !has(self.config.parameters) || !has(self.config.parameters.ssl_groups) || self.postgresVersion > 17"
+        }
+      ],
       "additionalProperties": false
     },
     "status": {
@@ -16491,24 +16497,12 @@
           "type": "object",
           "additionalProperties": false
         },
-        "registrationRequired": {
-          "properties": {
-            "pgoVersion": {
-              "type": "string"
-            }
-          },
-          "type": "object",
-          "additionalProperties": false
-        },
         "startupInstance": {
           "description": "The instance that should be started first when bootstrapping and/or starting a\nPostgresCluster.",
           "type": "string"
         },
         "startupInstanceSet": {
           "description": "The instance set associated with the startupInstance",
-          "type": "string"
-        },
-        "tokenRequired": {
           "type": "string"
         },
         "userInterface": {

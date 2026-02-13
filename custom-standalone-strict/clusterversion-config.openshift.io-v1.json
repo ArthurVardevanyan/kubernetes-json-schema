@@ -175,6 +175,14 @@
           "items": {
             "description": "Release represents an OpenShift release image and associated metadata.",
             "properties": {
+              "architecture": {
+                "description": "architecture is an optional field that indicates the\nvalue of the cluster architecture. In this context cluster\narchitecture means either a single architecture or a multi\narchitecture.\nValid values are 'Multi' and empty.",
+                "enum": [
+                  "Multi",
+                  ""
+                ],
+                "type": "string"
+              },
               "channels": {
                 "description": "channels is the set of Cincinnati channels to which the release\ncurrently belongs.",
                 "items": {
@@ -338,6 +346,14 @@
               "release": {
                 "description": "release is the target of the update.",
                 "properties": {
+                  "architecture": {
+                    "description": "architecture is an optional field that indicates the\nvalue of the cluster architecture. In this context cluster\narchitecture means either a single architecture or a multi\narchitecture.\nValid values are 'Multi' and empty.",
+                    "enum": [
+                      "Multi",
+                      ""
+                    ],
+                    "type": "string"
+                  },
                   "channels": {
                     "description": "channels is the set of Cincinnati channels to which the release\ncurrently belongs.",
                     "items": {
@@ -497,6 +513,14 @@
         "desired": {
           "description": "desired is the version that the cluster is reconciling towards.\nIf the cluster is not yet fully initialized desired will be set\nwith the information available, which may be an image or a tag.",
           "properties": {
+            "architecture": {
+              "description": "architecture is an optional field that indicates the\nvalue of the cluster architecture. In this context cluster\narchitecture means either a single architecture or a multi\narchitecture.\nValid values are 'Multi' and empty.",
+              "enum": [
+                "Multi",
+                ""
+              ],
+              "type": "string"
+            },
             "channels": {
               "description": "channels is the set of Cincinnati channels to which the release\ncurrently belongs.",
               "items": {

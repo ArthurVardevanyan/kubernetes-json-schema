@@ -98,7 +98,7 @@
               "additionalProperties": false
             },
             "schema": {
-              "description": "Schema is the schema to use for logs querying and display.\n\nDefatults to \"viaq\" if not specified, \"select\" is used to allow users to select the schema from the UI.",
+              "description": "Schema is the schema to use for logs querying and display.\n\nDefaults to \"viaq\" if not specified. Use \"otel\" for OpenTelemetry schema, or \"select\" to allow users to choose the schema from the UI.",
               "enum": [
                 "viaq",
                 "otel",

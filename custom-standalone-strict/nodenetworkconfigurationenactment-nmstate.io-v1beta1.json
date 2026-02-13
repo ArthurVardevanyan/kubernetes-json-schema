@@ -103,12 +103,6 @@
           "description": "The generation from policy needed to check if an enactment\ncondition status belongs to the same policy version",
           "format": "int64",
           "type": "integer"
-        },
-        "retryCount": {
-          "additionalProperties": {
-            "type": "integer"
-          },
-          "type": "object"
         }
       },
       "type": "object",

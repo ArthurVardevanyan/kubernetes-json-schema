@@ -315,6 +315,41 @@
                                     "type": "object",
                                     "additionalProperties": false
                                   },
+                                  "podCertificate": {
+                                    "properties": {
+                                      "certificateChainPath": {
+                                        "type": "string"
+                                      },
+                                      "credentialBundlePath": {
+                                        "type": "string"
+                                      },
+                                      "keyPath": {
+                                        "type": "string"
+                                      },
+                                      "keyType": {
+                                        "type": "string"
+                                      },
+                                      "maxExpirationSeconds": {
+                                        "format": "int32",
+                                        "type": "integer"
+                                      },
+                                      "signerName": {
+                                        "type": "string"
+                                      },
+                                      "userAnnotations": {
+                                        "additionalProperties": {
+                                          "type": "string"
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "keyType",
+                                      "signerName"
+                                    ],
+                                    "type": "object",
+                                    "additionalProperties": false
+                                  },
                                   "secret": {
                                     "properties": {
                                       "items": {
@@ -708,6 +743,41 @@
                                         "x-kubernetes-list-type": "atomic"
                                       }
                                     },
+                                    "type": "object",
+                                    "additionalProperties": false
+                                  },
+                                  "podCertificate": {
+                                    "properties": {
+                                      "certificateChainPath": {
+                                        "type": "string"
+                                      },
+                                      "credentialBundlePath": {
+                                        "type": "string"
+                                      },
+                                      "keyPath": {
+                                        "type": "string"
+                                      },
+                                      "keyType": {
+                                        "type": "string"
+                                      },
+                                      "maxExpirationSeconds": {
+                                        "format": "int32",
+                                        "type": "integer"
+                                      },
+                                      "signerName": {
+                                        "type": "string"
+                                      },
+                                      "userAnnotations": {
+                                        "additionalProperties": {
+                                          "type": "string"
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "keyType",
+                                      "signerName"
+                                    ],
                                     "type": "object",
                                     "additionalProperties": false
                                   },
@@ -1127,6 +1197,41 @@
                                           "type": "object",
                                           "additionalProperties": false
                                         },
+                                        "podCertificate": {
+                                          "properties": {
+                                            "certificateChainPath": {
+                                              "type": "string"
+                                            },
+                                            "credentialBundlePath": {
+                                              "type": "string"
+                                            },
+                                            "keyPath": {
+                                              "type": "string"
+                                            },
+                                            "keyType": {
+                                              "type": "string"
+                                            },
+                                            "maxExpirationSeconds": {
+                                              "format": "int32",
+                                              "type": "integer"
+                                            },
+                                            "signerName": {
+                                              "type": "string"
+                                            },
+                                            "userAnnotations": {
+                                              "additionalProperties": {
+                                                "type": "string"
+                                              },
+                                              "type": "object"
+                                            }
+                                          },
+                                          "required": [
+                                            "keyType",
+                                            "signerName"
+                                          ],
+                                          "type": "object",
+                                          "additionalProperties": false
+                                        },
                                         "secret": {
                                           "properties": {
                                             "items": {
@@ -1264,7 +1369,7 @@
                       "description": "Resources allow specifying resource requests/limits on the SSSD sidecar container.",
                       "properties": {
                         "claims": {
-                          "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
+                          "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis field depends on the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
                           "items": {
                             "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
                             "properties": {
@@ -1601,6 +1706,41 @@
                                         "type": "object",
                                         "additionalProperties": false
                                       },
+                                      "podCertificate": {
+                                        "properties": {
+                                          "certificateChainPath": {
+                                            "type": "string"
+                                          },
+                                          "credentialBundlePath": {
+                                            "type": "string"
+                                          },
+                                          "keyPath": {
+                                            "type": "string"
+                                          },
+                                          "keyType": {
+                                            "type": "string"
+                                          },
+                                          "maxExpirationSeconds": {
+                                            "format": "int32",
+                                            "type": "integer"
+                                          },
+                                          "signerName": {
+                                            "type": "string"
+                                          },
+                                          "userAnnotations": {
+                                            "additionalProperties": {
+                                              "type": "string"
+                                            },
+                                            "type": "object"
+                                          }
+                                        },
+                                        "required": [
+                                          "keyType",
+                                          "signerName"
+                                        ],
+                                        "type": "object",
+                                        "additionalProperties": false
+                                      },
                                       "secret": {
                                         "properties": {
                                           "items": {
@@ -1752,6 +1892,22 @@
               "description": "Whether host networking is enabled for the Ganesha server. If not set, the network settings from the cluster CR will be applied.",
               "nullable": true,
               "type": "boolean"
+            },
+            "image": {
+              "description": "Image is the container image used to launch the Ceph NFS (Ganesha) daemon(s).\nThe image must include the NFS Ganesha binaries, such as are included with the official Ceph releases. E.g.: quay.io/ceph/ceph:<tag>\nIf not specified, the Ceph image defined in the CephCluster is used.\nOverriding the CephCluster defined image is not normally necessary when using the official Ceph images.\nThe image must contain the NFS Ganesha and dbus packages.\nIf the SSSD sidecar is enabled, the image must also contain the sssd-client package.",
+              "maxLength": 1572864,
+              "minLength": 1,
+              "type": "string"
+            },
+            "imagePullPolicy": {
+              "description": "ImagePullPolicy describes a policy for if/when to pull a container image\nOne of Always, Never, IfNotPresent.\nThis field only has effect if an image is specified.",
+              "enum": [
+                "IfNotPresent",
+                "Always",
+                "Never",
+                ""
+              ],
+              "type": "string"
             },
             "labels": {
               "additionalProperties": {
@@ -2723,7 +2879,7 @@
               "nullable": true,
               "properties": {
                 "claims": {
-                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis field depends on the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
                   "items": {
                     "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
                     "properties": {
@@ -2800,8 +2956,30 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "Status represents the status of an object",
+      "description": "NFSStatus represents the status of Ceph NFS",
       "properties": {
+        "cephx": {
+          "properties": {
+            "daemon": {
+              "description": "Daemon shows the CephX key status for local Ceph daemons associated with this resources.",
+              "properties": {
+                "keyCephVersion": {
+                  "description": "KeyCephVersion reports the Ceph version that created the current generation's keys. This is\nsame string format as reported by `CephCluster.status.version.version` to allow them to be\ncompared. E.g., `20.2.0-0`.\nFor all newly-created resources, this field set to the version of Ceph that created the key.\nThe special value \"Uninitialized\" indicates that keys are being created for the first time.\nAn empty string indicates that the version is unknown, as expected in brownfield deployments.",
+                  "type": "string"
+                },
+                "keyGeneration": {
+                  "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
+                  "format": "int32",
+                  "type": "integer"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "conditions": {
           "items": {
             "description": "Condition represents a status condition on any Rook-Ceph Custom Resource.",
