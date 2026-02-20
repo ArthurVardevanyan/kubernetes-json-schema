@@ -72,6 +72,7 @@
               "additionalProperties": false
             },
             "hostname": {
+              "description": "Name of the host at the inspection time.",
               "type": "string"
             },
             "nics": {
