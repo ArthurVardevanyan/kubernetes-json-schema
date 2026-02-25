@@ -863,7 +863,7 @@
                                 "type": "string"
                               },
                               "operator": {
-                                "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                                "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                                 "type": "string"
                               },
                               "tolerationSeconds": {
@@ -890,14 +890,14 @@
                   "additionalProperties": false
                 },
                 "cacheActiveTimeout": {
-                  "default": "5s",
-                  "description": "`cacheActiveTimeout` is the max period during which the reporter aggregates flows before sending.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
+                  "default": "15s",
+                  "description": "`cacheActiveTimeout` is the period during which the agent aggregates flows before sending.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
                   "pattern": "^\\d+(ns|ms|s|m)?$",
                   "type": "string"
                 },
                 "cacheMaxFlows": {
-                  "default": 100000,
-                  "description": "`cacheMaxFlows` is the max number of flows in an aggregate; when reached, the reporter sends the flows.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
+                  "default": 120000,
+                  "description": "`cacheMaxFlows` is the maximum number of flows in an aggregate; when reached, the reporter sends the flows.\nIncreasing `cacheMaxFlows` and `cacheActiveTimeout` can decrease the network traffic overhead and the CPU load,\nhowever you can expect higher memory consumption and an increased latency in the flow collection.",
                   "format": "int32",
                   "minimum": 1,
                   "type": "integer"
@@ -915,7 +915,7 @@
                 "features": {
                   "description": "List of additional features to enable. They are all disabled by default. Enabling additional features might have performance impacts. Possible values are:<br>\n- `PacketDrop`: Enable the packets drop flows logging feature. This feature requires mounting\nthe kernel debug filesystem, so the eBPF agent pods must run as privileged via `spec.agent.ebpf.privileged`.<br>\n- `DNSTracking`: Enable the DNS tracking feature.<br>\n- `FlowRTT`: Enable flow latency (sRTT) extraction in the eBPF agent from TCP traffic.<br>\n- `NetworkEvents`: Enable the network events monitoring feature, such as correlating flows and network policies.\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged via `spec.agent.ebpf.privileged`.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature.\nIMPORTANT: This feature is available as a Technology Preview.<br>\n- `PacketTranslation`: Enable enriching flows with packet translation information, such as Service NAT.<br>\n- `EbpfManager`: [Unsupported (*)]. Use eBPF Manager to manage network observability eBPF programs. Pre-requisite: the eBPF Manager operator (or upstream bpfman operator) must be installed.<br>\n- `UDNMapping`: Enable interfaces mapping to User Defined Networks (UDN). <br>\nThis feature requires mounting the kernel debug filesystem, so the eBPF agent pods must run as privileged via `spec.agent.ebpf.privileged`.\nIt requires using the OVN-Kubernetes network plugin with the Observability feature. <br>\n- `IPSec`, to track flows between nodes with IPsec encryption. <br>",
                   "items": {
-                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track network events [Technology Preview].<br>\n- `PacketTranslation`, to enrich flows with packets translation information, such as Service NAT.<br>\n- `EbpfManager`, to enable using eBPF Manager to manage network observability eBPF programs. [Unsupported (*)].<br>\n- `UDNMapping`, to enable interfaces mapping to UDN. <br>\n- `IPSec`, to track flows between nodes with IPsec encryption. <br>",
+                    "description": "Agent feature, can be one of:<br>\n- `PacketDrop`, to track packet drops.<br>\n- `DNSTracking`, to track specific information on DNS traffic.<br>\n- `FlowRTT`, to track TCP latency.<br>\n- `NetworkEvents`, to track network events [Technology Preview].<br>\n- `PacketTranslation`, to enrich flows with packets translation information, such as Service NAT.<br>\n- `EbpfManager`, to enable using eBPF Manager to manage network observability eBPF programs. [Unsupported (*)].<br>\n- `UDNMapping`, to enable interfaces mapping to UDN.<br>\n- `IPSec`, to track flows between nodes with IPsec encryption.<br>",
                     "enum": [
                       "PacketDrop",
                       "DNSTracking",
@@ -2346,7 +2346,7 @@
                             "type": "string"
                           },
                           "operator": {
-                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                             "type": "string"
                           },
                           "tolerationSeconds": {
@@ -2373,7 +2373,7 @@
               "additionalProperties": false
             },
             "autoscaler": {
-              "description": "`autoscaler` spec of a horizontal pod autoscaler to set up for the plugin Deployment.",
+              "description": "`autoscaler` [deprecated (*)] spec of a horizontal pod autoscaler to set up for the plugin Deployment.\nDeprecation notice: managed autoscaler will be removed in a future version. You may configure instead an autoscaler of your choice, and set `spec.consolePlugin.unmanagedReplicas` to `true`.",
               "properties": {
                 "maxReplicas": {
                   "default": 3,
@@ -2858,7 +2858,7 @@
             },
             "imagePullPolicy": {
               "default": "IfNotPresent",
-              "description": "`imagePullPolicy` is the Kubernetes pull policy for the image defined above",
+              "description": "`imagePullPolicy` is the Kubernetes pull policy for the image defined above.",
               "enum": [
                 "IfNotPresent",
                 "Always",
@@ -2868,7 +2868,7 @@
             },
             "logLevel": {
               "default": "info",
-              "description": "`logLevel` for the console plugin backend",
+              "description": "`logLevel` for the console plugin backend.",
               "enum": [
                 "trace",
                 "debug",
@@ -2884,7 +2884,7 @@
               "default": {
                 "enable": true
               },
-              "description": "`portNaming` defines the configuration of the port-to-service name translation",
+              "description": "`portNaming` defines the configuration of the port-to-service name translation.",
               "properties": {
                 "enable": {
                   "default": true,
@@ -2930,9 +2930,21 @@
                     "dst_kind": "\"Service\""
                   },
                   "name": "Services network"
+                },
+                {
+                  "filter": {
+                    "src_subnet_label": "\"\",EXT:"
+                  },
+                  "name": "External ingress"
+                },
+                {
+                  "filter": {
+                    "dst_subnet_label": "\"\",EXT:"
+                  },
+                  "name": "External egress"
                 }
               ],
-              "description": "`quickFilters` configures quick filter presets for the Console plugin",
+              "description": "`quickFilters` configures quick filter presets for the Console plugin.\nFilters for external traffic assume the subnet labels are configured to distinguish internal and external traffic (see `spec.processor.subnetLabels`).",
               "items": {
                 "description": "`QuickFilter` defines preset configuration for Console's quick filters",
                 "properties": {
@@ -2978,7 +2990,7 @@
                   "memory": "50Mi"
                 }
               },
-              "description": "`resources`, in terms of compute resources, required by this container.\nFor more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+              "description": "`resources`, in terms of compute resources, required by this container.\nFor more information, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/.",
               "properties": {
                 "claims": {
                   "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis field depends on the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
@@ -3041,15 +3053,24 @@
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "standalone": {
+              "description": "Deploy as a standalone console, instead of a plugin of the OpenShift Console.\nThis is not recommended when using with OpenShift, as it doesn't provide an integrated experience.\n[Unsupported (*)].",
+              "type": "boolean"
+            },
+            "unmanagedReplicas": {
+              "description": "If `unmanagedReplicas` is `true`, the operator will not reconcile `replicas`. This is useful when using a pod autoscaler.",
+              "type": "boolean"
             }
           },
           "type": "object",
           "additionalProperties": false
         },
         "deploymentModel": {
-          "default": "Direct",
-          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br>\n- `Direct` (default) to make the flow processor listen directly from the agents. Only recommended on small clusters, below 15 nodes.<br>\n- `Kafka` to make flows sent to a Kafka pipeline before consumption by the processor.<br>\nKafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).",
+          "default": "Service",
+          "description": "`deploymentModel` defines the desired type of deployment for flow processing. Possible values are:<br>\n- `Service` (default) to make the flow processor listen as a Kubernetes Service, backed by a scalable Deployment.<br>\n- `Kafka` to make flows sent to a Kafka pipeline before consumption by the processor.<br>\n- `Direct` to make the flow processor listen directly from the agents using the host network, backed by a DaemonSet. Only recommended on small clusters, below 15 nodes.<br>\nKafka can provide better scalability, resiliency, and high availability (for more details, see https://www.redhat.com/en/topics/integration/what-is-apache-kafka).<br>\n`Direct` is not recommended on large clusters as it is less memory efficient.",
           "enum": [
+            "Service",
             "Direct",
             "Kafka"
           ],
@@ -3063,6 +3084,11 @@
               "ipfix": {
                 "description": "IPFIX configuration, such as the IP address and port to send enriched IPFIX flows to.",
                 "properties": {
+                  "enterpriseID": {
+                    "default": 2,
+                    "description": "EnterpriseID, or Private Enterprise Number (PEN). To date, network observability does not own an assigned number,\nso it is left open for configuration. The PEN is needed to collect non standard data, such as Kubernetes names,\nRTT, etc.",
+                    "type": "integer"
+                  },
                   "targetHost": {
                     "default": "",
                     "description": "Address of the IPFIX external receiver.",
@@ -3083,6 +3109,7 @@
                   }
                 },
                 "required": [
+                  "enterpriseID",
                   "targetHost",
                   "targetPort"
                 ],
@@ -4005,6 +4032,11 @@
             "monolithic": {
               "description": "Loki configuration for `Monolithic` mode.\nUse this option when Loki is installed using the monolithic deployment mode (https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode).\nIt is ignored for other modes.",
               "properties": {
+                "installDemoLoki": {
+                  "default": false,
+                  "description": "Set `installDemoLoki` to `true` to automatically create Loki deployment, service and storage.\nThis is useful for development and demo purposes. Do not use it in production.\n[Unsupported (*)].",
+                  "type": "boolean"
+                },
                 "tenantID": {
                   "default": "netobserv",
                   "description": "`tenantID` is the Loki `X-Scope-OrgID` header that identifies the tenant for each request.",
@@ -4162,7 +4194,7 @@
           "description": "`processor` defines the settings of the component that receives the flows from the agent,\nenriches them, generates metrics, and forwards them to the Loki persistence layer and/or any available exporter.",
           "properties": {
             "addZone": {
-              "description": "`addZone` allows availability zone awareness by labelling flows with their source and destination zones.\nThis feature requires the \"topology.kubernetes.io/zone\" label to be set on nodes.",
+              "description": "`addZone` allows availability zone awareness by labeling flows with their source and destination zones.\nThis feature requires the \"topology.kubernetes.io/zone\" label to be set on nodes.",
               "type": "boolean"
             },
             "advanced": {
@@ -5041,7 +5073,7 @@
                             "type": "string"
                           },
                           "operator": {
-                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                             "type": "string"
                           },
                           "tolerationSeconds": {
@@ -5102,6 +5134,12 @@
               "default": "",
               "description": "`clusterName` is the name of the cluster to appear in the flows data. This is useful in a multi-cluster context. When using OpenShift, leave empty to make it automatically determined.",
               "type": "string"
+            },
+            "consumerReplicas": {
+              "description": "`consumerReplicas` defines the number of replicas (pods) to start for `flowlogs-pipeline`, default is 3.\nThis setting is ignored when `spec.deploymentModel` is `Direct` or when `spec.processor.unmanagedReplicas` is `true`.",
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
             },
             "deduper": {
               "description": "`deduper` allows you to sample or drop flows identified as duplicates, in order to save on resource usage.",
@@ -5169,7 +5207,7 @@
               "type": "string"
             },
             "kafkaConsumerAutoscaler": {
-              "description": "`kafkaConsumerAutoscaler` is the spec of a horizontal pod autoscaler to set up for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.",
+              "description": "`kafkaConsumerAutoscaler` [deprecated (*)] is the spec of a horizontal pod autoscaler to set up for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.\nDeprecation notice: managed autoscaler will be removed in a future version. You may configure instead an autoscaler of your choice, and set `spec.processor.unmanagedReplicas` to `true`.",
               "properties": {
                 "maxReplicas": {
                   "default": 3,
@@ -5659,7 +5697,7 @@
             },
             "kafkaConsumerReplicas": {
               "default": 3,
-              "description": "`kafkaConsumerReplicas` defines the number of replicas (pods) to start for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.",
+              "description": "`kafkaConsumerReplicas` [deprecated (*)] defines the number of replicas (pods) to start for `flowlogs-pipeline-transformer`, which consumes Kafka messages.\nThis setting is ignored when Kafka is disabled.\nDeprecation notice: use `spec.processor.consumerReplicas` instead.",
               "format": "int32",
               "minimum": 0,
               "type": "integer"
@@ -5692,12 +5730,28 @@
             "metrics": {
               "description": "`Metrics` define the processor configuration regarding metrics",
               "properties": {
-                "alerts": {
-                  "description": "`alerts` is a list of alerts to be created for Prometheus AlertManager, organized by templates and variants [Unsupported (*)].\nThis is currently an experimental feature behind a feature gate. To enable, edit `spec.processor.advanced.env` by adding `EXPERIMENTAL_ALERTS_HEALTH` set to `true`.\nMore information on alerts: https://github.com/netobserv/network-observability-operator/blob/main/docs/Alerts.md",
+                "disableAlerts": {
+                  "description": "`disableAlerts` is a list of alert groups that should be disabled from the default set of alerts.\nPossible values are: `NetObservNoFlows`, `NetObservLokiError`, `PacketDropsByKernel`, `PacketDropsByDevice`, `IPsecErrors`, `NetpolDenied`,\n`LatencyHighTrend`, `DNSErrors`, `DNSNxDomain`, `ExternalEgressHighTrend`, `ExternalIngressHighTrend`, `Ingress5xxErrors`, `IngressHTTPLatencyTrend`.\nMore information on alerts: https://github.com/netobserv/network-observability-operator/blob/main/docs/HealthRules.md",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "healthRules": {
+                  "description": "`healthRules` is a list of health rules to be created for Prometheus, organized by templates and variants.\nEach health rule can be configured to generate either alerts or recording rules based on the mode field.\nMore information on health rules: https://github.com/netobserv/network-observability-operator/blob/main/docs/HealthRules.md",
                   "items": {
                     "properties": {
+                      "mode": {
+                        "default": "Alert",
+                        "description": "Mode defines whether this health rule should be generated as an alert or a recording rule.\nPossible values are: `Alert` (default), `Recording`.\nRecording rules violations are visible in the Network Health dashboard without generating any Prometheus alert.\nThis provides an alternative way of getting Health information for SRE and cluster admins who may find\nmany new alerts burdensome.",
+                        "enum": [
+                          "Alert",
+                          "Recording"
+                        ],
+                        "type": "string"
+                      },
                       "template": {
-                        "description": "Alert template name.\nPossible values are: `PacketDropsByKernel`, `PacketDropsByDevice`, `IPsecErrors`, `NetpolDenied`,\n`LatencyHighTrend`, `DNSErrors`, `ExternalEgressHighTrend`, `ExternalIngressHighTrend`, `CrossAZ`.\nMore information on alerts: https://github.com/netobserv/network-observability-operator/blob/main/docs/Alerts.md",
+                        "description": "Health rule template name.\nPossible values are: `PacketDropsByKernel`, `PacketDropsByDevice`, `IPsecErrors`, `NetpolDenied`,\n`LatencyHighTrend`, `DNSErrors`, `DNSNxDomain`, `ExternalEgressHighTrend`, `ExternalIngressHighTrend`, `Ingress5xxErrors`, `IngressHTTPLatencyTrend`.\nNote: `NetObservNoFlows` and `NetObservLokiError` are alert-only and cannot be used as health rules.\nMore information on health rules: https://github.com/netobserv/network-observability-operator/blob/main/docs/HealthRules.md",
                         "enum": [
                           "PacketDropsByKernel",
                           "PacketDropsByDevice",
@@ -5705,9 +5759,11 @@
                           "NetpolDenied",
                           "LatencyHighTrend",
                           "DNSErrors",
+                          "DNSNxDomain",
                           "ExternalEgressHighTrend",
                           "ExternalIngressHighTrend",
-                          "CrossAZ"
+                          "Ingress5xxErrors",
+                          "IngressHTTPLatencyTrend"
                         ],
                         "type": "string"
                       },
@@ -5729,8 +5785,16 @@
                               "description": "The low volume threshold allows to ignore metrics with a too low volume of traffic, in order to improve signal-to-noise.\nIt is provided as an absolute rate (bytes per second or packets per second, depending on the context).\nWhen provided, it must be parsable as a float.",
                               "type": "string"
                             },
+                            "mode": {
+                              "description": "Mode overrides the health rule mode for this specific variant.\nIf not specified, inherits from the parent health rule's mode.\nPossible values are: `Alert`, `Recording`.",
+                              "enum": [
+                                "Alert",
+                                "Recording"
+                              ],
+                              "type": "string"
+                            },
                             "thresholds": {
-                              "description": "Thresholds of the alert per severity.\nThey are expressed as a percentage of errors above which the alert is triggered. They must be parsable as floats.",
+                              "description": "Thresholds of the health rule per severity.\nThey are expressed as a percentage of errors above which the alert is triggered. They must be parsable as floats.\nRequired for both alert and recording modes",
                               "properties": {
                                 "critical": {
                                   "description": "Threshold for severity `critical`. Leave empty to not generate a Critical alert.",
@@ -5749,11 +5813,11 @@
                               "additionalProperties": false
                             },
                             "trendDuration": {
-                              "description": "For trending alerts, the duration interval for baseline comparison. For example, \"2h\" means comparing against a 2-hours average. Defaults to 2h.",
+                              "description": "For trending health rules, the duration interval for baseline comparison. For example, \"2h\" means comparing against a 2-hours average. Defaults to 2h.",
                               "type": "string"
                             },
                             "trendOffset": {
-                              "description": "For trending alerts, the time offset for baseline comparison. For example, \"1d\" means comparing against yesterday. Defaults to 1d.",
+                              "description": "For trending health rules, the time offset for baseline comparison. For example, \"1d\" means comparing against yesterday. Defaults to 1d.",
                               "type": "string"
                             }
                           },
@@ -5772,13 +5836,6 @@
                     ],
                     "type": "object",
                     "additionalProperties": false
-                  },
-                  "type": "array"
-                },
-                "disableAlerts": {
-                  "description": "`disableAlerts` is a list of alert groups that should be disabled from the default set of alerts.\nPossible values are: `NetObservNoFlows`, `NetObservLokiError`, `PacketDropsByKernel`, `PacketDropsByDevice`, `IPsecErrors`, `NetpolDenied`,\n`LatencyHighTrend`, `DNSErrors`, `ExternalEgressHighTrend`, `ExternalIngressHighTrend`, `CrossAZ`.\nMore information on alerts: https://github.com/netobserv/network-observability-operator/blob/main/docs/Alerts.md",
-                  "items": {
-                    "type": "string"
                   },
                   "type": "array"
                 },
@@ -6006,11 +6063,42 @@
               "type": "object",
               "additionalProperties": false
             },
+            "slicesConfig": {
+              "description": "Global configuration managing FlowCollectorSlices custom resources.",
+              "properties": {
+                "collectionMode": {
+                  "default": "AlwaysCollect",
+                  "description": "`collectionMode` determines how the FlowCollectorSlice custom resources impacts the flow collection process:<br>\n- When set to `AlwaysCollect`, all flows are collected regardless of the presence of FlowCollectorSlice.<br>\n- When set to `AllowList`, only the flows related to namespaces where a FlowCollectorSlice resource is present, or configured via the global `namespacesAllowList`, are collected.<br>",
+                  "enum": [
+                    "AlwaysCollect",
+                    "AllowList"
+                  ],
+                  "type": "string"
+                },
+                "enable": {
+                  "default": false,
+                  "description": "`enable` determines if the FlowCollectorSlice feature is enabled. If not, all resources of kind FlowCollectorSlice are simply ignored.",
+                  "type": "boolean"
+                },
+                "namespacesAllowList": {
+                  "description": "`namespacesAllowList` is a list of namespaces for which flows are always collected, regardless of the presence of FlowCollectorSlice in those namespaces.\nAn entry enclosed by slashes, such as `/openshift-.*/`, is matched as a regular expression.\nThis setting is ignored if `collectionMode` is different from `AllowList`.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "enable"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
             "subnetLabels": {
-              "description": "`subnetLabels` allows to define custom labels on subnets and IPs or to enable automatic labelling of recognized subnets in OpenShift, which is used to identify cluster external traffic.\nWhen a subnet matches the source or destination IP of a flow, a corresponding field is added: `SrcSubnetLabel` or `DstSubnetLabel`.",
+              "description": "`subnetLabels` allows to define custom labels on subnets and IPs or to enable automatic labeling of recognized subnets in OpenShift, which is used to identify cluster external traffic.\nWhen a subnet matches the source or destination IP of a flow, a corresponding field is added: `SrcSubnetLabel` or `DstSubnetLabel`.",
               "properties": {
                 "customLabels": {
-                  "description": "`customLabels` allows to customize subnets and IPs labelling, such as to identify cluster-external workloads or web services.\nIf you enable `openShiftAutoDetect`, `customLabels` can override the detected subnets in case they overlap.",
+                  "description": "`customLabels` allows you to customize subnets and IPs labeling, such as to identify cluster external workloads or web services.\nExternal subnets must be labeled with the prefix `EXT:`, or not labeled at all, in order to work with default quick filters and some metrics examples provided.<br/>\nIf `openShiftAutoDetect` is disabled or you are not using OpenShift, it is recommended to manually configure labels for the cluster subnets, to distinguish internal traffic from external traffic.<br/>\nIf `openShiftAutoDetect` is enabled, `customLabels` overrides the detected subnets when they overlap.<br/>",
                   "items": {
                     "description": "SubnetLabel allows to label subnets and IPs, such as to identify cluster-external workloads or web services.",
                     "properties": {
@@ -6022,7 +6110,7 @@
                         "type": "array"
                       },
                       "name": {
-                        "description": "Label name, used to flag matching flows.",
+                        "description": "Label name, used to flag matching flows.\nExternal subnets must be labeled with the prefix `EXT:`, or not labeled at all, in order to work with default quick filters and some metrics examples provided.<br/>",
                         "pattern": "^[a-zA-Z_:-][a-zA-Z0-9_:-]*$",
                         "type": "string"
                       }
@@ -6043,6 +6131,10 @@
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "unmanagedReplicas": {
+              "description": "If `unmanagedReplicas` is `true`, the operator will not reconcile `consumerReplicas`. This is useful when using a pod autoscaler.",
+              "type": "boolean"
             }
           },
           "type": "object",
@@ -6055,12 +6147,104 @@
               "description": "Prometheus querying configuration, such as client settings, used in the Console plugin.",
               "properties": {
                 "enable": {
-                  "description": "When `enable` is `true`, the Console plugin queries flow metrics from Prometheus instead of Loki whenever possible.\nIt is enbaled by default: set it to `false` to disable this feature.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.loki`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
+                  "description": "When `enable` is `true`, the Console plugin queries flow metrics from Prometheus instead of Loki whenever possible.\nIt is enabled by default: set it to `false` to disable this feature.\nThe Console plugin can use either Loki or Prometheus as a data source for metrics (see also `spec.loki`), or both.\nNot all queries are transposable from Loki to Prometheus. Hence, if Loki is disabled, some features of the plugin are disabled as well,\nsuch as getting per-pod information or viewing raw flows.\nIf both Prometheus and Loki are enabled, Prometheus takes precedence and Loki is used as a fallback for queries that Prometheus cannot handle.\nIf they are both disabled, the Console plugin is not deployed.",
                   "type": "boolean"
                 },
                 "manual": {
                   "description": "Prometheus configuration for `Manual` mode.",
                   "properties": {
+                    "alertManager": {
+                      "description": "AlertManager configuration. This is used in the console to query silenced alerts, for displaying health information.\nWhen used in OpenShift it can be left empty to use the Console API instead.\n[Unsupported (*)].",
+                      "properties": {
+                        "tls": {
+                          "description": "TLS client configuration for Prometheus AlertManager URL.",
+                          "properties": {
+                            "caCert": {
+                              "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
+                              "properties": {
+                                "certFile": {
+                                  "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
+                                  "type": "string"
+                                },
+                                "certKey": {
+                                  "description": "`certKey` defines the path to the certificate private key file name within the config map or secret. Omit when the key is not necessary.",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "description": "Name of the config map or secret containing certificates.",
+                                  "type": "string"
+                                },
+                                "namespace": {
+                                  "default": "",
+                                  "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where network observability is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "description": "Type for the certificate reference: `configmap` or `secret`.",
+                                  "enum": [
+                                    "configmap",
+                                    "secret"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object",
+                              "additionalProperties": false
+                            },
+                            "enable": {
+                              "default": false,
+                              "description": "Enable TLS",
+                              "type": "boolean"
+                            },
+                            "insecureSkipVerify": {
+                              "default": false,
+                              "description": "`insecureSkipVerify` allows skipping client-side verification of the server certificate.\nIf set to `true`, the `caCert` field is ignored.",
+                              "type": "boolean"
+                            },
+                            "userCert": {
+                              "description": "`userCert` defines the user certificate reference and is used for mTLS. When you use one-way TLS, you can ignore this property.",
+                              "properties": {
+                                "certFile": {
+                                  "description": "`certFile` defines the path to the certificate file name within the config map or secret.",
+                                  "type": "string"
+                                },
+                                "certKey": {
+                                  "description": "`certKey` defines the path to the certificate private key file name within the config map or secret. Omit when the key is not necessary.",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "description": "Name of the config map or secret containing certificates.",
+                                  "type": "string"
+                                },
+                                "namespace": {
+                                  "default": "",
+                                  "description": "Namespace of the config map or secret containing certificates. If omitted, the default is to use the same namespace as where network observability is deployed.\nIf the namespace is different, the config map or the secret is copied so that it can be mounted as required.",
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "description": "Type for the certificate reference: `configmap` or `secret`.",
+                                  "enum": [
+                                    "configmap",
+                                    "secret"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object",
+                              "additionalProperties": false
+                            }
+                          },
+                          "type": "object",
+                          "additionalProperties": false
+                        },
+                        "url": {
+                          "description": "`url` is the address of an existing Prometheus AlertManager service to use for querying alerts.",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
                     "forwardUserToken": {
                       "description": "Set `true` to forward logged in user token in queries to Prometheus",
                       "type": "boolean"
@@ -6157,7 +6341,7 @@
                 },
                 "mode": {
                   "default": "Auto",
-                  "description": "`mode` must be set according to the type of Prometheus installation that stores network observability metrics:<br>\n- Use `Auto` to try configuring automatically. In OpenShift, it uses the Thanos querier from OpenShift Cluster Monitoring<br>\n- Use `Manual` for a manual setup<br>",
+                  "description": "`mode` must be set according to the type of Prometheus installation that stores network observability metrics:<br>\n- Use `Auto` to try configuring automatically. In OpenShift, it uses the Thanos querier from OpenShift Cluster Monitoring.<br>\n- Use `Manual` for a manual setup.<br>",
                   "enum": [
                     "Manual",
                     "Auto"
@@ -6244,7 +6428,7 @@
           "type": "array"
         },
         "namespace": {
-          "description": "Namespace where console plugin and flowlogs-pipeline have been deployed.\nDeprecated: annotations are used instead",
+          "description": "Namespace where console plugin and flowlogs-pipeline have been deployed.\n\nDeprecated: annotations are used instead",
           "type": "string"
         }
       },

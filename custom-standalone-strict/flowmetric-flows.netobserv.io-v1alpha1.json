@@ -159,6 +159,10 @@
           },
           "type": "array"
         },
+        "help": {
+          "description": "Help text of the metric, as it appears in Prometheus.",
+          "type": "string"
+        },
         "labels": {
           "description": "`labels` is a list of fields that should be used as Prometheus labels, also known as dimensions (for example: `SrcK8S_Namespace`).\nFrom choosing labels results the level of granularity of this metric, and the available aggregations at query time.\nIt must be done carefully as it impacts the metric cardinality (cf https://rhobs-handbook.netlify.app/products/openshiftmonitoring/telemetry.md/#what-is-the-cardinality-of-a-metric).\nIn general, avoid setting very high cardinality labels such as IP or MAC addresses.\n\"SrcK8S_OwnerName\" or \"DstK8S_OwnerName\" should be preferred over \"SrcK8S_Name\" or \"DstK8S_Name\" as much as possible.\nRefer to the documentation for the list of available fields: https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/network_observability/json-flows-format-reference.",
           "items": {
