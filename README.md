@@ -44,6 +44,8 @@ cd ../
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/hyperconverged-hco.kubevirt.io-v1beta1.json
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/egressfirewall-k8s.ovn.org-v1.json
 yq eval '.properties.metadata.additionalProperties = true' -i ./custom-standalone-strict/logfilemetricexporter-logging.openshift.io-v1alpha1.json
+# Fix FlowCollector metadata to allow annotations and labels (cluster-scoped singleton with strict name pattern)
+yq eval '.properties.metadata.properties.annotations = {"additionalProperties": {"type": "string"}, "type": "object"} | .properties.metadata.properties.labels = {"additionalProperties": {"type": "string"}, "type": "object"}' -i ./custom-standalone-strict/flowcollector-flows.netobserv.io-v1beta2.json
 
 # Fix Tekton Task schema by adding required JSON Schema properties (only if not already present)
 if ! grep -q '"$schema"' ./custom-standalone-strict/task-tekton.dev-v1.json; then
