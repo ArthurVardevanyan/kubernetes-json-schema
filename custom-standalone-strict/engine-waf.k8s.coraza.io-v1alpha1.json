@@ -13,52 +13,55 @@
       "type": "object"
     },
     "spec": {
-      "description": "Spec defines the desired state of Engine.",
+      "description": "spec defines the desired state of Engine.",
       "properties": {
         "driver": {
-          "description": "Driver specifies the driver configuration for the engine. This\ndetermines how the WAF engine will be deployed and integrated with some\nimplementation. Currently only supports Istio ingress Gateways.",
+          "description": "driver specifies the driver configuration for the engine. This\ndetermines how the WAF engine will be deployed and integrated with some\nimplementation. Currently only supports Istio ingress Gateways.",
           "properties": {
             "istio": {
-              "description": "Istio configures the Engine to integrate with Istio service mesh.",
+              "description": "istio configures the Engine to integrate with Istio service mesh.",
               "properties": {
                 "wasm": {
-                  "description": "Wasm configures the Engine to be deployed as a WebAssembly plugin.",
+                  "description": "wasm configures the Engine to be deployed as a WebAssembly plugin.",
                   "properties": {
                     "image": {
-                      "description": "Image is the OCI image reference for the Coraza WASM plugin.",
+                      "description": "image is the OCI image reference for the Coraza WASM plugin.",
                       "maxLength": 1024,
                       "minLength": 1,
                       "pattern": "^oci://",
                       "type": "string"
                     },
+                    "imagePullSecret": {
+                      "description": "imagePullSecret is the name of a Kubernetes Secret in the same namespace\nas the Engine that contains Docker registry credentials for pulling the\nWASM OCI image. This is passed directly to the Istio WasmPlugin resource.",
+                      "maxLength": 253,
+                      "minLength": 1,
+                      "type": "string"
+                    },
                     "mode": {
                       "default": "gateway",
-                      "description": "Mode specifies what mechanism will be used to integrate the WAF with\nIstio.\n\nCurrently only supports \"Gateway\" mode, utilizing Gateway API resources.",
+                      "description": "mode specifies what mechanism will be used to integrate the WAF with\nIstio.\n\nCurrently only supports \"Gateway\" mode, utilizing Gateway API resources.",
                       "enum": [
                         "gateway"
                       ],
                       "type": "string"
                     },
                     "ruleSetCacheServer": {
-                      "description": "RuleSetCacheServer contains configuration for the ruleset cache server.\n\nWhen omitted, no cache server will be used and no rulesets will be\ndynamically loaded. This implies that your Engine will be deployed with\nall rules statically embedded.",
+                      "description": "ruleSetCacheServer contains configuration for the ruleset cache server.\n\nWhen omitted, no cache server will be used and no rulesets will be\ndynamically loaded. This implies that your Engine will be deployed with\nall rules statically embedded.",
                       "properties": {
                         "pollIntervalSeconds": {
                           "default": 15,
-                          "description": "PollIntervalSeconds specifies how often the WAF should check for\nconfiguration updates. The value is specified in seconds.\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\nThe current default is 15 seconds.",
+                          "description": "pollIntervalSeconds specifies how often the WAF should check for\nconfiguration updates. The value is specified in seconds.\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\nThe current default is 15 seconds.",
                           "format": "int32",
                           "maximum": 3600,
                           "minimum": 1,
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "pollIntervalSeconds"
-                      ],
                       "type": "object",
                       "additionalProperties": false
                     },
                     "workloadSelector": {
-                      "description": "WorkloadSelector specifies the selection criteria for attaching the WAF to\nIstio resources.",
+                      "description": "workloadSelector specifies the selection criteria for attaching the WAF to\nIstio resources.\n\nRequired when mode is \"gateway\".",
                       "properties": {
                         "matchExpressions": {
                           "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
@@ -106,8 +109,7 @@
                     }
                   },
                   "required": [
-                    "image",
-                    "mode"
+                    "image"
                   ],
                   "type": "object",
                   "x-kubernetes-validations": [
@@ -140,7 +142,7 @@
         },
         "failurePolicy": {
           "default": "fail",
-          "description": "FailurePolicy determines the behavior when the WAF is not ready or\nencounters errors. Valid values are:\n\n- \"Fail\": Block traffic when the WAF is not ready or encounters errors\n- \"Allow\": Allow traffic through when the WAF is not ready or encounters errors\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\n\nThe current default is fail.",
+          "description": "failurePolicy determines the behavior when the WAF is not ready or\nencounters errors. Valid values are:\n\n- \"Fail\": Block traffic when the WAF is not ready or encounters errors\n- \"Allow\": Allow traffic through when the WAF is not ready or encounters errors\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\n\nThe current default is fail.",
           "enum": [
             "fail",
             "allow"
@@ -148,10 +150,10 @@
           "type": "string"
         },
         "ruleSet": {
-          "description": "RuleSet specifies the RuleSet resource that will be used to load rules\ninto the Engine. The referenced RuleSet must be in the same namespace\nas the Engine.",
+          "description": "ruleSet specifies the RuleSet resource that will be used to load rules\ninto the Engine. The referenced RuleSet must be in the same namespace\nas the Engine.",
           "properties": {
             "name": {
-              "description": "Name is the name of the RuleSet in the same namespace as the Engine.",
+              "description": "name is the name of the RuleSet in the same namespace as the Engine.",
               "minLength": 1,
               "type": "string"
             }
@@ -164,18 +166,22 @@
         }
       },
       "required": [
-        "driver",
-        "failurePolicy",
         "ruleSet"
       ],
       "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "message": "driver is required",
+          "rule": "has(self.driver)"
+        }
+      ],
       "additionalProperties": false
     },
     "status": {
-      "description": "Status defines the observed state of Engine.",
+      "description": "status defines the observed state of Engine.",
       "properties": {
         "conditions": {
-          "description": "Conditions represent the current state of the Engine resource.\nEach condition has a unique type and reflects the status of a specific\naspect of the resource.\n\nStandard condition types include:\n- \"Ready\": the engine has been successfully deployed and is operational\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n\nThe status of each condition is one of True, False, or Unknown.",
+          "description": "conditions represent the current state of the Engine resource.\nEach condition has a unique type and reflects the status of a specific\naspect of the resource.\n\nStandard condition types include:\n- \"Ready\": the engine has been successfully deployed and is operational\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n\nThe status of each condition is one of True, False, or Unknown.",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {
@@ -231,6 +237,29 @@
           "type": "array",
           "x-kubernetes-list-map-keys": [
             "type"
+          ],
+          "x-kubernetes-list-type": "map"
+        },
+        "gateways": {
+          "description": "gateways is the list of Gateways in the same namespace that match\nthe Engine's workload selector.",
+          "items": {
+            "description": "GatewayReference is a reference to a Gateway resource in the same namespace\nas the Engine.",
+            "properties": {
+              "name": {
+                "description": "name is the name of the Gateway in the same namespace as the Engine.",
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object",
+            "additionalProperties": false
+          },
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "name"
           ],
           "x-kubernetes-list-type": "map"
         }

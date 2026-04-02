@@ -118,7 +118,8 @@
                     "description": "groups is an optional field that configures how the groups of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider.\n\nWhen referencing a claim, if the claim is present in the JWT token, its value must be a list of groups separated by a comma (',').\n\nFor example - '\"example\"' and '\"exampleOne\", \"exampleTwo\", \"exampleThree\"' are valid claim values.",
                     "properties": {
                       "claim": {
-                        "description": "claim is a required field that configures the JWT token claim whose value is assigned to the cluster identity field associated with this mapping.",
+                        "description": "claim is an optional field for specifying the JWT token claim that is used in the mapping.\nThe value of this claim will be assigned to the field in which this mapping is associated.\nclaim must not exceed 256 characters in length.\nWhen set to the empty string `\"\"`, this means that no named claim should be used for the group mapping.\nclaim is required when the ExternalOIDCWithUpstreamParity feature gate is not enabled.",
+                        "maxLength": 256,
                         "type": "string"
                       },
                       "prefix": {
@@ -126,10 +127,13 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "claim"
-                    ],
                     "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "claim is required",
+                        "rule": "has(self.claim)"
+                      }
+                    ],
                     "additionalProperties": false
                   },
                   "uid": {
@@ -161,7 +165,7 @@
                     "description": "username is a required field that configures how the username of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider.",
                     "properties": {
                       "claim": {
-                        "description": "claim is a required field that configures the JWT token claim whose value is assigned to the cluster identity field associated with this mapping.\n\nclaim must not be an empty string (\"\") and must not exceed 256 characters.",
+                        "description": "claim is an optional field that configures the JWT token claim whose value is assigned to the cluster identity field associated with this mapping.\nclaim is required when the ExternalOIDCWithUpstreamParity feature gate is not enabled.\nWhen the ExternalOIDCWithUpstreamParity feature gate is enabled, claim must not be set when expression is set.\n\nclaim must not be an empty string (\"\") and must not exceed 256 characters.",
                         "maxLength": 256,
                         "minLength": 1,
                         "type": "string"
@@ -191,11 +195,12 @@
                         "type": "string"
                       }
                     },
-                    "required": [
-                      "claim"
-                    ],
                     "type": "object",
                     "x-kubernetes-validations": [
+                      {
+                        "message": "claim is required",
+                        "rule": "has(self.claim)"
+                      },
                       {
                         "message": "prefix must be set if prefixPolicy is 'Prefix', but must remain unset otherwise",
                         "rule": "has(self.prefixPolicy) && self.prefixPolicy == 'Prefix' ? (has(self.prefix) && size(self.prefix.prefixString) > 0) : !has(self.prefix)"

@@ -13,15 +13,20 @@
       "type": "object"
     },
     "spec": {
-      "description": "Spec defines the desired state of RuleSet.",
+      "description": "spec defines the desired state of RuleSet.",
       "properties": {
+        "ruleData": {
+          "description": "ruleData contains the name of a secret with the required data for rules.\nUsually rules that contain the directive '@pmFromFile'.\nThis secret must be created containing the type coraza/data otherwise it will\nnot be watched.\nAdditionally, the secret must contain the name of each file as the key, and the content\nof the file as the value",
+          "minLength": 1,
+          "type": "string"
+        },
         "rules": {
-          "description": "Rules is an ordered list of references to ConfigMaps that contain the\nfirewall rules to be compiled into a complete set.\n\nEach entry refers to a ConfigMap by name in the same namespace as\nthe RuleSet. The ConfigMap must contain a \"rules\" key.",
+          "description": "rules is an ordered list of references to ConfigMaps that contain the\nfirewall rules to be compiled into a complete set.\n\nEach entry refers to a ConfigMap by name in the same namespace as\nthe RuleSet. The ConfigMap must contain a \"rules\" key.",
           "items": {
             "description": "RuleSourceReference is a reference to a ConfigMap that contains WAF rules.",
             "properties": {
               "name": {
-                "description": "Name is the name of the ConfigMap in the same namespace as the RuleSet.",
+                "description": "name is the name of the ConfigMap in the same namespace as the RuleSet.",
                 "minLength": 1,
                 "type": "string"
               }
@@ -34,7 +39,8 @@
           },
           "maxItems": 2048,
           "minItems": 1,
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         }
       },
       "required": [
@@ -44,10 +50,10 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "Status defines the observed state of RuleSet.",
+      "description": "status defines the observed state of RuleSet.",
       "properties": {
         "conditions": {
-          "description": "Conditions represent the current state of the RuleSet resource.\nEach condition has a unique type and reflects the status of a specific aspect of the resource.\n\nStandard condition types include:\n- \"Ready\": the RuleSet has been processed and and the rules have been cached\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n\nThe status of each condition is one of True, False, or Unknown.",
+          "description": "conditions represent the current state of the RuleSet resource.\nEach condition has a unique type and reflects the status of a specific aspect of the resource.\n\nStandard condition types include:\n- \"Ready\": the RuleSet has been processed and and the rules have been cached\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n\nThe status of each condition is one of True, False, or Unknown.",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {
