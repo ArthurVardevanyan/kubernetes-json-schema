@@ -36,6 +36,11 @@
           "description": "Schedule specifies in cron format when and how often to look for new imports",
           "type": "string"
         },
+        "serviceAccountName": {
+          "description": "ServiceAccountName is the name of the ServiceAccount for creating DataVolumes.",
+          "minLength": 1,
+          "type": "string"
+        },
         "template": {
           "description": "Template specifies template for the DVs to be created",
           "properties": {
@@ -249,7 +254,7 @@
                       "type": "string"
                     },
                     "volumeAttributesClassName": {
-                      "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string value means that no VolumeAttributesClass\nwill be applied to the claim but it's not allowed to reset this field to empty string once it is set.\nIf unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass\nwill be set by the persistentvolume controller if it exists.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/\n(Alpha) Using this field requires the VolumeAttributesClass feature gate to be enabled.",
+                      "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string value means that no VolumeAttributesClass\nwill be applied to the claim but it's not allowed to reset this field to empty string once it is set.\nIf unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass\nwill be set by the persistentvolume controller if it exists.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/\n(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).",
                       "type": "string"
                     },
                     "volumeMode": {
@@ -263,6 +268,10 @@
                   },
                   "type": "object",
                   "additionalProperties": false
+                },
+                "serviceAccountName": {
+                  "description": "ServiceAccountName for Importer and Uploader pod",
+                  "type": "string"
                 },
                 "source": {
                   "description": "Source is the src of the data for the requested DataVolume",
@@ -294,6 +303,10 @@
                       "properties": {
                         "certConfigMap": {
                           "description": "CertConfigMap is a configmap reference, containing a Certificate Authority(CA) public key, and a base64 encoded pem certificate",
+                          "type": "string"
+                        },
+                        "checksum": {
+                          "description": "Checksum is the expected checksum of the file. Format: \"algorithm:hash\", e.g., \"sha256:1234abcd...\" or \"md5:5678efgh...\"\nSupported algorithms: md5, sha1, sha256, sha512\nIf specified, the importer will verify the downloaded content matches this checksum",
                           "type": "string"
                         },
                         "extraHeaders": {
@@ -335,6 +348,10 @@
                         "diskId": {
                           "description": "DiskID provides id of a disk to be imported",
                           "type": "string"
+                        },
+                        "insecureSkipVerify": {
+                          "description": "InsecureSkipVerify is a flag to skip certificate verification",
+                          "type": "boolean"
                         },
                         "secretRef": {
                           "description": "SecretRef provides the secret reference needed to access the ovirt-engine",

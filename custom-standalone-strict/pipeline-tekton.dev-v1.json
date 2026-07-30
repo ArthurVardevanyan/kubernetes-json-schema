@@ -241,7 +241,7 @@
                 "x-kubernetes-preserve-unknown-fields": true
               },
               "timeout": {
-                "description": "Time after which the TaskRun times out. Defaults to 1 hour.\nRefer Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration",
+                "description": "Duration after which the TaskRun times out. Defaults to 1 hour.\nRefer Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration",
                 "type": "string"
               },
               "when": {
@@ -612,7 +612,7 @@
                 "x-kubernetes-preserve-unknown-fields": true
               },
               "timeout": {
-                "description": "Time after which the TaskRun times out. Defaults to 1 hour.\nRefer Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration",
+                "description": "Duration after which the TaskRun times out. Defaults to 1 hour.\nRefer Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration",
                 "type": "string"
               },
               "when": {

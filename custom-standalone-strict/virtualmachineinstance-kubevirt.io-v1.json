@@ -386,7 +386,7 @@
                             "additionalProperties": false
                           },
                           "matchLabelKeys": {
-                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                             "items": {
                               "type": "string"
                             },
@@ -394,7 +394,7 @@
                             "x-kubernetes-list-type": "atomic"
                           },
                           "mismatchLabelKeys": {
-                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                             "items": {
                               "type": "string"
                             },
@@ -536,7 +536,7 @@
                         "additionalProperties": false
                       },
                       "matchLabelKeys": {
-                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                         "items": {
                           "type": "string"
                         },
@@ -544,7 +544,7 @@
                         "x-kubernetes-list-type": "atomic"
                       },
                       "mismatchLabelKeys": {
-                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                         "items": {
                           "type": "string"
                         },
@@ -628,7 +628,7 @@
               "description": "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).",
               "properties": {
                 "preferredDuringSchedulingIgnoredDuringExecution": {
-                  "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
+                  "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and subtracting\n\"weight\" from the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
                   "items": {
                     "description": "The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)",
                     "properties": {
@@ -683,7 +683,7 @@
                             "additionalProperties": false
                           },
                           "matchLabelKeys": {
-                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                            "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                             "items": {
                               "type": "string"
                             },
@@ -691,7 +691,7 @@
                             "x-kubernetes-list-type": "atomic"
                           },
                           "mismatchLabelKeys": {
-                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                            "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                             "items": {
                               "type": "string"
                             },
@@ -833,7 +833,7 @@
                         "additionalProperties": false
                       },
                       "matchLabelKeys": {
-                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                        "description": "MatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key in (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both matchLabelKeys and labelSelector.\nAlso, matchLabelKeys cannot be set when labelSelector isn't set.",
                         "items": {
                           "type": "string"
                         },
@@ -841,7 +841,7 @@
                         "x-kubernetes-list-type": "atomic"
                       },
                       "mismatchLabelKeys": {
-                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.\nThis is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).",
+                        "description": "MismatchLabelKeys is a set of pod label keys to select which pods will\nbe taken into consideration. The keys are used to lookup values from the\nincoming pod labels, those key-value labels are merged with 'labelSelector' as 'key notin (value)'\nto select the group of existing pods which pods will be taken into consideration\nfor the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming\npod labels will be ignored. The default value is empty.\nThe same key is forbidden to exist in both mismatchLabelKeys and labelSelector.\nAlso, mismatchLabelKeys cannot be set when labelSelector isn't set.",
                         "items": {
                           "type": "string"
                         },
@@ -1234,6 +1234,9 @@
                           "custom": {
                             "description": "CustomBlockSize represents the desired logical and physical block size for a VM disk.",
                             "properties": {
+                              "discardGranularity": {
+                                "type": "integer"
+                              },
                               "logical": {
                                 "type": "integer"
                               },
@@ -1241,10 +1244,6 @@
                                 "type": "integer"
                               }
                             },
-                            "required": [
-                              "logical",
-                              "physical"
-                            ],
                             "type": "object",
                             "additionalProperties": false
                           },
@@ -1289,6 +1288,10 @@
                         },
                         "type": "object",
                         "additionalProperties": false
+                      },
+                      "changedBlockTracking": {
+                        "description": "ChangedBlockTracking indicates this disk should have CBT option\nDefaults to false.",
+                        "type": "boolean"
                       },
                       "dedicatedIOThread": {
                         "description": "dedicatedIOThread indicates this disk should have an exclusive IO Thread.\nEnabling this implies useIOThreads = true.\nDefaults to false.",
@@ -1610,6 +1613,10 @@
                       },
                       "passt": {
                         "description": "DeprecatedPasst is an alias to the deprecated Passt interface,\nplease refer to Kubevirt user guide for alternatives.\nDeprecated: Removed in v1.3",
+                        "type": "object"
+                      },
+                      "passtBinding": {
+                        "description": "InterfacePasstBinding connects to a given network using passt usermode networking.",
                         "type": "object"
                       },
                       "pciAddress": {
@@ -1934,6 +1941,7 @@
                           "additionalProperties": false
                         },
                         "enabled": {
+                          "description": "Enabled determines if the feature should be enabled or disabled on the guest.\nDefaults to true.",
                           "type": "boolean"
                         }
                       },
@@ -1943,9 +1951,31 @@
                     "tlbflush": {
                       "description": "TLBFlush improves performances in overcommited environments. Requires vpindex.\nDefaults to the machine type setting.",
                       "properties": {
+                        "direct": {
+                          "description": "Direct allows sending the TLB flush command directly to the hypervisor.\nIt can be useful to optimize performance in nested virtualization cases, such as Windows VBS.",
+                          "properties": {
+                            "enabled": {
+                              "description": "Enabled determines if the feature should be enabled or disabled on the guest.\nDefaults to true.",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object",
+                          "additionalProperties": false
+                        },
                         "enabled": {
                           "description": "Enabled determines if the feature should be enabled or disabled on the guest.\nDefaults to true.",
                           "type": "boolean"
+                        },
+                        "extended": {
+                          "description": "Extended allows the guest to execute partial TLB flushes. It can be helpful for general purpose workloads.",
+                          "properties": {
+                            "enabled": {
+                              "description": "Enabled determines if the feature should be enabled or disabled on the guest.\nDefaults to true.",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object",
+                          "additionalProperties": false
                         }
                       },
                       "type": "object",
@@ -2191,6 +2221,14 @@
                   },
                   "type": "object",
                   "additionalProperties": false
+                },
+                "snp": {
+                  "description": "AMD SEV-SNP flags defined by the SEV-SNP specifications.",
+                  "type": "object"
+                },
+                "tdx": {
+                  "description": "Intel Trust Domain Extensions (TDX).",
+                  "type": "object"
                 }
               },
               "type": "object",
@@ -2246,10 +2284,46 @@
                   "description": "MaxGuest allows to specify the maximum amount of memory which is visible inside the Guest OS.\nThe delta between MaxGuest and Guest is the amount of memory that can be hot(un)plugged.",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
+                },
+                "reservedOverhead": {
+                  "description": "ReservedOverhead configures the memory overhead applied to a VM\nand its characteristics.",
+                  "properties": {
+                    "addedOverhead": {
+                      "anyOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "description": "AddedOverhead determines the memory overhead that will be reserved\nfor the VM. It increases the virt-launcher pod memory limit.",
+                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "memLock": {
+                      "description": "RequiresLock determines whether the VM's and its overhead memory\nneed to be locked or not. It is a common practice to enable this\nif vDPA, VFIO or any other specialized hardware that depends on\nDMA is being used by the VM.\nFalse - (Default) memory lock RLimits are not modified.\nTrue - Memory lock RLimits will be updated to consider VM memory\n       size and memory overhead",
+                      "enum": [
+                        "NotRequired",
+                        "Required"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
                 }
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "rebootPolicy": {
+              "description": "RebootPolicy specifies how the guest should behave on reboot.\nReboot (default): The guest is allowed to reboot silently.\nTerminate: The VMI will be terminated on guest reboot, allowing\nhigher level controllers (such as the VM controller) to recreate\nthe VMI with any updated configuration such as boot order changes.",
+              "enum": [
+                "Reboot",
+                "Terminate"
+              ],
+              "type": "string"
             },
             "resources": {
               "description": "Resources describes the Compute Resources required by this vmi.",
@@ -2333,7 +2407,7 @@
               "type": "integer"
             },
             "guestAgentPing": {
-              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.",
+              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.\nProbe failures are automatically suppressed when the guest agent is\nunreachable for a non-fault reason: during live migration (guest paused\non one pod while memory is transferred) and whenever the VM is paused\nfor an intentional or transient reason such as a user pause, snapshot,\nsave, or dump. Failures are not suppressed when the VM is paused due to\na fault (IO error, crash, or postcopy failure).",
               "type": "object"
             },
             "httpGet": {
@@ -2531,7 +2605,7 @@
               "type": "integer"
             },
             "guestAgentPing": {
-              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.",
+              "description": "GuestAgentPing contacts the qemu-guest-agent for availability checks.\nProbe failures are automatically suppressed when the guest agent is\nunreachable for a non-fault reason: during live migration (guest paused\non one pod while memory is transferred) and whenever the VM is paused\nfor an intentional or transient reason such as a user pause, snapshot,\nsave, or dump. Failures are not suppressed when the VM is paused due to\na fault (IO error, crash, or postcopy failure).",
               "type": "object"
             },
             "httpGet": {
@@ -2792,11 +2866,11 @@
                 "type": "integer"
               },
               "nodeAffinityPolicy": {
-                "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector\nwhen calculating pod topology spread skew. Options are:\n- Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.\n- Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.\n\nIf this value is nil, the behavior is equivalent to the Honor policy.\nThis is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "description": "NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector\nwhen calculating pod topology spread skew. Options are:\n- Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.\n- Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.\n\nIf this value is nil, the behavior is equivalent to the Honor policy.",
                 "type": "string"
               },
               "nodeTaintsPolicy": {
-                "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating\npod topology spread skew. Options are:\n- Honor: nodes without taints, along with tainted nodes for which the incoming pod\nhas a toleration, are included.\n- Ignore: node taints are ignored. All nodes are included.\n\nIf this value is nil, the behavior is equivalent to the Ignore policy.\nThis is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.",
+                "description": "NodeTaintsPolicy indicates how we will treat node taints when calculating\npod topology spread skew. Options are:\n- Honor: nodes without taints, along with tainted nodes for which the incoming pod\nhas a toleration, are included.\n- Ignore: node taints are ignored. All nodes are included.\n\nIf this value is nil, the behavior is equivalent to the Ignore policy.",
                 "type": "string"
               },
               "topologyKey": {
@@ -2820,6 +2894,41 @@
           "x-kubernetes-list-map-keys": [
             "topologyKey",
             "whenUnsatisfiable"
+          ],
+          "x-kubernetes-list-type": "map"
+        },
+        "utilityVolumes": {
+          "description": "List of utility volumes that can be mounted to the vmi virt-launcher pod\nwithout having a matching disk in the domain.\nUsed to collect data for various operational workflows.",
+          "items": {
+            "properties": {
+              "claimName": {
+                "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+                "type": "string"
+              },
+              "name": {
+                "description": "UtilityVolume's name.\nMust be unique within the vmi, including regular Volumes.",
+                "type": "string"
+              },
+              "readOnly": {
+                "description": "readOnly Will force the ReadOnly setting in VolumeMounts.\nDefault false.",
+                "type": "boolean"
+              },
+              "type": {
+                "description": "Type represents the type of the utility volume.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "claimName",
+              "name"
+            ],
+            "type": "object",
+            "additionalProperties": false
+          },
+          "maxItems": 256,
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "name"
           ],
           "x-kubernetes-list-type": "map"
         },
@@ -2969,6 +3078,42 @@
                 },
                 "required": [
                   "image"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
+              "containerPath": {
+                "description": "ContainerPath exposes a path from the virt-launcher container to the VM via virtiofs.\nThe path must correspond to an existing volumeMount in the compute container.",
+                "properties": {
+                  "path": {
+                    "description": "Path is the absolute path within the virt-launcher container to expose to the VM.\nThe path must correspond to an existing volumeMount in the compute container.",
+                    "maxLength": 4096,
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "path must be absolute (start with '/')",
+                        "rule": "self.startsWith('/')"
+                      },
+                      {
+                        "message": "path must not contain '..'",
+                        "rule": "!self.contains('..')"
+                      }
+                    ]
+                  },
+                  "readOnly": {
+                    "default": true,
+                    "description": "ReadOnly controls whether the volume is exposed as read-only to the VM.\nDefaults to true. Write access is not currently supported.",
+                    "type": "boolean",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "readOnly must be true, write access is not supported",
+                        "rule": "self == true"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "path"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -3297,7 +3442,9 @@
       "properties": {
         "VSOCKCID": {
           "description": "VSOCKCID is used to track the allocated VSOCK CID in the VM.",
-          "format": "int32",
+          "format": "int64",
+          "maximum": 4294967295,
+          "minimum": 0,
           "type": "integer"
         },
         "activePods": {
@@ -3306,6 +3453,91 @@
           },
           "description": "ActivePods is a mapping of pod UID to node name.\nIt is possible for multiple pods to be running for a single VMI during migration.",
           "type": "object"
+        },
+        "changedBlockTracking": {
+          "description": "ChangedBlockTracking represents the status of the changedBlockTracking",
+          "nullable": true,
+          "properties": {
+            "backupStatus": {
+              "description": "BackupStatus represents the status of vmi backup",
+              "nullable": true,
+              "properties": {
+                "backupMsg": {
+                  "description": "BackupMsg resturns any relevant information like failure reason\nunfreeze failed etc...",
+                  "type": "string"
+                },
+                "backupName": {
+                  "description": "BackupName is the name of the executed backup",
+                  "type": "string"
+                },
+                "checkpointName": {
+                  "description": "CheckpointName is the name of the checkpoint created for the backup",
+                  "type": "string"
+                },
+                "completed": {
+                  "description": "Completed indicates the backup completed",
+                  "type": "boolean"
+                },
+                "endTimestamp": {
+                  "description": "EndTimestamp is the timestamp when the backup ended",
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "failed": {
+                  "description": "Failed indicates that the backup failed",
+                  "type": "boolean"
+                },
+                "startTimestamp": {
+                  "description": "StartTimestamp is the timestamp when the backup started",
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "volumes": {
+                  "description": "Volumes lists the volumes included in the backup",
+                  "items": {
+                    "description": "BackupVolumeInfo contains information about a volume included in a backup",
+                    "properties": {
+                      "dataEndpoint": {
+                        "description": "DataEndpoint is the URL of the endpoint for read for pull mode",
+                        "type": "string"
+                      },
+                      "diskTarget": {
+                        "description": "DiskTarget is the disk target device name at backup time",
+                        "type": "string"
+                      },
+                      "mapEndpoint": {
+                        "description": "MapEndpoint is the URL of the endpoint for map for pull mode",
+                        "type": "string"
+                      },
+                      "volumeName": {
+                        "description": "VolumeName is the volume name from VMI spec",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "diskTarget",
+                      "volumeName"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "state": {
+              "description": "State represents the current CBT state",
+              "type": "string"
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "type": "object",
+          "additionalProperties": false
         },
         "conditions": {
           "description": "Conditions are specific points in VirtualMachineInstance's pod runtime.",
@@ -3360,109 +3592,6 @@
               "description": "Threads specifies the number of threads inside the vmi.\nMust be a value greater or equal 1.",
               "format": "int32",
               "type": "integer"
-            }
-          },
-          "type": "object",
-          "additionalProperties": false
-        },
-        "deviceStatus": {
-          "description": "DeviceStatus reflects the state of devices requested in spec.domain.devices. This is an optional field available\nonly when DRA feature gate is enabled\nThis field will only be populated if one of the feature-gates GPUsWithDRA or HostDevicesWithDRA is enabled.\nThis feature is in alpha.",
-          "properties": {
-            "gpuStatuses": {
-              "description": "GPUStatuses reflects the state of GPUs requested in spec.domain.devices.gpus",
-              "items": {
-                "properties": {
-                  "deviceResourceClaimStatus": {
-                    "description": "DeviceResourceClaimStatus reflects the DRA related information for the device",
-                    "properties": {
-                      "attributes": {
-                        "description": "Attributes are properties of the device that could be used by kubevirt and other copmonents to learn more\nabout the device, like pciAddress or mdevUUID",
-                        "properties": {
-                          "mDevUUID": {
-                            "description": "MDevUUID is the mediated device uuid of the allocated device",
-                            "type": "string"
-                          },
-                          "pciAddress": {
-                            "description": "PCIAddress is the PCIe bus address of the allocated device",
-                            "type": "string"
-                          }
-                        },
-                        "type": "object",
-                        "additionalProperties": false
-                      },
-                      "name": {
-                        "description": "Name is the name of actual device on the host provisioned by the driver as reflected in resourceclaim.status",
-                        "type": "string"
-                      },
-                      "resourceClaimName": {
-                        "description": "ResourceClaimName is the name of the resource claims object used to provision this resource",
-                        "type": "string"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "name": {
-                    "description": "Name of the device as specified in spec.domain.devices.gpus.name or spec.domain.devices.hostDevices.name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ],
-                "type": "object",
-                "additionalProperties": false
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
-            "hostDeviceStatuses": {
-              "description": "HostDeviceStatuses reflects the state of GPUs requested in spec.domain.devices.hostDevices\nDRA",
-              "items": {
-                "properties": {
-                  "deviceResourceClaimStatus": {
-                    "description": "DeviceResourceClaimStatus reflects the DRA related information for the device",
-                    "properties": {
-                      "attributes": {
-                        "description": "Attributes are properties of the device that could be used by kubevirt and other copmonents to learn more\nabout the device, like pciAddress or mdevUUID",
-                        "properties": {
-                          "mDevUUID": {
-                            "description": "MDevUUID is the mediated device uuid of the allocated device",
-                            "type": "string"
-                          },
-                          "pciAddress": {
-                            "description": "PCIAddress is the PCIe bus address of the allocated device",
-                            "type": "string"
-                          }
-                        },
-                        "type": "object",
-                        "additionalProperties": false
-                      },
-                      "name": {
-                        "description": "Name is the name of actual device on the host provisioned by the driver as reflected in resourceclaim.status",
-                        "type": "string"
-                      },
-                      "resourceClaimName": {
-                        "description": "ResourceClaimName is the name of the resource claims object used to provision this resource",
-                        "type": "string"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "name": {
-                    "description": "Name of the device as specified in spec.domain.devices.gpus.name or spec.domain.devices.hostDevices.name",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ],
-                "type": "object",
-                "additionalProperties": false
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
             }
           },
           "type": "object",
@@ -3573,7 +3702,9 @@
               "properties": {
                 "checksum": {
                   "description": "Checksum is the checksum of the initrd file",
-                  "format": "int32",
+                  "format": "int64",
+                  "maximum": 4294967295,
+                  "minimum": 0,
                   "type": "integer"
                 }
               },
@@ -3585,7 +3716,9 @@
               "properties": {
                 "checksum": {
                   "description": "Checksum is the checksum of the kernel image",
-                  "format": "int32",
+                  "format": "int64",
+                  "maximum": 4294967295,
+                  "minimum": 0,
                   "type": "integer"
                 }
               },
@@ -3650,6 +3783,19 @@
                 }
               ],
               "description": "GuestRequested specifies how much memory was requested (hotplug) for the VirtualMachine.",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
+            },
+            "memoryOverhead": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "MemoryOverhead specifies the memory overhead added by the virtualization infrastructure\nfor the virt-launcher pod.",
               "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
               "x-kubernetes-int-or-string": true
             }
@@ -3904,6 +4050,11 @@
                 "unsafeMigrationOverride": {
                   "description": "UnsafeMigrationOverride allows live migrations to occur even if the compatibility check\nindicates the migration will be unsafe to the guest. Defaults to false",
                   "type": "boolean"
+                },
+                "utilityVolumesTimeout": {
+                  "description": "UtilityVolumesTimeout is the maximum number of seconds a migration can wait in Pending state\nfor utility volumes to be detached. If utility volumes are still present after this timeout,\nthe migration will be marked as Failed. Defaults to 150",
+                  "format": "int64",
+                  "type": "integer"
                 }
               },
               "type": "object",
@@ -4010,6 +4161,19 @@
               },
               "description": "The list of ports opened for live migration on the destination node",
               "type": "object"
+            },
+            "targetMemoryOverhead": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "TargetMemoryOverhead is the memory overhead of the target virt-launcher pod",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
             },
             "targetNode": {
               "description": "The target node that the VMI is moving to",
@@ -4197,7 +4361,9 @@
                 "properties": {
                   "checksum": {
                     "description": "Checksum is the checksum of the rootdisk or kernel artifacts inside the containerdisk",
-                    "format": "int32",
+                    "format": "int64",
+                    "maximum": 4294967295,
+                    "minimum": 0,
                     "type": "integer"
                   }
                 },

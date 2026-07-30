@@ -85,9 +85,14 @@
                   "additionalProperties": false
                 },
                 "kmsKeyARN": {
-                  "description": "kmsKeyARN sets the cluster default storage class to encrypt volumes with a user-defined KMS key,\nrather than the default KMS key used by AWS.\nThe value may be either the ARN or Alias ARN of a KMS key.",
-                  "pattern": "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f):kms:[a-z0-9-]+:[0-9]{12}:(key|alias)\\/.*$",
-                  "type": "string"
+                  "description": "kmsKeyARN sets the cluster default storage class to encrypt volumes with a user-defined KMS key,\nrather than the default KMS key used by AWS.\nThe value may be either the ARN or Alias ARN of a KMS key.\n\nThe ARN must follow the format: arn:<partition>:kms:<region>:<account-id>:(key|alias)/<key-id-or-alias>, where:\n<partition> is the AWS partition (aws, aws-cn, aws-us-gov, aws-iso, aws-iso-b, aws-iso-e, aws-iso-f, or aws-eusc),\n<region> is the AWS region,\n<account-id> is a 12-digit numeric identifier for the AWS account,\n<key-id-or-alias> is the KMS key ID or alias name.",
+                  "type": "string",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "kmsKeyARN must be a valid AWS KMS key ARN in the format: arn:<partition>:kms:<region>:<account-id>:(key|alias)/<key-id-or-alias>",
+                      "rule": "matches(self, '^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b|aws-iso-e|aws-iso-f):kms:[a-z0-9-]+:[0-9]{12}:(key|alias)/.*$')"
+                    }
+                  ]
                 }
               },
               "type": "object",

@@ -11,6 +11,24 @@
     },
     "spec": {
       "properties": {
+        "access_log": {
+          "properties": {
+            "filters": {
+              "properties": {
+                "skip_status_codes": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "bearerToken": {
           "type": "string"
         },
@@ -54,6 +72,62 @@
                 "type": "string"
               },
               "type": "array"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "jwt": {
+          "properties": {
+            "matchClaims": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "oidc": {
+              "properties": {
+                "issuer": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "issuer"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "publicKeyRefs": {
+              "items": {
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "optional": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "key"
+                ],
+                "type": "object",
+                "x-kubernetes-map-type": "atomic",
+                "additionalProperties": false
+              },
+              "type": "array"
+            },
+            "publicKeys": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "skipVerify": {
+              "type": "boolean"
             }
           },
           "type": "object",
@@ -155,7 +229,8 @@
                       "VTCluster/vtinsert",
                       "VTCluster/vtselect",
                       "VTCluster/vtstorage",
-                      "VTSingle"
+                      "VTSingle",
+                      "VMAnomaly"
                     ],
                     "type": "string"
                   },
@@ -164,6 +239,31 @@
                   },
                   "namespace": {
                     "type": "string"
+                  },
+                  "objects": {
+                    "items": {
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "namespace": {
+                          "type": "string"
+                        },
+                        "useExtraService": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "namespace"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
+                    },
+                    "type": "array"
+                  },
+                  "useExtraService": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -197,6 +297,9 @@
                   "least_loaded",
                   "first_available"
                 ],
+                "type": "string"
+              },
+              "name": {
                 "type": "string"
               },
               "paths": {
@@ -477,6 +580,9 @@
           "type": "object",
           "x-kubernetes-map-type": "atomic",
           "additionalProperties": false
+        },
+        "useLegacyNaming": {
+          "type": "boolean"
         },
         "username": {
           "type": "string"

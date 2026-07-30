@@ -130,21 +130,11 @@
               "additionalProperties": false
             },
             "type": {
-              "allOf": [
-                {
-                  "enum": [
-                    "GitImport",
-                    "ContainerImport"
-                  ]
-                },
-                {
-                  "enum": [
-                    "GitImport",
-                    "ContainerImport"
-                  ]
-                }
-              ],
               "description": "type of the sample, currently supported: \"GitImport\";\"ContainerImport\"",
+              "enum": [
+                "GitImport",
+                "ContainerImport"
+              ],
               "type": "string"
             }
           },

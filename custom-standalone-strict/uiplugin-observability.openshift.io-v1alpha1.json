@@ -106,6 +106,10 @@
               ],
               "type": "string"
             },
+            "showTimezoneSelector": {
+              "description": "ShowTimezoneSelector indicates whether to show the timezone selector in the UI.\n\nDefaults to false if not specified.",
+              "type": "boolean"
+            },
             "timeout": {
               "description": "Timeout is the maximum duration before a query timeout.\n\nThe value is expected to be a sequence of digits followed by an optional unit suffix, which can be 's' (seconds)\nor 'm' (minutes). If the unit is omitted, it defaults to seconds.",
               "pattern": "^([0-9]+)([sm]{0,1})$",
@@ -164,8 +168,22 @@
               "type": "object",
               "additionalProperties": false
             },
+            "clusterHealthAnalyzer": {
+              "description": "ClusterHealthAnalyzer feature flag enablement",
+              "properties": {
+                "enabled": {
+                  "description": "Indicates if the cluster-health-analyzer features should be enabled.",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "enabled"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
             "incidents": {
-              "description": "Incidents feature flag enablement",
+              "description": "Incidents feature flag enablement\n\nDeprecated: Use clusterHealthAnalyzer instead",
               "properties": {
                 "enabled": {
                   "description": "Indicates if incidents-related feature(s) should be enabled.",
@@ -199,6 +217,10 @@
         "troubleshootingPanel": {
           "description": "TroubleshootingPanel contains configuration for the troubleshooting console plugin.",
           "properties": {
+            "enableAgentNavigation": {
+              "description": "EnableAgentNavigation if true allows an AI agent to read and navigate the main view and troubleshooting panel on your behalf.\n\nDefaults to false if not specified.",
+              "type": "boolean"
+            },
             "timeout": {
               "description": "Timeout is the maximum duration before a query timeout.\n\nThe value is expected to be a sequence of digits followed by a unit suffix, which can be 's' (seconds)\nor 'm' (minutes).",
               "pattern": "^([0-9]+)([sm]{1})$",
@@ -242,6 +264,7 @@
         "conditions": {
           "description": "Conditions provide status information about the plugin.",
           "items": {
+            "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {
               "lastTransitionTime": {
                 "description": "lastTransitionTime is the last time the condition transitioned from one status to another.\nThis should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.",
@@ -267,17 +290,16 @@
                 "type": "string"
               },
               "status": {
-                "description": "status of the condition",
+                "description": "status of the condition, one of True, False, Unknown.",
                 "enum": [
                   "True",
                   "False",
-                  "Unknown",
-                  "Degraded"
+                  "Unknown"
                 ],
                 "type": "string"
               },
               "type": {
-                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.\nThe regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)",
+                "description": "type of condition in CamelCase or in foo.example.com/CamelCase.",
                 "maxLength": 316,
                 "pattern": "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$",
                 "type": "string"

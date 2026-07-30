@@ -898,7 +898,7 @@
           "type": "array"
         },
         "containers": {
-          "description": "containers allows injecting additional containers or modifying operator generated\ncontainers. This can be used to allow adding an authentication proxy to a ThanosRuler pod or\nto change the behavior of an operator generated container. Containers described here modify\nan operator generated container if they share the same name and modifications are done via a\nstrategic merge patch. The current container names are: `thanos-ruler` and `config-reloader`.\nOverriding containers is entirely outside the scope of what the maintainers will support and by doing\nso, you accept that this behaviour may break at any time without notice.",
+          "description": "containers allows injecting additional containers or modifying operator\ngenerated containers. This can be used to allow adding an authentication\nproxy to the Pods or to change the behavior of an operator generated\ncontainer. Containers described here modify an operator generated\ncontainer if they share the same name and modifications are done via a\nstrategic merge patch.\n\nThe names of containers managed by the operator are:\n* `thanos-ruler`\n* `config-reloader`\n\nOverriding containers which are managed by the operator require careful\ntesting, especially when upgrading to a new version of the operator.",
           "items": {
             "description": "A single application container that you want to run within a pod.",
             "properties": {
@@ -1750,7 +1750,7 @@
                 "additionalProperties": false
               },
               "resizePolicy": {
-                "description": "Resources resize policy for the container.",
+                "description": "Resources resize policy for the container.\nThis field cannot be set on ephemeral containers.",
                 "items": {
                   "description": "ContainerResizePolicy represents resource resize policy for the container.",
                   "properties": {
@@ -2424,7 +2424,7 @@
           "type": "string"
         },
         "grpcServerTlsConfig": {
-          "description": "grpcServerTlsConfig defines the gRPC server from which Thanos Querier reads\nrecorded rule data.\nNote: Currently only the CAFile, CertFile, and KeyFile fields are supported.\nMaps to the '--grpc-server-tls-*' CLI args.",
+          "description": "grpcServerTlsConfig defines the gRPC server from which Thanos Querier reads\nrecorded rule data.\n\nNote: Currently only the `minVersion`, `caFile`, `certFile`, `keyFile`, `cipherSuites` and `curves` fields are supported.",
           "properties": {
             "ca": {
               "description": "ca defines the Certificate authority used when verifying server certificates.",
@@ -2543,6 +2543,24 @@
             "certFile": {
               "description": "certFile defines the path to the client cert file in the Prometheus container for the targets.",
               "type": "string"
+            },
+            "cipherSuites": {
+              "description": "cipherSuites defines the list of supported cipher suites for TLS\nversions up to TLS 1.2.\n\nIf not defined, the Go default cipher suites are used.\nAvailable cipher suites are documented in the Go documentation:\nhttps://golang.org/pkg/crypto/tls/#pkg-constants\n\nIt requires Thanos >= v0.42.0. Note that the operator doesn't verify if\nthe Thanos version supports the provided values.",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "x-kubernetes-list-type": "set"
+            },
+            "curves": {
+              "description": "curves defines the list of preferred elliptic curves for\nTLS handshakes.\n\nIf not defined, the Go default curves are used.\nAvailable curves are documented in the Go documentation:\nhttps://golang.org/pkg/crypto/tls/#CurveID\n\nIt requires Thanos >= v0.42.0. Note that the operator doesn't verify if\nthe Thanos version supports the provided values.",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "x-kubernetes-list-type": "set"
             },
             "insecureSkipVerify": {
               "description": "insecureSkipVerify defines how to disable target certificate validation.",
@@ -2670,7 +2688,7 @@
           "type": "array"
         },
         "initContainers": {
-          "description": "initContainers allows adding initContainers to the pod definition. Those can be used to e.g.\nfetch secrets for injection into the ThanosRuler configuration from external sources. Any\nerrors during the execution of an initContainer will lead to a restart of the Pod.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/\nUsing initContainers for any use case other then secret fetching is entirely outside the scope\nof what the maintainers will support and by doing so, you accept that this behaviour may break\nat any time without notice.",
+          "description": "initContainers allows injecting initContainers to the Pod definition.\nThose can be used to e.g. fetch secrets for injection into the\nconfiguration from external sources. Any errors during the execution of\nan initContainer will lead to a restart of the Pod. More info:\nhttps://kubernetes.io/docs/concepts/workloads/pods/init-containers/",
           "items": {
             "description": "A single application container that you want to run within a pod.",
             "properties": {
@@ -3522,7 +3540,7 @@
                 "additionalProperties": false
               },
               "resizePolicy": {
-                "description": "Resources resize policy for the container.",
+                "description": "Resources resize policy for the container.\nThis field cannot be set on ephemeral containers.",
                 "items": {
                   "description": "ContainerResizePolicy represents resource resize policy for the container.",
                   "properties": {
@@ -4139,6 +4157,14 @@
           "description": "paused defines when a ThanosRuler deployment is paused, no actions except for deletion\nwill be performed on the underlying objects.",
           "type": "boolean"
         },
+        "podManagementPolicy": {
+          "description": "podManagementPolicy defines the policy for creating/deleting pods when\nscaling up and down.\n\nUnlike the default StatefulSet behavior, the default policy is\n`Parallel` to avoid manual intervention in case a pod gets stuck during\na rollout.\n\nNote that updating this value implies the recreation of the StatefulSet\nwhich incurs a service outage.",
+          "enum": [
+            "OrderedReady",
+            "Parallel"
+          ],
+          "type": "string"
+        },
         "podMetadata": {
           "description": "podMetadata defines labels and annotations which are propagated to the ThanosRuler pods.\n\nThe following items are reserved and cannot be overridden:\n* \"app.kubernetes.io/name\" label, set to \"thanos-ruler\".\n* \"app.kubernetes.io/managed-by\" label, set to \"prometheus-operator\".\n* \"app.kubernetes.io/instance\" label, set to the name of the ThanosRuler instance.\n* \"thanos-ruler\" label, set to the name of the ThanosRuler instance.\n* \"kubectl.kubernetes.io/default-container\" annotation, set to \"thanos-ruler\".",
           "properties": {
@@ -4284,7 +4310,7 @@
                     "type": "string"
                   },
                   "managedIdentity": {
-                    "description": "managedIdentity defines the Azure User-assigned Managed identity.\nCannot be set at the same time as `oauth` or `sdk`.",
+                    "description": "managedIdentity defines the Azure User-assigned Managed identity.\nCannot be set at the same time as `oauth`, `sdk` or `workloadIdentity`.",
                     "properties": {
                       "clientId": {
                         "description": "clientId defines the Azure User-assigned Managed identity.\n\nFor Prometheus >= 3.5.0 and Thanos >= 0.40.0, this field is allowed to be empty to support system-assigned managed identities.",
@@ -4296,7 +4322,7 @@
                     "additionalProperties": false
                   },
                   "oauth": {
-                    "description": "oauth defines the oauth config that is being used to authenticate.\nCannot be set at the same time as `managedIdentity` or `sdk`.\n\nIt requires Prometheus >= v2.48.0 or Thanos >= v0.31.0.",
+                    "description": "oauth defines the oauth config that is being used to authenticate.\nCannot be set at the same time as `managedIdentity`, `sdk` or `workloadIdentity`.\n\nIt requires Prometheus >= v2.48.0 or Thanos >= v0.31.0.",
                     "properties": {
                       "clientId": {
                         "description": "clientId defines the clientId of the Azure Active Directory application that is being used to authenticate.",
@@ -4342,8 +4368,13 @@
                     "type": "object",
                     "additionalProperties": false
                   },
+                  "scope": {
+                    "description": "scope is the custom OAuth 2.0 scope to request when acquiring tokens.\nIt requires Prometheus >= 3.9.0. Currently not supported by Thanos.",
+                    "pattern": "^[\\w\\s:/.\\\\-]+$",
+                    "type": "string"
+                  },
                   "sdk": {
-                    "description": "sdk defines the Azure SDK config that is being used to authenticate.\nSee https://learn.microsoft.com/en-us/azure/developer/go/azure-sdk-authentication\nCannot be set at the same time as `oauth` or `managedIdentity`.\n\nIt requires Prometheus >= v2.52.0 or Thanos >= v0.36.0.",
+                    "description": "sdk defines the Azure SDK config that is being used to authenticate.\nSee https://learn.microsoft.com/en-us/azure/developer/go/azure-sdk-authentication\nCannot be set at the same time as `oauth`, `managedIdentity` or `workloadIdentity`.\n\nIt requires Prometheus >= v2.52.0 or Thanos >= v0.36.0.",
                     "properties": {
                       "tenantId": {
                         "description": "tenantId defines the tenant ID of the azure active directory application that is being used to authenticate.",
@@ -4351,6 +4382,27 @@
                         "type": "string"
                       }
                     },
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "workloadIdentity": {
+                    "description": "workloadIdentity defines the Azure Workload Identity authentication.\nCannot be set at the same time as `oauth`, `managedIdentity`, or `sdk`.\n\nIt requires Prometheus >= 3.7.0. Currently not supported by Thanos.",
+                    "properties": {
+                      "clientId": {
+                        "description": "clientId is the clientID of the Azure Active Directory application.",
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "tenantId": {
+                        "description": "tenantId is the tenant ID of the Azure Active Directory application.",
+                        "minLength": 1,
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "clientId",
+                      "tenantId"
+                    ],
                     "type": "object",
                     "additionalProperties": false
                   }
@@ -4934,6 +4986,11 @@
                     "x-kubernetes-map-type": "atomic",
                     "additionalProperties": false
                   },
+                  "externalId": {
+                    "description": "externalId defines the external ID used when assuming an AWS role. Can only be used with roleArn.\nIt requires Prometheus >= v3.11.0 or Alertmanager >= v0.33.0. Currently not supported by Thanos.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
                   "profile": {
                     "description": "profile defines the named AWS profile used to authenticate.",
                     "type": "string"
@@ -4976,6 +5033,12 @@
                   }
                 },
                 "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "externalId can only be used when roleArn is specified",
+                    "rule": "!has(self.externalId) || has(self.roleArn)"
+                  }
+                ],
                 "additionalProperties": false
               },
               "tlsConfig": {
@@ -5160,8 +5223,8 @@
                 "additionalProperties": false
               },
               "url": {
-                "description": "url defines the URL of the endpoint to send samples to.",
-                "minLength": 1,
+                "description": "url defines the URL of the endpoint to send samples to.\n\nIt must use the HTTP or HTTPS scheme.",
+                "pattern": "^(http|https)://.+$",
                 "type": "string"
               },
               "writeRelabelConfigs": {
@@ -5442,6 +5505,11 @@
           "x-kubernetes-map-type": "atomic",
           "additionalProperties": false
         },
+        "schedulerName": {
+          "description": "schedulerName defines the scheduler to use for Pod scheduling. If not specified, the default scheduler is used.",
+          "minLength": 1,
+          "type": "string"
+        },
         "securityContext": {
           "description": "securityContext defines the pod-level security attributes and common container settings.\nThis defaults to the default PodSecurityContext.",
           "properties": {
@@ -5708,7 +5776,7 @@
                           "additionalProperties": false
                         },
                         "resources": {
-                          "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                          "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                           "properties": {
                             "limits": {
                               "additionalProperties": {
@@ -5923,7 +5991,7 @@
                       "additionalProperties": false
                     },
                     "resources": {
-                      "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                      "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                       "properties": {
                         "limits": {
                           "additionalProperties": {
@@ -6044,7 +6112,7 @@
                         "description": "When a controller receives persistentvolume claim update with ClaimResourceStatus for a resource\nthat it does not recognizes, then it should ignore that update and let other controllers\nhandle it.",
                         "type": "string"
                       },
-                      "description": "allocatedResourceStatuses stores status of resource being resized for the given PVC.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\nClaimResourceStatus can be in any of following states:\n\t- ControllerResizeInProgress:\n\t\tState set when resize controller starts resizing the volume in control-plane.\n\t- ControllerResizeFailed:\n\t\tState set when resize has failed in resize controller with a terminal error.\n\t- NodeResizePending:\n\t\tState set when resize controller has finished resizing the volume but further resizing of\n\t\tvolume is needed on the node.\n\t- NodeResizeInProgress:\n\t\tState set when kubelet starts resizing the volume.\n\t- NodeResizeFailed:\n\t\tState set when resizing has failed in kubelet with a terminal error. Transient errors don't set\n\t\tNodeResizeFailed.\nFor example: if expanding a PVC for more capacity - this field can be one of the following states:\n\t- pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeFailed\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizePending\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeFailed\"\nWhen this field is not set, it means that no resize operation is in progress for the given PVC.\n\nA controller that receives PVC update with previously unknown resourceName or ClaimResourceStatus\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.\n\nThis is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
+                      "description": "allocatedResourceStatuses stores status of resource being resized for the given PVC.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\nClaimResourceStatus can be in any of following states:\n\t- ControllerResizeInProgress:\n\t\tState set when resize controller starts resizing the volume in control-plane.\n\t- ControllerResizeFailed:\n\t\tState set when resize has failed in resize controller with a terminal error.\n\t- NodeResizePending:\n\t\tState set when resize controller has finished resizing the volume but further resizing of\n\t\tvolume is needed on the node.\n\t- NodeResizeInProgress:\n\t\tState set when kubelet starts resizing the volume.\n\t- NodeResizeFailed:\n\t\tState set when resizing has failed in kubelet with a terminal error. Transient errors don't set\n\t\tNodeResizeFailed.\nFor example: if expanding a PVC for more capacity - this field can be one of the following states:\n\t- pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"ControllerResizeFailed\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizePending\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeInProgress\"\n     - pvc.status.allocatedResourceStatus['storage'] = \"NodeResizeFailed\"\nWhen this field is not set, it means that no resize operation is in progress for the given PVC.\n\nA controller that receives PVC update with previously unknown resourceName or ClaimResourceStatus\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.",
                       "type": "object",
                       "x-kubernetes-map-type": "granular"
                     },
@@ -6061,7 +6129,7 @@
                         "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                         "x-kubernetes-int-or-string": true
                       },
-                      "description": "allocatedResources tracks the resources allocated to a PVC including its capacity.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\nCapacity reported here may be larger than the actual capacity when a volume expansion operation\nis requested.\nFor storage quota, the larger value from allocatedResources and PVC.spec.resources is used.\nIf allocatedResources is not set, PVC.spec.resources alone is used for quota calculation.\nIf a volume expansion capacity request is lowered, allocatedResources is only\nlowered if there are no expansion operations in progress and if the actual volume capacity\nis equal or lower than the requested capacity.\n\nA controller that receives PVC update with previously unknown resourceName\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.\n\nThis is an alpha field and requires enabling RecoverVolumeExpansionFailure feature.",
+                      "description": "allocatedResources tracks the resources allocated to a PVC including its capacity.\nKey names follow standard Kubernetes label syntax. Valid values are either:\n\t* Un-prefixed keys:\n\t\t- storage - the capacity of the volume.\n\t* Custom resources must use implementation-defined prefixed names such as \"example.com/my-custom-resource\"\nApart from above values - keys that are unprefixed or have kubernetes.io prefix are considered\nreserved and hence may not be used.\n\nCapacity reported here may be larger than the actual capacity when a volume expansion operation\nis requested.\nFor storage quota, the larger value from allocatedResources and PVC.spec.resources is used.\nIf allocatedResources is not set, PVC.spec.resources alone is used for quota calculation.\nIf a volume expansion capacity request is lowered, allocatedResources is only\nlowered if there are no expansion operations in progress and if the actual volume capacity\nis equal or lower than the requested capacity.\n\nA controller that receives PVC update with previously unknown resourceName\nshould ignore the update for the purpose it was designed. For example - a controller that\nonly is responsible for resizing capacity of the volume, should ignore PVC updates that change other valid\nresources associated with PVC.",
                       "type": "object"
                     },
                     "capacity": {
@@ -6183,7 +6251,7 @@
                 "type": "string"
               },
               "operator": {
-                "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                 "type": "string"
               },
               "tolerationSeconds": {
@@ -6325,6 +6393,49 @@
         "tracingConfigFile": {
           "description": "tracingConfigFile defines the path of the tracing configuration file.\n\nThe configuration format is defined at https://thanos.io/tip/thanos/tracing.md/#configuration\n\nThis is an *experimental feature*, it may change in any upcoming release\nin a breaking way.\n\nThe operator performs no validation of the configuration file.\n\nThis field takes precedence over `tracingConfig`.",
           "type": "string"
+        },
+        "updateStrategy": {
+          "description": "updateStrategy indicates the strategy that will be employed to update\nPods in the StatefulSet when a revision is made to statefulset's Pod\nTemplate.\n\nThe default strategy is RollingUpdate.",
+          "properties": {
+            "rollingUpdate": {
+              "description": "rollingUpdate is used to communicate parameters when type is RollingUpdate.",
+              "properties": {
+                "maxUnavailable": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ],
+                  "description": "maxUnavailable is the maximum number of pods that can be unavailable\nduring the update. The value can be an absolute number (ex: 5) or a\npercentage of desired pods (ex: 10%). Absolute number is calculated from\npercentage by rounding up. This can not be 0.  Defaults to 1. This field\nis alpha-level and is only honored by servers that enable the\nMaxUnavailableStatefulSet feature. The field applies to all pods in the\nrange 0 to Replicas-1.  That means if there is any unavailable pod in\nthe range 0 to Replicas-1, it will be counted towards MaxUnavailable.",
+                  "x-kubernetes-int-or-string": true
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "type": {
+              "description": "type indicates the type of the StatefulSetUpdateStrategy.\n\nDefault is RollingUpdate.",
+              "enum": [
+                "OnDelete",
+                "RollingUpdate"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object",
+          "x-kubernetes-validations": [
+            {
+              "message": "rollingUpdate requires type to be RollingUpdate",
+              "rule": "!(self.type != 'RollingUpdate' && has(self.rollingUpdate))"
+            }
+          ],
+          "additionalProperties": false
         },
         "version": {
           "description": "version of Thanos to be deployed.",
@@ -6824,7 +6935,7 @@
                             "additionalProperties": false
                           },
                           "resources": {
-                            "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                            "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                             "properties": {
                               "limits": {
                                 "additionalProperties": {
@@ -7535,6 +7646,13 @@
                             "signerName": {
                               "description": "Kubelet's generated CSRs will be addressed to this signer.",
                               "type": "string"
+                            },
+                            "userAnnotations": {
+                              "additionalProperties": {
+                                "type": "string"
+                              },
+                              "description": "userAnnotations allow pod authors to pass additional information to\nthe signer implementation.  Kubernetes does not restrict or validate this\nmetadata in any way.\n\nThese values are copied verbatim into the `spec.unverifiedUserAnnotations` field of\nthe PodCertificateRequest objects that Kubelet creates.\n\nEntries are subject to the same validation as object metadata annotations,\nwith the addition that all keys must be domain-prefixed. No restrictions\nare placed on values, except an overall size limitation on the entire field.\n\nSigners should document the keys and values they support. Signers should\ndeny requests that contain keys they do not recognize.",
+                              "type": "object"
                             }
                           },
                           "required": [

@@ -1,0 +1,5 @@
+{
+  "description": "TektonMulticlusterProxyAAE configures the Proxy AAE (Aggregated API Extension) from\nhttps://github.com/openshift-pipelines/multicluster-proxy-aae. It provides a unified\nKubernetes API for accessing Tekton resources (TaskRuns, Pods, logs) across multiple\nworker clusters managed by MultiKueue.\n",
+  "type": "object",
+  "x-kubernetes-preserve-unknown-fields": true
+}

@@ -170,6 +170,18 @@
           "type": "array",
           "x-kubernetes-list-type": "atomic"
         },
+        "ioThreads": {
+          "description": "Optionally specifies the IOThreads options to be used by the instancetype.",
+          "properties": {
+            "supplementalPoolThreadCount": {
+              "description": "SupplementalPoolThreadCount specifies how many iothreads are allocated for the supplementalPool policy.",
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "ioThreadsPolicy": {
           "description": "Optionally defines the IOThreadsPolicy to be used by the instancetype.",
           "type": "string"
@@ -206,6 +218,14 @@
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "snp": {
+              "description": "AMD SEV-SNP flags defined by the SEV-SNP specifications.",
+              "type": "object"
+            },
+            "tdx": {
+              "description": "Intel Trust Domain Extensions (TDX).",
+              "type": "object"
             }
           },
           "type": "object",

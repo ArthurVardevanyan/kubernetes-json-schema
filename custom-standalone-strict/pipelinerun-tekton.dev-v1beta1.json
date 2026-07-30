@@ -1,5 +1,5 @@
 {
-  "description": "PipelineRun represents a single execution of a Pipeline. PipelineRuns are how\nthe graph of Tasks declared in a Pipeline are executed; they specify inputs\nto Pipelines such as parameter values and capture operational aspects of the\nTasks execution such as service account and tolerations. Creating a\nPipelineRun creates TaskRuns for Tasks in the referenced Pipeline.\n\nDeprecated: Please use v1.PipelineRun instead.",
+  "description": "PipelineRun\nDeprecated: Please use v1.PipelineRun instead.",
   "properties": {
     "apiVersion": {
       "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -13,17 +13,22 @@
       "type": "object"
     },
     "spec": {
-      "description": "PipelineRunSpec defines the desired state of PipelineRun",
+      "description": "Spec",
       "properties": {
+        "managedBy": {
+          "description": "ManagedBy",
+          "type": "string"
+        },
         "params": {
-          "description": "Params is a list of parameter names and values.",
+          "description": "Params",
           "items": {
-            "description": "Param declares an ParamValues to use for the parameter called name.",
+            "description": "Param",
             "properties": {
               "name": {
                 "type": "string"
               },
               "value": {
+                "description": "Value",
                 "x-kubernetes-preserve-unknown-fields": true
               }
             },
@@ -38,29 +43,30 @@
           "x-kubernetes-list-type": "atomic"
         },
         "pipelineRef": {
-          "description": "PipelineRef can be used to refer to a specific instance of a Pipeline.",
+          "description": "PipelineRef",
           "properties": {
             "apiVersion": {
-              "description": "API version of the referent",
+              "description": "APIVersion",
               "type": "string"
             },
             "bundle": {
-              "description": "Bundle url reference to a Tekton Bundle.\n\nDeprecated: Please use ResolverRef with the bundles resolver instead.\nThe field is staying there for go client backward compatibility, but is not used/allowed anymore.",
+              "description": "Deprecated: Please use ResolverRef with the bundles resolver instead.\nBundle",
               "type": "string"
             },
             "name": {
-              "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+              "description": "Name",
               "type": "string"
             },
             "params": {
-              "description": "Params contains the parameters used to identify the\nreferenced Tekton resource. Example entries might include\n\"repo\" or \"path\" but the set of params ultimately depends on\nthe chosen resolver.",
+              "description": "Params",
               "items": {
-                "description": "Param declares an ParamValues to use for the parameter called name.",
+                "description": "Param",
                 "properties": {
                   "name": {
                     "type": "string"
                   },
                   "value": {
+                    "description": "Value",
                     "x-kubernetes-preserve-unknown-fields": true
                   }
                 },
@@ -75,7 +81,7 @@
               "x-kubernetes-list-type": "atomic"
             },
             "resolver": {
-              "description": "Resolver is the name of the resolver that should perform\nresolution of the referenced Tekton resource, such as \"git\".",
+              "description": "Resolver",
               "type": "string"
             }
           },
@@ -83,11 +89,11 @@
           "additionalProperties": false
         },
         "pipelineSpec": {
-          "description": "Specifying PipelineSpec can be disabled by setting\n`disable-inline-spec` feature flag.\nSee Pipeline.spec (API version: tekton.dev/v1beta1)",
+          "description": "PipelineSpec",
           "x-kubernetes-preserve-unknown-fields": true
         },
         "podTemplate": {
-          "description": "PodTemplate holds pod specific configuration",
+          "description": "PodTemplate",
           "properties": {
             "affinity": {
               "description": "If specified, the pod's scheduling constraints.\nSee Pod.spec.affinity (API version: v1)",
@@ -308,6 +314,10 @@
               "description": "HostNetwork specifies whether the pod may use the node network namespace",
               "type": "boolean"
             },
+            "hostUsers": {
+              "description": "HostUsers indicates whether the pod will use the host's user namespace.\nOptional: Default to true.\nIf set to true or not present, the pod will be run in the host user namespace, useful\nfor when the pod needs a feature only available to the host user namespace, such as\nloading a kernel module with CAP_SYS_MODULE.\nWhen set to false, a new user namespace is created for the pod. Setting false\nis useful to mitigating container breakout vulnerabilities such as allowing\ncontainers to run as root without their user having root privileges on the host.\nThis field depends on the kubernetes feature gate UserNamespacesSupport being enabled.",
+              "type": "boolean"
+            },
             "imagePullSecrets": {
               "description": "ImagePullSecrets gives the name of the secret used by the pod to pull the image if specified",
               "items": {
@@ -489,23 +499,23 @@
           "additionalProperties": false
         },
         "resources": {
-          "description": "Resources is a list of bindings specifying which actual instances of\nPipelineResources to use for the resources the Pipeline has declared\nit needs.\n\nDeprecated: Unused, preserved only for backwards compatibility",
+          "description": "Resources\nDeprecated: Unused, preserved only for backwards compatibility",
           "items": {
-            "description": "PipelineResourceBinding connects a reference to an instance of a PipelineResource\nwith a PipelineResource dependency that the Pipeline has declared\n\nDeprecated: Unused, preserved only for backwards compatibility",
+            "description": "PipelineResourceBinding\nDeprecated: Unused, preserved only for backwards compatibility",
             "properties": {
               "name": {
-                "description": "Name is the name of the PipelineResource in the Pipeline's declaration",
+                "description": "Name",
                 "type": "string"
               },
               "resourceRef": {
-                "description": "ResourceRef is a reference to the instance of the actual PipelineResource\nthat should be used",
+                "description": "ResourceRef",
                 "properties": {
                   "apiVersion": {
-                    "description": "API version of the referent",
+                    "description": "APIVersion",
                     "type": "string"
                   },
                   "name": {
-                    "description": "Name of the referent; More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+                    "description": "Name",
                     "type": "string"
                   }
                 },
@@ -513,7 +523,7 @@
                 "additionalProperties": false
               },
               "resourceSpec": {
-                "description": "ResourceSpec is specification of a resource that should be created and\nconsumed by the task",
+                "description": "ResourceSpec",
                 "properties": {
                   "description": {
                     "description": "Description is a user-facing description of the resource that may be\nused to populate a UI.",
@@ -586,19 +596,20 @@
           "x-kubernetes-list-type": "atomic"
         },
         "serviceAccountName": {
+          "description": "ServiceAccountName",
           "type": "string"
         },
         "status": {
-          "description": "Used for cancelling a pipelinerun (and maybe more later on)",
+          "description": "Status",
           "type": "string"
         },
         "taskRunSpecs": {
-          "description": "TaskRunSpecs holds a set of runtime specs",
+          "description": "TaskRunSpecs",
           "items": {
-            "description": "PipelineTaskRunSpec  can be used to configure specific\nspecs for a concrete Task",
+            "description": "PipelineTaskRunSpec",
             "properties": {
               "computeResources": {
-                "description": "Compute resources to use for this TaskRun",
+                "description": "ComputeResources",
                 "properties": {
                   "claims": {
                     "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
@@ -663,18 +674,20 @@
                 "additionalProperties": false
               },
               "metadata": {
-                "description": "PipelineTaskMetadata contains the labels or annotations for an EmbeddedTask",
+                "description": "Metadata",
                 "properties": {
                   "annotations": {
                     "additionalProperties": {
                       "type": "string"
                     },
+                    "description": "Annotations",
                     "type": "object"
                   },
                   "labels": {
                     "additionalProperties": {
                       "type": "string"
                     },
+                    "description": "Labels",
                     "type": "object"
                   }
                 },
@@ -685,15 +698,16 @@
                 "type": "string"
               },
               "sidecarOverrides": {
+                "description": "SidecarOverrides",
                 "items": {
-                  "description": "TaskRunSidecarOverride is used to override the values of a Sidecar in the corresponding Task.",
+                  "description": "TaskRunSidecarOverride",
                   "properties": {
                     "name": {
-                      "description": "The name of the Sidecar to override.",
+                      "description": "Name",
                       "type": "string"
                     },
                     "resources": {
-                      "description": "The resource requirements to apply to the Sidecar.",
+                      "description": "Resources",
                       "properties": {
                         "claims": {
                           "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
@@ -769,15 +783,16 @@
                 "x-kubernetes-list-type": "atomic"
               },
               "stepOverrides": {
+                "description": "StepOverrides",
                 "items": {
-                  "description": "TaskRunStepOverride is used to override the values of a Step in the corresponding Task.",
+                  "description": "TaskRunStepOverride",
                   "properties": {
                     "name": {
-                      "description": "The name of the Step to override.",
+                      "description": "Name",
                       "type": "string"
                     },
                     "resources": {
-                      "description": "The resource requirements to apply to the Step.",
+                      "description": "Resources",
                       "properties": {
                         "claims": {
                           "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
@@ -1074,6 +1089,10 @@
                     "description": "HostNetwork specifies whether the pod may use the node network namespace",
                     "type": "boolean"
                   },
+                  "hostUsers": {
+                    "description": "HostUsers indicates whether the pod will use the host's user namespace.\nOptional: Default to true.\nIf set to true or not present, the pod will be run in the host user namespace, useful\nfor when the pod needs a feature only available to the host user namespace, such as\nloading a kernel module with CAP_SYS_MODULE.\nWhen set to false, a new user namespace is created for the pod. Setting false\nis useful to mitigating container breakout vulnerabilities such as allowing\ncontainers to run as root without their user having root privileges on the host.\nThis field depends on the kubernetes feature gate UserNamespacesSupport being enabled.",
+                    "type": "boolean"
+                  },
                   "imagePullSecrets": {
                     "description": "ImagePullSecrets gives the name of the secret used by the pod to pull the image if specified",
                     "items": {
@@ -1256,6 +1275,10 @@
               },
               "taskServiceAccountName": {
                 "type": "string"
+              },
+              "timeout": {
+                "description": "Timeout",
+                "type": "string"
               }
             },
             "type": "object",
@@ -1265,22 +1288,22 @@
           "x-kubernetes-list-type": "atomic"
         },
         "timeout": {
-          "description": "Timeout is the Time after which the Pipeline times out.\nDefaults to never.\nRefer to Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration\n\nDeprecated: use pipelineRunSpec.Timeouts.Pipeline instead",
+          "description": "Deprecated: use pipelineRunSpec.Timeouts.Pipeline instead\nTimeout",
           "type": "string"
         },
         "timeouts": {
-          "description": "Time after which the Pipeline times out.\nCurrently three keys are accepted in the map\npipeline, tasks and finally\nwith Timeouts.pipeline >= Timeouts.tasks + Timeouts.finally",
+          "description": "Timeouts",
           "properties": {
             "finally": {
-              "description": "Finally sets the maximum allowed duration of this pipeline's finally",
+              "description": "Finally",
               "type": "string"
             },
             "pipeline": {
-              "description": "Pipeline sets the maximum allowed duration for execution of the entire pipeline. The sum of individual timeouts for tasks and finally must not exceed this value.",
+              "description": "Pipeline",
               "type": "string"
             },
             "tasks": {
-              "description": "Tasks sets the maximum allowed duration of this pipeline's tasks",
+              "description": "Tasks",
               "type": "string"
             }
           },
@@ -1288,12 +1311,12 @@
           "additionalProperties": false
         },
         "workspaces": {
-          "description": "Workspaces holds a set of workspace bindings that must match names\nwith those declared in the pipeline.",
+          "description": "Workspaces",
           "items": {
-            "description": "WorkspaceBinding maps a Task's declared workspace to a Volume.",
+            "description": "WorkspaceBinding",
             "properties": {
               "configMap": {
-                "description": "ConfigMap represents a configMap that should populate this workspace.",
+                "description": "ConfigMap",
                 "properties": {
                   "defaultMode": {
                     "description": "defaultMode is optional: mode bits used to set permissions on created files by default.\nMust be an octal value between 0000 and 0777 or a decimal value between 0 and 511.\nYAML accepts both octal and decimal values, JSON requires decimal values for mode bits.\nDefaults to 0644.\nDirectories within the path are not affected by this setting.\nThis might be in conflict with other options that affect the file\nmode, like fsGroup, and the result can be other mode bits set.",
@@ -1344,7 +1367,7 @@
                 "additionalProperties": false
               },
               "csi": {
-                "description": "CSI (Container Storage Interface) represents ephemeral storage that is handled by certain external CSI drivers.",
+                "description": "CSI",
                 "properties": {
                   "driver": {
                     "description": "driver is the name of the CSI driver that handles this volume.\nConsult with your admin for the correct name as registered in the cluster.",
@@ -1386,7 +1409,7 @@
                 "additionalProperties": false
               },
               "emptyDir": {
-                "description": "EmptyDir represents a temporary directory that shares a Task's lifetime.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir\nEither this OR PersistentVolumeClaim can be used.",
+                "description": "EmptyDir",
                 "properties": {
                   "medium": {
                     "description": "medium represents what type of storage medium should back this directory.\nThe default is \"\" which means to use the node's default medium.\nMust be an empty string (default) or Memory.\nMore info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir",
@@ -1410,11 +1433,11 @@
                 "additionalProperties": false
               },
               "name": {
-                "description": "Name is the name of the workspace populated by the volume.",
+                "description": "Name",
                 "type": "string"
               },
               "persistentVolumeClaim": {
-                "description": "PersistentVolumeClaimVolumeSource represents a reference to a\nPersistentVolumeClaim in the same namespace. Either this OR EmptyDir can be used.",
+                "description": "PersistentVolumeClaim",
                 "properties": {
                   "claimName": {
                     "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
@@ -1432,7 +1455,7 @@
                 "additionalProperties": false
               },
               "projected": {
-                "description": "Projected represents a projected volume that should populate this workspace.",
+                "description": "Projected",
                 "properties": {
                   "defaultMode": {
                     "description": "defaultMode are the mode bits used to set permissions on created files by default.\nMust be an octal value between 0000 and 0777 or a decimal value between 0 and 511.\nYAML accepts both octal and decimal values, JSON requires decimal values for mode bits.\nDirectories within the path are not affected by this setting.\nThis might be in conflict with other options that affect the file\nmode, like fsGroup, and the result can be other mode bits set.",
@@ -1726,7 +1749,7 @@
                 "additionalProperties": false
               },
               "secret": {
-                "description": "Secret represents a secret that should populate this workspace.",
+                "description": "Secret",
                 "properties": {
                   "defaultMode": {
                     "description": "defaultMode is Optional: mode bits used to set permissions on created files by default.\nMust be an octal value between 0000 and 0777 or a decimal value between 0 and 511.\nYAML accepts both octal and decimal values, JSON requires decimal values\nfor mode bits. Defaults to 0644.\nDirectories within the path are not affected by this setting.\nThis might be in conflict with other options that affect the file\nmode, like fsGroup, and the result can be other mode bits set.",
@@ -1775,11 +1798,11 @@
                 "additionalProperties": false
               },
               "subPath": {
-                "description": "SubPath is optionally a directory on the volume which should be used\nfor this binding (i.e. the volume will be mounted at this sub directory).",
+                "description": "SubPath",
                 "type": "string"
               },
               "volumeClaimTemplate": {
-                "description": "VolumeClaimTemplate is a template for a claim that will be created in the same namespace.\nThe PipelineRun controller is responsible for creating a unique claim for each instance of PipelineRun.\nSee PersistentVolumeClaim (API version: v1)",
+                "description": "VolumeClaimTemplate",
                 "x-kubernetes-preserve-unknown-fields": true
               }
             },
@@ -1797,7 +1820,7 @@
       "additionalProperties": false
     },
     "status": {
-      "description": "PipelineRunStatus defines the observed state of PipelineRun",
+      "description": "Status",
       "properties": {
         "annotations": {
           "additionalProperties": {
@@ -1807,47 +1830,47 @@
           "type": "object"
         },
         "childReferences": {
-          "description": "list of TaskRun and Run names, PipelineTask names, and API versions/kinds for children of this PipelineRun.",
+          "description": "ChildReferences",
           "items": {
-            "description": "ChildStatusReference is used to point to the statuses of individual TaskRuns and Runs within this PipelineRun.",
+            "description": "ChildStatusReference",
             "properties": {
               "apiVersion": {
                 "type": "string"
               },
               "displayName": {
-                "description": "DisplayName is a user-facing name of the pipelineTask that may be\nused to populate a UI.",
+                "description": "DisplayName",
                 "type": "string"
               },
               "kind": {
                 "type": "string"
               },
               "name": {
-                "description": "Name is the name of the TaskRun or Run this is referencing.",
+                "description": "Name",
                 "type": "string"
               },
               "pipelineTaskName": {
-                "description": "PipelineTaskName is the name of the PipelineTask this is referencing.",
+                "description": "PipelineTaskName",
                 "type": "string"
               },
               "whenExpressions": {
-                "description": "WhenExpressions is the list of checks guarding the execution of the PipelineTask",
+                "description": "WhenExpressions",
                 "items": {
-                  "description": "WhenExpression allows a PipelineTask to declare expressions to be evaluated before the Task is run\nto determine whether the Task should be executed or skipped",
+                  "description": "WhenExpression",
                   "properties": {
                     "cel": {
-                      "description": "CEL is a string of Common Language Expression, which can be used to conditionally execute\nthe task based on the result of the expression evaluation\nMore info about CEL syntax: https://github.com/google/cel-spec/blob/master/doc/langdef.md",
+                      "description": "CEL",
                       "type": "string"
                     },
                     "input": {
-                      "description": "Input is the string for guard checking which can be a static input or an output from a parent Task",
+                      "description": "Input",
                       "type": "string"
                     },
                     "operator": {
-                      "description": "Operator that represents an Input's relationship to the values",
+                      "description": "Operator",
                       "type": "string"
                     },
                     "values": {
-                      "description": "Values is an array of strings, which is compared against the input, for guard checking\nIt must be non-empty",
+                      "description": "Values",
                       "items": {
                         "type": "string"
                       },
@@ -1869,7 +1892,7 @@
           "x-kubernetes-list-type": "atomic"
         },
         "completionTime": {
-          "description": "CompletionTime is the time the PipelineRun completed.",
+          "description": "CompletionTime",
           "format": "date-time",
           "type": "string"
         },
@@ -1913,7 +1936,7 @@
           "type": "array"
         },
         "finallyStartTime": {
-          "description": "FinallyStartTime is when all non-finally tasks have been completed and only finally tasks are being executed.",
+          "description": "FinallyStartTime",
           "format": "date-time",
           "type": "string"
         },
@@ -1923,16 +1946,16 @@
           "type": "integer"
         },
         "pipelineResults": {
-          "description": "PipelineResults are the list of results written out by the pipeline task's containers",
+          "description": "PipelineResults",
           "items": {
-            "description": "PipelineRunResult used to describe the results of a pipeline",
+            "description": "PipelineRunResult",
             "properties": {
               "name": {
-                "description": "Name is the result's name as declared by the Pipeline",
+                "description": "Name",
                 "type": "string"
               },
               "value": {
-                "description": "Value is the result returned from the execution of this PipelineRun",
+                "description": "Value",
                 "x-kubernetes-preserve-unknown-fields": true
               }
             },
@@ -1947,28 +1970,28 @@
           "x-kubernetes-list-type": "atomic"
         },
         "pipelineSpec": {
-          "description": "PipelineSpec contains the exact spec used to instantiate the run.\nSee Pipeline.spec (API version: tekton.dev/v1beta1)",
+          "description": "PipelineSpec",
           "x-kubernetes-preserve-unknown-fields": true
         },
         "provenance": {
-          "description": "Provenance contains some key authenticated metadata about how a software artifact was built (what sources, what inputs/outputs, etc.).",
+          "description": "Provenance",
           "properties": {
             "configSource": {
-              "description": "Deprecated: Use RefSource instead",
+              "description": "ConfigSource\nDeprecated: Use RefSource instead",
               "properties": {
                 "digest": {
                   "additionalProperties": {
                     "type": "string"
                   },
-                  "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                  "description": "Digest",
                   "type": "object"
                 },
                 "entryPoint": {
-                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                  "description": "EntryPoint",
                   "type": "string"
                 },
                 "uri": {
-                  "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                  "description": "URI",
                   "type": "string"
                 }
               },
@@ -1976,7 +1999,7 @@
               "additionalProperties": false
             },
             "featureFlags": {
-              "description": "FeatureFlags identifies the feature flags that were used during the task/pipeline run",
+              "description": "FeatureFlags",
               "properties": {
                 "awaitSidecarReadiness": {
                   "type": "boolean"
@@ -2054,21 +2077,21 @@
               "additionalProperties": false
             },
             "refSource": {
-              "description": "RefSource identifies the source where a remote task/pipeline came from.",
+              "description": "RefSource",
               "properties": {
                 "digest": {
                   "additionalProperties": {
                     "type": "string"
                   },
-                  "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                  "description": "Digest",
                   "type": "object"
                 },
                 "entryPoint": {
-                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                  "description": "EntryPoint",
                   "type": "string"
                 },
                 "uri": {
-                  "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                  "description": "URI",
                   "type": "string"
                 }
               },
@@ -2081,14 +2104,14 @@
         },
         "runs": {
           "additionalProperties": {
-            "description": "PipelineRunRunStatus contains the name of the PipelineTask for this CustomRun or Run and the CustomRun or Run's Status",
+            "description": "PipelineRunRunStatus",
             "properties": {
               "pipelineTaskName": {
-                "description": "PipelineTaskName is the name of the PipelineTask.",
+                "description": "PipelineTaskName",
                 "type": "string"
               },
               "status": {
-                "description": "Status is the CustomRunStatus for the corresponding CustomRun or Run",
+                "description": "Status",
                 "properties": {
                   "annotations": {
                     "additionalProperties": {
@@ -2187,24 +2210,24 @@
                 "additionalProperties": false
               },
               "whenExpressions": {
-                "description": "WhenExpressions is the list of checks guarding the execution of the PipelineTask",
+                "description": "WhenExpressions",
                 "items": {
-                  "description": "WhenExpression allows a PipelineTask to declare expressions to be evaluated before the Task is run\nto determine whether the Task should be executed or skipped",
+                  "description": "WhenExpression",
                   "properties": {
                     "cel": {
-                      "description": "CEL is a string of Common Language Expression, which can be used to conditionally execute\nthe task based on the result of the expression evaluation\nMore info about CEL syntax: https://github.com/google/cel-spec/blob/master/doc/langdef.md",
+                      "description": "CEL",
                       "type": "string"
                     },
                     "input": {
-                      "description": "Input is the string for guard checking which can be a static input or an output from a parent Task",
+                      "description": "Input",
                       "type": "string"
                     },
                     "operator": {
-                      "description": "Operator that represents an Input's relationship to the values",
+                      "description": "Operator",
                       "type": "string"
                     },
                     "values": {
-                      "description": "Values is an array of strings, which is compared against the input, for guard checking\nIt must be non-empty",
+                      "description": "Values",
                       "items": {
                         "type": "string"
                       },
@@ -2222,41 +2245,41 @@
             "type": "object",
             "additionalProperties": false
           },
-          "description": "Runs is a map of PipelineRunRunStatus with the run name as the key\n\nDeprecated: use ChildReferences instead. As of v0.45.0, this field is no\nlonger populated and is only included for backwards compatibility with\nolder server versions.",
+          "description": "Runs",
           "type": "object"
         },
         "skippedTasks": {
-          "description": "list of tasks that were skipped due to when expressions evaluating to false",
+          "description": "SkippedTasks",
           "items": {
-            "description": "SkippedTask is used to describe the Tasks that were skipped due to their When Expressions\nevaluating to False. This is a struct because we are looking into including more details\nabout the When Expressions that caused this Task to be skipped.",
+            "description": "SkippedTask",
             "properties": {
               "name": {
-                "description": "Name is the Pipeline Task name",
+                "description": "Name",
                 "type": "string"
               },
               "reason": {
-                "description": "Reason is the cause of the PipelineTask being skipped.",
+                "description": "Reason",
                 "type": "string"
               },
               "whenExpressions": {
-                "description": "WhenExpressions is the list of checks guarding the execution of the PipelineTask",
+                "description": "WhenExpressions",
                 "items": {
-                  "description": "WhenExpression allows a PipelineTask to declare expressions to be evaluated before the Task is run\nto determine whether the Task should be executed or skipped",
+                  "description": "WhenExpression",
                   "properties": {
                     "cel": {
-                      "description": "CEL is a string of Common Language Expression, which can be used to conditionally execute\nthe task based on the result of the expression evaluation\nMore info about CEL syntax: https://github.com/google/cel-spec/blob/master/doc/langdef.md",
+                      "description": "CEL",
                       "type": "string"
                     },
                     "input": {
-                      "description": "Input is the string for guard checking which can be a static input or an output from a parent Task",
+                      "description": "Input",
                       "type": "string"
                     },
                     "operator": {
-                      "description": "Operator that represents an Input's relationship to the values",
+                      "description": "Operator",
                       "type": "string"
                     },
                     "values": {
-                      "description": "Values is an array of strings, which is compared against the input, for guard checking\nIt must be non-empty",
+                      "description": "Values",
                       "items": {
                         "type": "string"
                       },
@@ -2285,24 +2308,24 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "SpanContext contains tracing span context fields",
+          "description": "SpanContext",
           "type": "object"
         },
         "startTime": {
-          "description": "StartTime is the time the PipelineRun is actually started.",
+          "description": "StartTime",
           "format": "date-time",
           "type": "string"
         },
         "taskRuns": {
           "additionalProperties": {
-            "description": "PipelineRunTaskRunStatus contains the name of the PipelineTask for this TaskRun and the TaskRun's Status",
+            "description": "PipelineRunTaskRunStatus",
             "properties": {
               "pipelineTaskName": {
-                "description": "PipelineTaskName is the name of the PipelineTask.",
+                "description": "PipelineTaskName",
                 "type": "string"
               },
               "status": {
-                "description": "Status is the TaskRunStatus for the corresponding TaskRun",
+                "description": "Status",
                 "properties": {
                   "annotations": {
                     "additionalProperties": {
@@ -2312,28 +2335,28 @@
                     "type": "object"
                   },
                   "cloudEvents": {
-                    "description": "CloudEvents describe the state of each cloud event requested via a\nCloudEventResource.\n\nDeprecated: Removed in v0.44.0.",
+                    "description": "Deprecated: Removed in v0.44.0.\nCloudEvents",
                     "items": {
-                      "description": "CloudEventDelivery is the target of a cloud event along with the state of\ndelivery.",
+                      "description": "CloudEventDelivery",
                       "properties": {
                         "status": {
-                          "description": "CloudEventDeliveryState reports the state of a cloud event to be sent.",
+                          "description": "CloudEventDeliveryState",
                           "properties": {
                             "condition": {
-                              "description": "Current status",
+                              "description": "Condition",
                               "type": "string"
                             },
                             "message": {
-                              "description": "Error is the text of error (if any)",
+                              "description": "Error",
                               "type": "string"
                             },
                             "retryCount": {
-                              "description": "RetryCount is the number of attempts of sending the cloud event",
+                              "description": "RetryCount",
                               "format": "int32",
                               "type": "integer"
                             },
                             "sentAt": {
-                              "description": "SentAt is the time at which the last attempt to send the event was made",
+                              "description": "SentAt",
                               "format": "date-time",
                               "type": "string"
                             }
@@ -2346,7 +2369,7 @@
                           "additionalProperties": false
                         },
                         "target": {
-                          "description": "Target points to an addressable",
+                          "description": "Target",
                           "type": "string"
                         }
                       },
@@ -2357,7 +2380,7 @@
                     "x-kubernetes-list-type": "atomic"
                   },
                   "completionTime": {
-                    "description": "CompletionTime is the time the build completed.",
+                    "description": "CompletionTime",
                     "format": "date-time",
                     "type": "string"
                   },
@@ -2406,28 +2429,28 @@
                     "type": "integer"
                   },
                   "podName": {
-                    "description": "PodName is the name of the pod responsible for executing this task's steps.",
+                    "description": "PodName",
                     "type": "string"
                   },
                   "provenance": {
-                    "description": "Provenance contains some key authenticated metadata about how a software artifact was built (what sources, what inputs/outputs, etc.).",
+                    "description": "Provenance",
                     "properties": {
                       "configSource": {
-                        "description": "Deprecated: Use RefSource instead",
+                        "description": "ConfigSource\nDeprecated: Use RefSource instead",
                         "properties": {
                           "digest": {
                             "additionalProperties": {
                               "type": "string"
                             },
-                            "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                            "description": "Digest",
                             "type": "object"
                           },
                           "entryPoint": {
-                            "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                            "description": "EntryPoint",
                             "type": "string"
                           },
                           "uri": {
-                            "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                            "description": "URI",
                             "type": "string"
                           }
                         },
@@ -2435,7 +2458,7 @@
                         "additionalProperties": false
                       },
                       "featureFlags": {
-                        "description": "FeatureFlags identifies the feature flags that were used during the task/pipeline run",
+                        "description": "FeatureFlags",
                         "properties": {
                           "awaitSidecarReadiness": {
                             "type": "boolean"
@@ -2513,21 +2536,21 @@
                         "additionalProperties": false
                       },
                       "refSource": {
-                        "description": "RefSource identifies the source where a remote task/pipeline came from.",
+                        "description": "RefSource",
                         "properties": {
                           "digest": {
                             "additionalProperties": {
                               "type": "string"
                             },
-                            "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                            "description": "Digest",
                             "type": "object"
                           },
                           "entryPoint": {
-                            "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                            "description": "EntryPoint",
                             "type": "string"
                           },
                           "uri": {
-                            "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                            "description": "URI",
                             "type": "string"
                           }
                         },
@@ -2539,7 +2562,7 @@
                     "additionalProperties": false
                   },
                   "resourcesResult": {
-                    "description": "Results from Resources built during the TaskRun.\nThis is tomb-stoned along with the removal of pipelineResources\nDeprecated: this field is not populated and is preserved only for backwards compatibility",
+                    "description": "ResourcesResult\nDeprecated: this field is not populated and is preserved only for backwards compatibility",
                     "items": {
                       "description": "RunResult is used to write key/value pairs to TaskRun pod termination messages.\nThe key/value pairs may come from the entrypoint binary, or represent a TaskRunResult.\nIf they represent a TaskRunResult, the key is the name of the result and the value is the\nJSON-serialized value of the result.",
                       "properties": {
@@ -2569,13 +2592,13 @@
                     "x-kubernetes-list-type": "atomic"
                   },
                   "retriesStatus": {
-                    "description": "RetriesStatus contains the history of TaskRunStatus in case of a retry in order to keep record of failures.\nAll TaskRunStatus stored in RetriesStatus will have no date within the RetriesStatus as is redundant.\nSee TaskRun.status (API version: tekton.dev/v1beta1)",
+                    "description": "RetriesStatus",
                     "x-kubernetes-preserve-unknown-fields": true
                   },
                   "sidecars": {
-                    "description": "The list has one entry per sidecar in the manifest. Each entry is\nrepresents the imageid of the corresponding sidecar.",
+                    "description": "Sidecars",
                     "items": {
-                      "description": "SidecarState reports the results of running a sidecar in a Task.",
+                      "description": "SidecarState",
                       "properties": {
                         "container": {
                           "type": "string"
@@ -2666,18 +2689,18 @@
                     "additionalProperties": {
                       "type": "string"
                     },
-                    "description": "SpanContext contains tracing span context fields",
+                    "description": "SpanContext",
                     "type": "object"
                   },
                   "startTime": {
-                    "description": "StartTime is the time the build is actually started.",
+                    "description": "StartTime",
                     "format": "date-time",
                     "type": "string"
                   },
                   "steps": {
-                    "description": "Steps describes the state of each build step container.",
+                    "description": "Steps",
                     "items": {
-                      "description": "StepState reports the results of running a step in a Task.",
+                      "description": "StepState",
                       "properties": {
                         "container": {
                           "type": "string"
@@ -2687,20 +2710,20 @@
                         },
                         "inputs": {
                           "items": {
-                            "description": "Artifact represents an artifact within a system, potentially containing multiple values\nassociated with it.",
+                            "description": "Artifact",
                             "properties": {
                               "buildOutput": {
-                                "description": "Indicate if the artifact is a build output or a by-product",
+                                "description": "BuildOutput",
                                 "type": "boolean"
                               },
                               "name": {
-                                "description": "The artifact's identifying category name",
+                                "description": "Name",
                                 "type": "string"
                               },
                               "values": {
-                                "description": "A collection of values related to the artifact",
+                                "description": "Values",
                                 "items": {
-                                  "description": "ArtifactValue represents a specific value or data element within an Artifact.",
+                                  "description": "ArtifactValue",
                                   "properties": {
                                     "digest": {
                                       "additionalProperties": {
@@ -2728,20 +2751,20 @@
                         },
                         "outputs": {
                           "items": {
-                            "description": "Artifact represents an artifact within a system, potentially containing multiple values\nassociated with it.",
+                            "description": "Artifact",
                             "properties": {
                               "buildOutput": {
-                                "description": "Indicate if the artifact is a build output or a by-product",
+                                "description": "BuildOutput",
                                 "type": "boolean"
                               },
                               "name": {
-                                "description": "The artifact's identifying category name",
+                                "description": "Name",
                                 "type": "string"
                               },
                               "values": {
-                                "description": "A collection of values related to the artifact",
+                                "description": "Values",
                                 "items": {
-                                  "description": "ArtifactValue represents a specific value or data element within an Artifact.",
+                                  "description": "ArtifactValue",
                                   "properties": {
                                     "digest": {
                                       "additionalProperties": {
@@ -2765,24 +2788,24 @@
                           "type": "array"
                         },
                         "provenance": {
-                          "description": "Provenance contains metadata about resources used in the TaskRun/PipelineRun\nsuch as the source from where a remote build definition was fetched.\nThis field aims to carry minimum amoumt of metadata in *Run status so that\nTekton Chains can capture them in the provenance.",
+                          "description": "Provenance",
                           "properties": {
                             "configSource": {
-                              "description": "Deprecated: Use RefSource instead",
+                              "description": "ConfigSource\nDeprecated: Use RefSource instead",
                               "properties": {
                                 "digest": {
                                   "additionalProperties": {
                                     "type": "string"
                                   },
-                                  "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                                  "description": "Digest",
                                   "type": "object"
                                 },
                                 "entryPoint": {
-                                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                                  "description": "EntryPoint",
                                   "type": "string"
                                 },
                                 "uri": {
-                                  "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                                  "description": "URI",
                                   "type": "string"
                                 }
                               },
@@ -2790,7 +2813,7 @@
                               "additionalProperties": false
                             },
                             "featureFlags": {
-                              "description": "FeatureFlags identifies the feature flags that were used during the task/pipeline run",
+                              "description": "FeatureFlags",
                               "properties": {
                                 "awaitSidecarReadiness": {
                                   "type": "boolean"
@@ -2868,21 +2891,21 @@
                               "additionalProperties": false
                             },
                             "refSource": {
-                              "description": "RefSource identifies the source where a remote task/pipeline came from.",
+                              "description": "RefSource",
                               "properties": {
                                 "digest": {
                                   "additionalProperties": {
                                     "type": "string"
                                   },
-                                  "description": "Digest is a collection of cryptographic digests for the contents of the artifact specified by URI.\nExample: {\"sha1\": \"f99d13e554ffcb696dee719fa85b695cb5b0f428\"}",
+                                  "description": "Digest",
                                   "type": "object"
                                 },
                                 "entryPoint": {
-                                  "description": "EntryPoint identifies the entry point into the build. This is often a path to a\nbuild definition file and/or a target label within that file.\nExample: \"task/git-clone/0.10/git-clone.yaml\"",
+                                  "description": "EntryPoint",
                                   "type": "string"
                                 },
                                 "uri": {
-                                  "description": "URI indicates the identity of the source of the build definition.\nExample: \"https://github.com/tektoncd/catalog\"",
+                                  "description": "URI",
                                   "type": "string"
                                 }
                               },
@@ -2895,18 +2918,18 @@
                         },
                         "results": {
                           "items": {
-                            "description": "TaskRunResult used to describe the results of a task",
+                            "description": "TaskRunResult",
                             "properties": {
                               "name": {
-                                "description": "Name the given name",
+                                "description": "Name",
                                 "type": "string"
                               },
                               "type": {
-                                "description": "Type is the user-specified type of the result. The possible type\nis currently \"string\" and will support \"array\" in following work.",
+                                "description": "Type",
                                 "type": "string"
                               },
                               "value": {
-                                "description": "Value the given value of the result",
+                                "description": "Value",
                                 "x-kubernetes-preserve-unknown-fields": true
                               }
                             },
@@ -2996,20 +3019,20 @@
                     "x-kubernetes-list-type": "atomic"
                   },
                   "taskResults": {
-                    "description": "TaskRunResults are the list of results written out by the task's containers",
+                    "description": "TaskRunResults",
                     "items": {
-                      "description": "TaskRunResult used to describe the results of a task",
+                      "description": "TaskRunResult",
                       "properties": {
                         "name": {
-                          "description": "Name the given name",
+                          "description": "Name",
                           "type": "string"
                         },
                         "type": {
-                          "description": "Type is the user-specified type of the result. The possible type\nis currently \"string\" and will support \"array\" in following work.",
+                          "description": "Type",
                           "type": "string"
                         },
                         "value": {
-                          "description": "Value the given value of the result",
+                          "description": "Value",
                           "x-kubernetes-preserve-unknown-fields": true
                         }
                       },
@@ -3024,7 +3047,7 @@
                     "x-kubernetes-list-type": "atomic"
                   },
                   "taskSpec": {
-                    "description": "TaskSpec contains the Spec from the dereferenced Task definition used to instantiate this TaskRun.\nSee Task.spec (API version tekton.dev/v1beta1)",
+                    "description": "TaskSpec",
                     "x-kubernetes-preserve-unknown-fields": true
                   }
                 },
@@ -3035,24 +3058,24 @@
                 "additionalProperties": false
               },
               "whenExpressions": {
-                "description": "WhenExpressions is the list of checks guarding the execution of the PipelineTask",
+                "description": "WhenExpressions",
                 "items": {
-                  "description": "WhenExpression allows a PipelineTask to declare expressions to be evaluated before the Task is run\nto determine whether the Task should be executed or skipped",
+                  "description": "WhenExpression",
                   "properties": {
                     "cel": {
-                      "description": "CEL is a string of Common Language Expression, which can be used to conditionally execute\nthe task based on the result of the expression evaluation\nMore info about CEL syntax: https://github.com/google/cel-spec/blob/master/doc/langdef.md",
+                      "description": "CEL",
                       "type": "string"
                     },
                     "input": {
-                      "description": "Input is the string for guard checking which can be a static input or an output from a parent Task",
+                      "description": "Input",
                       "type": "string"
                     },
                     "operator": {
-                      "description": "Operator that represents an Input's relationship to the values",
+                      "description": "Operator",
                       "type": "string"
                     },
                     "values": {
-                      "description": "Values is an array of strings, which is compared against the input, for guard checking\nIt must be non-empty",
+                      "description": "Values",
                       "items": {
                         "type": "string"
                       },
@@ -3070,7 +3093,7 @@
             "type": "object",
             "additionalProperties": false
           },
-          "description": "TaskRuns is a map of PipelineRunTaskRunStatus with the taskRun name as the key.\n\nDeprecated: use ChildReferences instead. As of v0.45.0, this field is no\nlonger populated and is only included for backwards compatibility with\nolder server versions.",
+          "description": "TaskRuns",
           "type": "object"
         }
       },

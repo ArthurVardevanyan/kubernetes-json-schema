@@ -15,6 +15,10 @@
     "spec": {
       "description": "PipelineRunSpec defines the desired state of PipelineRun",
       "properties": {
+        "managedBy": {
+          "description": "ManagedBy indicates which controller is responsible for reconciling\nthis resource. If unset or set to \"tekton.dev/pipeline\", the default\nTekton controller will manage this resource.\nThis field is immutable.",
+          "type": "string"
+        },
         "params": {
           "description": "Params is a list of parameter names and values.",
           "items": {
@@ -400,6 +404,10 @@
                     "description": "HostNetwork specifies whether the pod may use the node network namespace",
                     "type": "boolean"
                   },
+                  "hostUsers": {
+                    "description": "HostUsers indicates whether the pod will use the host's user namespace.\nOptional: Default to true.\nIf set to true or not present, the pod will be run in the host user namespace, useful\nfor when the pod needs a feature only available to the host user namespace, such as\nloading a kernel module with CAP_SYS_MODULE.\nWhen set to false, a new user namespace is created for the pod. Setting false\nis useful to mitigating container breakout vulnerabilities such as allowing\ncontainers to run as root without their user having root privileges on the host.\nThis field depends on the kubernetes feature gate UserNamespacesSupport being enabled.",
+                    "type": "boolean"
+                  },
                   "imagePullSecrets": {
                     "description": "ImagePullSecrets gives the name of the secret used by the pod to pull the image if specified",
                     "items": {
@@ -750,6 +758,10 @@
                 },
                 "type": "array",
                 "x-kubernetes-list-type": "atomic"
+              },
+              "timeout": {
+                "description": "Duration after which the TaskRun times out. Overrides the timeout specified\non the Task's spec if specified. Takes lower precedence to PipelineRun's\n`spec.timeouts.tasks`\nRefer Go's ParseDuration documentation for expected format: https://golang.org/pkg/time/#ParseDuration",
+                "type": "string"
               }
             },
             "type": "object",
@@ -981,6 +993,10 @@
                 },
                 "hostNetwork": {
                   "description": "HostNetwork specifies whether the pod may use the node network namespace",
+                  "type": "boolean"
+                },
+                "hostUsers": {
+                  "description": "HostUsers indicates whether the pod will use the host's user namespace.\nOptional: Default to true.\nIf set to true or not present, the pod will be run in the host user namespace, useful\nfor when the pod needs a feature only available to the host user namespace, such as\nloading a kernel module with CAP_SYS_MODULE.\nWhen set to false, a new user namespace is created for the pod. Setting false\nis useful to mitigating container breakout vulnerabilities such as allowing\ncontainers to run as root without their user having root privileges on the host.\nThis field depends on the kubernetes feature gate UserNamespacesSupport being enabled.",
                   "type": "boolean"
                 },
                 "imagePullSecrets": {

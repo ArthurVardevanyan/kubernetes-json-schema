@@ -119,6 +119,14 @@
           },
           "type": "object",
           "additionalProperties": false
+        },
+        "volumeNamePolicy": {
+          "description": "VolumeNamePolicy defines how to handle volume naming during the clone operation",
+          "enum": [
+            "RandomizeNames",
+            "PrefixTargetName"
+          ],
+          "type": "string"
         }
       },
       "required": [

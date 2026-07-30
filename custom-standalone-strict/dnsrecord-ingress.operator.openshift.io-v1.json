@@ -36,7 +36,7 @@
           "type": "integer"
         },
         "recordType": {
-          "description": "recordType is the DNS record type. For example, \"A\" or \"CNAME\".",
+          "description": "recordType is the DNS record type. For example, \"A\", \"AAAA\", or \"CNAME\".",
           "enum": [
             "CNAME",
             "A"
@@ -49,7 +49,8 @@
             "type": "string"
           },
           "minItems": 1,
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         }
       },
       "required": [
@@ -106,7 +107,8 @@
                   "type": "object",
                   "additionalProperties": false
                 },
-                "type": "array"
+                "type": "array",
+                "x-kubernetes-list-type": "atomic"
               },
               "dnsZone": {
                 "description": "dnsZone is the zone where the record is published.",
@@ -130,7 +132,8 @@
             "type": "object",
             "additionalProperties": false
           },
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         }
       },
       "type": "object",

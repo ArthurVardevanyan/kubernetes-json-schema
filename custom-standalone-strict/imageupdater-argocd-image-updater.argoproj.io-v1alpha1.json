@@ -16,12 +16,12 @@
       "description": "ImageUpdaterSpec defines the desired state of ImageUpdater\nIt specifies which applications to target, default update strategies,\nand a list of images to manage.",
       "properties": {
         "applicationRefs": {
-          "description": "ApplicationRefs indicates the set of applications to be managed.\nApplicationRefs is a list of rules to select Argo CD Applications within the `spec.namespace`.\nEach reference can also provide specific overrides for the global settings defined above.",
+          "description": "ApplicationRefs indicates the set of applications to be managed.\nApplicationRefs is a list of rules to select Argo CD Applications within the ImageUpdater CR's namespace.\nEach reference can also provide specific overrides for the global settings defined above.",
           "items": {
             "description": "ApplicationRef contains various criteria by which to include applications for managing by image updater",
             "properties": {
               "commonUpdateSettings": {
-                "description": "CommonUpdateSettings overrides the global CommonUpdateSettings for applications\nmatched by this selector.",
+                "description": "CommonUpdateSettings overrides the global CommonUpdateSettings for applications\nmatched by this selector.\nThis field is ignored when UseAnnotations is true.",
                 "properties": {
                   "allowTags": {
                     "description": "AllowTags is a regex pattern for tags to allow.\nThis acts as the default if not overridden.",
@@ -62,7 +62,7 @@
                 "additionalProperties": false
               },
               "images": {
-                "description": "Images contains a list of configurations that how images should be updated.\nThese rules apply to applications selected by namePattern in ApplicationRefs, and each\nimage can override global/ApplicationRef settings.",
+                "description": "Images contains a list of configurations that how images should be updated.\nThese rules apply to applications selected by namePattern in ApplicationRefs, and each\nimage can override global/ApplicationRef settings.\nThis field is ignored when UseAnnotations is true.",
                 "items": {
                   "description": "ImageConfig defines how a specific container image should be discovered, updated,\nand how those updates should be reflected in application manifests.",
                   "properties": {
@@ -123,22 +123,18 @@
                           "description": "Helm specifies update parameters if the target manifest is managed by Helm\nand updates are to be made to Helm values files.",
                           "properties": {
                             "name": {
-                              "description": "Name is the dot-separated path to the Helm key for the image repository/name part.\nExample: \"image.repository\", \"frontend.deployment.image.name\".\nThis field is required if the Helm target is used.",
+                              "description": "Name is the dot-separated path to the Helm key for the image repository/name part.\nExample: \"image.repository\", \"frontend.deployment.image.name\".\nIf neither spec nor name/tag are set, defaults to \"image.name\".\nIf spec is set, this field is ignored.",
                               "type": "string"
                             },
                             "spec": {
-                              "description": "Spec is an optional dot-separated path to a Helm key where the full image string\n(e.g., \"image/name:1.0\") should be written.\nUse this if your Helm chart expects the entire image reference in a single field,\nrather than separate name/tag fields. If this is set, other Helm parameter-related\noptions will be ignored.",
+                              "description": "Spec is the dot-separated path to a Helm key where the full image string\n(e.g., \"image/name:1.0\") should be written.\nUse this if your Helm chart expects the entire image reference in a single field,\nrather than separate name/tag fields. If this is set, name and tag will be ignored.",
                               "type": "string"
                             },
                             "tag": {
-                              "description": "Tag is the dot-separated path to the Helm key for the image tag part.\nExample: \"image.tag\", \"frontend.deployment.image.version\".\nThis field is required if the Helm target is used.",
+                              "description": "Tag is the dot-separated path to the Helm key for the image tag part.\nExample: \"image.tag\", \"frontend.deployment.image.version\".\nIf neither spec nor name/tag are set, defaults to \"image.tag\".\nIf spec is set, this field is ignored.",
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "name",
-                            "tag"
-                          ],
                           "type": "object",
                           "additionalProperties": false
                         },
@@ -174,7 +170,6 @@
                   "type": "object",
                   "additionalProperties": false
                 },
-                "minItems": 1,
                 "type": "array",
                 "x-kubernetes-list-map-keys": [
                   "alias"
@@ -232,8 +227,13 @@
                 "description": "NamePattern indicates the glob pattern for application name",
                 "type": "string"
               },
+              "useAnnotations": {
+                "default": false,
+                "description": "UseAnnotations When true, read image configuration from Application's\nargocd-image-updater.argoproj.io/* annotations instead of\nrequiring explicit Images[] configuration in this CR.\nWhen this field is set to true, only namePattern and labelSelectors are used for\napplication selection. All other fields (CommonUpdateSettings, WriteBackConfig, Images)\nare ignored.",
+                "type": "boolean"
+              },
               "writeBackConfig": {
-                "description": "WriteBackConfig overrides the global WriteBackConfig settings for applications\nmatched by this selector.",
+                "description": "WriteBackConfig overrides the global WriteBackConfig settings for applications\nmatched by this selector.\nThis field is ignored when UseAnnotations is true.",
                 "properties": {
                   "gitConfig": {
                     "description": "GitConfig provides Git configuration settings if the write-back method involves Git.\nThis can only be used when method is \"git\" or starts with \"git:\".",
@@ -269,10 +269,15 @@
               }
             },
             "required": [
-              "images",
               "namePattern"
             ],
             "type": "object",
+            "x-kubernetes-validations": [
+              {
+                "message": "Either useAnnotations must be true, or images must be provided with at least one item",
+                "rule": "!(has(self.useAnnotations) && self.useAnnotations == true) ? (has(self.images) && size(self.images) > 0) : true"
+              }
+            ],
             "additionalProperties": false
           },
           "minItems": 1,
@@ -324,7 +329,7 @@
           "additionalProperties": false
         },
         "namespace": {
-          "description": "Namespace indicates the target namespace of the applications.\nThis is the namespace where the controller will look for Argo CD Applications\nmatching the criteria in ApplicationRefs.",
+          "description": "Namespace indicates the target namespace of the applications.\n\nDeprecated: This field is deprecated and will be removed in a future release.\nThe controller now uses the ImageUpdater CR's namespace (metadata.namespace)\nto determine which namespace to search for applications. This field is ignored.",
           "type": "string"
         },
         "writeBackConfig": {
@@ -364,8 +369,7 @@
         }
       },
       "required": [
-        "applicationRefs",
-        "namespace"
+        "applicationRefs"
       ],
       "type": "object",
       "additionalProperties": false

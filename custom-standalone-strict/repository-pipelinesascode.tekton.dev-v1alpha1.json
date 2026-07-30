@@ -173,13 +173,14 @@
               "additionalProperties": false
             },
             "type": {
-              "description": "Type of git provider. Determines which Git provider API and authentication flow to use.\nSupported values:\n- 'github': GitHub.com or GitHub Enterprise\n- 'gitlab': GitLab.com or self-hosted GitLab\n- 'bitbucket-datacenter': Bitbucket Data Center (self-hosted)\n- 'bitbucket-cloud': Bitbucket Cloud (bitbucket.org)\n- 'gitea': Gitea instances",
+              "description": "Type of git provider. Determines which Git provider API and authentication flow to use.\nSupported values:\n- 'github': GitHub.com or GitHub Enterprise\n- 'gitlab': GitLab.com or self-hosted GitLab\n- 'bitbucket-datacenter': Bitbucket Data Center (self-hosted)\n- 'bitbucket-cloud': Bitbucket Cloud (bitbucket.org)\n- 'forgejo': Forgejo instances\n- 'gitea': Gitea instances (alias for forgejo, kept for backwards compatibility)",
               "enum": [
                 "github",
                 "gitlab",
                 "bitbucket-datacenter",
                 "bitbucket-cloud",
-                "gitea"
+                "gitea",
+                "forgejo"
               ],
               "type": "string"
             },
@@ -312,13 +313,156 @@
         "settings": {
           "description": "Settings contains the configuration settings for the repository, including\nauthorization policies, provider-specific configuration, and provenance settings.",
           "properties": {
+            "ai": {
+              "description": "AIAnalysis contains AI/LLM analysis configuration for automated CI/CD pipeline analysis.",
+              "properties": {
+                "api_url": {
+                  "description": "APIURL is an optional base URL to override the default API endpoint of the LLM provider.\nIf not specified, provider-specific defaults are used:\n- OpenAI: https://api.openai.com/v1\n- Gemini: https://generativelanguage.googleapis.com/v1beta\nUse this to configure self-hosted LLM instances, proxy services, or alternative endpoints.",
+                  "type": "string"
+                },
+                "enabled": {
+                  "description": "Enabled controls whether AI analysis is active for this repository",
+                  "type": "boolean"
+                },
+                "max_tokens": {
+                  "description": "MaxTokens limits the response length from the LLM (default: 1000)",
+                  "maximum": 4000,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "provider": {
+                  "description": "Provider specifies which LLM provider to use for analysis",
+                  "enum": [
+                    "openai",
+                    "gemini"
+                  ],
+                  "type": "string"
+                },
+                "roles": {
+                  "description": "Roles defines different analysis scenarios and their configurations",
+                  "items": {
+                    "description": "AnalysisRole defines a specific analysis scenario with its prompt, conditions, and output configuration.",
+                    "properties": {
+                      "context_items": {
+                        "description": "ContextItems defines what context data to include in the analysis",
+                        "properties": {
+                          "commit_content": {
+                            "description": "CommitContent includes commit message and diff information",
+                            "type": "boolean"
+                          },
+                          "container_logs": {
+                            "description": "ContainerLogs configures inclusion of container/task logs",
+                            "properties": {
+                              "enabled": {
+                                "description": "Enabled controls whether container logs are included",
+                                "type": "boolean"
+                              },
+                              "max_lines": {
+                                "description": "MaxLines limits the number of log lines to include (default: 50)",
+                                "maximum": 1000,
+                                "minimum": 1,
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "enabled"
+                            ],
+                            "type": "object",
+                            "additionalProperties": false
+                          },
+                          "error_content": {
+                            "description": "ErrorContent includes error messages and failure summaries",
+                            "type": "boolean"
+                          },
+                          "pr_content": {
+                            "description": "PRContent includes pull request title, description, and metadata",
+                            "type": "boolean"
+                          }
+                        },
+                        "type": "object",
+                        "additionalProperties": false
+                      },
+                      "model": {
+                        "description": "Model specifies which LLM model to use for this role (optional).\nYou can specify any model supported by your provider.\nIf not specified, provider-specific defaults are used:\n- OpenAI: gpt-5-mini\n- Gemini: gemini-2.5-flash-lite",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name is a unique identifier for this analysis role",
+                        "type": "string"
+                      },
+                      "on_cel": {
+                        "description": "OnCEL is a CEL expression that determines when this role should be triggered",
+                        "type": "string"
+                      },
+                      "output": {
+                        "default": "pr-comment",
+                        "description": "Output specifies where the analysis results should be sent (default: pr-comment)",
+                        "enum": [
+                          "pr-comment"
+                        ],
+                        "type": "string"
+                      },
+                      "prompt": {
+                        "description": "Prompt is the base prompt template sent to the LLM for analysis",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "prompt"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "minItems": 1,
+                  "type": "array",
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
+                },
+                "secret_ref": {
+                  "description": "TokenSecretRef references the Kubernetes secret containing the LLM provider API token",
+                  "properties": {
+                    "key": {
+                      "description": "Key in the secret",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Name of the secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object",
+                  "additionalProperties": false
+                },
+                "timeout_seconds": {
+                  "description": "TimeoutSeconds sets the maximum time to wait for LLM analysis (default: 30)",
+                  "maximum": 300,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "enabled",
+                "provider",
+                "roles",
+                "secret_ref"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
             "github": {
               "properties": {
                 "comment_strategy": {
-                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests",
+                  "description": "CommentStrategy defines how GitHub comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests\n- 'update': Updates a single comment per PipelineRun on every trigger.",
                   "enum": [
                     "",
-                    "disable_all"
+                    "disable_all",
+                    "update"
                   ],
                   "type": "string"
                 }
@@ -337,10 +481,11 @@
               "description": "Gitlab contains GitLab-specific settings for repositories hosted on GitLab.",
               "properties": {
                 "comment_strategy": {
-                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests",
+                  "description": "CommentStrategy defines how GitLab comments are handled for pipeline results.\nOptions:\n- 'disable_all': Disables all comments on merge requests\n- 'update': Updates a single comment per PipelineRun on every trigger.",
                   "enum": [
                     "",
-                    "disable_all"
+                    "disable_all",
+                    "update"
                   ],
                   "type": "string"
                 }
@@ -391,6 +536,7 @@
     }
   },
   "required": [
+    "metadata",
     "spec"
   ],
   "type": "object"

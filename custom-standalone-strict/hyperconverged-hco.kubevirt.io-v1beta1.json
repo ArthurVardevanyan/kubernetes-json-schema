@@ -35,13 +35,17 @@
         "enableApplicationAwareQuota": false,
         "enableCommonBootImageImport": true,
         "featureGates": {
-          "decentralizedLiveMigration": false,
+          "containerPathVolumes": false,
+          "decentralizedLiveMigration": true,
           "declarativeHotplugVolumes": false,
           "deployKubeSecondaryDNS": false,
           "disableMDevConfiguration": false,
           "downwardMetrics": false,
           "enableMultiArchBootImageImport": false,
-          "persistentReservation": false
+          "incrementalBackup": false,
+          "objectGraph": false,
+          "persistentReservation": false,
+          "videoConfig": true
         },
         "liveMigrationConfig": {
           "allowAutoConverge": false,
@@ -131,12 +135,13 @@
             },
             "vmiCalcConfigName": {
               "default": "DedicatedVirtualResources",
-              "description": "VmiCalcConfigName determine how resource allocation will be done with ApplicationsResourceQuota.\nallowed values are: VmiPodUsage, VirtualResources, DedicatedVirtualResources or IgnoreVmiCalculator",
+              "description": "VmiCalcConfigName determine how resource allocation will be done with ApplicationsResourceQuota.\nallowed values are: VmiPodUsage, VirtualResources, DedicatedVirtualResources, IgnoreVmiCalculator or GuestEffectiveResources",
               "enum": [
                 "VmiPodUsage",
                 "VirtualResources",
                 "DedicatedVirtualResources",
-                "IgnoreVmiCalculator"
+                "IgnoreVmiCalculator",
+                "GuestEffectiveResources"
               ],
               "type": "string"
             }
@@ -197,6 +202,107 @@
                 }
               },
               "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "changedBlockTrackingLabelSelectors": {
+          "description": "ChangedBlockTrackingLabelSelectors defines label selectors. VMs matching these selectors will have changed\nblock tracking enabled. Enabling changed block tracking is mandatory for performing incremental backups.",
+          "properties": {
+            "namespaceLabelSelector": {
+              "description": "NamespaceSelector will enable changedBlockTracking on all VMs running inside namespaces that match the label selector.",
+              "properties": {
+                "matchExpressions": {
+                  "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                  "items": {
+                    "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
+                    "properties": {
+                      "key": {
+                        "description": "key is the label key that the selector applies to.",
+                        "type": "string"
+                      },
+                      "operator": {
+                        "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
+                        "type": "string"
+                      },
+                      "values": {
+                        "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array",
+                        "x-kubernetes-list-type": "atomic"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "operator"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
+                },
+                "matchLabels": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                  "type": "object"
+                }
+              },
+              "type": "object",
+              "x-kubernetes-map-type": "atomic",
+              "additionalProperties": false
+            },
+            "virtualMachineLabelSelector": {
+              "description": "VirtualMachineSelector will enable changedBlockTracking on all VMs that match the label selector.",
+              "properties": {
+                "matchExpressions": {
+                  "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
+                  "items": {
+                    "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
+                    "properties": {
+                      "key": {
+                        "description": "key is the label key that the selector applies to.",
+                        "type": "string"
+                      },
+                      "operator": {
+                        "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
+                        "type": "string"
+                      },
+                      "values": {
+                        "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array",
+                        "x-kubernetes-list-type": "atomic"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "operator"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "type": "array",
+                  "x-kubernetes-list-type": "atomic"
+                },
+                "matchLabels": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
+                  "type": "object"
+                }
+              },
+              "type": "object",
+              "x-kubernetes-map-type": "atomic",
               "additionalProperties": false
             }
           },
@@ -268,6 +374,11 @@
                   },
                   "schedule": {
                     "description": "Schedule specifies in cron format when and how often to look for new imports",
+                    "type": "string"
+                  },
+                  "serviceAccountName": {
+                    "description": "ServiceAccountName is the name of the ServiceAccount for creating DataVolumes.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "template": {
@@ -420,7 +531,7 @@
                                 "additionalProperties": false
                               },
                               "resources": {
-                                "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                                "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                                 "properties": {
                                   "limits": {
                                     "additionalProperties": {
@@ -510,7 +621,7 @@
                                 "type": "string"
                               },
                               "volumeAttributesClassName": {
-                                "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string value means that no VolumeAttributesClass\nwill be applied to the claim but it's not allowed to reset this field to empty string once it is set.\nIf unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass\nwill be set by the persistentvolume controller if it exists.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/\n(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).",
+                                "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string or nil value indicates that no\nVolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,\nthis field can be reset to its previous value (including nil) to cancel the modification.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/",
                                 "type": "string"
                               },
                               "volumeMode": {
@@ -524,6 +635,10 @@
                             },
                             "type": "object",
                             "additionalProperties": false
+                          },
+                          "serviceAccountName": {
+                            "description": "ServiceAccountName for Importer and Uploader pod",
+                            "type": "string"
                           },
                           "source": {
                             "description": "Source is the src of the data for the requested DataVolume",
@@ -555,6 +670,10 @@
                                 "properties": {
                                   "certConfigMap": {
                                     "description": "CertConfigMap is a configmap reference, containing a Certificate Authority(CA) public key, and a base64 encoded pem certificate",
+                                    "type": "string"
+                                  },
+                                  "checksum": {
+                                    "description": "Checksum is the expected checksum of the file. Format: \"algorithm:hash\", e.g., \"sha256:1234abcd...\" or \"md5:5678efgh...\"\nSupported algorithms: md5, sha1, sha256, sha512\nIf specified, the importer will verify the downloaded content matches this checksum",
                                     "type": "string"
                                   },
                                   "extraHeaders": {
@@ -596,6 +715,10 @@
                                   "diskId": {
                                     "description": "DiskID provides id of a disk to be imported",
                                     "type": "string"
+                                  },
+                                  "insecureSkipVerify": {
+                                    "description": "InsecureSkipVerify is a flag to skip certificate verification",
+                                    "type": "boolean"
                                   },
                                   "secretRef": {
                                     "description": "SecretRef provides the secret reference needed to access the ovirt-engine",
@@ -1061,13 +1184,17 @@
         },
         "featureGates": {
           "default": {
-            "decentralizedLiveMigration": false,
+            "containerPathVolumes": false,
+            "decentralizedLiveMigration": true,
             "declarativeHotplugVolumes": false,
             "deployKubeSecondaryDNS": false,
             "disableMDevConfiguration": false,
             "downwardMetrics": false,
             "enableMultiArchBootImageImport": false,
-            "persistentReservation": false
+            "incrementalBackup": false,
+            "objectGraph": false,
+            "persistentReservation": false,
+            "videoConfig": true
           },
           "description": "featureGates is a map of feature gate flags. Setting a flag to `true` will enable\nthe feature. Setting `false` or removing the feature gate, disables the feature.",
           "properties": {
@@ -1077,11 +1204,16 @@
               "type": "boolean"
             },
             "autoResourceLimits": {
-              "description": "Deprecated: this field is ignored and will be removed in the next version of the API.",
+              "description": "Deprecated: this feature gate is ignored.",
+              "type": "boolean"
+            },
+            "containerPathVolumes": {
+              "default": false,
+              "description": "ContainerPathVolumes enables the use of container paths as volumes in KubeVirt.\nThis allows VMs to access files and directories from the virt-launcher pod's filesystem via virtiofs.",
               "type": "boolean"
             },
             "decentralizedLiveMigration": {
-              "default": false,
+              "default": true,
               "description": "DecentralizedLiveMigration enables the decentralized live migration (cross-cluster migration) feature.\nThis feature allows live migration of VirtualMachineInstances between different clusters.\nThis feature is in Developer Preview.",
               "type": "boolean"
             },
@@ -1096,15 +1228,15 @@
               "type": "boolean"
             },
             "deployKubevirtIpamController": {
-              "description": "Deprecated: this field is ignored and will be removed in the next version of the API.",
+              "description": "Deprecated: this feature gate is ignored.",
               "type": "boolean"
             },
             "deployTektonTaskResources": {
-              "description": "Deprecated: This field is ignored and will be removed on the next version of the API.",
+              "description": "Deprecated: This feature gate is ignored.",
               "type": "boolean"
             },
             "deployVmConsoleProxy": {
-              "description": "Deprecated: This field is ignored and will be removed on the next version of the API.\nUse spec.deployVmConsoleProxy instead",
+              "description": "Deprecated: This feature gate is ignored.\nUse spec.deployVmConsoleProxy instead",
               "type": "boolean"
             },
             "disableMDevConfiguration": {
@@ -1122,11 +1254,11 @@
               "type": "boolean"
             },
             "enableCommonBootImageImport": {
-              "description": "Deprecated: This field is ignored. Use spec.enableCommonBootImageImport instead",
+              "description": "Deprecated: This feature gate is ignored. Use spec.enableCommonBootImageImport instead",
               "type": "boolean"
             },
             "enableManagedTenantQuota": {
-              "description": "Deprecated: This field is ignored and will be removed on the next version of the API.",
+              "description": "Deprecated: This feature gate is ignored.",
               "type": "boolean"
             },
             "enableMultiArchBootImageImport": {
@@ -1134,8 +1266,18 @@
               "description": "EnableMultiArchBootImageImport allows the HCO to run on heterogeneous clusters with different CPU architectures.\nSetting this field to true will allow the HCO to create Golden Images for different CPU architectures.\n\nThis feature is in Developer Preview.",
               "type": "boolean"
             },
+            "incrementalBackup": {
+              "default": false,
+              "description": "IncrementalBackup enables changed block tracking backups and incremental backups using QEMU capabilities in KubeVirt.\nWhen enabled, this also enables the UtilityVolumes feature gate in the KubeVirt CR.\nNote: This feature is in Tech Preview.",
+              "type": "boolean"
+            },
             "nonRoot": {
-              "description": "Deprecated: // Deprecated: This field is ignored and will be removed on the next version of the API.",
+              "description": "Deprecated: This feature gate is ignored.",
+              "type": "boolean"
+            },
+            "objectGraph": {
+              "default": false,
+              "description": "ObjectGraph enables the ObjectGraph VM and VMI subresource in KubeVirt.\nThis subresource returns a structured list of k8s objects that are related to the specified VM or VMI, enabling better dependency tracking.\nNote: This feature is in Developer Preview.",
               "type": "boolean"
             },
             "persistentReservation": {
@@ -1144,11 +1286,16 @@
               "type": "boolean"
             },
             "primaryUserDefinedNetworkBinding": {
-              "description": "primaryUserDefinedNetworkBinding deploys the needed configurations for kubevirt users to\nbe able to bind their VM to a UDN network on the VM's primary interface.\nDeprecated: this field is ignored and will be removed in the next version of the API.",
+              "description": "Deprecated: this feature gate is ignored.",
+              "type": "boolean"
+            },
+            "videoConfig": {
+              "default": true,
+              "description": "VideoConfig allows users to configure video device types for their virtual machines.\nThis can be useful for workloads that require specific video capabilities or architectures.\nNote: This feature is in Tech Preview.",
               "type": "boolean"
             },
             "withHostPassthroughCPU": {
-              "description": "Deprecated: there is no such FG in KubeVirt. This field is ignored",
+              "description": "Deprecated: This feature gate is ignored",
               "type": "boolean"
             }
           },
@@ -1191,6 +1338,27 @@
           },
           "type": "object",
           "additionalProperties": false
+        },
+        "hypervisors": {
+          "description": "Hypervisors specifies which hypervisor the cluster uses to run virtual machines.\nIf empty or not set, KubeVirt defaults to KVM. Currently, only a single entry is supported.\nAllowed values for the hypervisor name are \"kvm\" and \"hyperv-direct\".",
+          "items": {
+            "description": "HypervisorConfiguration holds information regarding the hypervisor present on cluster nodes.",
+            "properties": {
+              "name": {
+                "description": "Name is the name of the hypervisor.\nSupported values are: \"kvm\", \"hyperv-direct\".",
+                "enum": [
+                  "kvm",
+                  "hyperv-direct"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "additionalProperties": false
+          },
+          "maxItems": 1,
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         },
         "infra": {
           "description": "infra HyperConvergedConfig influences the pod configuration (currently only placement)\nfor all the infra components needed on the virtualization enabled cluster\nbut not necessarily directly on each node running VMs/VMIs.",
@@ -1690,7 +1858,7 @@
                       "description": "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).",
                       "properties": {
                         "preferredDuringSchedulingIgnoredDuringExecution": {
-                          "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
+                          "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and subtracting\n\"weight\" from the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
                           "items": {
                             "description": "The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)",
                             "properties": {
@@ -2008,7 +2176,7 @@
                         "type": "string"
                       },
                       "operator": {
-                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                         "type": "string"
                       },
                       "tolerationSeconds": {
@@ -2103,6 +2271,29 @@
             }
           },
           "type": "object",
+          "additionalProperties": false
+        },
+        "kubeMacPoolConfiguration": {
+          "description": "KubeMacPoolConfiguration holds kubemacpool MAC address range configuration.",
+          "properties": {
+            "rangeEnd": {
+              "description": "RangeEnd defines the last MAC address in the kubemacpool range.\nThe MAC address format should be AA:BB:CC:DD:EE:FF.",
+              "pattern": "^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$",
+              "type": "string"
+            },
+            "rangeStart": {
+              "description": "RangeStart defines the first MAC address in the kubemacpool range.\nThe MAC address format should be AA:BB:CC:DD:EE:FF.",
+              "pattern": "^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "x-kubernetes-validations": [
+            {
+              "message": "both rangeStart and rangeEnd must be configured together, or both omitted",
+              "rule": "(has(self.rangeStart) && has(self.rangeEnd)) || (!has(self.rangeStart) && !has(self.rangeEnd))"
+            }
+          ],
           "additionalProperties": false
         },
         "kubeSecondaryDNSNameServerIP": {
@@ -2403,7 +2594,7 @@
               "x-kubernetes-list-type": "set"
             },
             "minCPUModel": {
-              "description": "MinCPUModel is the Minimum CPU model that is used for basic CPU features; e.g. Penryn or Haswell.\nThe default value for this field is nil, but in KubeVirt, the default value is \"Penryn\", if nothing else is set.\nUse this field to override KubeVirt default value.",
+              "description": "MinCPUModel is not in use\nDeprecated: This field is not in use and is ignored.",
               "type": "string"
             }
           },
@@ -2592,7 +2783,7 @@
               "description": "StorageWorkloads defines the resources requirements for storage workloads. It will propagate to the CDI custom\nresource",
               "properties": {
                 "claims": {
-                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis is an alpha field and requires enabling the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
+                  "description": "Claims lists the names of resources, defined in spec.resourceClaims,\nthat are used by this container.\n\nThis field depends on the\nDynamicResourceAllocation feature gate.\n\nThis field is immutable. It can only be set for containers.",
                   "items": {
                     "description": "ResourceClaim references one entry in PodSpec.ResourceClaims.",
                     "properties": {
@@ -2669,6 +2860,14 @@
           ],
           "additionalProperties": false
         },
+        "roleAggregationStrategy": {
+          "description": "RoleAggregationStrategy controls whether KubeVirt RBAC cluster roles should be aggregated\nto the default Kubernetes roles (admin, edit, view).\nWhen set to \"AggregateToDefault\" or not specified, the aggregate-to-* labels are added to the cluster roles.\nWhen set to \"Manual\", the labels are not added, and roles will not be aggregated to the default roles.",
+          "enum": [
+            "AggregateToDefault",
+            "Manual"
+          ],
+          "type": "string"
+        },
         "scratchSpaceStorageClass": {
           "description": "Override the storage class used for scratch space during transfer operations. The scratch space storage class\nis determined in the following order:\nvalue of scratchSpaceStorageClass, if that doesn't exist, use the default storage class, if there is no default\nstorage class, use the storage class of the DataVolume, if no storage class specified, use no storage class for\nscratch space",
           "type": "string"
@@ -2700,11 +2899,11 @@
           "description": "TLSSecurityProfile specifies the settings for TLS connections to be propagated to all kubevirt-hyperconverged components.\nIf unset, the hyperconverged cluster operator will consume the value set on the APIServer CR on OCP/OKD or Intermediate if on vanilla k8s.\nNote that only Old, Intermediate and Custom profiles are currently supported, and the maximum available\nMinTLSVersions is VersionTLS12.",
           "properties": {
             "custom": {
-              "description": "custom is a user-defined TLS security profile. Be extremely careful using a custom\nprofile as invalid configurations can be catastrophic. An example custom profile\nlooks like this:\n\n  ciphers:\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n  minTLSVersion: VersionTLS11",
+              "description": "custom is a user-defined TLS security profile. Be extremely careful using a custom\nprofile as invalid configurations can be catastrophic. An example custom profile\nlooks like this:\n\n  minTLSVersion: VersionTLS11\n  ciphers:\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256",
               "nullable": true,
               "properties": {
                 "ciphers": {
-                  "description": "ciphers is used to specify the cipher algorithms that are negotiated\nduring the TLS handshake.  Operators may remove entries their operands\ndo not support.  For example, to use DES-CBC3-SHA  (yaml):\n\n  ciphers:\n    - DES-CBC3-SHA",
+                  "description": "ciphers is used to specify the cipher algorithms that are negotiated\nduring the TLS handshake. Operators may remove entries that their operands\ndo not support. For example, to use only ECDHE-RSA-AES128-GCM-SHA256 (yaml):\n\n  ciphers:\n    - ECDHE-RSA-AES128-GCM-SHA256\n\nTLS 1.3 cipher suites (e.g. TLS_AES_128_GCM_SHA256) are not configurable\nand are always enabled when TLS 1.3 is negotiated.",
                   "items": {
                     "type": "string"
                   },
@@ -2712,7 +2911,7 @@
                   "x-kubernetes-list-type": "atomic"
                 },
                 "minTLSVersion": {
-                  "description": "minTLSVersion is used to specify the minimal version of the TLS protocol\nthat is negotiated during the TLS handshake. For example, to use TLS\nversions 1.1, 1.2 and 1.3 (yaml):\n\n  minTLSVersion: VersionTLS11\n\nNOTE: currently the highest minTLSVersion allowed is VersionTLS12",
+                  "description": "minTLSVersion is used to specify the minimal version of the TLS protocol\nthat is negotiated during the TLS handshake. For example, to use TLS\nversions 1.1, 1.2 and 1.3 (yaml):\n\n  minTLSVersion: VersionTLS11",
                   "enum": [
                     "VersionTLS10",
                     "VersionTLS11",
@@ -2726,22 +2925,22 @@
               "additionalProperties": false
             },
             "intermediate": {
-              "description": "intermediate is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n\n    - ECDHE-RSA-AES256-GCM-SHA384\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - DHE-RSA-AES128-GCM-SHA256\n\n    - DHE-RSA-AES256-GCM-SHA384\n\n  minTLSVersion: VersionTLS12",
+              "description": "intermediate is a TLS profile for use when you do not need compatibility with\nlegacy clients and want to remain highly secure while being compatible with\nmost clients currently in use.\n\nThis profile is equivalent to a Custom profile specified as:\n  minTLSVersion: VersionTLS12\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n    - ECDHE-RSA-AES256-GCM-SHA384\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305",
               "nullable": true,
               "type": "object"
             },
             "modern": {
-              "description": "modern is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Modern_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n  minTLSVersion: VersionTLS13",
+              "description": "modern is a TLS security profile for use with clients that support TLS 1.3 and\ndo not need backward compatibility for older clients.\n\nThis profile is equivalent to a Custom profile specified as:\n  minTLSVersion: VersionTLS13\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256",
               "nullable": true,
               "type": "object"
             },
             "old": {
-              "description": "old is a TLS security profile based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Old_backward_compatibility\n\nand looks like this (yaml):\n\n  ciphers:\n\n    - TLS_AES_128_GCM_SHA256\n\n    - TLS_AES_256_GCM_SHA384\n\n    - TLS_CHACHA20_POLY1305_SHA256\n\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n\n    - ECDHE-RSA-AES128-GCM-SHA256\n\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n\n    - ECDHE-RSA-AES256-GCM-SHA384\n\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n\n    - ECDHE-RSA-CHACHA20-POLY1305\n\n    - DHE-RSA-AES128-GCM-SHA256\n\n    - DHE-RSA-AES256-GCM-SHA384\n\n    - DHE-RSA-CHACHA20-POLY1305\n\n    - ECDHE-ECDSA-AES128-SHA256\n\n    - ECDHE-RSA-AES128-SHA256\n\n    - ECDHE-ECDSA-AES128-SHA\n\n    - ECDHE-RSA-AES128-SHA\n\n    - ECDHE-ECDSA-AES256-SHA384\n\n    - ECDHE-RSA-AES256-SHA384\n\n    - ECDHE-ECDSA-AES256-SHA\n\n    - ECDHE-RSA-AES256-SHA\n\n    - DHE-RSA-AES128-SHA256\n\n    - DHE-RSA-AES256-SHA256\n\n    - AES128-GCM-SHA256\n\n    - AES256-GCM-SHA384\n\n    - AES128-SHA256\n\n    - AES256-SHA256\n\n    - AES128-SHA\n\n    - AES256-SHA\n\n    - DES-CBC3-SHA\n\n  minTLSVersion: VersionTLS10",
+              "description": "old is a TLS profile for use when services need to be accessed by very old\nclients or libraries and should be used only as a last resort.\n\nThis profile is equivalent to a Custom profile specified as:\n  minTLSVersion: VersionTLS10\n  ciphers:\n    - TLS_AES_128_GCM_SHA256\n    - TLS_AES_256_GCM_SHA384\n    - TLS_CHACHA20_POLY1305_SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES256-GCM-SHA384\n    - ECDHE-RSA-AES256-GCM-SHA384\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - ECDHE-ECDSA-AES128-SHA256\n    - ECDHE-RSA-AES128-SHA256\n    - ECDHE-ECDSA-AES128-SHA\n    - ECDHE-RSA-AES128-SHA\n    - ECDHE-ECDSA-AES256-SHA\n    - ECDHE-RSA-AES256-SHA\n    - AES128-GCM-SHA256\n    - AES256-GCM-SHA384\n    - AES128-SHA256\n    - AES128-SHA\n    - AES256-SHA\n    - DES-CBC3-SHA",
               "nullable": true,
               "type": "object"
             },
             "type": {
-              "description": "type is one of Old, Intermediate, Modern or Custom. Custom provides\nthe ability to specify individual TLS security profile parameters.\nOld, Intermediate and Modern are TLS security profiles based on:\n\nhttps://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations\n\nThe profiles are intent based, so they may change over time as new ciphers are developed and existing ciphers\nare found to be insecure.  Depending on precisely which ciphers are available to a process, the list may be\nreduced.\n\nNote that the Modern profile is currently not supported because it is not\nyet well adopted by common software libraries.",
+              "description": "type is one of Old, Intermediate, Modern or Custom. Custom provides the\nability to specify individual TLS security profile parameters.\n\nThe profiles are based on version 5.7 of the Mozilla Server Side TLS\nconfiguration guidelines. The cipher lists consist of the configuration's\n\"ciphersuites\" followed by the Go-specific \"ciphers\" from the guidelines.\nSee: https://ssl-config.mozilla.org/guidelines/5.7.json\n\nThe profiles are intent based, so they may change over time as new ciphers are\ndeveloped and existing ciphers are found to be insecure. Depending on\nprecisely which ciphers are available to a process, the list may be reduced.",
               "enum": [
                 "Old",
                 "Intermediate",
@@ -3336,7 +3535,7 @@
                       "description": "Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).",
                       "properties": {
                         "preferredDuringSchedulingIgnoredDuringExecution": {
-                          "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and adding\n\"weight\" to the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
+                          "description": "The scheduler will prefer to schedule pods to nodes that satisfy\nthe anti-affinity expressions specified by this field, but it may choose\na node that violates one or more of the expressions. The node that is\nmost preferred is the one with the greatest sum of weights, i.e.\nfor each node that meets all of the scheduling requirements (resource\nrequest, requiredDuringScheduling anti-affinity expressions, etc.),\ncompute a sum by iterating through the elements of this field and subtracting\n\"weight\" from the sum if the node has pods which matches the corresponding podAffinityTerm; the\nnode(s) with the highest sum are the most preferred.",
                           "items": {
                             "description": "The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)",
                             "properties": {
@@ -3654,7 +3853,7 @@
                         "type": "string"
                       },
                       "operator": {
-                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                         "type": "string"
                       },
                       "tolerationSeconds": {
@@ -3801,6 +4000,11 @@
                   },
                   "schedule": {
                     "description": "Schedule specifies in cron format when and how often to look for new imports",
+                    "type": "string"
+                  },
+                  "serviceAccountName": {
+                    "description": "ServiceAccountName is the name of the ServiceAccount for creating DataVolumes.",
+                    "minLength": 1,
                     "type": "string"
                   },
                   "template": {
@@ -3953,7 +4157,7 @@
                                 "additionalProperties": false
                               },
                               "resources": {
-                                "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                                "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                                 "properties": {
                                   "limits": {
                                     "additionalProperties": {
@@ -4043,7 +4247,7 @@
                                 "type": "string"
                               },
                               "volumeAttributesClassName": {
-                                "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string value means that no VolumeAttributesClass\nwill be applied to the claim but it's not allowed to reset this field to empty string once it is set.\nIf unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass\nwill be set by the persistentvolume controller if it exists.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/\n(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).",
+                                "description": "volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.\nIf specified, the CSI driver will create or update the volume with the attributes defined\nin the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,\nit can be changed after the claim is created. An empty string or nil value indicates that no\nVolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,\nthis field can be reset to its previous value (including nil) to cancel the modification.\nIf the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be\nset to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource\nexists.\nMore info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/",
                                 "type": "string"
                               },
                               "volumeMode": {
@@ -4057,6 +4261,10 @@
                             },
                             "type": "object",
                             "additionalProperties": false
+                          },
+                          "serviceAccountName": {
+                            "description": "ServiceAccountName for Importer and Uploader pod",
+                            "type": "string"
                           },
                           "source": {
                             "description": "Source is the src of the data for the requested DataVolume",
@@ -4088,6 +4296,10 @@
                                 "properties": {
                                   "certConfigMap": {
                                     "description": "CertConfigMap is a configmap reference, containing a Certificate Authority(CA) public key, and a base64 encoded pem certificate",
+                                    "type": "string"
+                                  },
+                                  "checksum": {
+                                    "description": "Checksum is the expected checksum of the file. Format: \"algorithm:hash\", e.g., \"sha256:1234abcd...\" or \"md5:5678efgh...\"\nSupported algorithms: md5, sha1, sha256, sha512\nIf specified, the importer will verify the downloaded content matches this checksum",
                                     "type": "string"
                                   },
                                   "extraHeaders": {
@@ -4129,6 +4341,10 @@
                                   "diskId": {
                                     "description": "DiskID provides id of a disk to be imported",
                                     "type": "string"
+                                  },
+                                  "insecureSkipVerify": {
+                                    "description": "InsecureSkipVerify is a flag to skip certificate verification",
+                                    "type": "boolean"
                                   },
                                   "secretRef": {
                                     "description": "SecretRef provides the secret reference needed to access the ovirt-engine",

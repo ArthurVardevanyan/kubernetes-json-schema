@@ -21,6 +21,10 @@
           "description": "AddedNodeSelector is an additional selector that can be used to\ncomplement a NodeSelector or NodeAffinity as set on the VM\nto restrict the set of allowed target nodes for a migration.\nIn case of key collisions, values set on the VM objects\nare going to be preserved to ensure that addedNodeSelector\ncan only restrict but not bypass constraints already set on the VM object.",
           "type": "object"
         },
+        "priority": {
+          "description": "Priority of the migration. This can be one of 'system-critical', 'user-triggered', 'system-maintenance'.",
+          "type": "string"
+        },
         "receive": {
           "description": "If receieve is specified, this VirtualMachineInstanceMigration will be considered the target",
           "properties": {
@@ -196,6 +200,11 @@
                 "unsafeMigrationOverride": {
                   "description": "UnsafeMigrationOverride allows live migrations to occur even if the compatibility check\nindicates the migration will be unsafe to the guest. Defaults to false",
                   "type": "boolean"
+                },
+                "utilityVolumesTimeout": {
+                  "description": "UtilityVolumesTimeout is the maximum number of seconds a migration can wait in Pending state\nfor utility volumes to be detached. If utility volumes are still present after this timeout,\nthe migration will be marked as Failed. Defaults to 150",
+                  "format": "int64",
+                  "type": "integer"
                 }
               },
               "type": "object",
@@ -302,6 +311,19 @@
               },
               "description": "The list of ports opened for live migration on the destination node",
               "type": "object"
+            },
+            "targetMemoryOverhead": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "TargetMemoryOverhead is the memory overhead of the target virt-launcher pod",
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
             },
             "targetNode": {
               "description": "The target node that the VMI is moving to",

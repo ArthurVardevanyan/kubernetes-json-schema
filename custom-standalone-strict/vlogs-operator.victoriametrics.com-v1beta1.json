@@ -72,6 +72,9 @@
           ],
           "x-kubernetes-list-type": "map"
         },
+        "lastAppliedSpec": {
+          "x-kubernetes-preserve-unknown-fields": true
+        },
         "observedGeneration": {
           "format": "int64",
           "type": "integer"

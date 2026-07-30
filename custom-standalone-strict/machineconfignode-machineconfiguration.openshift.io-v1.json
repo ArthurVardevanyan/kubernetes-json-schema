@@ -91,7 +91,7 @@
       "description": "status describes the last observed state of this machine config node.",
       "properties": {
         "conditions": {
-          "description": "conditions represent the observations of a machine config node's current state. Valid types are:\nUpdatePrepared, UpdateExecuted, UpdatePostActionComplete, UpdateComplete, Updated, Resumed,\nDrained, AppliedFilesAndOS, Cordoned, Uncordoned, RebootedNode, NodeDegraded, PinnedImageSetsProgressing,\nand PinnedImageSetsDegraded.\nThe following types are only available when the ImageModeStatusReporting feature gate is enabled: ImagePulledFromRegistry,\nAppliedOSImage, AppliedFiles",
+          "description": "conditions represent the observations of a machine config node's current state. Valid types are:\nUpdatePrepared, UpdateExecuted, UpdatePostActionComplete, UpdateComplete, Updated, Resumed,\nDrained, AppliedFilesAndOS, Cordoned, Uncordoned, RebootedNode, NodeDegraded, PinnedImageSetsProgressing,\nand PinnedImageSetsDegraded.\nThe following types are only available when the ImageModeStatusReporting feature gate is enabled: ImagePulledFromRegistry,\nAppliedOSImage, AppliedFiles\nThe following types are only available when the NoRegistryClusterInstall feature gate is enabled: InternalReleaseImageDegraded",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {

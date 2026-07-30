@@ -281,9 +281,9 @@
       "description": "status is an optional field that defines the observed state of the ClusterExtension.",
       "properties": {
         "activeRevisions": {
-          "description": "activeRevisions holds a list of currently active (non-archived) ClusterExtensionRevisions,\nincluding both installed and rolling out revisions.",
+          "description": "activeRevisions holds a list of currently active (non-archived) ClusterObjectSets,\nincluding both installed and rolling out revisions.",
           "items": {
-            "description": "RevisionStatus defines the observed state of a ClusterExtensionRevision.",
+            "description": "RevisionStatus defines the observed state of a ClusterObjectSet.",
             "properties": {
               "conditions": {
                 "description": "conditions optionally expose Progressing and Available condition of the revision,\nin case when it is not yet marked as successfully installed (condition Succeeded is not set to True).\nGiven that a ClusterExtension should remain available during upgrades, an observer may use these conditions\nto get more insights about reasons for its current state.",
@@ -346,7 +346,7 @@
                 "x-kubernetes-list-type": "map"
               },
               "name": {
-                "description": "name of the ClusterExtensionRevision resource",
+                "description": "name of the ClusterObjectSet resource",
                 "type": "string"
               }
             },
@@ -363,7 +363,7 @@
           "x-kubernetes-list-type": "map"
         },
         "conditions": {
-          "description": "conditions represents the current state of the ClusterExtension.\n\nThe set of condition types which apply to all spec.source variations are Installed and Progressing.\n\nThe Installed condition represents whether the bundle has been installed for this ClusterExtension:\n  - When Installed is True and the Reason is Succeeded, the bundle has been successfully installed.\n  - When Installed is False and the Reason is Failed, the bundle has failed to install.\n\nThe Progressing condition represents whether or not the ClusterExtension is advancing towards a new state.\nWhen Progressing is True and the Reason is Succeeded, the ClusterExtension is making progress towards a new state.\nWhen Progressing is True and the Reason is Retrying, the ClusterExtension has encountered an error that could be resolved on subsequent reconciliation attempts.\nWhen Progressing is False and the Reason is Blocked, the ClusterExtension has encountered an error that requires manual intervention for recovery.\n\nWhen Progressing is True and Reason is RollingOut, the ClusterExtension has one or more ClusterExtensionRevisions in active roll out.\n\nWhen the ClusterExtension is sourced from a catalog, it surfaces deprecation conditions based on catalog metadata.\nThese are indications from a package owner to guide users away from a particular package, channel, or bundle:\n  - BundleDeprecated is True if the installed bundle is marked deprecated, False if not deprecated, or Unknown if no bundle is installed yet or if catalog data is unavailable.\n  - ChannelDeprecated is True if any requested channel is marked deprecated, False if not deprecated, or Unknown if catalog data is unavailable.\n  - PackageDeprecated is True if the requested package is marked deprecated, False if not deprecated, or Unknown if catalog data is unavailable.\n  - Deprecated is a rollup condition that is True when any deprecation exists, False when none exist, or Unknown when catalog data is unavailable.",
+          "description": "conditions represents the current state of the ClusterExtension.\n\nThe set of condition types which apply to all spec.source variations are Installed and Progressing.\n\nThe Installed condition represents whether the bundle has been installed for this ClusterExtension:\n  - When Installed is True and the Reason is Succeeded, the bundle has been successfully installed.\n  - When Installed is False and the Reason is Failed, the bundle has failed to install.\n\nThe Progressing condition represents whether or not the ClusterExtension is advancing towards a new state.\nWhen Progressing is True and the Reason is Succeeded, the ClusterExtension is making progress towards a new state.\nWhen Progressing is True and the Reason is Retrying, the ClusterExtension has encountered an error that could be resolved on subsequent reconciliation attempts.\nWhen Progressing is False and the Reason is Blocked, the ClusterExtension has encountered an error that requires manual intervention for recovery.\n\nWhen Progressing is True and Reason is RollingOut, the ClusterExtension has one or more ClusterObjectSets in active roll out.\n\nWhen the ClusterExtension is sourced from a catalog, it surfaces deprecation conditions based on catalog metadata.\nThese are indications from a package owner to guide users away from a particular package, channel, or bundle:\n  - BundleDeprecated is True if the installed bundle is marked deprecated, False if not deprecated, or Unknown if no bundle is installed yet or if catalog data is unavailable.\n  - ChannelDeprecated is True if any requested channel is marked deprecated, False if not deprecated, or Unknown if catalog data is unavailable.\n  - PackageDeprecated is True if the requested package is marked deprecated, False if not deprecated, or Unknown if catalog data is unavailable.\n  - Deprecated is a rollup condition that is True when any deprecation exists, False when none exist, or Unknown when catalog data is unavailable.",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {

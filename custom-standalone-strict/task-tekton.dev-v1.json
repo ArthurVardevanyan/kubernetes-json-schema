@@ -2016,6 +2016,10 @@
                 "type": "object",
                 "additionalProperties": false
               },
+              "displayName": {
+                "description": "DisplayName is a user-facing name of the step that may be\nused to populate a UI.",
+                "type": "string"
+              },
               "env": {
                 "description": "List of environment variables to set in the Step.\nCannot be updated.",
                 "items": {

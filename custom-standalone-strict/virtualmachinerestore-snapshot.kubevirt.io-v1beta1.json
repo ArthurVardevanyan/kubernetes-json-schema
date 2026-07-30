@@ -54,6 +54,10 @@
         "virtualMachineSnapshotName": {
           "type": "string"
         },
+        "volumeOwnershipPolicy": {
+          "description": "VolumeOwnershipPolicy defines what owns volumes once they're restored",
+          "type": "string"
+        },
         "volumeRestoreOverrides": {
           "description": "VolumeRestoreOverrides gives the option to change properties of each restored volume\nFor example, specifying the name of the restored volume, or adding labels/annotations to it",
           "items": {

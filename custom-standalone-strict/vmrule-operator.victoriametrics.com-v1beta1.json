@@ -66,6 +66,7 @@
                 "items": {
                   "properties": {
                     "alert": {
+                      "default": "",
                       "type": "string"
                     },
                     "annotations": {
@@ -93,6 +94,7 @@
                       "type": "object"
                     },
                     "record": {
+                      "default": "",
                       "type": "string"
                     },
                     "update_entries_limit": {
@@ -118,7 +120,11 @@
             "type": "object",
             "additionalProperties": false
           },
-          "type": "array"
+          "type": "array",
+          "x-kubernetes-list-map-keys": [
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
         }
       },
       "required": [

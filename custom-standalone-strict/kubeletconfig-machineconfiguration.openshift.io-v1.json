@@ -16,19 +16,23 @@
       "description": "spec contains the desired kubelet configuration.",
       "properties": {
         "autoSizingReserved": {
+          "description": "autoSizingReserved controls whether system-reserved CPU and memory are automatically\ncalculated based on each node's installed capacity. When set to true, this prevents node failure\nfrom resource starvation of system components (kubelet, CRI-O) without manual configuration.\nWhen omitted, this means the user has no opinion and the platform is left to choose a reasonable default,\nwhich is subject to change over time. The current default is true for worker nodes and false for control plane nodes.\nWhen set to false, automatic resource reservation is disabled and manual settings must be configured.",
           "type": "boolean"
         },
         "kubeletConfig": {
-          "description": "kubeletConfig fields are defined in kubernetes upstream. Please refer to the types defined in the version/commit used by\nOpenShift of the upstream kubernetes. It's important to note that, since the fields of the kubelet configuration are directly fetched from\nupstream the validation of those values is handled directly by the kubelet. Please refer to the upstream version of the relevant kubernetes\nfor the valid values of these fields. Invalid values of the kubelet configuration fields may render cluster nodes unusable.",
+          "description": "kubeletConfig contains upstream Kubernetes kubelet configuration fields.\nValues are validated by the kubelet itself. Invalid values may render nodes unusable.\nRefer to OpenShift documentation for the Kubernetes version corresponding to your\nOpenShift release to find valid kubelet configuration options.",
           "type": "object",
           "x-kubernetes-preserve-unknown-fields": true
         },
         "logLevel": {
+          "description": "logLevel sets the kubelet log verbosity, controlling the amount of detail in kubelet logs.\nValid values range from 0 (minimal logging) to 10 (maximum verbosity with trace-level detail).\nHigher log levels may impact node performance. When omitted, the platform chooses a reasonable default,\nwhich is subject to change over time. The current default is 2 (standard informational logging).",
           "format": "int32",
+          "maximum": 10,
+          "minimum": 0,
           "type": "integer"
         },
         "machineConfigPoolSelector": {
-          "description": "machineConfigPoolSelector selects which pools the KubeletConfig shoud apply to.\nA nil selector will result in no pools being selected.",
+          "description": "machineConfigPoolSelector selects which pools the KubeletConfig should apply to.\nWhen omitted or set to an empty selector {}, no pools are selected, which is equivalent\nto not matching any MachineConfigPool.",
           "properties": {
             "matchExpressions": {
               "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
@@ -75,7 +79,7 @@
           "additionalProperties": false
         },
         "tlsSecurityProfile": {
-          "description": "If unset, the default is based on the apiservers.config.openshift.io/cluster resource.\nNote that only Old and Intermediate profiles are currently supported, and\nthe maximum available minTLSVersion is VersionTLS12.",
+          "description": "tlsSecurityProfile configures TLS settings for the kubelet.\nWhen omitted, the TLS configuration defaults to the value from apiservers.config.openshift.io/cluster.\nWhen specified, the type field can be set to either \"Old\", \"Intermediate\", \"Modern\", \"Custom\" or omitted for backward compatibility.",
           "properties": {
             "custom": {
               "description": "custom is a user-defined TLS security profile. Be extremely careful using a custom\nprofile as invalid configurations can be catastrophic. An example custom profile\nlooks like this:\n\n  minTLSVersion: VersionTLS11\n  ciphers:\n    - ECDHE-ECDSA-CHACHA20-POLY1305\n    - ECDHE-RSA-CHACHA20-POLY1305\n    - ECDHE-RSA-AES128-GCM-SHA256\n    - ECDHE-ECDSA-AES128-GCM-SHA256",

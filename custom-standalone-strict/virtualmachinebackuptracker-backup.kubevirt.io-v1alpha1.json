@@ -1,0 +1,130 @@
+{
+  "description": "VirtualMachineBackupTracker defines the way to track the latest checkpoint of\na backup solution for a vm",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents.\nServers may infer this from the endpoint the client submits requests to.\nCannot be updated.\nIn CamelCase.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "spec": {
+      "description": "VirtualMachineBackupTrackerSpec is the spec for a VirtualMachineBackupTracker resource",
+      "properties": {
+        "source": {
+          "description": "Source specifies the VM that this backupTracker is associated with",
+          "properties": {
+            "apiGroup": {
+              "description": "APIGroup is the group for the resource being referenced.\nIf APIGroup is not specified, the specified Kind must be in the core API group.\nFor any other third-party types, APIGroup is required.",
+              "type": "string"
+            },
+            "kind": {
+              "description": "Kind is the type of resource being referenced",
+              "type": "string"
+            },
+            "name": {
+              "description": "Name is the name of resource being referenced",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "type": "object",
+          "x-kubernetes-map-type": "atomic",
+          "x-kubernetes-validations": [
+            {
+              "message": "apiGroup must be kubevirt.io",
+              "rule": "has(self.apiGroup) && self.apiGroup == 'kubevirt.io'"
+            },
+            {
+              "message": "kind must be VirtualMachine",
+              "rule": "self.kind == 'VirtualMachine'"
+            },
+            {
+              "message": "name is required",
+              "rule": "self.name != ''"
+            }
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "message": "spec is immutable after creation",
+          "rule": "self == oldSelf"
+        }
+      ],
+      "additionalProperties": false
+    },
+    "status": {
+      "properties": {
+        "checkpointRedefinitionRequired": {
+          "description": "CheckpointRedefinitionRequired is set to true by virt-handler when the VM\nrestarts and has a checkpoint that needs to be redefined in libvirt.\nvirt-controller will process this flag, attempt redefinition, and clear it.",
+          "type": "boolean"
+        },
+        "latestCheckpoint": {
+          "description": "LatestCheckpoint is the metadata of the checkpoint of\nthe latest performed backup",
+          "properties": {
+            "creationTime": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "volumes": {
+              "description": "Volumes lists volumes and their disk targets at backup time",
+              "items": {
+                "description": "BackupVolumeInfo contains information about a volume included in a backup",
+                "properties": {
+                  "dataEndpoint": {
+                    "description": "DataEndpoint is the URL of the endpoint for read for pull mode",
+                    "type": "string"
+                  },
+                  "diskTarget": {
+                    "description": "DiskTarget is the disk target device name at backup time",
+                    "type": "string"
+                  },
+                  "mapEndpoint": {
+                    "description": "MapEndpoint is the URL of the endpoint for map for pull mode",
+                    "type": "string"
+                  },
+                  "volumeName": {
+                    "description": "VolumeName is the volume name from VMI spec",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "diskTarget",
+                  "volumeName"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
+              "type": "array",
+              "x-kubernetes-list-type": "atomic"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "spec"
+  ],
+  "type": "object"
+}

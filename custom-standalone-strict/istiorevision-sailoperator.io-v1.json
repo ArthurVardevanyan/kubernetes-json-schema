@@ -69,6 +69,16 @@
             "global": {
               "description": "Global configuration for Istio components.",
               "properties": {
+                "agentgateway": {
+                  "description": "Specifies how proxies are configured within Istio.",
+                  "properties": {
+                    "image": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                },
                 "arch": {
                   "description": "Specifies pod scheduling arch(amd64, ppc64le, s390x, arm64) and weight as follows:\n\n\t0 - Never scheduled\n\t1 - Least preferred\n\t2 - No preference\n\t3 - Most preferred\n\nDeprecated: replaced by the affinity k8s settings which allows architecture nodeAffinity configuration of this behavior.\n\nDeprecated: Marked as deprecated in pkg/apis/values_types.proto.",
                   "properties": {
@@ -216,7 +226,7 @@
                         "type": "string"
                       },
                       "operator": {
-                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                         "type": "string"
                       },
                       "tolerationSeconds": {
@@ -233,6 +243,10 @@
                     "additionalProperties": false
                   },
                   "type": "array"
+                },
+                "enableReaderRBAC": {
+                  "description": "If true, install istio-reader service account and associated cluster role/binding,\nwhich are used for multicluster remote-secret workflows.",
+                  "type": "boolean"
                 },
                 "externalIstiod": {
                   "description": "Controls whether one external istiod is enabled.",
@@ -845,6 +859,24 @@
                       "type": "object",
                       "additionalProperties": false
                     },
+                    "seccompProfile": {
+                      "description": "Configures the seccomp profile for the istio-validation and istio-proxy containers.\n\nSee: https://kubernetes.io/docs/tutorials/security/seccomp/",
+                      "properties": {
+                        "localhostProfile": {
+                          "description": "localhostProfile indicates a profile defined in a file on the node should be used.\nThe profile must be preconfigured on the node to work.\nMust be a descending path, relative to the kubelet's configured seccomp profile location.\nMust be set if type is \"Localhost\". Must NOT be set for any other type.",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "type indicates which kind of seccomp profile will be applied.\nValid options are:\n\nLocalhost - a profile defined in a file on the node should be used.\nRuntimeDefault - the container runtime default profile should be used.\nUnconfined - no profile should be applied.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ],
+                      "type": "object",
+                      "additionalProperties": false
+                    },
                     "startupProbe": {
                       "description": "Configures the startup probe for the istio-proxy container.",
                       "properties": {
@@ -960,6 +992,16 @@
                 },
                 "remotePilotAddress": {
                   "description": "Specifies the Istio control plane\u2019s pilot Pod IP address or remote cluster DNS resolvable hostname.",
+                  "type": "string"
+                },
+                "resourceScope": {
+                  "description": "Specifies resource scope for discovery selectors.\nThis is useful when installing Istio on a cluster where some resources need to be owned by a cluster administrator and some can be owned by the mesh administrator.",
+                  "enum": [
+                    "undefined",
+                    "all",
+                    "cluster",
+                    "namespace"
+                  ],
                   "type": "string"
                 },
                 "revision": {
@@ -2035,7 +2077,7 @@
                             "type": "string"
                           },
                           "operator": {
-                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                            "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                             "type": "string"
                           },
                           "tolerationSeconds": {
@@ -2649,6 +2691,15 @@
                       },
                       "type": "array"
                     },
+                    "fileFlushInterval": {
+                      "description": "File flush interval for envoy flushes buffers to disk in milliseconds.\nThe duration needs to be set to a value greater than or equal to 1 millisecond.\nDefault is 1000ms.\nOptional.",
+                      "type": "string"
+                    },
+                    "fileFlushMinSizeKb": {
+                      "description": "File flush buffer size for envoy flushes buffers to disk in kilobytes.\nDefaults to 64.\nOptional.",
+                      "format": "int32",
+                      "type": "integer"
+                    },
                     "gatewayTopology": {
                       "description": "Topology encapsulates the configuration which describes where the proxy is\nlocated i.e. behind a (or N) trusted proxy (proxies) or directly exposed\nto the internet. This configuration only effects gateways and is applied\nto all the gateways in the cluster unless overridden via annotations of the\ngateway workloads.",
                       "properties": {
@@ -2855,6 +2906,26 @@
                             },
                             "uri": {
                               "description": "Whether to forward the URI type Subject Alternative Name of the client cert. Defaults to\ntrue.",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object",
+                          "additionalProperties": false
+                        },
+                        "xForwardedHost": {
+                          "description": "Controls the `X-Forwarded-Host` header. If enabled, the `X-Forwarded-Host` header is appended\nwith the original host when it is rewritten.\nThis header is disabled by default.",
+                          "properties": {
+                            "enabled": {
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object",
+                          "additionalProperties": false
+                        },
+                        "xForwardedPort": {
+                          "description": "Controls the `X-Forwarded-Port` header. If enabled, the `X-Forwarded-Port` header is header with the port value\nclient used to connect to Envoy. It will be ignored if the \u201cx-forwarded-port\u201c header has been set by any\ntrusted proxy in front of Envoy.\nThis header is disabled by default.",
+                          "properties": {
+                            "enabled": {
                               "type": "boolean"
                             }
                           },
@@ -3086,6 +3157,10 @@
                       "description": "Maximum length of name field in Envoy's metrics. The length of the name field\nis determined by the length of a name field in a service and the set of labels that\ncomprise a particular version of the service. The default value is set to 189 characters.\nEnvoy's internal metrics take up 67 characters, for a total of 256 character name per metric.\nIncrease the value of this field if you find that the metrics from Envoys are truncated.",
                       "format": "int32",
                       "type": "integer"
+                    },
+                    "statsCompression": {
+                      "description": "Offer HTTP compression for stats\nDefaults to true.\nOptional.",
+                      "type": "boolean"
                     },
                     "statsdUdpAddress": {
                       "description": "IP Address and Port of a statsd UDP listener (e.g. `10.75.241.127:9125`).",
@@ -4145,6 +4220,14 @@
                           "service": {
                             "description": "REQUIRED. Specifies the OpenTelemetry endpoint that will receive OTLP traces.\nThe format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient\nto unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a\nservice defined by the Kubernetes service or ServiceEntry.\n\nExample: \"otlp.default.svc.cluster.local\" or \"bar/otlp.example.com\".",
                             "type": "string"
+                          },
+                          "serviceAttributeEnrichment": {
+                            "description": "Optional. Controls how service resource attributes are enriched in\nexported trace spans. When set to `OTEL_SEMANTIC_CONVENTIONS`, the\nservice attributes (`service.name`, `service.namespace`,\n`service.version`, `service.instance.id`) will be populated following\nthe OpenTelemetry semantic conventions for Kubernetes:\nhttps://opentelemetry.io/docs/specs/semconv/non-normative/k8s-attributes/#service-attributes\n\nWhen not set or set to `ISTIO_CANONICAL`, Istio's default enrichment\nlogic is used (controlled by `TracingServiceName` in `ProxyConfig`).\n\nExample:\n```yaml\nextensionProviders:\n  - name: otel-tracing\n    opentelemetry:\n    port: 443\n    service: my.olly-backend.com\n    serviceAttributeEnrichment: OTEL_SEMANTIC_CONVENTIONS\n\n```",
+                            "enum": [
+                              "ISTIO_CANONICAL",
+                              "OTEL_SEMANTIC_CONVENTIONS"
+                            ],
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -4265,6 +4348,37 @@
                             "description": "Optional. A 128 bit trace id will be used in Istio.\nIf true, will result in a 64 bit trace id being used.",
                             "type": "boolean"
                           },
+                          "headers": {
+                            "description": "Optional. Additional HTTP headers to include in the request to the Zipkin collector.\nThese headers will be added to the HTTP request when sending spans to the collector.",
+                            "items": {
+                              "properties": {
+                                "envName": {
+                                  "description": "The HTTP header value from the environment variable.\n\nWarning:\n- The environment variable must be set in the istiod pod spec.\n- This is not a end-to-end secure.",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "description": "REQUIRED. The HTTP header name.",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "description": "The HTTP header value.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "name"
+                              ],
+                              "type": "object",
+                              "x-kubernetes-validations": [
+                                {
+                                  "message": "At most one of [value envName] should be set",
+                                  "rule": "(has(self.value)?1:0) + (has(self.envName)?1:0) <= 1"
+                                }
+                              ],
+                              "additionalProperties": false
+                            },
+                            "type": "array"
+                          },
                           "maxTagLength": {
                             "description": "Optional. Controls the overall path length allowed in a reported span.\nNOTE: currently only controls max length of the path tag.",
                             "format": "int32",
@@ -4281,6 +4395,18 @@
                           },
                           "service": {
                             "description": "REQUIRED. Specifies the service that the Zipkin API.\nThe format is `[<Namespace>/]<Hostname>`. The specification of `<Namespace>` is required only when it is insufficient\nto unambiguously resolve a service in the service registry. The `<Hostname>` is a fully qualified host name of a\nservice defined by the Kubernetes service or ServiceEntry.\n\nExample: \"zipkin.default.svc.cluster.local\" or \"bar/zipkin.example.com\".",
+                            "type": "string"
+                          },
+                          "timeout": {
+                            "description": "Optional. The timeout for the HTTP request to the Zipkin collector.\nIf not specified, the default timeout from Envoy's configuration will be used (which is 5 seconds currently).",
+                            "type": "string"
+                          },
+                          "traceContextOption": {
+                            "description": "Optional. Determines which trace context format to use for trace header extraction and propagation.\nThis controls both downstream request header extraction and upstream request header injection.\nThe default value is USE_B3 to maintain backward compatibility.",
+                            "enum": [
+                              "USE_B3",
+                              "USE_B3_WITH_W3C_PROPAGATION"
+                            ],
                             "type": "string"
                           }
                         },
@@ -4313,6 +4439,10 @@
                     "DO_NOT_UPGRADE",
                     "UPGRADE"
                   ],
+                  "type": "string"
+                },
+                "hboneIdleTimeout": {
+                  "description": "Idle timeout configured on Envoy proxies for their connection pools to ztunnel via HBONE.\nThis controls how long Envoy will keep idle connections to ztunnel before closing them.\nNote: This setting is applied only on the Envoy proxy side; ztunnel does not use it.\nDefault timeout is 1 hour (3600s).\nFor environments with aggressive IP address reuse, it is recommended to set\nthis to a value less than the CNI IP cooldown period to prevent stale connection reuse.\nFor example, if your CNI has a 30s cooldown period, setting this to 15s is recommended.",
                   "type": "string"
                 },
                 "inboundClusterStatName": {
@@ -4455,9 +4585,62 @@
                     "mode": {
                       "enum": [
                         "REGISTRY_ONLY",
-                        "ALLOW_ANY"
+                        "ALLOW_ANY",
+                        "ALLOW_ANY_DYNAMIC_DNS"
                       ],
                       "type": "string"
+                    },
+                    "tls": {
+                      "description": "TLS settings for client connections to unknown destinations. Applicable only when mode is set to `ALLOW_ANY_DYNAMIC_DNS`.",
+                      "properties": {
+                        "caCertificates": {
+                          "description": "OPTIONAL: The path to the file containing certificate authority\ncertificates to use in verifying a presented server certificate. If\nomitted, the proxy will verify the server's certificate using\nthe OS CA certificates.\nShould be empty if mode is `ISTIO_MUTUAL`.",
+                          "type": "string"
+                        },
+                        "caCrl": {
+                          "description": "OPTIONAL: The path to the file containing the certificate revocation list (CRL)\nto use in verifying a presented server certificate. `CRL` is a list of certificates\nthat have been revoked by the CA (Certificate Authority) before their scheduled expiration date.\nIf specified, the proxy will verify if the presented certificate is part of the revoked list of certificates.\nIf omitted, the proxy will not verify the certificate against the `crl`. Note that if `credentialName` is set,\n`CRL` cannot be specified using `caCrl`, rather it has to be specified inside the credential.",
+                          "type": "string"
+                        },
+                        "clientCertificate": {
+                          "description": "REQUIRED if mode is `MUTUAL`. The path to the file holding the\nclient-side TLS certificate to use.\nShould be empty if mode is `ISTIO_MUTUAL`.",
+                          "type": "string"
+                        },
+                        "credentialName": {
+                          "description": "The name of the secret that holds the TLS certs for the\nclient including the CA certificates. This secret must exist in\nthe namespace of the proxy using the certificates.\nAn Opaque secret should contain the following keys and values:\n`key: <privateKey>`, `cert: <clientCert>`, `cacert: <CACertificate>`,\n`crl: <certificateRevocationList>`\nHere CACertificate is used to verify the server certificate.\nFor mutual TLS, `cacert: <CACertificate>` can be provided in the\nsame secret or a separate secret named `<secret>-cacert`.\nA TLS secret for client certificates with an additional\n`ca.crt` key for CA certificates and `ca.crl` key for\ncertificate revocation list(CRL) is also supported.\nOnly one of client certificates and CA certificate\nor credentialName can be specified.\n\n**NOTE:** This field is applicable at sidecars only if\n`DestinationRule` has a `workloadSelector` specified.\nOtherwise the field will be applicable only at gateways, and\nsidecars will continue to use the certificate paths.",
+                          "type": "string"
+                        },
+                        "insecureSkipVerify": {
+                          "description": "`insecureSkipVerify` specifies whether the proxy should skip verifying the\nCA signature and SAN for the server certificate corresponding to the host.\nThe default value of this field is false.",
+                          "type": "boolean"
+                        },
+                        "mode": {
+                          "description": "Indicates whether connections to this port should be secured\nusing TLS. The value of this field determines how TLS is enforced.",
+                          "enum": [
+                            "DISABLE",
+                            "SIMPLE",
+                            "MUTUAL",
+                            "ISTIO_MUTUAL"
+                          ],
+                          "type": "string"
+                        },
+                        "privateKey": {
+                          "description": "REQUIRED if mode is `MUTUAL`. The path to the file holding the\nclient's private key.\nShould be empty if mode is `ISTIO_MUTUAL`.",
+                          "type": "string"
+                        },
+                        "sni": {
+                          "description": "SNI string to present to the server during TLS handshake.\nIf unspecified, SNI will be automatically set based on downstream HTTP\nhost/authority header for SIMPLE and MUTUAL TLS modes.",
+                          "type": "string"
+                        },
+                        "subjectAltNames": {
+                          "description": "A list of alternate names to verify the subject identity in the\ncertificate. If specified, the proxy will verify that the server\ncertificate's subject alt name matches one of the specified values.\nIf specified, this list overrides the value of `subjectAltNames`\nfrom the `ServiceEntry`. If unspecified, automatic validation of upstream\npresented certificate for new upstream connections will be done based on the\ndownstream HTTP host/authority header.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
                     }
                   },
                   "type": "object",
@@ -4666,7 +4849,7 @@
                   "additionalProperties": false
                 },
                 "tlsDefaults": {
-                  "description": "Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.\nCurrently, this supports configuration of ecdhCurves and cipherSuites only.\nFor ISTIO_MUTUAL TLS settings, use meshMTLS configuration.",
+                  "description": "Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.\nFor ISTIO_MUTUAL TLS settings, use meshMTLS configuration.",
                   "properties": {
                     "cipherSuites": {
                       "description": "Optional: If specified, the TLS connection will only support the specified cipher list when negotiating TLS 1.0-1.2.\nIf not specified, the following cipher suites will be used:\n```\nECDHE-ECDSA-AES256-GCM-SHA384\nECDHE-RSA-AES256-GCM-SHA384\nECDHE-ECDSA-AES128-GCM-SHA256\nECDHE-RSA-AES128-GCM-SHA256\nAES256-GCM-SHA384\nAES128-GCM-SHA256\n```",
@@ -5561,7 +5744,7 @@
                               "type": "string"
                             }
                           ],
-                          "description": "tolerance is the tolerance on the ratio between the current and desired\nmetric value under which no updates are made to the desired number of\nreplicas (e.g. 0.01 for 1%). Must be greater than or equal to zero. If not\nset, the default cluster-wide tolerance is applied (by default 10%).\n\nFor example, if autoscaling is configured with a memory consumption target of 100Mi,\nand scale-down and scale-up tolerances of 5% and 1% respectively, scaling will be\ntriggered when the actual consumption falls below 95Mi or exceeds 101Mi.\n\nThis is an alpha field and requires enabling the HPAConfigurableTolerance\nfeature gate.",
+                          "description": "tolerance is the tolerance on the ratio between the current and desired\nmetric value under which no updates are made to the desired number of\nreplicas (e.g. 0.01 for 1%). Must be greater than or equal to zero. If not\nset, the default cluster-wide tolerance is applied (by default 10%).\n\nFor example, if autoscaling is configured with a memory consumption target of 100Mi,\nand scale-down and scale-up tolerances of 5% and 1% respectively, scaling will be\ntriggered when the actual consumption falls below 95Mi or exceeds 101Mi.\n\nThis is an beta field and requires the HPAConfigurableTolerance feature\ngate to be enabled.",
                           "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                           "x-kubernetes-int-or-string": true
                         }
@@ -5621,7 +5804,7 @@
                               "type": "string"
                             }
                           ],
-                          "description": "tolerance is the tolerance on the ratio between the current and desired\nmetric value under which no updates are made to the desired number of\nreplicas (e.g. 0.01 for 1%). Must be greater than or equal to zero. If not\nset, the default cluster-wide tolerance is applied (by default 10%).\n\nFor example, if autoscaling is configured with a memory consumption target of 100Mi,\nand scale-down and scale-up tolerances of 5% and 1% respectively, scaling will be\ntriggered when the actual consumption falls below 95Mi or exceeds 101Mi.\n\nThis is an alpha field and requires enabling the HPAConfigurableTolerance\nfeature gate.",
+                          "description": "tolerance is the tolerance on the ratio between the current and desired\nmetric value under which no updates are made to the desired number of\nreplicas (e.g. 0.01 for 1%). Must be greater than or equal to zero. If not\nset, the default cluster-wide tolerance is applied (by default 10%).\n\nFor example, if autoscaling is configured with a memory consumption target of 100Mi,\nand scale-down and scale-up tolerances of 5% and 1% respectively, scaling will be\ntriggered when the actual consumption falls below 95Mi or exceeds 101Mi.\n\nThis is an beta field and requires the HPAConfigurableTolerance feature\ngate to be enabled.",
                           "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                           "x-kubernetes-int-or-string": true
                         }
@@ -5677,6 +5860,10 @@
                   },
                   "type": "object",
                   "additionalProperties": false
+                },
+                "crlConfigMapName": {
+                  "description": "Select a custom name for istiod's plugged-in CA CRL ConfigMap.",
+                  "type": "string"
                 },
                 "deploymentLabels": {
                   "additionalProperties": {
@@ -6106,7 +6293,7 @@
                         "type": "string"
                       },
                       "operator": {
-                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists and Equal. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.",
+                        "description": "Operator represents a key's relationship to the value.\nValid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.\nExists is equivalent to wildcard for value, so that a pod can\ntolerate all taints of a particular category.\nLt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).",
                         "type": "string"
                       },
                       "tolerationSeconds": {
@@ -6727,7 +6914,7 @@
                                     "additionalProperties": false
                                   },
                                   "resources": {
-                                    "description": "resources represents the minimum resources the volume should have.\nIf RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
+                                    "description": "resources represents the minimum resources the volume should have.\nUsers are allowed to specify resource requirements\nthat are lower than previous value but must still be higher than capacity recorded in the\nstatus field of the claim.\nMore info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources",
                                     "properties": {
                                       "limits": {
                                         "additionalProperties": {
@@ -7438,6 +7625,13 @@
                                     "signerName": {
                                       "description": "Kubelet's generated CSRs will be addressed to this signer.",
                                       "type": "string"
+                                    },
+                                    "userAnnotations": {
+                                      "additionalProperties": {
+                                        "type": "string"
+                                      },
+                                      "description": "userAnnotations allow pod authors to pass additional information to\nthe signer implementation.  Kubernetes does not restrict or validate this\nmetadata in any way.\n\nThese values are copied verbatim into the `spec.unverifiedUserAnnotations` field of\nthe PodCertificateRequest objects that Kubelet creates.\n\nEntries are subject to the same validation as object metadata annotations,\nwith the addition that all keys must be domain-prefixed. No restrictions\nare placed on values, except an overall size limitation on the entire field.\n\nSigners should document the keys and values they support. Signers should\ndeny requests that contain keys they do not recognize.",
+                                      "type": "object"
                                     }
                                   },
                                   "required": [
@@ -8010,19 +8204,22 @@
           "additionalProperties": false
         },
         "version": {
-          "description": "Defines the version of Istio to install.\nMust be one of: v1.27.5, v1.27.3, v1.26.8, v1.26.6, v1.26.4, v1.26.3, v1.26.2, v1.24.6, v1.24.5, v1.24.4, v1.24.3.",
+          "description": "Defines the version of Istio to install.\nMust be one of: v1.30.1, v1.28.8, v1.28.6, v1.28.5, v1.28.4, v1.27.9, v1.27.8, v1.27.5, v1.27.3.",
           "enum": [
+            "v1.30.1",
+            "v1.28.8",
+            "v1.28.6",
+            "v1.28.5",
+            "v1.28.4",
+            "v1.27.9",
+            "v1.27.8",
             "v1.27.5",
             "v1.27.3",
             "v1.26.8",
             "v1.26.6",
             "v1.26.4",
             "v1.26.3",
-            "v1.26.2",
-            "v1.24.6",
-            "v1.24.5",
-            "v1.24.4",
-            "v1.24.3"
+            "v1.26.2"
           ],
           "type": "string"
         }
@@ -8046,7 +8243,7 @@
         "conditions": {
           "description": "Represents the latest available observations of the object's current state.",
           "items": {
-            "description": "IstioRevisionCondition represents a specific observation of the IstioRevision object's state.",
+            "description": "StatusCondition represents a specific observation of an object's state.",
             "properties": {
               "lastTransitionTime": {
                 "description": "Last time the condition transitioned from one status to another.",

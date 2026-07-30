@@ -15,7 +15,7 @@
     "spec": {
       "default": {
         "namespace": "istio-cni",
-        "version": "v1.27.5"
+        "version": "v1.30.1"
       },
       "description": "IstioCNISpec defines the desired state of IstioCNI",
       "properties": {
@@ -888,6 +888,13 @@
                   "description": "The directory path within the cluster node's filesystem where network namespaces are located.\nDefaults to '/var/run/netns', in minikube/docker/others can be '/var/run/docker/netns'.",
                   "type": "string"
                 },
+                "daemonSetLabels": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Additional labels to apply to the istio-cni DaemonSet.",
+                  "type": "object"
+                },
                 "env": {
                   "additionalProperties": {
                     "type": "string"
@@ -933,6 +940,13 @@
                     "type": "string"
                   },
                   "description": "Additional annotations to apply to the istio-cni Pods.\n\nDeprecated: Marked as deprecated in pkg/apis/values_types.proto.",
+                  "type": "object"
+                },
+                "podLabels": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "description": "Additional labels to apply to the istio-cni Pods.",
                   "type": "object"
                 },
                 "privileged": {
@@ -1008,7 +1022,7 @@
                   "additionalProperties": false
                 },
                 "resource_quotas": {
-                  "description": "The resource quotas configration for the CNI DaemonSet.",
+                  "description": "The resource quotas configuration for the CNI DaemonSet.",
                   "properties": {
                     "enabled": {
                       "description": "Controls whether to create resource quotas or not for the CNI DaemonSet.",
@@ -1121,6 +1135,10 @@
                 "tag": {
                   "description": "The container image tag to pull. Image will be `Hub/Image:Tag-Variant`.",
                   "type": "string"
+                },
+                "useAppArmorAnnotation": {
+                  "description": "Specifies whether to use the AppArmor annotation or the appArmorProfile field in the securityContext to configure the profile.\nSee https://kubernetes.io/docs/tutorials/security/apparmor/\nhttps://kubernetes.io/docs/reference/labels-annotations-taints/#container-apparmor-security-beta-kubernetes-io",
+                  "type": "boolean"
                 },
                 "variant": {
                   "description": "The container image variant to pull. Options are \"debug\" or \"distroless\". Unset will use the default for the given version.",
@@ -1258,10 +1276,19 @@
           "additionalProperties": false
         },
         "version": {
-          "default": "v1.27.5",
-          "description": "Defines the version of Istio to install.\nMust be one of: v1.27-latest, v1.27.5, v1.27.3, v1.26-latest, v1.26.8, v1.26.6, v1.26.4, v1.26.3, v1.26.2, v1.24-latest, v1.24.6, v1.24.5, v1.24.4, v1.24.3.",
+          "default": "v1.30.1",
+          "description": "Defines the version of Istio to install.\nMust be one of: v1.30-latest, v1.30.1, v1.28-latest, v1.28.8, v1.28.6, v1.28.5, v1.28.4, v1.27-latest, v1.27.9, v1.27.8, v1.27.5, v1.27.3.",
           "enum": [
+            "v1.30-latest",
+            "v1.30.1",
+            "v1.28-latest",
+            "v1.28.8",
+            "v1.28.6",
+            "v1.28.5",
+            "v1.28.4",
             "v1.27-latest",
+            "v1.27.9",
+            "v1.27.8",
             "v1.27.5",
             "v1.27.3",
             "v1.26-latest",
@@ -1269,12 +1296,7 @@
             "v1.26.6",
             "v1.26.4",
             "v1.26.3",
-            "v1.26.2",
-            "v1.24-latest",
-            "v1.24.6",
-            "v1.24.5",
-            "v1.24.4",
-            "v1.24.3"
+            "v1.26.2"
           ],
           "type": "string"
         }
@@ -1292,7 +1314,7 @@
         "conditions": {
           "description": "Represents the latest available observations of the object's current state.",
           "items": {
-            "description": "IstioCNICondition represents a specific observation of the IstioCNI object's state.",
+            "description": "StatusCondition represents a specific observation of an object's state.",
             "properties": {
               "lastTransitionTime": {
                 "description": "Last time the condition transitioned from one status to another.",

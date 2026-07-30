@@ -128,6 +128,10 @@
           "description": "ProvisioningNetworkCIDR is the network on which the\nbaremetal nodes are provisioned. The provisioningIP and the\nIPs in the dhcpRange all come from within this network. When using IPv6\nand in a network managed by the Baremetal IPI solution this cannot be a\nnetwork larger than a /64.",
           "type": "string"
         },
+        "provisioningNetworkGateway": {
+          "description": "ProvisioningNetworkGateway is the IP address of the default gateway\nfor the provisioning network. This gateway is provided to baremetal\nhosts via DHCP to enable routing to external networks during\ninspection and provisioning. This field is optional and only\nused when ProvisioningNetwork is set to Managed. The gateway IP\nmust be within the ProvisioningNetworkCIDR but outside of the\nProvisioningDHCPRange and must not be the same as ProvisioningIP.",
+          "type": "string"
+        },
         "provisioningOSDownloadURL": {
           "description": "ProvisioningOSDownloadURL is the location from which the OS\nImage used to boot baremetal host machines can be downloaded\nby the metal3 cluster.",
           "type": "string"
