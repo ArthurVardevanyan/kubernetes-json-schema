@@ -5,17 +5,17 @@
   "additionalProperties": false,
   "x-kubernetes-group-version-kind": [
     {
-      "group": "",
+      "group": "agent-install.openshift.io",
       "kind": "AgentConfig",
       "version": "v1beta1"
     }
   ],
   "properties": {
     "apiVersion": {
-      "description": "APIVersion for the AgentConfig resource. Must be \"v1beta1\".",
+      "description": "APIVersion for the AgentConfig resource. Must be \"agent-install.openshift.io/v1beta1\".",
       "type": "string",
       "enum": [
-        "v1beta1"
+        "agent-install.openshift.io/v1beta1"
       ]
     },
     "kind": {

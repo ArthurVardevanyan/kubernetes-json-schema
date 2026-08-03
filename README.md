@@ -28,12 +28,12 @@ cp custom_crds/oauthclient-oauth.openshift.io-v1.json custom-standalone-strict
 # AgentConfig is NOT a real Kubernetes CRD — it is a standalone installer config file
 # validated by the openshift-installer binary (apiVersion: v1beta1, kind: AgentConfig).
 # The schema is hand-crafted from upstream Go type definitions and stored in custom_crds/.
-# The pre-built schema is already committed at custom-standalone-strict/agentconfig--v1beta1.json.
+# The pre-built schema is already committed at custom-standalone-strict/agentconfig-agent-install.openshift.io-v1beta1.json.
 #
 # To regenerate after editing custom_crds/agent-config.yaml (e.g. when upstream types change):
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ./openapi2jsonschema.py custom_crds/agent-config.yaml
-mv agentconfig--v1beta1.json custom-standalone-strict/
+mv agentconfig-agent-install.openshift.io-v1beta1.json custom-standalone-strict/
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ./openapi2jsonschema.py custom_crds/groups.yaml
 mv group-user.openshift.io-v1.json custom-standalone-strict
@@ -97,7 +97,7 @@ Because there is no upstream CRD to fetch, the schema is maintained by hand in t
 | File | Purpose |
 |------|---------|
 | `custom_crds/agent-config.yaml` | Pseudo-CRD YAML used as the source of truth for the schema structure |
-| `custom-standalone-strict/agentconfig--v1beta1.json` | Generated JSON Schema consumed by kubeconform |
+| `custom-standalone-strict/agentconfig-agent-install.openshift.io-v1beta1.json` | Generated JSON Schema consumed by kubeconform |
 
 ### Upstream sources (check these when updating)
 
@@ -117,15 +117,14 @@ Because there is no upstream CRD to fetch, the schema is maintained by hand in t
    ```bash
    export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
    ./openapi2jsonschema.py custom_crds/agent-config.yaml
-   mv agentconfig--v1beta1.json custom-standalone-strict/
+   mv agentconfig-agent-install.openshift.io-v1beta1.json custom-standalone-strict/
    ```
 
-4. Commit both the updated `custom_crds/agent-config.yaml` and `custom-standalone-strict/agentconfig--v1beta1.json`.
+4. Commit both the updated `custom_crds/agent-config.yaml` and `custom-standalone-strict/agentconfig-agent-install.openshift.io-v1beta1.json`.
 
 > **Schema filename note:** kubeconform resolves the schema using
-> `{kind}-{group}-{version}`. Because `AgentConfig` uses `apiVersion: v1beta1`
-> with no API group, the group segment is empty and the filename is
-> `agentconfig--v1beta1.json` (double dash).
+> `{kind}-{group}-{version}`. With `apiVersion: agent-install.openshift.io/v1beta1`
+> the filename is `agentconfig-agent-install.openshift.io-v1beta1.json`.
 
 ---
 

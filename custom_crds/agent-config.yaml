@@ -18,7 +18,7 @@ kind: CustomResourceDefinition
 metadata:
   name: agentconfigs.agent-install.openshift.io
 spec:
-  group: ""
+  group: agent-install.openshift.io
   versions:
     - name: v1beta1
       served: true
@@ -33,10 +33,10 @@ spec:
           properties:
             apiVersion:
               description: >
-                APIVersion for the AgentConfig resource. Must be "v1beta1".
+                APIVersion for the AgentConfig resource. Must be "agent-install.openshift.io/v1beta1".
               type: string
               enum:
-                - v1beta1
+                - agent-install.openshift.io/v1beta1
             kind:
               description: >
                 Kind of the resource. Must be "AgentConfig".
