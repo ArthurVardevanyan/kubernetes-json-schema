@@ -1,0 +1,190 @@
+# Hand-crafted CRD for AgentConfig (OpenShift Agent-Based Installer)
+# Source: https://github.com/openshift/installer/blob/main/pkg/types/agent/agent_config_type.go
+# AgentConfig is NOT a real Kubernetes CRD — it is a standalone installer config file.
+# This pseudo-CRD is maintained manually to generate a JSON schema for validation tools
+# like kubeconform. Update this file when the upstream type definitions change.
+#
+# Upstream type references:
+#   - Config struct:        github.com/openshift/installer/pkg/types/agent/agent_config_type.go
+#   - RootDeviceHints:      github.com/openshift/installer/pkg/types/baremetal/rootdevice.go
+#   - Interface/NetConfig:  github.com/openshift/assisted-service/api/v1beta1/nmstate_config_types.go
+#
+# To regenerate the JSON schema from this file:
+#   export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+#   ./openapi2jsonschema.py custom_crds/agent-config.yaml
+#   mv agentconfig--v1beta1.json custom-standalone-strict/
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: agentconfigs.agent-install.openshift.io
+spec:
+  group: ""
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: >
+            AgentConfig specifies additional configuration for the OpenShift agent-based
+            installer. It is consumed alongside install-config.yaml during cluster
+            installation and is NOT a live Kubernetes resource.
+          properties:
+            apiVersion:
+              description: >
+                APIVersion for the AgentConfig resource. Must be "v1beta1".
+              type: string
+              enum:
+                - v1beta1
+            kind:
+              description: >
+                Kind of the resource. Must be "AgentConfig".
+              type: string
+              enum:
+                - AgentConfig
+            metadata:
+              type: object
+              description: Standard object metadata.
+              properties:
+                name:
+                  type: string
+                  description: Name of the cluster.
+                namespace:
+                  type: string
+                  description: Namespace (optional, typically omitted).
+                labels:
+                  type: object
+                  additionalProperties:
+                    type: string
+                annotations:
+                  type: object
+                  additionalProperties:
+                    type: string
+            rendezvousIP:
+              description: >
+                IP address of the rendezvous host — the node that runs the bootstrap
+                workloads during installation. Must be reachable by all other hosts.
+              type: string
+            bootArtifactsBaseURL:
+              description: >
+                Base URL used for downloading boot artifacts (kernel, initrd, rootfs)
+                when using a user-provided infrastructure. Must be an http/https URL.
+              type: string
+            minimalISO:
+              description: >
+                When true, a minimal ISO that does not contain the rootfs will be
+                generated. Defaults to false (full ISO). Automatically set to true
+                for External platform installations.
+              type: boolean
+            additionalNTPSources:
+              description: >
+                List of additional NTP sources (hostname or IP address) added to all
+                cluster hosts. These are merged with any NTP sources configured via
+                other means.
+              type: array
+              items:
+                type: string
+            hosts:
+              description: >
+                Per-host configuration overrides. At least one interface must be
+                specified per host entry so the correct physical node can be
+                identified by MAC address.
+              type: array
+              items:
+                type: object
+                description: Host defines per-host configuration for agent-based installation.
+                properties:
+                  hostname:
+                    description: Desired hostname for this host.
+                    type: string
+                  role:
+                    description: >
+                      Role of this host in the cluster. Valid values are "master"
+                      (control-plane) and "worker". If omitted the installer assigns
+                      roles automatically.
+                    type: string
+                    enum:
+                      - master
+                      - worker
+                  rootDeviceHints:
+                    description: >
+                      Hints used to identify the disk on which the OS will be
+                      installed. Only one of the hint fields needs to match.
+                    type: object
+                    properties:
+                      deviceName:
+                        description: >
+                          Linux device path such as "/dev/sda" or a
+                          "/dev/disk/by-path/…" path. Must start with /dev/.
+                        type: string
+                      hctl:
+                        description: SCSI bus address in the form H:C:T:L (e.g. "0:0:0:0").
+                        type: string
+                      model:
+                        description: >
+                          Vendor-specific device model identifier. Substring match.
+                        type: string
+                      vendor:
+                        description: >
+                          Name of the device vendor / manufacturer. Substring match.
+                        type: string
+                      serialNumber:
+                        description: Device serial number. Must match exactly.
+                        type: string
+                      minSizeGigabytes:
+                        description: Minimum required disk size in Gigabytes.
+                        type: integer
+                        minimum: 0
+                      wwn:
+                        description: Unique storage identifier (WWN). Must match exactly.
+                        type: string
+                      wwnWithExtension:
+                        description: >
+                          WWN with vendor extension appended. Must match exactly.
+                        type: string
+                      wwnVendorExtension:
+                        description: Unique vendor storage identifier. Must match exactly.
+                        type: string
+                      rotational:
+                        description: >
+                          Set to true to require a spinning (HDD) device; false for
+                          non-rotating (SSD/NVMe).
+                        type: boolean
+                  interfaces:
+                    description: >
+                      List of network interfaces present on this host, used to
+                      match the host by MAC address and to rename interfaces in
+                      the NMState networkConfig.
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - macAddress
+                      properties:
+                        name:
+                          description: >
+                            Logical NIC name as it should appear inside the
+                            NMState network configuration.
+                          type: string
+                        macAddress:
+                          description: >
+                            MAC address of the interface on the physical host.
+                            Format: XX:XX:XX:XX:XX:XX (hex pairs separated by colons).
+                          type: string
+                          pattern: '^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$'
+                  networkConfig:
+                    description: >
+                      NMState-format network configuration applied to this host.
+                      See https://nmstate.io/examples.html for examples.
+                      The value is a free-form YAML object matching the NMState
+                      operational-state schema.
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+  names:
+    plural: agentconfigs
+    singular: agentconfig
+    kind: AgentConfig
+  scope: Namespaced

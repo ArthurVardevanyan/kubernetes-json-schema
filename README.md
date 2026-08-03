@@ -23,6 +23,17 @@ chmod +x openapi2jsonschema.py
 
 # Custom Files
 cp custom_crds/oauthclient-oauth.openshift.io-v1.json custom-standalone-strict
+
+# AgentConfig (OpenShift Agent-Based Installer)
+# AgentConfig is NOT a real Kubernetes CRD — it is a standalone installer config file
+# validated by the openshift-installer binary (apiVersion: v1beta1, kind: AgentConfig).
+# The schema is hand-crafted from upstream Go type definitions and stored in custom_crds/.
+# The pre-built schema is already committed at custom-standalone-strict/agentconfig--v1beta1.json.
+#
+# To regenerate after editing custom_crds/agent-config.yaml (e.g. when upstream types change):
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+./openapi2jsonschema.py custom_crds/agent-config.yaml
+mv agentconfig--v1beta1.json custom-standalone-strict/
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ./openapi2jsonschema.py custom_crds/groups.yaml
 mv group-user.openshift.io-v1.json custom-standalone-strict
@@ -72,6 +83,51 @@ rm myCRD.yaml
       -schema-location "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json" \
       -output text "${DIR}" | grep -v "is valid"
 ```
+
+## AgentConfig Schema
+
+`AgentConfig` (`apiVersion: v1beta1`, `kind: AgentConfig`) is used by the OpenShift
+**agent-based installer**. It is **not** a live Kubernetes CRD — it is a standalone config
+file consumed by the `openshift-install` binary alongside `install-config.yaml`.
+
+Because there is no upstream CRD to fetch, the schema is maintained by hand in this repo.
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `custom_crds/agent-config.yaml` | Pseudo-CRD YAML used as the source of truth for the schema structure |
+| `custom-standalone-strict/agentconfig--v1beta1.json` | Generated JSON Schema consumed by kubeconform |
+
+### Upstream sources (check these when updating)
+
+- **Config struct** — `apiVersion`, `kind`, `rendezvousIP`, `bootArtifactsBaseURL`, `minimalISO`, `additionalNTPSources`, `hosts`:
+  <https://github.com/openshift/installer/blob/main/pkg/types/agent/agent_config_type.go>
+- **RootDeviceHints** — `deviceName`, `hctl`, `model`, `vendor`, `serialNumber`, `minSizeGigabytes`, `wwn*`, `rotational`:
+  <https://github.com/openshift/installer/blob/main/pkg/types/baremetal/rootdevice.go>
+- **Interface / NetConfig** — `interfaces[].name`, `interfaces[].macAddress`, `networkConfig`:
+  <https://github.com/openshift/assisted-service/blob/master/api/v1beta1/nmstate_config_types.go>
+
+### Keeping it up to date
+
+1. Review the upstream Go type files above for any new or changed fields.
+2. Edit `custom_crds/agent-config.yaml` to reflect the changes (update the `openAPIV3Schema` section).
+3. Regenerate the JSON schema:
+
+   ```bash
+   export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+   ./openapi2jsonschema.py custom_crds/agent-config.yaml
+   mv agentconfig--v1beta1.json custom-standalone-strict/
+   ```
+
+4. Commit both the updated `custom_crds/agent-config.yaml` and `custom-standalone-strict/agentconfig--v1beta1.json`.
+
+> **Schema filename note:** kubeconform resolves the schema using
+> `{kind}-{group}-{version}`. Because `AgentConfig` uses `apiVersion: v1beta1`
+> with no API group, the group segment is empty and the filename is
+> `agentconfig--v1beta1.json` (double dash).
+
+---
 
 ## Notes
 
