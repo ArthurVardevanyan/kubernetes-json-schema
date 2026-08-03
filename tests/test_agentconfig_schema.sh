@@ -16,10 +16,14 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SCHEMA_DIR="${REPO_ROOT}/custom-standalone-strict"
 FIXTURES_DIR="${REPO_ROOT}/tests/fixtures/agentconfig"
 
-# AgentConfig uses apiVersion: v1beta1 (no group), so kubeconform resolves
-# the schema via the {{.ResourceKind}}{{.KindSuffix}} template:
-#   agentconfig + -v1beta1 = agentconfig-v1beta1.json
-SCHEMA_LOCATION="${SCHEMA_DIR}/{{.ResourceKind}}{{.KindSuffix}}.json"
+# AgentConfig uses apiVersion: v1beta1 (no group). kubeconform splits apiVersion
+# on '/' to populate {{.Group}} and {{.ResourceAPIVersion}}. With no '/', both
+# equal "v1beta1", so the schema-location template
+# {{.ResourceKind}}-{{.Group}}-{{.ResourceAPIVersion}} resolves to:
+#   agentconfig-v1beta1-v1beta1.json
+# This matches the FILENAME_FORMAT='{kind}-{fullgroup}-{version}' convention
+# used by openapi2jsonschema.py (with spec.group: "v1beta1" in the CRD YAML).
+SCHEMA_LOCATION="${SCHEMA_DIR}/{{.ResourceKind}}-{{.Group}}-{{.ResourceAPIVersion}}.json"
 
 PASS=0
 FAIL=0
@@ -58,7 +62,7 @@ _run() {
 
 echo ""
 echo "AgentConfig schema tests"
-echo "Schema: ${SCHEMA_DIR}/agentconfig-v1beta1.json"
+echo "Schema: ${SCHEMA_DIR}/agentconfig-v1beta1-v1beta1.json"
 echo "========================================"
 
 echo ""
