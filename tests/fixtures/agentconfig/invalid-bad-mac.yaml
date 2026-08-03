@@ -1,0 +1,13 @@
+---
+# Invalid: bad MAC address format
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: test-cluster
+rendezvousIP: 10.101.10.101
+hosts:
+  - hostname: node1
+    role: master
+    interfaces:
+      - name: eth0
+        macAddress: "not-a-mac-address"
