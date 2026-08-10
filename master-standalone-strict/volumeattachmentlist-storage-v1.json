@@ -1792,7 +1792,7 @@
                         "additionalProperties": false
                       },
                       "volumeAttributesClassName": {
-                        "description": "Name of VolumeAttributesClass to which this persistent volume belongs. Empty value is not allowed. When this field is not set, it indicates that this volume does not belong to any VolumeAttributesClass. This field is mutable and can be changed by the CSI driver after a volume has been updated successfully to a new class. For an unbound PersistentVolume, the volumeAttributesClassName will be matched with unbound PersistentVolumeClaims during the binding process. This is a beta field and requires enabling VolumeAttributesClass feature (off by default).",
+                        "description": "Name of VolumeAttributesClass to which this persistent volume belongs. Empty value is not allowed. When this field is not set, it indicates that this volume does not belong to any VolumeAttributesClass. This field is mutable and can be changed by the CSI driver after a volume has been updated successfully to a new class. For an unbound PersistentVolume, the volumeAttributesClassName will be matched with unbound PersistentVolumeClaims during the binding process.",
                         "type": [
                           "string",
                           "null"
@@ -1876,6 +1876,14 @@
               "attachError": {
                 "description": "VolumeError captures an error encountered during a volume operation.",
                 "properties": {
+                  "errorCode": {
+                    "description": "errorCode is a numeric gRPC code representing the error encountered during Attach or Detach operations.\n\nThis field requires the MutableCSINodeAllocatableCount feature gate being enabled to be set.",
+                    "format": "int32",
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
                   "message": {
                     "description": "message represents the error encountered during Attach or Detach operation. This string may be logged, so it should not contain sensitive information.",
                     "type": [
@@ -1918,6 +1926,14 @@
               "detachError": {
                 "description": "VolumeError captures an error encountered during a volume operation.",
                 "properties": {
+                  "errorCode": {
+                    "description": "errorCode is a numeric gRPC code representing the error encountered during Attach or Detach operations.\n\nThis field requires the MutableCSINodeAllocatableCount feature gate being enabled to be set.",
+                    "format": "int32",
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
                   "message": {
                     "description": "message represents the error encountered during Attach or Detach operation. This string may be logged, so it should not contain sensitive information.",
                     "type": [
@@ -2013,6 +2029,23 @@
             "string",
             "null"
           ]
+        },
+        "shardInfo": {
+          "description": "ShardInfo describes the shard selector that was applied to produce a list response. Its presence on a list response indicates the list is a filtered subset.",
+          "properties": {
+            "selector": {
+              "description": "selector is the shard selector string from the request, echoed back so clients can verify which shard they received and merge responses from multiple shards.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "selector"
+          ],
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false
         }
       },
       "type": [

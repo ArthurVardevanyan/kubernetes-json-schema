@@ -1,6 +1,16 @@
 {
   "description": "PodStatus represents information about the status of a pod. Status may trail the actual state of a system, especially if the node that hosts the pod cannot contact the control plane.",
   "properties": {
+    "allocatedResources": {
+      "additionalProperties": {
+        "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+      },
+      "description": "AllocatedResources is the total requests allocated for this pod by the node. If pod-level requests are not set, this will be the total requests aggregated across containers in the pod.",
+      "type": [
+        "object",
+        "null"
+      ]
+    },
     "conditions": {
       "description": "Current service state of pod. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#pod-conditions",
       "items": {
@@ -38,6 +48,10 @@
         "null"
       ],
       "x-kubernetes-list-type": "atomic"
+    },
+    "extendedResourceClaimStatus": {
+      "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.PodExtendedResourceClaimStatus",
+      "description": "Status of extended resource claim backed by DRA."
     },
     "hostIP": {
       "description": "hostIP holds the IP address of the host to which the pod is assigned. Empty if the pod has not started yet. A pod can be assigned to a node that has a problem in kubelet which in turns mean that HostIP will not be updated even if there is a node is assigned to pod",
@@ -77,10 +91,29 @@
         "null"
       ]
     },
+    "nodeAllocatableResourceClaimStatuses": {
+      "description": "NodeAllocatableResourceClaimStatuses contains the status of node-allocatable resources that were allocated for this pod through DRA claims. This includes resources currently reported in v1.Node `status.allocatable` that are not extended resources (see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#extended-resources). Examples include \"cpu\", \"memory\", \"ephemeral-storage\", and hugepages.",
+      "items": {
+        "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.NodeAllocatableResourceClaimStatus"
+      },
+      "type": [
+        "array",
+        "null"
+      ],
+      "x-kubernetes-list-type": "atomic"
+    },
     "nominatedNodeName": {
       "description": "nominatedNodeName is set only when this pod preempts other pods on the node, but it cannot be scheduled right away as preemption victims receive their graceful termination periods. This field does not guarantee that the pod will be scheduled on this node. Scheduler may decide to place the pod elsewhere if other nodes become available sooner. Scheduler may also decide to give the resources on this node to a higher priority pod that is created after preemption. As a result, this field may be different than PodSpec.nodeName when the pod is scheduled.",
       "type": [
         "string",
+        "null"
+      ]
+    },
+    "observedGeneration": {
+      "description": "If set, this represents the .metadata.generation that the pod status was set based upon. The PodObservedGenerationTracking feature gate must be enabled to use this field.",
+      "format": "int64",
+      "type": [
+        "integer",
         "null"
       ]
     },
@@ -129,7 +162,7 @@
       ]
     },
     "resize": {
-      "description": "Status of resources resize desired for pod's containers. It is empty if no resources resize is pending. Any changes to container resources will automatically set this to \"Proposed\"",
+      "description": "Status of resources resize desired for pod's containers. It is empty if no resources resize is pending. Any changes to container resources will automatically set this to \"Proposed\" Deprecated: Resize status is moved to two pod conditions PodResizePending and PodResizeInProgress. PodResizePending will track states where the spec has been resized, but the Kubelet has not yet allocated the resources. PodResizeInProgress will track in-progress resizes, and should be present whenever allocated resources != acknowledged resources.",
       "type": [
         "string",
         "null"
@@ -150,6 +183,10 @@
       "x-kubernetes-list-type": "map",
       "x-kubernetes-patch-merge-key": "name",
       "x-kubernetes-patch-strategy": "merge,retainKeys"
+    },
+    "resources": {
+      "$ref": "_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements",
+      "description": "Resources represents the compute resource requests and limits that have been applied at the pod level if pod-level requests or limits are set in PodSpec.Resources"
     },
     "startTime": {
       "$ref": "_definitions.json#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Time",

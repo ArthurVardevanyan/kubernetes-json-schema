@@ -16,6 +16,14 @@
         "null"
       ]
     },
+    "observedGeneration": {
+      "description": "If set, this represents the .metadata.generation that the pod condition was set based upon.",
+      "format": "int64",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
     "reason": {
       "description": "Unique, one-word, CamelCase reason for the condition's last transition.",
       "type": [

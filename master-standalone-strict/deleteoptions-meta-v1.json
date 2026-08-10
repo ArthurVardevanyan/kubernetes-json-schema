@@ -28,8 +28,6 @@
         "authorization.k8s.io/v1beta1",
         "autoscaling/v1",
         "autoscaling/v2",
-        "autoscaling/v2beta1",
-        "autoscaling/v2beta2",
         "batch/v1",
         "batch/v1beta1",
         "certificates.k8s.io/v1",
@@ -50,7 +48,6 @@
         "imagepolicy.k8s.io/v1alpha1",
         "internal.apiserver.k8s.io/v1alpha1",
         "networking.k8s.io/v1",
-        "networking.k8s.io/v1alpha1",
         "networking.k8s.io/v1beta1",
         "node.k8s.io/v1",
         "node.k8s.io/v1alpha1",
@@ -60,15 +57,17 @@
         "rbac.authorization.k8s.io/v1",
         "rbac.authorization.k8s.io/v1alpha1",
         "rbac.authorization.k8s.io/v1beta1",
+        "resource.k8s.io/v1",
         "resource.k8s.io/v1alpha3",
         "resource.k8s.io/v1beta1",
+        "resource.k8s.io/v1beta2",
         "scheduling.k8s.io/v1",
-        "scheduling.k8s.io/v1alpha1",
+        "scheduling.k8s.io/v1alpha2",
         "scheduling.k8s.io/v1beta1",
         "storage.k8s.io/v1",
         "storage.k8s.io/v1alpha1",
         "storage.k8s.io/v1beta1",
-        "storagemigration.k8s.io/v1alpha1"
+        "storagemigration.k8s.io/v1beta1"
       ]
     },
     "dryRun": {
@@ -252,16 +251,6 @@
       "version": "v2"
     },
     {
-      "group": "autoscaling",
-      "kind": "DeleteOptions",
-      "version": "v2beta1"
-    },
-    {
-      "group": "autoscaling",
-      "kind": "DeleteOptions",
-      "version": "v2beta2"
-    },
-    {
       "group": "batch",
       "kind": "DeleteOptions",
       "version": "v1"
@@ -364,11 +353,6 @@
     {
       "group": "networking.k8s.io",
       "kind": "DeleteOptions",
-      "version": "v1alpha1"
-    },
-    {
-      "group": "networking.k8s.io",
-      "kind": "DeleteOptions",
       "version": "v1beta1"
     },
     {
@@ -410,6 +394,11 @@
       "group": "rbac.authorization.k8s.io",
       "kind": "DeleteOptions",
       "version": "v1beta1"
+    },
+    {
+      "group": "resource.k8s.io",
+      "kind": "DeleteOptions",
+      "version": "v1"
     },
     {
       "group": "resource.k8s.io",
@@ -422,6 +411,11 @@
       "version": "v1beta1"
     },
     {
+      "group": "resource.k8s.io",
+      "kind": "DeleteOptions",
+      "version": "v1beta2"
+    },
+    {
       "group": "scheduling.k8s.io",
       "kind": "DeleteOptions",
       "version": "v1"
@@ -429,7 +423,7 @@
     {
       "group": "scheduling.k8s.io",
       "kind": "DeleteOptions",
-      "version": "v1alpha1"
+      "version": "v1alpha2"
     },
     {
       "group": "scheduling.k8s.io",
@@ -454,7 +448,7 @@
     {
       "group": "storagemigration.k8s.io",
       "kind": "DeleteOptions",
-      "version": "v1alpha1"
+      "version": "v1beta1"
     }
   ],
   "additionalProperties": false,
