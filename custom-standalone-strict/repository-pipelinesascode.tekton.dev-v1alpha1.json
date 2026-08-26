@@ -12,137 +12,6 @@
     "metadata": {
       "type": "object"
     },
-    "pipelinerun_status": {
-      "items": {
-        "properties": {
-          "annotations": {
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations is additional Status fields for the Resource to save some\nadditional State as well as convey more information to the user. This is\nroughly akin to Annotations on any k8s resource, just the reconciler conveying\nricher information outwards.",
-            "type": "object"
-          },
-          "completionTime": {
-            "description": "CompletionTime is the time the PipelineRun completed.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "conditions": {
-            "description": "Conditions the latest available observations of a resource's current state.",
-            "items": {
-              "description": "Condition defines a readiness condition for a Knative resource.\nSee: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties",
-              "properties": {
-                "lastTransitionTime": {
-                  "description": "LastTransitionTime is the last time the condition transitioned from one status to another.\nWe use VolatileTime in place of metav1.Time to exclude this from creating equality.Semantic\ndifferences (all other things held constant).",
-                  "type": "string"
-                },
-                "message": {
-                  "description": "A human readable message indicating details about the transition.",
-                  "type": "string"
-                },
-                "reason": {
-                  "description": "The reason for the condition's last transition.",
-                  "type": "string"
-                },
-                "severity": {
-                  "description": "Severity with which to treat failures of this type of condition.\nWhen this is not specified, it defaults to Error.",
-                  "type": "string"
-                },
-                "status": {
-                  "description": "Status of the condition, one of True, False, Unknown.",
-                  "type": "string"
-                },
-                "type": {
-                  "description": "Type of condition.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "status",
-                "type"
-              ],
-              "type": "object",
-              "additionalProperties": false
-            },
-            "type": "array"
-          },
-          "event_type": {
-            "description": "EventType is the event type of that run",
-            "type": "string"
-          },
-          "failure_reason": {
-            "additionalProperties": {
-              "description": "TaskInfos contains information about a task.",
-              "properties": {
-                "completion_time": {
-                  "format": "date-time",
-                  "type": "string"
-                },
-                "display_name": {
-                  "type": "string"
-                },
-                "log_snippet": {
-                  "type": "string"
-                },
-                "message": {
-                  "type": "string"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "reason": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object",
-              "additionalProperties": false
-            },
-            "description": "CollectedTaskInfos is the information about tasks",
-            "type": "object"
-          },
-          "logurl": {
-            "description": "LogURL is the full URL to the log for this run.",
-            "type": "string"
-          },
-          "observedGeneration": {
-            "description": "ObservedGeneration is the 'Generation' of the Service that\nwas last processed by the controller.",
-            "format": "int64",
-            "type": "integer"
-          },
-          "pipelineRunName": {
-            "description": "PipelineRunName is the name of the PipelineRun",
-            "type": "string"
-          },
-          "sha": {
-            "description": "SHA is the name of the SHA that has been tested",
-            "type": "string"
-          },
-          "sha_url": {
-            "description": "SHA the URL of the SHA to view it",
-            "type": "string"
-          },
-          "startTime": {
-            "description": "StartTime is the time the PipelineRun is actually started.",
-            "format": "date-time",
-            "type": "string"
-          },
-          "target_branch": {
-            "description": "TargetBranch is the target branch of that run",
-            "type": "string"
-          },
-          "title": {
-            "description": "Title is the title of the commit SHA that has been tested",
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
-      },
-      "type": "array"
-    },
     "spec": {
       "description": "RepositorySpec defines the desired state of a Repository, including its URL,\nGit provider configuration, and operational settings.",
       "properties": {
@@ -508,6 +377,10 @@
                     "update"
                   ],
                   "type": "string"
+                },
+                "token_auto_rotation": {
+                  "description": "TokenAutoRotation controls automatic rotation of expiring GitLab access tokens.\nThis is disabled by default. When enabled, PAC checks the token's expiry on each webhook event and\nrotates it when within 7 days of expiration. The new token is written back to the\nKubernetes Secret. Requires the token to have the 'api' scope.\nSet to true to enable.",
+                  "type": "boolean"
                 }
               },
               "type": "object",

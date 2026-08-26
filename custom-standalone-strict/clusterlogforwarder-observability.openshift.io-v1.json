@@ -877,6 +877,13 @@
               "type": "object",
               "additionalProperties": false
             },
+            "terminationGracePeriodSeconds": {
+              "description": "TerminationGracePeriodSeconds defines the termination grace period for collector pods\nin seconds. If not specified, the default is 10 seconds.",
+              "format": "int64",
+              "minimum": 1,
+              "nullable": true,
+              "type": "integer"
+            },
             "tolerations": {
               "description": "Define the tolerations the collector pods will accept",
               "items": {
@@ -928,7 +935,7 @@
                       "items": {
                         "properties": {
                           "field": {
-                            "description": "A dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alpha-numeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`",
+                            "description": "A dot delimited path to a field in the log record. It must start with a `.`.\nThe path can contain alphanumeric characters and underscores (a-zA-Z0-9_).\nIf segments contain characters outside of this range, the segment must be quoted.\nExamples: `.kubernetes.namespace_name`, `.log_type`, '.kubernetes.labels.foobar', `.kubernetes.labels.\"foo-bar/baz\"`",
                             "pattern": "^(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")*$",
                             "type": "string"
                           },
@@ -963,7 +970,7 @@
                 "type": "array"
               },
               "kubeAPIAudit": {
-                "description": "KubeAPIAudit filter Kube API server audit logs, as described in [Kubernetes Auditing].\n\n# Policy Filtering\n\nPolicy event rules are the same format as the [Kube Audit Policy] with some minor extensions.\nThe extensions are described here, see the [Kube Audit Policy] for the standard rule behavior.\nRules are checked in order, checking stops at the first matching rule.\n\nAn audit policy event contains meta-data describing who made the request.\nIt can also include the full body of the API request, and the response that was sent.\nThe `level` of an audit rule determines how much data is included in the event:\n\n  - None: the event is dropped.\n  - Metadata: Only the audit metadata is included, request and response bodies are removed.\n  - Request: Audit metadata and the request body are included, the response body is removed.\n  - RequestResponse: All data is included: metadata, request body and response body. Note the response body can be very large.\n    For example the a command like `oc get -A pods` generates a response body containing the YAML description of every pod in the cluster.\n\n# Extensions\n\nThe following features are extensions to the standard [Kube Audit Policy]\n\n## Wildcards\n\nNames of users, groups, namespaces, and resources can have a leading or trailing '*' character.\nFor example namespace 'openshift-*' matches 'openshift-apiserver' or 'openshift-authentication.\nResource '*/status' matches 'Pod/status' or 'Deployment/status'\n\nEvents which include both a 'resource' and 'subresource' are evaluated by combing those\nfields with a forward slash.  This means rules that rely upon a resource type that may or\nmay not include the subresource should be adjusted to cover all the required use-cases (i.e. ['pod','pod/*']).\n\n## Default Rules\n\nEvents that do not match any rule in the policy are filtered as follows:\n- User events (ie. non-system and non-serviceaccount) are forwarded\n- Read-only system events (get/list/watch etc) are dropped\n- Service account write events that occur within the same namespace as the service account are dropped\n- All other events are forwarded, subject to any configured [rate limits][#rate-lmiting]\n\nIf you want to disable these defaults, end your rules list with rule that has only a `level` field.\nAn empty rule matches any event, and prevents the defaults from taking effect.\n\n## Omit Response Codes\n\nYou can drop events based on the HTTP status code in the response. See the OmitResponseCodes field.\n\n[Kube Audit Policy]: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/#audit-k8s-io-v1-Policy\n[Kubernetes Auditing]: https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/",
+                "description": "KubeAPIAudit filter Kube API server audit logs, as described in [Kubernetes Auditing].\n\n== Policy Filtering\n\nPolicy event rules are the same format as the [Kube Audit Policy] with some minor extensions.\nThe extensions are described here, see the [Kube Audit Policy] for the standard rule behavior.\nRules are checked in order, checking stops at the first matching rule.\n\nAn audit policy event contains meta-data describing who made the request.\nIt can also include the full body of the API request, and the response that was sent.\nThe `level` of an audit rule determines how much data is included in the event:\n\n  - None: the event is dropped.\n  - Metadata: Only the audit metadata is included, request and response bodies are removed.\n  - Request: Audit metadata and the request body are included, the response body is removed.\n  - RequestResponse: All data is included: metadata, request body and response body. Note the response body can be very large.\n    For example the a command like `oc get -A pods` generates a response body containing the YAML description of every pod in the cluster.\n\n== Extensions\n\nThe following features are extensions to the standard [Kube Audit Policy]\n\n=== Wildcards\n\nNames of users, groups, namespaces, and resources can have a leading or trailing '*' character.\nFor example namespace 'openshift-*' matches 'openshift-apiserver' or 'openshift-authentication.\nResource '*/status' matches 'Pod/status' or 'Deployment/status'\n\nEvents which include both a 'resource' and 'subresource' are evaluated by combing those\nfields with a forward slash.  This means rules that rely upon a resource type that may or\nmay not include the subresource should be adjusted to cover all the required use-cases (i.e. ['pod','pod/*']).\n\n=== Default Rules\n\nEvents that do not match any rule in the policy are filtered as follows:\n- User events (ie. non-system and non-serviceaccount) are forwarded\n- Read-only system events (get/list/watch etc) are dropped\n- Service account write events that occur within the same namespace as the service account are dropped\n- All other events are forwarded, subject to any configured [rate limits][#rate-limiting]\n\nIf you want to disable these defaults, end your rules list with rule that has only a `level` field.\nAn empty rule matches any event, and prevents the defaults from taking effect.\n\n=== Omit Response Codes\n\nYou can drop events based on the HTTP status code in the response. See the OmitResponseCodes field.\n\n[Kube Audit Policy]: https://kubernetes.io/docs/reference/config-api/apiserver-audit.v1/#audit-k8s-io-v1-Policy\n[Kubernetes Auditing]: https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/",
                 "properties": {
                   "omitResponseCodes": {
                     "description": "OmitResponseCodes is a list of HTTP status code for which no events are created.\nIf this field is missing or null, the default value used is [404, 409, 422, 429]\n(NotFound, Conflict, UnprocessableEntity, TooManyRequests)\nIf it is the empty list [], then no status codes are omitted.\nOtherwise, this field should be a list of integer status codes to omit.",
@@ -1266,10 +1273,10 @@
                         "x-kubernetes-int-or-string": true
                       },
                       "rateLimitPerContainer": {
-                        "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.",
+                        "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.\nLog records exceeding the rate limit are dropped.",
                         "properties": {
                           "maxRecordsPerSecond": {
-                            "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline",
+                            "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped.",
                             "exclusiveMinimum": true,
                             "format": "int64",
                             "minimum": 0,
@@ -1306,6 +1313,23 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "tuning": {
+                    "description": "Tuning is the audit input tuning spec",
+                    "properties": {
+                      "ignoreOlder": {
+                        "description": "IgnoreOlder specifies the maximum duration since the last modification\nof an audit log file before the collector ignores it. When the collector restarts, files\nthat have not been modified within this time window may not be collected.\nIncrease this value for audit sources with infrequent writes to prevent data loss.\nThe default value is 3600 (1 hour).",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "must be at least 1 second",
+                        "rule": "!has(self.ignoreOlder) || duration(self.ignoreOlder) >= duration('1s')"
+                      }
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "type": "object",
@@ -1346,10 +1370,10 @@
                             "x-kubernetes-int-or-string": true
                           },
                           "rateLimitPerContainer": {
-                            "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.",
+                            "description": "RateLimitPerContainer is the limit applied to each container\nby this input. This limit is applied per collector deployment.\nLog records exceeding the rate limit are dropped.",
                             "properties": {
                               "maxRecordsPerSecond": {
-                                "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline",
+                                "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped.",
                                 "exclusiveMinimum": true,
                                 "format": "int64",
                                 "minimum": 0,
@@ -1516,7 +1540,7 @@
                     "additionalProperties": false
                   },
                   "type": {
-                    "description": "Type of Receiver plugin.\n\nSupported Receiver types are:\n\n1. http\n   - Currently only supports kubernetes audit logs (log_type = \"audit\")\n2. syslog\n   - Currently only supports node infrastucture logs (log_type = \"infrastructure\")",
+                    "description": "Type of Receiver plugin.\n\nSupported Receiver types are:\n\n1. http\n   - Currently only supports kubernetes audit logs (log_type = \"audit\")\n2. syslog\n   - Currently only supports node infrastructure logs (log_type = \"infrastructure\")",
                     "enum": [
                       "http",
                       "syslog"
@@ -1587,8 +1611,218 @@
           "items": {
             "description": "OutputSpec defines a destination for log messages.",
             "properties": {
+              "azureLogsIngestion": {
+                "description": "AzureLogsIngestion configures forwarding log events to the Azure Monitor Logs Ingestion API",
+                "properties": {
+                  "authentication": {
+                    "description": "Authentication sets credentials for authenticating the requests to the Azure Logs Ingestion API.",
+                    "properties": {
+                      "clientSecret": {
+                        "description": "ClientSecret contains the Azure AD service principal credentials.",
+                        "nullable": true,
+                        "properties": {
+                          "clientId": {
+                            "description": "ClientId is the Azure Active Directory application (client) ID.",
+                            "type": "string"
+                          },
+                          "secret": {
+                            "description": "Secret points to the secret containing the Azure Active Directory client secret.",
+                            "nullable": true,
+                            "properties": {
+                              "key": {
+                                "description": "Key contains the name of the key inside the referenced Secret.",
+                                "type": "string"
+                              },
+                              "secretName": {
+                                "description": "SecretName contains the name of the Secret containing the referenced value.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "secretName"
+                            ],
+                            "type": "object",
+                            "additionalProperties": false
+                          },
+                          "tenantId": {
+                            "description": "TenantId is the Azure Active Directory tenant ID.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "clientId",
+                          "secret",
+                          "tenantId"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
+                      },
+                      "type": {
+                        "description": "Type is the type of Azure authentication to configure.\n\nValid values are: clientSecret, workloadIdentity.",
+                        "enum": [
+                          "clientSecret",
+                          "workloadIdentity"
+                        ],
+                        "type": "string"
+                      },
+                      "workloadIdentity": {
+                        "description": "WorkloadIdentity contains the Azure AD Workload Identity credentials.",
+                        "nullable": true,
+                        "properties": {
+                          "clientId": {
+                            "description": "ClientId is the Azure Active Directory application (client) ID.",
+                            "type": "string"
+                          },
+                          "tenantId": {
+                            "description": "TenantId is the Azure Active Directory tenant ID.",
+                            "type": "string"
+                          },
+                          "token": {
+                            "description": "Token is the bearer token to be used for authenticating the requests.",
+                            "properties": {
+                              "from": {
+                                "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
+                                "enum": [
+                                  "secret",
+                                  "serviceAccount"
+                                ],
+                                "type": "string"
+                              },
+                              "secret": {
+                                "description": "Use Secret if the value should be sourced from a Secret in the same namespace.",
+                                "properties": {
+                                  "key": {
+                                    "description": "Name of the key used to get the value from the referenced Secret.",
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "description": "Name of secret",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "name"
+                                ],
+                                "type": "object",
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "from"
+                            ],
+                            "type": "object",
+                            "x-kubernetes-validations": [
+                              {
+                                "message": "Additional secret spec is required when bearer token is sourced from a secret",
+                                "rule": "self.from != 'secret' || has(self.secret)"
+                              }
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "clientId",
+                          "tenantId",
+                          "token"
+                        ],
+                        "type": "object",
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "Additional type specific spec is required for authentication",
+                        "rule": "self.type != 'clientSecret' || has(self.clientSecret)"
+                      },
+                      {
+                        "message": "Additional type specific spec is required for authentication",
+                        "rule": "self.type != 'workloadIdentity' || has(self.workloadIdentity)"
+                      }
+                    ],
+                    "additionalProperties": false
+                  },
+                  "dcrImmutableId": {
+                    "description": "DcrImmutableId is the immutable ID of the Data Collection Rule (DCR).",
+                    "type": "string"
+                  },
+                  "streamName": {
+                    "description": "StreamName is the name of the custom log stream in the DCR that the data should be sent to.",
+                    "type": "string"
+                  },
+                  "timestampField": {
+                    "description": "TimestampField is the destination field (column) for the timestamp.\nMost schemas use \"TimeGenerated\" (default), but some use \"Timestamp\" (legacy) or \"EventStartTime\" (ASIM).\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-standard-columns#timegenerated",
+                    "type": "string"
+                  },
+                  "tokenScope": {
+                    "description": "TokenScope is the token scope for dedicated Azure regions.\nDefaults to \"https://monitor.azure.com/.default\".\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-ingestion-api-overview",
+                    "type": "string"
+                  },
+                  "tuning": {
+                    "description": "Tuning specs tuning for the output",
+                    "properties": {
+                      "deliveryMode": {
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
+                        "enum": [
+                          "AtLeastOnce",
+                          "AtMostOnce"
+                        ],
+                        "type": "string"
+                      },
+                      "maxRetryDuration": {
+                        "description": "MaxRetryDuration is the maximum time to wait between retry attempts after a delivery failure.",
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "maxWrite": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ],
+                        "description": "MaxWrite limits the maximum payload in terms of bytes of a single \"send\" to the output.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      },
+                      "minRetryDuration": {
+                        "description": "MinRetryDuration is the minimum time to wait between attempts to retry after delivery a failure.",
+                        "format": "int64",
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  },
+                  "url": {
+                    "description": "URL to send log records to.\nBasic TLS is enabled if the URL scheme requires it (for example 'https' or 'tls').\nThe 'username@password' part of `url` is ignored.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "invalid URL",
+                        "rule": "isURL(self)"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "authentication",
+                  "dcrImmutableId",
+                  "streamName",
+                  "url"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
               "azureMonitor": {
-                "description": "AzureMonitor configures forwarding log events to the Azure Monitor Logs service",
+                "description": "DEPRECATED: Use AzureLogsIngestion instead. This output will be removed in a future release.\nAzureMonitor configures forwarding log events to the Azure Monitor Logs service",
                 "properties": {
                   "authentication": {
                     "description": "Authentication sets credentials for authenticating the requests.",
@@ -1642,7 +1876,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1811,7 +2045,7 @@
                             "description": "Token specifies a bearer token to be used for authenticating requests.",
                             "properties": {
                               "from": {
-                                "description": "From is the source from where to find the token",
+                                "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                                 "enum": [
                                   "secret",
                                   "serviceAccount"
@@ -1859,7 +2093,7 @@
                         "additionalProperties": false
                       },
                       "type": {
-                        "description": "Type is the type of cloudwatch authentication to configure",
+                        "description": "Type is the type of authentication to configure for an AWS service.\n\nValid values are: awsAccessKey, iamRole.",
                         "enum": [
                           "awsAccessKey",
                           "iamRole"
@@ -1884,7 +2118,7 @@
                     "additionalProperties": false
                   },
                   "groupName": {
-                    "description": "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by \"\\|\\|\" followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets \"{}\" and MUST end with a static fallback value separated with \"\\|\\|\".\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}",
+                    "description": "GroupName defines the strategy for grouping logstreams\n\nThe GroupName can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -1896,7 +2130,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.",
+                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, none, snappy, zlib, zstd.",
                         "enum": [
                           "gzip",
                           "none",
@@ -1907,7 +2141,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -1991,7 +2225,7 @@
                         "nullable": true,
                         "properties": {
                           "from": {
-                            "description": "From is the source from where to find the token",
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                             "enum": [
                               "secret",
                               "serviceAccount"
@@ -2062,7 +2296,7 @@
                     "type": "object"
                   },
                   "index": {
-                    "description": "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `\\|\\|` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `\\|\\|`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern ^(app\\|infra\\|audit)-write$\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar\\|\\|\"none\"}\n\n 2. {.foo\\|\\|.bar\\|\\|\"missing\"}\n\n 3. foo.{.bar.baz\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}",
+                    "description": "Index is the index for the logs. This supports template syntax to allow dynamic per-event values.\n\nThe Index can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nWhen forwarding logs to the Red Hat Managed Elasticsearch, the index must match the pattern `^(app|infra|audit)-write$`\nwhere the prefix depends upon the log_type. This requires defining a distinct output for each log type or distinct pipelines\nwith the openshiftLabels filter. See the product documentation for examples.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -2070,7 +2304,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, zlib.",
                         "enum": [
                           "none",
                           "gzip",
@@ -2079,7 +2313,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2124,7 +2358,7 @@
                     ]
                   },
                   "version": {
-                    "description": "Version specifies the version of Elasticsearch to be used.\nMust be one of: 6-8",
+                    "description": "Version specifies the API version of Elasticsearch to be used. Must be one of: 6-8\nThe value of '8' should be used when forwarding to Elasticsearch version v8 or greater.",
                     "maximum": 8,
                     "minimum": 6,
                     "type": "integer"
@@ -2145,7 +2379,7 @@
                     "description": "Authentication sets credentials for authenticating the requests.",
                     "properties": {
                       "credentials": {
-                        "description": "Credentials points to the secret containing the `google-application-credentials.json`.",
+                        "description": "Credentials points to the secret containing the GCP credentials JSON file.\nFor service account auth, this is a service_account key file.\nFor Workload Identity Federation (WIF), this is an external_account configuration file.",
                         "properties": {
                           "key": {
                             "description": "Key contains the name of the key inside the referenced Secret.",
@@ -2161,6 +2395,50 @@
                           "secretName"
                         ],
                         "type": "object",
+                        "additionalProperties": false
+                      },
+                      "token": {
+                        "description": "Token specifies the source of the bearer token used as the subject token for\nGCP Workload Identity Federation token exchange. Only needed when the credentials\nfile is an external_account type.",
+                        "nullable": true,
+                        "properties": {
+                          "from": {
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
+                            "enum": [
+                              "secret",
+                              "serviceAccount"
+                            ],
+                            "type": "string"
+                          },
+                          "secret": {
+                            "description": "Use Secret if the value should be sourced from a Secret in the same namespace.",
+                            "properties": {
+                              "key": {
+                                "description": "Name of the key used to get the value from the referenced Secret.",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name of secret",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "key",
+                              "name"
+                            ],
+                            "type": "object",
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "from"
+                        ],
+                        "type": "object",
+                        "x-kubernetes-validations": [
+                          {
+                            "message": "Additional secret spec is required when bearer token is sourced from a secret",
+                            "rule": "self.from != 'secret' || has(self.secret)"
+                          }
+                        ],
                         "additionalProperties": false
                       }
                     },
@@ -2204,7 +2482,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2277,7 +2555,7 @@
                         "nullable": true,
                         "properties": {
                           "from": {
-                            "description": "From is the source from where to find the token",
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                             "enum": [
                               "secret",
                               "serviceAccount"
@@ -2340,6 +2618,14 @@
                     "type": "object",
                     "additionalProperties": false
                   },
+                  "format": {
+                    "description": "Format defines data format used to send data to remote destination.",
+                    "enum": [
+                      "json",
+                      "ndjson"
+                    ],
+                    "type": "string"
+                  },
                   "headers": {
                     "additionalProperties": {
                       "type": "string"
@@ -2380,7 +2666,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy, zlib.",
                         "enum": [
                           "none",
                           "gzip",
@@ -2390,7 +2676,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2501,15 +2787,10 @@
                     "additionalProperties": false
                   },
                   "brokers": {
-                    "description": "Brokers specifies the list of broker endpoints of a Kafka cluster.\n\nThe list represents only the initial set used by the collector's Kafka client for the\nfirst connection only. The collector's Kafka client fetches constantly an updated list\nfrom Kafka. These updates are not reconciled back to the collector configuration.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme.\nIf none is provided, the target URL from the OutputSpec is used as fallback.",
+                    "description": "Brokers specifies the list of broker endpoints of a Kafka cluster.\n\nThe list represents only the initial set used by the collector's Kafka client for the\nfirst connection only. The collector's Kafka client fetches constantly an updated list\nfrom Kafka. These updates are not reconciled back to the collector configuration.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme and include a port number.\nIf none is provided, the target URL from the OutputSpec is used as fallback.",
                     "items": {
-                      "type": "string",
-                      "x-kubernetes-validations": [
-                        {
-                          "message": "each broker must be a valid URL with a tcp or tls scheme",
-                          "rule": "isURL(self) && (self.startsWith('tcp://') || self.startsWith('tls://'))"
-                        }
-                      ]
+                      "pattern": "^(tcp|tls)://([a-zA-Z0-9\\-\\.]+|\\[[a-fA-F0-9:]+\\]):[0-9]+(/.*)?$",
+                      "type": "string"
                     },
                     "type": "array"
                   },
@@ -2523,7 +2804,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, snappy, zstd, lz4.",
                         "enum": [
                           "none",
                           "snappy",
@@ -2533,7 +2814,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2558,14 +2839,9 @@
                     "additionalProperties": false
                   },
                   "url": {
-                    "description": "URL to send log records to. This field is optional.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme, for example: 'tls://kafka.secure.com:9093/app-topic'.\nThe 'username@password' part of `url` is ignored.",
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "must be a valid URL with a tcp or tls scheme",
-                        "rule": "self == '' || (isURL(self) && (self.startsWith('tcp://') || self.startsWith('tls://')))"
-                      }
-                    ]
+                    "description": "URL to send log records to. This field is optional.\nIf provided, it must be a valid URL with a 'tcp' or 'tls' scheme and include a port number, for example: 'tls://kafka.secure.com:9093/app-topic'.\nThe 'username@password' part of `url` is ignored.",
+                    "pattern": "^(tcp|tls)://([a-zA-Z0-9\\-\\.]+|\\[[a-fA-F0-9:]+\\]):[0-9]+(/.*)?$",
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -2608,7 +2884,7 @@
                         "nullable": true,
                         "properties": {
                           "from": {
-                            "description": "From is the source from where to find the token",
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                             "enum": [
                               "secret",
                               "serviceAccount"
@@ -2678,6 +2954,16 @@
                     },
                     "type": "array"
                   },
+                  "proxyURL": {
+                    "description": "ProxyURL URL of a HTTP or HTTPS proxy to be used instead of direct connection.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "invalid URL",
+                        "rule": "self == '' ||  isURL(self)"
+                      }
+                    ]
+                  },
                   "tenantKey": {
                     "description": "TenantKey is the tenant for the logs. This supports vector's template syntax to allow dynamic per-event values.\n\nThe TenantKey can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\n\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
@@ -2688,7 +2974,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy.",
                         "enum": [
                           "none",
                           "gzip",
@@ -2697,7 +2983,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -2759,7 +3045,7 @@
                         "nullable": true,
                         "properties": {
                           "from": {
-                            "description": "From is the source from where to find the token",
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                             "enum": [
                               "secret",
                               "serviceAccount"
@@ -2906,7 +3192,7 @@
                     "description": "Tuning specs tuning for the output",
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip, snappy.",
                         "enum": [
                           "none",
                           "gzip",
@@ -2915,7 +3201,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -3003,7 +3289,7 @@
                         "nullable": true,
                         "properties": {
                           "from": {
-                            "description": "From is the source from where to find the token",
+                            "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                             "enum": [
                               "secret",
                               "serviceAccount"
@@ -3071,7 +3357,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.",
+                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, snappy, zlib, zstd, none.",
                         "enum": [
                           "gzip",
                           "snappy",
@@ -3082,7 +3368,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -3138,7 +3424,7 @@
                 "description": "Limit imposes a limit in records-per-second on the total aggregate rate of logs forwarded\nto this output from any given collector container. The total log flow from an individual collector\ncontainer to this output cannot exceed the limit.  Generally, one collector is deployed per cluster node\nLogs may be dropped to enforce the limit. Missing or 0 means no rate limit.",
                 "properties": {
                   "maxRecordsPerSecond": {
-                    "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline",
+                    "description": "MaxRecordsPerSecond is the maximum number of log records\nallowed per input/output in a pipeline.\nLog records exceeding this limit are dropped.",
                     "exclusiveMinimum": true,
                     "format": "int64",
                     "minimum": 0,
@@ -3277,7 +3563,7 @@
                             "description": "Token specifies a bearer token to be used for authenticating requests.",
                             "properties": {
                               "from": {
-                                "description": "From is the source from where to find the token",
+                                "description": "From is the source from where to find the token.\n\nValid values are: secret, serviceAccount.",
                                 "enum": [
                                   "secret",
                                   "serviceAccount"
@@ -3325,7 +3611,7 @@
                         "additionalProperties": false
                       },
                       "type": {
-                        "description": "Type is the type of cloudwatch authentication to configure",
+                        "description": "Type is the type of authentication to configure for an AWS service.\n\nValid values are: awsAccessKey, iamRole.",
                         "enum": [
                           "awsAccessKey",
                           "iamRole"
@@ -3355,7 +3641,7 @@
                     "type": "string"
                   },
                   "keyPrefix": {
-                    "description": "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `\\|\\|` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name\\|\\|.hostname\\|\\|\"unknown\"}_my_workload_{.openshift.sequence_id\\|\\|\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `\\|\\|`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name\\|\\|\"none\"}/\n\n 2. {.log_type\\|\\|.log_source\\|\\|\"missing\"}/\n\n 3. my_workload.{.hostname\\|\\|.qux.quux.corge\\|\\|.grault\\|\\|\"nil\"}-waldo.fred{.plugh\\|\\|\"none\"}/",
+                    "description": "KeyPrefix is a templated string that defines the S3 key prefix for log objects.  It is a combination of\nstatic or dynamic values consisting of field paths separated by `||` and ending with a static\nfallback value (e.g. logs_{.kubernetes.namespace_name||.hostname||\"unknown\"}_my_workload_{.openshift.sequence_id||\"none\"}).\n\nPrefixes are necessary for partitioning logs from other objects in the bucket.  If the prefix represents a\ndirectory, it must end in `/` to act as a directory path. A trailing `/` (forward slash) is not automatically added.\n\nDynamic values are encased in single curly brackets `{}` and MUST end with a static fallback value separated\nwith `||`. Static values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\n\nExamples:\n\n 1. logs_{.kubernetes.namespace_name||\"none\"}/\n\n 2. {.log_type||.log_source||\"missing\"}/\n\n 3. my_workload.{.hostname||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}/",
                     "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
@@ -3367,7 +3653,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.",
+                        "description": "Compression causes data to be compressed before sending over the network.\nIt is an error if the compression type is not supported by the output.\n\nValid values are: gzip, none, snappy, zlib, zstd.",
                         "enum": [
                           "gzip",
                           "none",
@@ -3378,7 +3664,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -3479,8 +3765,13 @@
                     "type": "string"
                   },
                   "source": {
-                    "description": "Source identifies the origin of a log event.\nThe Source can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots and forward slashes.\nIf not specified will be detected according to .log_source and .log_type value.\nDetails see in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
-                    "pattern": "^(([a-zA-Z0-9-_.\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
+                    "description": "Source identifies the origin of a log event.\nThe Source can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots, colons and forward slashes.\nIf not specified will be detected according to .log_source and .log_type value.\nDetails see in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nExample:\n\n 1. foo-{.bar||\"none\"}\n\n 2. {.foo||.bar||\"missing\"}\n\n 3. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
+                    "pattern": "^(([a-zA-Z0-9-_.:\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
+                    "type": "string"
+                  },
+                  "sourceType": {
+                    "description": "SourceType can be used to specify a pretrained or custom source type in Splunk, but can only be set when PayloadKey is defined.\n\nWARNING: The administrator is responsible for configuring the pipeline so the source type matches the log entry. The collector makes no effort or validation to ensure they match.\n\nIf SourceType is not specified, the source type used is `_json`. If using PayloadKey without SourceType, the source type used will be either `_json` or `generic_single_line`, depending on the structure of the final event payload.\nDetails in: docs/features/logforwarding/outputs/splunk-forwarding.adoc\n\nThe SourceType can be a combination of static and dynamic values consisting of field paths followed by `||` followed by another field path or a static value.\nA dynamic value is encased in single curly brackets `{}` and MUST end with a static fallback value separated with `||`.\n\nStatic values can only contain alphanumeric characters along with dashes, underscores, dots, colons and forward slashes.\n\nExamples:\n\n 1. {.kubernetes.labels.\"splunk/sourcetype\"||\"generic_single_line\"}\n\n 2. log4j\n\n 3. foo-{.bar||\"none\"}\n\n 4. {.foo||.bar||\"missing\"}\n\n 5. foo.{.bar.baz||.qux.quux.corge||.grault||\"nil\"}-waldo.fred{.plugh||\"none\"}",
+                    "pattern": "^(([a-zA-Z0-9-_.:\\/])*(\\{(\\.[a-zA-Z0-9_]+|\\.\"[^\"]+\")+((\\|\\|)(\\.[a-zA-Z0-9_]+|\\.?\"[^\"]+\")+)*\\|\\|\"[^\"]*\"\\})*)*$",
                     "type": "string"
                   },
                   "tuning": {
@@ -3488,7 +3779,7 @@
                     "nullable": true,
                     "properties": {
                       "compression": {
-                        "description": "Compression causes data to be compressed before sending over the network.",
+                        "description": "Compression causes data to be compressed before sending over the network.\n\nValid values are: none, gzip.",
                         "enum": [
                           "none",
                           "gzip"
@@ -3496,7 +3787,7 @@
                         "type": "string"
                       },
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -3546,6 +3837,12 @@
                   "url"
                 ],
                 "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "sourceType can only be set when payloadKey is defined",
+                    "rule": "!has(self.sourceType) || has(self.payloadKey)"
+                  }
+                ],
                 "additionalProperties": false
               },
               "syslog": {
@@ -3602,7 +3899,7 @@
                     "nullable": true,
                     "properties": {
                       "deliveryMode": {
-                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.",
+                        "description": "DeliveryMode sets the delivery mode for log forwarding.\nThis optional setting. When it is left unset, the system defaults to using an in-memory buffer.\nIn-memory buffers offer the highest performance due to low latency, but they have two limitations:\nthey will consume memory, and they do not provide durability \u2014 buffered data is lost on process termination or failure.\n\nValid values are: AtLeastOnce, AtMostOnce.",
                         "enum": [
                           "AtLeastOnce",
                           "AtMostOnce"
@@ -3614,14 +3911,9 @@
                     "additionalProperties": false
                   },
                   "url": {
-                    "description": "An absolute URL, with a scheme. Valid schemes are: `tcp`, `tls`, `udp`\nFor example, to send syslog records using UDP:\n    url: udp://syslog.example.com:514",
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "invalid URL",
-                        "rule": "isURL(self)"
-                      }
-                    ]
+                    "description": "An absolute URL, with a scheme and a port number. Valid schemes are: `tcp`, `tls`, `udp`\nFor example, to send syslog records using UDP:\n    url: udp://syslog.example.com:514",
+                    "pattern": "^(tcp|tls|udp)://([a-zA-Z0-9\\-\\.]+|\\[[a-fA-F0-9:]+\\]):[0-9]+(/.*)?$",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -3804,6 +4096,7 @@
               "type": {
                 "description": "Type of output sink.",
                 "enum": [
+                  "azureLogsIngestion",
                   "azureMonitor",
                   "cloudwatch",
                   "elasticsearch",
@@ -3826,6 +4119,10 @@
             ],
             "type": "object",
             "x-kubernetes-validations": [
+              {
+                "message": "Additional type specific spec is required for the output type",
+                "rule": "self.type != 'azureLogsIngestion' || has(self.azureLogsIngestion)"
+              },
               {
                 "message": "Additional type specific spec is required for the output type",
                 "rule": "self.type != 'azureMonitor' || has(self.azureMonitor)"

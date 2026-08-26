@@ -3240,7 +3240,7 @@
                     "additionalProperties": false
                   },
                   "tls": {
-                    "description": "TLS and mTLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.\nWe recommend the use of mTLS for higher security standards.",
+                    "description": "TLS and mTLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.\nWe recommend the use of mTLS for higher security standards.\nWhen configuring TLS, the operator watches the certificate secret and copies it to both the netobserv and netobserv-privileged namespaces.\nIn order to do so, you must grant it permissions to the `netobserv-secret-watcher` and `netobserv-secret-creator` roles in the corresponding namespaces.\nRefer to the Kafka configuration documentation for more information.",
                     "properties": {
                       "caCert": {
                         "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
@@ -3610,7 +3610,7 @@
               "additionalProperties": false
             },
             "tls": {
-              "description": "TLS and mTLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.\nWe recommend the use of mTLS for higher security standards.",
+              "description": "TLS and mTLS client configuration. When using TLS, verify that the address matches the Kafka port used for TLS, generally 9093.\nWe recommend the use of mTLS for higher security standards.\nWhen configuring TLS, the operator watches the certificate secret and copies it to both the netobserv and netobserv-privileged namespaces.\nIn order to do so, you must grant it permissions to the `netobserv-secret-watcher` and `netobserv-secret-creator` roles in the corresponding namespaces.\nRefer to the Kafka configuration documentation for more information.",
               "properties": {
                 "caCert": {
                   "description": "`caCert` defines the reference of the certificate for the Certificate Authority.",
@@ -3761,7 +3761,7 @@
                   "type": "string"
                 },
                 "namespace": {
-                  "description": "Namespace where this `LokiStack` resource is located. If omitted, it is assumed to be the same as `spec.namespace`.",
+                  "description": "Namespace where this `LokiStack` resource is located. If omitted, it is assumed to be the same as `spec.namespace`.\nWhen configuring a different namespace, the operator watches certificate secret and copies it to the netobserv main namespaces.\nIn order to do so, you must grant it permissions to the `netobserv-secret-watcher` and `netobserv-secret-creator` roles in the corresponding namespaces.\nRefer to the Loki configuration documentation for more information.",
                   "type": "string"
                 }
               },
@@ -4217,7 +4217,7 @@
         },
         "namespace": {
           "default": "netobserv",
-          "description": "Namespace where network observability pods are deployed.",
+          "description": "Namespace where network observability pods are deployed.\nThose pods require various cluster role bindings is order to operate. Those bindings are preinstalled for service accounts located in the default namespace.\nIf you configured a different namespace, you must update (or recreate) the cluster role bindings accordingly.\nYou can see the list of preinstalled bindings here: https://github.com/netobserv/netobserv-operator/blob/main/helm/templates/component_role_bindings.yaml",
           "type": "string",
           "x-kubernetes-validations": [
             {
