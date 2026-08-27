@@ -133,6 +133,45 @@ Because there is no upstream CRD to fetch, the schema is maintained by hand in t
 
 ---
 
+## Kyverno CLI Test CRDs
+
+The `Test` and `Value` CRDs (`apiVersion: cli.kyverno.io/v1alpha1`) are used by the Kyverno CLI for running policy tests (`kyverno test`). These are **not** installed by the Kyverno Helm chart — they must be downloaded and converted separately.
+
+### Download and Convert
+
+> **Note:** Update `KYVERNO_VERSION` below when upgrading Kyverno.
+
+```bash
+KYVERNO_VERSION=v1.18.1
+
+wget https://raw.githubusercontent.com/kyverno/kyverno/$KYVERNO_VERSION/cmd/cli/kubectl-kyverno/data/crds/cli.kyverno.io_tests.yaml
+wget https://raw.githubusercontent.com/kyverno/kyverno/$KYVERNO_VERSION/cmd/cli/kubectl-kyverno/data/crds/cli.kyverno.io_values.yaml
+
+export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
+./openapi2jsonschema.py cli.kyverno.io_tests.yaml
+./openapi2jsonschema.py cli.kyverno.io_values.yaml
+mv test-cli.kyverno.io-v1alpha1.json values-cli.kyverno.io-v1alpha1.json custom-standalone-strict/
+rm cli.kyverno.io_tests.yaml cli.kyverno.io_values.yaml
+```
+
+| File | Purpose |
+|------|---------|
+| `custom-standalone-strict/test-cli.kyverno.io-v1alpha1.json` | Schema for `kind: Test` — defines test manifests used by `kyverno test` |
+| `custom-standalone-strict/values-cli.kyverno.io-v1alpha1.json` | Schema for `kind: Value` — defines external data sources in Kyverno policies |
+
+### Upstream sources
+
+- **Test CRD** — `cmd/cli/kubectl-kyverno/data/crds/cli.kyverno.io_tests.yaml` in [kyverno/kyverno](https://github.com/kyverno/kyverno)
+- **Value CRD** — `cmd/cli/kubectl-kyverno/data/crds/cli.kyverno.io_values.yaml` in [kyverno/kyverno](https://github.com/kyverno/kyverno)
+
+### Keeping up to date
+
+1. Check the [Kyverno releases](https://github.com/kyverno/kyverno/releases) for the latest version.
+2. Update `KYVERNO_VERSION` in the commands above.
+3. Re-download the CRD YAMLs, regenerate schemas, and commit the updated `.json` files.
+
+---
+
 ## Notes
 
 The following API resources do not have valid OpenAPI specifications:
