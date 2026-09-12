@@ -66,10 +66,42 @@
               "minimum": 0,
               "type": "integer"
             },
+            "crushNumFailureDomains": {
+              "description": "Number of failure domains to use for erasure coded chunk placement.\nWhen specified along with crushOSDsPerFailureDomain, a CRUSH MSR rule will be created\nthat distributes chunks across this many failure domains.",
+              "format": "int32",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "crushOSDsPerFailureDomain": {
+              "description": "Number of OSDs allowed per failure domain for erasure coded chunk placement.\nWhen specified along with crushNumFailureDomains, a CRUSH MSR rule will be created\nthat allows up to this many chunks on OSDs within each failure domain.",
+              "format": "int32",
+              "minimum": 1,
+              "type": "integer"
+            },
             "dataChunks": {
               "description": "Number of data chunks per object in an erasure coded storage pool (required for erasure-coded pool type).\nThe number of chunks required to recover an object when any single OSD is lost is the same\nas dataChunks so be aware that the larger the number of data chunks, the higher the cost of recovery.",
               "minimum": 0,
               "type": "integer"
+            },
+            "stripeUnit": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "Erasure code stripe size in bytes. Ceph default is 4096 bytes (4 KiB).\nValue must be a multiple of 4096 (4Ki).",
+              "enum": [
+                "4Ki",
+                "16Ki",
+                "64Ki",
+                "256Ki",
+                "1Mi"
+              ],
+              "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+              "x-kubernetes-int-or-string": true
             }
           },
           "required": [
@@ -77,6 +109,12 @@
             "dataChunks"
           ],
           "type": "object",
+          "x-kubernetes-validations": [
+            {
+              "message": "crushNumFailureDomains and crushOSDsPerFailureDomain must be specified together",
+              "rule": "has(self.crushNumFailureDomains) == has(self.crushOSDsPerFailureDomain)"
+            }
+          ],
           "additionalProperties": false
         },
         "failureDomain": {
@@ -284,6 +322,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -395,11 +439,11 @@
               "type": "string"
             },
             "lastChanged": {
-              "description": "LastChanged is the last time time the status last changed",
+              "description": "LastChanged is the last time the status last changed",
               "type": "string"
             },
             "lastChecked": {
-              "description": "LastChecked is the last time time the status was checked",
+              "description": "LastChecked is the last time the status was checked",
               "type": "string"
             },
             "summary": {
@@ -559,11 +603,11 @@
               "type": "string"
             },
             "lastChanged": {
-              "description": "LastChanged is the last time time the status last changed",
+              "description": "LastChanged is the last time the status last changed",
               "type": "string"
             },
             "lastChecked": {
-              "description": "LastChecked is the last time time the status was checked",
+              "description": "LastChecked is the last time the status was checked",
               "type": "string"
             },
             "snapshotSchedules": {

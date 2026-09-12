@@ -37,7 +37,8 @@
           "type": "boolean"
         },
         "image": {
-          "description": "Image is the container image to use for the NVMe-oF gateway daemon.\nFor example, quay.io/ceph/nvmeof:1.5",
+          "description": "Image is the container image to use for the NVMe-oF gateway daemon.\nFor example, quay.io/ceph/nvmeof:1.5\nIf not specified, the image is fetched from the Ceph mon config store\n(mgr/cephadm/container_image_nvmeof).",
+          "maxLength": 1024,
           "minLength": 1,
           "type": "string"
         },
@@ -1121,7 +1122,6 @@
       },
       "required": [
         "group",
-        "image",
         "instances",
         "pool"
       ],
@@ -1144,6 +1144,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",

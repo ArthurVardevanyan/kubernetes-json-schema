@@ -284,7 +284,7 @@
               "type": "integer"
             },
             "pgHealthyRegex": {
-              "description": "PgHealthyRegex is the regular expression that is used to determine which PG states should be considered healthy.\nThe default is `^(active\\+clean|active\\+clean\\+scrubbing|active\\+clean\\+scrubbing\\+deep)$`",
+              "description": "PgHealthyRegex is the regular expression that is used to determine which PG states should be considered healthy.\nThe default is `^active(\\+(clean|deep|scrubbing|snaptrim|snaptrim_wait))+$`",
               "type": "string"
             }
           },
@@ -539,6 +539,36 @@
               },
               "description": "LivenessProbe allows changing the livenessProbe configuration for a given daemon",
               "type": "object"
+            },
+            "muteHealthWarning": {
+              "additionalProperties": {
+                "description": "MuteHealthWarningSpec configures muting of a Ceph health warning.",
+                "properties": {
+                  "policy": {
+                    "description": "Policy controls whether to mute or unmute a Ceph health warning.",
+                    "enum": [
+                      "mute",
+                      "unmute"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "policy"
+                ],
+                "type": "object",
+                "additionalProperties": false
+              },
+              "description": "MuteHealthWarning configures muting of Ceph health warnings.",
+              "maxProperties": 10,
+              "minProperties": 0,
+              "type": "object",
+              "x-kubernetes-validations": [
+                {
+                  "message": "keys must be valid Ceph health check codes",
+                  "rule": "self.all(k, k.matches('^[A-Z]+(_[A-Z]+)+$'))"
+                }
+              ]
             },
             "startupProbe": {
               "additionalProperties": {
@@ -840,6 +870,31 @@
             },
             "failureDomainLabel": {
               "type": "string"
+            },
+            "floatingMon": {
+              "description": "FloatingMon is the specification of the floating monitor for two-node clusters.\nThe floating mon is backed by a synchronously replicated store (e.g. DRBD)\nand can be scheduled on either node. Template variables are supplied via a ConfigMap.",
+              "minProperties": 2,
+              "properties": {
+                "configmapName": {
+                  "description": "ConfigMapName is the name of the ConfigMap containing key-value pairs\nof template variables for the floating mon deployment.",
+                  "maxLength": 253,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "name": {
+                  "description": "Name is the identifier for the floating monitor (recommended \"c\")",
+                  "maxLength": 1,
+                  "minLength": 1,
+                  "pattern": "^[a-z]$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "configmapName",
+                "name"
+              ],
+              "type": "object",
+              "additionalProperties": false
             },
             "stretchCluster": {
               "description": "StretchCluster is the stretch cluster specification",
@@ -2670,6 +2725,23 @@
             "cephx": {
               "description": "CephX configures CephX key settings. More: https://docs.ceph.com/en/latest/dev/cephx/",
               "properties": {
+                "allowedCiphers": {
+                  "description": "AllowedCiphers is an advanced configuration that can disrupt cluster availability!\nReview Rook documentation carefully before setting this in a production cluster!\n\nAllowedCiphers sets the Ceph config `auth_allowed_ciphers` to the list given.\nIf the list is empty, Rook will enable support for all ciphers.",
+                  "items": {
+                    "description": "A CephX key type represents a cipher type for CephX keys.\nSupported values: aes, aes256k.",
+                    "enum": [
+                      "aes",
+                      "aes256k"
+                    ],
+                    "maxLength": 7,
+                    "minLength": 3,
+                    "type": "string"
+                  },
+                  "maxItems": 2,
+                  "minItems": 1,
+                  "type": "array",
+                  "x-kubernetes-list-type": "set"
+                },
                 "csi": {
                   "description": "CSI configures CephX key rotation settings for the Ceph-CSI daemons in the current Kubernetes cluster.\nCSI key rotation can affect existing PV connections, so take care when exercising this option.",
                   "properties": {
@@ -2681,7 +2753,7 @@
                     },
                     "keyGeneration": {
                       "description": "KeyGeneration specifies the desired CephX key generation. This is used when KeyRotationPolicy\nis KeyGeneration and ignored for other policies. If this is set to greater than the current\nkey generation, relevant keys will be rotated, and the generation value will be updated to\nthis new value (generation values are not necessarily incremental, though that is the\nintended use case). If this is set to less than or equal to the current key generation, keys\nare not rotated.",
-                      "format": "int32",
+                      "format": "int64",
                       "maximum": 4294967295,
                       "minimum": 0,
                       "type": "integer",
@@ -2700,9 +2772,25 @@
                         "KeyGeneration"
                       ],
                       "type": "string"
+                    },
+                    "keyType": {
+                      "description": "KeyType specifies the desired CephX key cipher type.\nIf unspecified, Ceph's default will be used.\nIf KeyRotationPolicy is Disabled or unspecified (default), modifying this value will never\ninitiate key rotation.\nIf KeyRotationPolicy is set to an enabled value (any other value), modifying this may\ninitiate key rotation.",
+                      "enum": [
+                        "aes",
+                        "aes256k"
+                      ],
+                      "maxLength": 7,
+                      "minLength": 3,
+                      "type": "string"
                     }
                   },
                   "type": "object",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "keyGeneration cannot be removed once set",
+                      "rule": "!has(oldSelf.keyGeneration) || has(self.keyGeneration)"
+                    }
+                  ],
                   "additionalProperties": false
                 },
                 "daemon": {
@@ -2710,7 +2798,7 @@
                   "properties": {
                     "keyGeneration": {
                       "description": "KeyGeneration specifies the desired CephX key generation. This is used when KeyRotationPolicy\nis KeyGeneration and ignored for other policies. If this is set to greater than the current\nkey generation, relevant keys will be rotated, and the generation value will be updated to\nthis new value (generation values are not necessarily incremental, though that is the\nintended use case). If this is set to less than or equal to the current key generation, keys\nare not rotated.",
-                      "format": "int32",
+                      "format": "int64",
                       "maximum": 4294967295,
                       "minimum": 0,
                       "type": "integer",
@@ -2729,9 +2817,25 @@
                         "KeyGeneration"
                       ],
                       "type": "string"
+                    },
+                    "keyType": {
+                      "description": "KeyType specifies the desired CephX key cipher type.\nIf unspecified, Ceph's default will be used.\nIf KeyRotationPolicy is Disabled or unspecified (default), modifying this value will never\ninitiate key rotation.\nIf KeyRotationPolicy is set to an enabled value (any other value), modifying this may\ninitiate key rotation.",
+                      "enum": [
+                        "aes",
+                        "aes256k"
+                      ],
+                      "maxLength": 7,
+                      "minLength": 3,
+                      "type": "string"
                     }
                   },
                   "type": "object",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "keyGeneration cannot be removed once set",
+                      "rule": "!has(oldSelf.keyGeneration) || has(self.keyGeneration)"
+                    }
+                  ],
                   "additionalProperties": false
                 },
                 "rbdMirrorPeer": {
@@ -2739,7 +2843,7 @@
                   "properties": {
                     "keyGeneration": {
                       "description": "KeyGeneration specifies the desired CephX key generation. This is used when KeyRotationPolicy\nis KeyGeneration and ignored for other policies. If this is set to greater than the current\nkey generation, relevant keys will be rotated, and the generation value will be updated to\nthis new value (generation values are not necessarily incremental, though that is the\nintended use case). If this is set to less than or equal to the current key generation, keys\nare not rotated.",
-                      "format": "int32",
+                      "format": "int64",
                       "maximum": 4294967295,
                       "minimum": 0,
                       "type": "integer",
@@ -2758,9 +2862,25 @@
                         "KeyGeneration"
                       ],
                       "type": "string"
+                    },
+                    "keyType": {
+                      "description": "KeyType specifies the desired CephX key cipher type.\nIf unspecified, Ceph's default will be used.\nIf KeyRotationPolicy is Disabled or unspecified (default), modifying this value will never\ninitiate key rotation.\nIf KeyRotationPolicy is set to an enabled value (any other value), modifying this may\ninitiate key rotation.",
+                      "enum": [
+                        "aes",
+                        "aes256k"
+                      ],
+                      "maxLength": 7,
+                      "minLength": 3,
+                      "type": "string"
                     }
                   },
                   "type": "object",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "keyGeneration cannot be removed once set",
+                      "rule": "!has(oldSelf.keyGeneration) || has(self.keyGeneration)"
+                    }
+                  ],
                   "additionalProperties": false
                 }
               },
@@ -5398,7 +5518,7 @@
           "type": "boolean"
         },
         "waitTimeoutForHealthyOSDInMinutes": {
-          "description": "WaitTimeoutForHealthyOSDInMinutes defines the time the operator would wait before an OSD can be stopped for upgrade or restart.\nIf the timeout exceeds and OSD is not ok to stop, then the operator would skip upgrade for the current OSD and proceed with the next one\nif `continueUpgradeAfterChecksEvenIfNotHealthy` is `false`. If `continueUpgradeAfterChecksEvenIfNotHealthy` is `true`, then operator would\ncontinue with the upgrade of an OSD even if its not ok to stop after the timeout. This timeout won't be applied if `skipUpgradeChecks` is `true`.\nThe default wait timeout is 10 minutes.",
+          "description": "WaitTimeoutForHealthyOSDInMinutes defines the time the operator would wait before an OSD can be stopped for upgrade or restart.\nIf the timeout exceeds and OSD is not ok to stop, then the operator would skip upgrade for the current OSD and proceed with the next one\nif `continueUpgradeAfterChecksEvenIfNotHealthy` is `false`. If `continueUpgradeAfterChecksEvenIfNotHealthy` is `true`, then operator would\ncontinue with the upgrade of an OSD even if it's not ok to stop after the timeout. This timeout won't be applied if `skipUpgradeChecks` is `true`.\nThe default wait timeout is 10 minutes.",
           "format": "int64",
           "type": "integer"
         }
@@ -5551,6 +5671,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -5567,6 +5693,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -5583,6 +5715,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -5599,6 +5737,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 },
                 "priorKeyCount": {
                   "description": "PriorKeyCount reports the number of prior-generation CephX keys that remain active for the related component",
@@ -5619,6 +5763,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -5635,13 +5785,19 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
               "additionalProperties": false
             },
             "osd": {
-              "description": "OSD shows the CephX key status of of OSDs",
+              "description": "OSD shows the CephX key status of OSDs",
               "properties": {
                 "keyCephVersion": {
                   "description": "KeyCephVersion reports the Ceph version that created the current generation's keys. This is\nsame string format as reported by `CephCluster.status.version.version` to allow them to be\ncompared. E.g., `20.2.0-0`.\nFor all newly-created resources, this field set to the version of Ceph that created the key.\nThe special value \"Uninitialized\" indicates that keys are being created for the first time.\nAn empty string indicates that the version is unknown, as expected in brownfield deployments.",
@@ -5651,6 +5807,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",
@@ -5667,6 +5829,12 @@
                   "description": "KeyGeneration represents the CephX key generation for the last successful reconcile.\nFor all newly-created resources, this field is set to `1`.\nWhen keys are rotated due to any rotation policy, the generation is incremented or updated to\nthe configured policy generation.\nGeneration `0` indicates that keys existed prior to the implementation of key tracking.",
                   "format": "int32",
                   "type": "integer"
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": "string"
                 }
               },
               "type": "object",

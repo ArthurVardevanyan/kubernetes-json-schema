@@ -941,10 +941,12 @@
                           },
                           "matches": {
                             "description": "A regular expression that the field will match.\nIf the value of the field defined in the DropTest matches the regular expression, the log record will be dropped.\nMust define only one of matches OR notMatches",
+                            "pattern": "^[^'\\n\\r]*$",
                             "type": "string"
                           },
                           "notMatches": {
                             "description": "A regular expression that the field does not match.\nIf the value of the field defined in the DropTest does not match the regular expression, the log record will be dropped.\nMust define only one of matches or notMatches",
+                            "pattern": "^[^'\\n\\r]*$",
                             "type": "string"
                           }
                         },
