@@ -172,7 +172,30 @@ rm cli.kyverno.io_tests.yaml cli.kyverno.io_values.yaml
 
 ---
 
-## Notes
+## Kustomization Schemas
+
+The `kustomization` schemas are sourced from [SchemaStore](https://www.schemastore.org).
+These schemas are used to validate Kustomize configuration files (`kustomization.yaml`).
+
+### Download
+
+```bash
+wget https://www.schemastore.org/kustomization.json -O kustomization-kustomize.config.k8s.io-v1beta1.json
+wget https://www.schemastore.org/component.json -O component-kustomize.config.k8s.io-v1alpha1.json
+mv *.json custom-standalone-strict/
+```
+
+| File | Purpose |
+|------|---------|
+| `custom-standalone-strict/kustomization-kustomize.config.k8s.io-v1beta1.json` | Schema for `kind: Kustomization` v1beta1 |
+| `custom-standalone-strict/component-kustomize.config.k8s.io-v1alpha1.json` | Schema for `kind: Component` v1alpha1 |
+
+### Upstream sources
+
+- **SchemaStore** — [schemas-json](https://github.com/SchemaStore/schemas-store) repository
+- **kustomization.json** — `https://www.schemastore.org/api/json/catalog.json` (search for "kustomization")
+
+---
 
 The following API resources do not have valid OpenAPI specifications:
 
