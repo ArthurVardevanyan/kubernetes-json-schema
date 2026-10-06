@@ -41,43 +41,8 @@
           "type": "boolean"
         },
         "dnsConfig": {
-          "items": {
-            "x-kubernetes-preserve-unknown-fields": true
-          },
-          "properties": {
-            "nameservers": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
-            "options": {
-              "items": {
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                },
-                "type": "object",
-                "additionalProperties": false
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
-            "searches": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            }
-          },
           "type": "object",
-          "additionalProperties": false
+          "x-kubernetes-preserve-unknown-fields": true
         },
         "dnsPolicy": {
           "type": "string"
@@ -681,6 +646,9 @@
           "type": "object",
           "x-kubernetes-preserve-unknown-fields": true
         },
+        "removePvcAfterDelete": {
+          "type": "boolean"
+        },
         "replicaCount": {
           "format": "int32",
           "type": "integer"
@@ -774,9 +742,6 @@
           "type": "string"
         },
         "serviceScrapeSpec": {
-          "required": [
-            "endpoints"
-          ],
           "type": "object",
           "x-kubernetes-preserve-unknown-fields": true
         },
@@ -1038,6 +1003,12 @@
                         "x-kubernetes-map-type": "atomic",
                         "additionalProperties": false
                       },
+                      "cipherSuites": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
                       "keyFile": {
                         "type": "string"
                       },
@@ -1060,6 +1031,15 @@
                         "type": "object",
                         "x-kubernetes-map-type": "atomic",
                         "additionalProperties": false
+                      },
+                      "minVersion": {
+                        "enum": [
+                          "TLS10",
+                          "TLS11",
+                          "TLS12",
+                          "TLS13"
+                        ],
+                        "type": "string"
                       }
                     },
                     "type": "object",
@@ -1163,6 +1143,13 @@
         "volumeMounts": {
           "items": {
             "properties": {
+              "bindMountOptions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "x-kubernetes-list-type": "set"
+              },
               "mountPath": {
                 "type": "string"
               },

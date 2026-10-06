@@ -272,6 +272,48 @@
                   "currentVolumeAttributesClassName": {
                     "type": "string"
                   },
+                  "healthStatus": {
+                    "properties": {
+                      "healthConditions": {
+                        "items": {
+                          "properties": {
+                            "message": {
+                              "type": "string"
+                            },
+                            "reason": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "enum": [
+                                "DataLoss",
+                                "Degraded",
+                                "Inaccessible"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "reason",
+                            "status"
+                          ],
+                          "type": "object",
+                          "additionalProperties": false
+                        },
+                        "type": "array",
+                        "x-kubernetes-list-map-keys": [
+                          "status",
+                          "reason"
+                        ],
+                        "x-kubernetes-list-type": "map"
+                      },
+                      "lastTransitionTime": {
+                        "format": "date-time",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object",
+                    "additionalProperties": false
+                  },
                   "modifyVolumeStatus": {
                     "properties": {
                       "status": {
@@ -514,43 +556,8 @@
           "type": "boolean"
         },
         "dnsConfig": {
-          "items": {
-            "x-kubernetes-preserve-unknown-fields": true
-          },
-          "properties": {
-            "nameservers": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
-            "options": {
-              "items": {
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                },
-                "type": "object",
-                "additionalProperties": false
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            },
-            "searches": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array",
-              "x-kubernetes-list-type": "atomic"
-            }
-          },
           "type": "object",
-          "additionalProperties": false
+          "x-kubernetes-preserve-unknown-fields": true
         },
         "dnsPolicy": {
           "type": "string"
@@ -1484,9 +1491,6 @@
           "type": "string"
         },
         "serviceScrapeSpec": {
-          "required": [
-            "endpoints"
-          ],
           "type": "object",
           "x-kubernetes-preserve-unknown-fields": true
         },
@@ -1537,6 +1541,10 @@
               "properties": {
                 "medium": {
                   "type": "string"
+                },
+                "mode": {
+                  "format": "int32",
+                  "type": "integer"
                 },
                 "sizeLimit": {
                   "anyOf": [
@@ -1812,6 +1820,48 @@
                     "currentVolumeAttributesClassName": {
                       "type": "string"
                     },
+                    "healthStatus": {
+                      "properties": {
+                        "healthConditions": {
+                          "items": {
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              },
+                              "reason": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "enum": [
+                                  "DataLoss",
+                                  "Degraded",
+                                  "Inaccessible"
+                                ],
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "reason",
+                              "status"
+                            ],
+                            "type": "object",
+                            "additionalProperties": false
+                          },
+                          "type": "array",
+                          "x-kubernetes-list-map-keys": [
+                            "status",
+                            "reason"
+                          ],
+                          "x-kubernetes-list-type": "map"
+                        },
+                        "lastTransitionTime": {
+                          "format": "date-time",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "additionalProperties": false
+                    },
                     "modifyVolumeStatus": {
                       "properties": {
                         "status": {
@@ -2036,6 +2086,13 @@
         "volumeMounts": {
           "items": {
             "properties": {
+              "bindMountOptions": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "x-kubernetes-list-type": "set"
+              },
               "mountPath": {
                 "type": "string"
               },

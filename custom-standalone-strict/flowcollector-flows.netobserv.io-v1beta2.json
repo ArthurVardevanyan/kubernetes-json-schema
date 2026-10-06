@@ -4216,8 +4216,7 @@
           "additionalProperties": false
         },
         "namespace": {
-          "default": "netobserv",
-          "description": "Namespace where network observability pods are deployed.\nThose pods require various cluster role bindings is order to operate. Those bindings are preinstalled for service accounts located in the default namespace.\nIf you configured a different namespace, you must update (or recreate) the cluster role bindings accordingly.\nYou can see the list of preinstalled bindings here: https://github.com/netobserv/netobserv-operator/blob/main/helm/templates/component_role_bindings.yaml",
+          "description": "Namespace where network observability pods are deployed.\nIt is recommended to keep the default setting, to avoid having to make manual adjustments to rights management.\nThe deployed pods require specific cluster role bindings in order to operate.\nThose bindings are preinstalled for service accounts located in the default namespace (\"netobserv\").\nIf you configured a different namespace, you must update (or recreate) the cluster role bindings accordingly.\nMore information: https://github.com/netobserv/netobserv-operator/blob/main/README.md#customized-namespace",
           "type": "string",
           "x-kubernetes-validations": [
             {

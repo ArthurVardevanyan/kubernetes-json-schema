@@ -20,7 +20,7 @@
           "type": "string"
         },
         "componentRoutes": {
-          "description": "componentRoutes is an optional list of routes that are managed by OpenShift components\nthat a cluster-admin is able to configure the hostname and serving certificate for.\nThe namespace and name of each route in this list should match an existing entry in the\nstatus.componentRoutes list.\n\nTo determine the set of configurable Routes, look at namespace and name of entries in the\n.status.componentRoutes list, where participating operators write the status of\nconfigurable routes.",
+          "description": "componentRoutes is an optional list of routes that are managed by OpenShift components\nthat a cluster-admin is able to configure the hostname and serving certificate for.\nThe namespace and name of each route in this list should match an existing entry in the\nstatus.componentRoutes list.\n\nTo determine the set of configurable Routes, look at namespace and name of entries in the\n.status.componentRoutes list, where participating operators write the status of\nconfigurable routes.\nA maximum of 250 component routes may be configured.",
           "items": {
             "description": "ComponentRouteSpec allows for configuration of a route's hostname and serving certificate.",
             "properties": {
@@ -65,6 +65,7 @@
             "type": "object",
             "additionalProperties": false
           },
+          "maxItems": 250,
           "type": "array",
           "x-kubernetes-list-map-keys": [
             "namespace",

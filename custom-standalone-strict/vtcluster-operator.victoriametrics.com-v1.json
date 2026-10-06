@@ -63,43 +63,8 @@
               "type": "boolean"
             },
             "dnsConfig": {
-              "items": {
-                "x-kubernetes-preserve-unknown-fields": true
-              },
-              "properties": {
-                "nameservers": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "options": {
-                  "items": {
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "searches": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                }
-              },
               "type": "object",
-              "additionalProperties": false
+              "x-kubernetes-preserve-unknown-fields": true
             },
             "dnsPolicy": {
               "type": "string"
@@ -171,6 +136,86 @@
                 "additionalProperties": false
               },
               "type": "array"
+            },
+            "grpcSpec": {
+              "properties": {
+                "listenPort": {
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "tlsConfig": {
+                  "properties": {
+                    "certFile": {
+                      "type": "string"
+                    },
+                    "certSecret": {
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "default": "",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "key"
+                      ],
+                      "type": "object",
+                      "x-kubernetes-map-type": "atomic",
+                      "additionalProperties": false
+                    },
+                    "cipherSuites": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "keyFile": {
+                      "type": "string"
+                    },
+                    "keySecret": {
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "default": "",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "key"
+                      ],
+                      "type": "object",
+                      "x-kubernetes-map-type": "atomic",
+                      "additionalProperties": false
+                    },
+                    "minVersion": {
+                      "enum": [
+                        "TLS10",
+                        "TLS11",
+                        "TLS12",
+                        "TLS13"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "listenPort"
+              ],
+              "type": "object",
+              "additionalProperties": false
             },
             "host_aliases": {
               "items": {
@@ -796,9 +841,6 @@
               "x-kubernetes-preserve-unknown-fields": true
             },
             "serviceScrapeSpec": {
-              "required": [
-                "endpoints"
-              ],
               "type": "object",
               "x-kubernetes-preserve-unknown-fields": true
             },
@@ -900,6 +942,13 @@
             "volumeMounts": {
               "items": {
                 "properties": {
+                  "bindMountOptions": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "x-kubernetes-list-type": "set"
+                  },
                   "mountPath": {
                     "type": "string"
                   },
@@ -1244,43 +1293,8 @@
               "type": "boolean"
             },
             "dnsConfig": {
-              "items": {
-                "x-kubernetes-preserve-unknown-fields": true
-              },
-              "properties": {
-                "nameservers": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "options": {
-                  "items": {
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "searches": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                }
-              },
               "type": "object",
-              "additionalProperties": false
+              "x-kubernetes-preserve-unknown-fields": true
             },
             "dnsPolicy": {
               "type": "string"
@@ -1992,9 +2006,6 @@
               "x-kubernetes-preserve-unknown-fields": true
             },
             "serviceScrapeSpec": {
-              "required": [
-                "endpoints"
-              ],
               "type": "object",
               "x-kubernetes-preserve-unknown-fields": true
             },
@@ -2096,6 +2107,13 @@
             "volumeMounts": {
               "items": {
                 "properties": {
+                  "bindMountOptions": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "x-kubernetes-list-type": "set"
+                  },
                   "mountPath": {
                     "type": "string"
                   },
@@ -2410,43 +2428,8 @@
               "type": "boolean"
             },
             "dnsConfig": {
-              "items": {
-                "x-kubernetes-preserve-unknown-fields": true
-              },
-              "properties": {
-                "nameservers": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "options": {
-                  "items": {
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    },
-                    "type": "object",
-                    "additionalProperties": false
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                },
-                "searches": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "x-kubernetes-list-type": "atomic"
-                }
-              },
               "type": "object",
-              "additionalProperties": false
+              "x-kubernetes-preserve-unknown-fields": true
             },
             "dnsPolicy": {
               "type": "string"
@@ -3747,9 +3730,6 @@
               "x-kubernetes-preserve-unknown-fields": true
             },
             "serviceScrapeSpec": {
-              "required": [
-                "endpoints"
-              ],
               "type": "object",
               "x-kubernetes-preserve-unknown-fields": true
             },
@@ -3800,6 +3780,10 @@
                   "properties": {
                     "medium": {
                       "type": "string"
+                    },
+                    "mode": {
+                      "format": "int32",
+                      "type": "integer"
                     },
                     "sizeLimit": {
                       "anyOf": [
@@ -3878,6 +3862,13 @@
             "volumeMounts": {
               "items": {
                 "properties": {
+                  "bindMountOptions": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "x-kubernetes-list-type": "set"
+                  },
                   "mountPath": {
                     "type": "string"
                   },

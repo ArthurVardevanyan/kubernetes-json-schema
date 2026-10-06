@@ -37,6 +37,10 @@
               "description": "Offline defines a set of CPUs that will be unused and set offline",
               "type": "string"
             },
+            "ovsDpdk": {
+              "description": "OvsDpdk defines a set of CPUs dedicated for OVS-DPDK PMD (Poll Mode Driver)\nthreads, fully isolated from the operating system and Kubernetes scheduling.\nWorkloadPartitioning or --strict-cpu-reservation kubelet CPUManager policy\noption is a prerequisite for this feature.",
+              "type": "string"
+            },
             "reserved": {
               "description": "Reserved defines a set of CPUs that will not be used for any container workloads initiated by kubelet.",
               "type": "string"

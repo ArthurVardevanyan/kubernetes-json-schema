@@ -26,6 +26,15 @@
           },
           "type": "array"
         },
+        "enforceNodeGroupMinSize": {
+          "default": "Disabled",
+          "description": "EnforceNodeGroupMinSize enables/disables the `--enforce-node-group-min-size` cluster-autoscaler feature flag.\nWhen enabled, the cluster autoscaler will enforce the minimum size of a node group,\nensuring that the node group never scales below the configured minimum size even if\nnodes are deemed unneeded. This is useful for maintaining a baseline capacity in node groups.\nDefaults to Disabled.",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string"
+        },
         "expanders": {
           "description": "Sets the type and order of expanders to be used during scale out operations.\nThis option specifies an ordered list, highest priority first, of expanders that\nwill be used by the cluster autoscaler to select node groups for expansion\nwhen scaling out.\nExpanders instruct the autoscaler on how to choose node groups when scaling out\nthe cluster. They can be specified in order so that the result from the first expander\nis used as the input to the second, and so forth. For example, if set to `[LeastWaste, Random]`\nthe autoscaler will first evaluate node groups to determine which will have the least\nresource waste, if multiple groups are selected the autoscaler will then randomly choose\nbetween those groups to determine the group for scaling.\nThe following expanders are available:\n* LeastWaste - selects the node group that will have the least idle CPU (if tied, unused memory) after scale-up.\n* Priority - selects the node group that has the highest priority assigned by the user. For details, please see https://github.com/openshift/kubernetes-autoscaler/blob/master/cluster-autoscaler/expander/priority/readme.md\n* Random - selects the node group randomly.\nIf not specified, the default value is `Random`, available options are: `LeastWaste`, `Priority`, `Random`.",
           "items": {
