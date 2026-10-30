@@ -266,6 +266,7 @@
                               "type": "string"
                             },
                             "reason": {
+                              "minLength": 1,
                               "type": "string"
                             },
                             "status": {
@@ -274,6 +275,7 @@
                                 "Degraded",
                                 "Inaccessible"
                               ],
+                              "minLength": 1,
                               "type": "string"
                             }
                           },
@@ -284,6 +286,7 @@
                           "type": "object",
                           "additionalProperties": false
                         },
+                        "maxItems": 16,
                         "type": "array",
                         "x-kubernetes-list-map-keys": [
                           "status",
@@ -1775,6 +1778,7 @@
                                 "type": "string"
                               },
                               "reason": {
+                                "minLength": 1,
                                 "type": "string"
                               },
                               "status": {
@@ -1783,6 +1787,7 @@
                                   "Degraded",
                                   "Inaccessible"
                                 ],
+                                "minLength": 1,
                                 "type": "string"
                               }
                             },
@@ -1793,6 +1798,7 @@
                             "type": "object",
                             "additionalProperties": false
                           },
+                          "maxItems": 16,
                           "type": "array",
                           "x-kubernetes-list-map-keys": [
                             "status",

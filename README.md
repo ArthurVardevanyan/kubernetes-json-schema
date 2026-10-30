@@ -40,7 +40,7 @@ mv group-user.openshift.io-v1.json custom-standalone-strict
 export FILENAME_FORMAT='{kind}-{fullgroup}-{version}'
 ./openapi2jsonschema.py custom_crds/users.yaml
 mv user-user.openshift.io-v1.json custom-standalone-strict
-./openapi2jsonschema.py https://raw.githubusercontent.com/openshift/router/refs/heads/master/deploy/route_crd.yaml
+./openapi2jsonschema.py https://raw.githubusercontent.com/openshift/router/refs/heads/main/deploy/route_crd.yaml
 mv route-route.openshift.io-v1.json custom-standalone-strict
 
 # Dumping From a Cluster (Do not dump from a cluster that doesn't have the latest versions of the stuff installed OCP + Addons, generally sb0100 is the newest)

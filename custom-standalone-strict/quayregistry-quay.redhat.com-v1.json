@@ -1045,6 +1045,31 @@
                     "description": "StorageClassName is the name of the StorageClass to use for the PVC.",
                     "type": "string"
                   },
+                  "tls": {
+                    "description": "TLSOverride describes TLS configuration overrides for managed PostgreSQL components.",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "secretRef": {
+                        "description": "LocalObjectReference contains enough information to let you locate the\nreferenced object inside the same namespace.",
+                        "properties": {
+                          "name": {
+                            "description": "Name of the referent.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object",
+                        "x-kubernetes-map-type": "atomic",
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "enabled"
+                    ],
+                    "type": "object",
+                    "additionalProperties": false
+                  },
                   "volumeSize": {
                     "anyOf": [
                       {
@@ -1060,6 +1085,18 @@
                 },
                 "type": "object",
                 "additionalProperties": false
+              },
+              "secretRef": {
+                "description": "SecretRef references a Kubernetes Secret for this component. For the TLS component,\nthis references a `kubernetes.io/tls` Secret containing `tls.crt` and `tls.key`.\nThe operator watches the Secret and triggers rolling restarts when its contents change.\nOnly valid when managed is false.",
+                "properties": {
+                  "name": {
+                    "description": "Name of the referent.\nMore info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "x-kubernetes-map-type": "atomic",
+                "additionalProperties": false
               }
             },
             "required": [
@@ -1071,6 +1108,22 @@
               {
                 "message": "cannot set overrides on unmanaged component",
                 "rule": "self.managed || !has(self.overrides)"
+              },
+              {
+                "message": "secretRef cannot be set on a managed component",
+                "rule": "!self.managed || !has(self.secretRef)"
+              },
+              {
+                "message": "secretRef.name must not be empty",
+                "rule": "!has(self.secretRef) || self.secretRef.name.size() != 0"
+              },
+              {
+                "message": "tls.secretRef requires tls.enabled to be true",
+                "rule": "!has(self.overrides) || !has(self.overrides.tls) || !has(self.overrides.tls.secretRef) || self.overrides.tls.enabled"
+              },
+              {
+                "message": "tls.secretRef.name must not be empty",
+                "rule": "!has(self.overrides) || !has(self.overrides.tls) || !has(self.overrides.tls.secretRef) || self.overrides.tls.secretRef.name.size() != 0"
               }
             ],
             "additionalProperties": false
@@ -1091,7 +1144,7 @@
         "conditions": {
           "description": "Conditions represent the conditions that a QuayRegistry can have.",
           "items": {
-            "description": "Condition is a single condition of a QuayRegistry.\nConditions should follow the \"abnormal-true\" principle in order to only bring the attention of users to \"broken\" states.\nExample: a condition of `type: \"Ready\", status: \"True\"\u201c is less useful and should be omitted whereas `type: \"NotReady\", status: \"True\"`\nis more useful when trying to monitor when something is wrong.",
+            "description": "Condition is a single condition of a QuayRegistry.\nConditions should follow the \"abnormal-true\" principle in order to only bring the attention of users to \"broken\" states.\nExample: a condition of `type: \"Ready\", status: \"True\"\" is less useful and should be omitted whereas `type: \"NotReady\", status: \"True\"`\nis more useful when trying to monitor when something is wrong.",
             "properties": {
               "lastTransitionTime": {
                 "format": "date-time",

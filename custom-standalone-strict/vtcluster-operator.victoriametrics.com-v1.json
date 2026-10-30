@@ -2503,7 +2503,7 @@
               "type": "array"
             },
             "futureRetention": {
-              "pattern": "^[0-9]+(h|d|w|y)?$",
+              "pattern": "^[0-9]+(h|d|w|y|M)?$",
               "type": "string"
             },
             "host_aliases": {
@@ -3686,7 +3686,7 @@
               "type": "string"
             },
             "retentionPeriod": {
-              "pattern": "^[0-9]+(h|d|w|y)?$",
+              "pattern": "^[0-9]+(h|d|w|y|M)?$",
               "type": "string"
             },
             "revisionHistoryLimitCount": {

@@ -1,0 +1,199 @@
+{
+  "description": "Agent defines a cluster-scoped agent tier (e.g., \"default\", \"smart\", \"fast\").\nThe cluster admin creates Agent resources to configure LLM infrastructure\nand runtime settings. AgenticRuns reference agents by name per step.\n\nAgent is cluster-scoped. The metadata.name serves as the tier identifier.\nThe \"default\" agent must exist; \"smart\" and \"fast\" are optional (the\noperator auto-links to \"default\" if absent).\n\nExample \u2014 a high-capability agent tier with extended thinking:\n\n\tapiVersion: agentic.openshift.io/v1alpha1\n\tkind: Agent\n\tmetadata:\n\t  name: smart\n\tspec:\n\t  llmProvider:\n\t    name: vertex-ai\n\t  model: claude-opus-4-6\n\t  timeouts:\n\t    analysisSeconds: 300\n\t    executionSeconds: 600\n\t  maxTurns: 200\n\t  reasoningConfig:\n\t    thinking: \"enabled\"\n\t    effort: \"high\"\n\nExample \u2014 a fast, cost-efficient agent tier:\n\n\tapiVersion: agentic.openshift.io/v1alpha1\n\tkind: Agent\n\tmetadata:\n\t  name: fast\n\tspec:\n\t  llmProvider:\n\t    name: vertex-ai\n\t  model: claude-haiku-4-5\n\t  timeouts:\n\t    analysisSeconds: 120\n\t    executionSeconds: 300\n\t  maxTurns: 100",
+  "properties": {
+    "apiVersion": {
+      "description": "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+      "type": "string"
+    },
+    "kind": {
+      "description": "Kind is a string value representing the REST resource this object represents.\nServers may infer this from the endpoint the client submits requests to.\nCannot be updated.\nIn CamelCase.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "spec": {
+      "description": "spec defines the desired state of Agent.",
+      "properties": {
+        "instructions": {
+          "description": "instructions provides optional per-step system and user instructions.\nWhen a field is non-empty it fully replaces the product built-in\ninstructions for that step. Omitted or empty fields fall back to\nbuilt-in defaults.",
+          "properties": {
+            "analysis": {
+              "description": "analysis instructions for the analysis step.",
+              "properties": {
+                "systemPrompt": {
+                  "description": "systemPrompt is the LLM system message for this step.\nReplaces the product built-in system prompt when non-empty.\nWritten to /input/system-prompt in the sandbox.\nDefault (when empty): \"You are an AI agent.\" (sandbox built-in).",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "userPrompt": {
+                  "description": "userPrompt is a Go template that replaces the product built-in query\ntemplate for this step when non-empty. Supports the same template\nvariables as the built-in (e.g. {{.Request}}, {{.HasExecution}}).\nWritten to /input/query in the sandbox after rendering.\nDefault (when empty): built-in templates in controller/agenticrun/templates/*.tmpl.",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "escalation": {
+              "description": "escalation instructions for the escalation step.",
+              "properties": {
+                "systemPrompt": {
+                  "description": "systemPrompt is the LLM system message for this step.\nReplaces the product built-in system prompt when non-empty.\nWritten to /input/system-prompt in the sandbox.\nDefault (when empty): \"You are an AI agent.\" (sandbox built-in).",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "userPrompt": {
+                  "description": "userPrompt is a Go template that replaces the product built-in query\ntemplate for this step when non-empty. Supports the same template\nvariables as the built-in (e.g. {{.Request}}, {{.HasExecution}}).\nWritten to /input/query in the sandbox after rendering.\nDefault (when empty): built-in templates in controller/agenticrun/templates/*.tmpl.",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "execution": {
+              "description": "execution instructions for the execution step.",
+              "properties": {
+                "systemPrompt": {
+                  "description": "systemPrompt is the LLM system message for this step.\nReplaces the product built-in system prompt when non-empty.\nWritten to /input/system-prompt in the sandbox.\nDefault (when empty): \"You are an AI agent.\" (sandbox built-in).",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "userPrompt": {
+                  "description": "userPrompt is a Go template that replaces the product built-in query\ntemplate for this step when non-empty. Supports the same template\nvariables as the built-in (e.g. {{.Request}}, {{.HasExecution}}).\nWritten to /input/query in the sandbox after rendering.\nDefault (when empty): built-in templates in controller/agenticrun/templates/*.tmpl.",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            },
+            "verification": {
+              "description": "verification instructions for the verification step.",
+              "properties": {
+                "systemPrompt": {
+                  "description": "systemPrompt is the LLM system message for this step.\nReplaces the product built-in system prompt when non-empty.\nWritten to /input/system-prompt in the sandbox.\nDefault (when empty): \"You are an AI agent.\" (sandbox built-in).",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "userPrompt": {
+                  "description": "userPrompt is a Go template that replaces the product built-in query\ntemplate for this step when non-empty. Supports the same template\nvariables as the built-in (e.g. {{.Request}}, {{.HasExecution}}).\nWritten to /input/query in the sandbox after rendering.\nDefault (when empty): built-in templates in controller/agenticrun/templates/*.tmpl.",
+                  "maxLength": 32768,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "llmProvider": {
+          "description": "llmProvider references a cluster-scoped LLMProvider CR that supplies the\nLLM backend for this agent tier.",
+          "properties": {
+            "name": {
+              "description": "name of the LLMProvider. Must be a valid RFC 1123 DNS subdomain.",
+              "maxLength": 253,
+              "minLength": 1,
+              "type": "string",
+              "x-kubernetes-validations": [
+                {
+                  "message": "must be a valid DNS subdomain: lowercase alphanumeric characters, hyphens, and dots",
+                  "rule": "self.matches('^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$')"
+                }
+              ]
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "maxTurns": {
+          "description": "maxTurns is the maximum number of tool-use turns the agent may take\nin a single step invocation. Prevents runaway loops.\nWhen zero or omitted, the default (200) is used.\nMinimum 1, maximum 500.",
+          "format": "int32",
+          "maximum": 500,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "model": {
+          "description": "model is the LLM model identifier as recognized by the provider\n(e.g., \"claude-opus-4-6\", \"claude-haiku-4-5\", \"gpt-4o\").\nMust start with an alphanumeric character and may contain\nalphanumerics, dots, hyphens, underscores, slashes, colons,\nand at-signs. Maximum 256 characters.",
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string",
+          "x-kubernetes-validations": [
+            {
+              "message": "model must start with an alphanumeric character and contain only alphanumerics, dots, hyphens, underscores, slashes, colons, and at-signs",
+              "rule": "self.matches('^[a-zA-Z0-9][a-zA-Z0-9._\\\\-/:@]*$')"
+            }
+          ]
+        },
+        "reasoningConfig": {
+          "additionalProperties": {
+            "x-kubernetes-preserve-unknown-fields": true
+          },
+          "description": "reasoningConfig is a freeform map of provider- and model-specific\nreasoning parameters. The exact keys and values depend on the provider\nand model \u2014 consult the provider's SDK documentation for supported\nparameters (e.g., Claude: thinking/budget_tokens, Gemini: thinking_budget/\nthinking_level, OpenAI: reasoning.effort/reasoning.summary).\nThe operator serializes this map as the LIGHTSPEED_REASONING_CONFIG JSON\nenv var on the sandbox pod without validation \u2014 the sandbox and upstream\nSDK/API validate at invocation time. Invalid keys are ignored by the\nadapter; invalid values on recognized keys are rejected by the SDK/API.\nWhen omitted, the env var is not set and the sandbox uses SDK defaults.",
+          "minProperties": 1,
+          "type": "object"
+        },
+        "timeouts": {
+          "description": "timeouts configures per-step and per-turn timeout limits.\nWhen omitted, the agent sandbox uses its built-in defaults.",
+          "minProperties": 1,
+          "properties": {
+            "analysisSeconds": {
+              "description": "analysisSeconds is the timeout for the analysis step in seconds.\nWhen zero or omitted, the default (600 seconds) is used.",
+              "format": "int32",
+              "maximum": 3600,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "escalationSeconds": {
+              "description": "escalationSeconds is the timeout for the escalation step in seconds.\nWhen zero or omitted, the default (600 seconds) is used.",
+              "format": "int32",
+              "maximum": 3600,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "executionSeconds": {
+              "description": "executionSeconds is the timeout for the execution step in seconds.\nWhen zero or omitted, the default (600 seconds) is used.",
+              "format": "int32",
+              "maximum": 3600,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "verificationSeconds": {
+              "description": "verificationSeconds is the timeout for the verification step in seconds.\nWhen zero or omitted, the default (1800 seconds) is used.",
+              "format": "int32",
+              "maximum": 3600,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "llmProvider",
+        "model"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "spec"
+  ],
+  "type": "object"
+}

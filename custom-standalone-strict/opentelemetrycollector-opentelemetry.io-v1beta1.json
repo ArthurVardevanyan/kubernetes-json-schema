@@ -2337,6 +2337,10 @@
         "dnsPolicy": {
           "type": "string"
         },
+        "enableServiceLinks": {
+          "default": true,
+          "type": "boolean"
+        },
         "env": {
           "items": {
             "properties": {
@@ -2572,6 +2576,21 @@
         },
         "imagePullPolicy": {
           "type": "string"
+        },
+        "imagePullSecrets": {
+          "items": {
+            "properties": {
+              "name": {
+                "default": "",
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "x-kubernetes-map-type": "atomic",
+            "additionalProperties": false
+          },
+          "type": "array",
+          "x-kubernetes-list-type": "atomic"
         },
         "ingress": {
           "properties": {
@@ -4550,6 +4569,11 @@
           "type": "object",
           "additionalProperties": false
         },
+        "revisionHistoryLimit": {
+          "default": 10,
+          "format": "int32",
+          "type": "integer"
+        },
         "securityContext": {
           "properties": {
             "allowPrivilegeEscalation": {
@@ -6338,6 +6362,11 @@
               },
               "type": "object",
               "additionalProperties": false
+            },
+            "revisionHistoryLimit": {
+              "default": 10,
+              "format": "int32",
+              "type": "integer"
             },
             "securityContext": {
               "properties": {

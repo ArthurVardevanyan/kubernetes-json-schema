@@ -173,7 +173,7 @@
           "additionalProperties": false
         },
         "retentionPeriod": {
-          "pattern": "^[0-9]+(h|d|w|y)?$",
+          "pattern": "^[0-9]+(h|d|w|y|M)?$",
           "type": "string"
         },
         "serviceAccountName": {
@@ -2454,6 +2454,7 @@
                                     "type": "string"
                                   },
                                   "reason": {
+                                    "minLength": 1,
                                     "type": "string"
                                   },
                                   "status": {
@@ -2462,6 +2463,7 @@
                                       "Degraded",
                                       "Inaccessible"
                                     ],
+                                    "minLength": 1,
                                     "type": "string"
                                   }
                                 },
@@ -2472,6 +2474,7 @@
                                 "type": "object",
                                 "additionalProperties": false
                               },
+                              "maxItems": 16,
                               "type": "array",
                               "x-kubernetes-list-map-keys": [
                                 "status",

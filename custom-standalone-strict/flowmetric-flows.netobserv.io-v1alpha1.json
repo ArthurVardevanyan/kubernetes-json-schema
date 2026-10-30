@@ -23,7 +23,7 @@
           "type": "array"
         },
         "charts": {
-          "description": "Charts configuration, for the OpenShift Console in the administrator view, Dashboards menu.",
+          "description": "Charts configuration, for the OpenShift Console, in the Dashboards menu.",
           "items": {
             "description": "Configures charts / dashboard generation associated to a metric",
             "properties": {
