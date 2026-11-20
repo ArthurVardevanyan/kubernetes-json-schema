@@ -16,126 +16,59 @@
       "description": "spec defines the desired state of Engine.",
       "properties": {
         "driver": {
-          "description": "driver specifies the driver configuration for the engine. This\ndetermines how the WAF engine will be deployed and integrated with some\nimplementation. Currently only supports Istio ingress Gateways.",
+          "description": "driver configures the mechanism used to deploy the WAF filter into the\ntarget workload. When omitted, the operator uses a default driver for the\nunderlying Engine (eg.: WASM for Istio)",
+          "minProperties": 0,
           "properties": {
-            "istio": {
-              "description": "istio configures the Engine to integrate with Istio service mesh.",
+            "type": {
+              "description": "type selects the driver mechanism used to deploy the WAF filter.",
+              "enum": [
+                "wasm"
+              ],
+              "type": "string"
+            },
+            "wasm": {
+              "description": "wasm contains configuration specific to the WASM driver.",
+              "minProperties": 0,
               "properties": {
-                "wasm": {
-                  "description": "wasm configures the Engine to be deployed as a WebAssembly plugin.",
-                  "properties": {
-                    "image": {
-                      "description": "image is the OCI image reference for the Coraza WASM plugin.",
-                      "maxLength": 1024,
-                      "minLength": 1,
-                      "pattern": "^oci://",
-                      "type": "string"
-                    },
-                    "imagePullSecret": {
-                      "description": "imagePullSecret is the name of a Kubernetes Secret in the same namespace\nas the Engine that contains Docker registry credentials for pulling the\nWASM OCI image. This is passed directly to the Istio WasmPlugin resource.",
-                      "maxLength": 253,
-                      "minLength": 1,
-                      "type": "string"
-                    },
-                    "mode": {
-                      "default": "gateway",
-                      "description": "mode specifies what mechanism will be used to integrate the WAF with\nIstio.\n\nCurrently only supports \"Gateway\" mode, utilizing Gateway API resources.",
-                      "enum": [
-                        "gateway"
-                      ],
-                      "type": "string"
-                    },
-                    "ruleSetCacheServer": {
-                      "description": "ruleSetCacheServer contains configuration for the ruleset cache server.\n\nWhen omitted, no cache server will be used and no rulesets will be\ndynamically loaded. This implies that your Engine will be deployed with\nall rules statically embedded.",
-                      "properties": {
-                        "pollIntervalSeconds": {
-                          "default": 15,
-                          "description": "pollIntervalSeconds specifies how often the WAF should check for\nconfiguration updates. The value is specified in seconds.\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\nThe current default is 15 seconds.",
-                          "format": "int32",
-                          "maximum": 3600,
-                          "minimum": 1,
-                          "type": "integer"
-                        }
-                      },
-                      "type": "object",
-                      "additionalProperties": false
-                    },
-                    "workloadSelector": {
-                      "description": "workloadSelector specifies the selection criteria for attaching the WAF to\nIstio resources.\n\nRequired when mode is \"gateway\".",
-                      "properties": {
-                        "matchExpressions": {
-                          "description": "matchExpressions is a list of label selector requirements. The requirements are ANDed.",
-                          "items": {
-                            "description": "A label selector requirement is a selector that contains values, a key, and an operator that\nrelates the key and values.",
-                            "properties": {
-                              "key": {
-                                "description": "key is the label key that the selector applies to.",
-                                "type": "string"
-                              },
-                              "operator": {
-                                "description": "operator represents a key's relationship to a set of values.\nValid operators are In, NotIn, Exists and DoesNotExist.",
-                                "type": "string"
-                              },
-                              "values": {
-                                "description": "values is an array of string values. If the operator is In or NotIn,\nthe values array must be non-empty. If the operator is Exists or DoesNotExist,\nthe values array must be empty. This array is replaced during a strategic\nmerge patch.",
-                                "items": {
-                                  "type": "string"
-                                },
-                                "type": "array",
-                                "x-kubernetes-list-type": "atomic"
-                              }
-                            },
-                            "required": [
-                              "key",
-                              "operator"
-                            ],
-                            "type": "object",
-                            "additionalProperties": false
-                          },
-                          "type": "array",
-                          "x-kubernetes-list-type": "atomic"
-                        },
-                        "matchLabels": {
-                          "additionalProperties": {
-                            "type": "string"
-                          },
-                          "description": "matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels\nmap is equivalent to an element of matchExpressions, whose key field is \"key\", the\noperator is \"In\", and the values array contains only \"value\". The requirements are ANDed.",
-                          "type": "object"
-                        }
-                      },
-                      "type": "object",
-                      "x-kubernetes-map-type": "atomic",
-                      "additionalProperties": false
-                    }
-                  },
-                  "required": [
-                    "image"
-                  ],
-                  "type": "object",
-                  "x-kubernetes-validations": [
-                    {
-                      "message": "workloadSelector is required when mode is gateway",
-                      "rule": "self.mode == 'gateway' ? has(self.workloadSelector) : true"
-                    }
-                  ],
-                  "additionalProperties": false
+                "sha256": {
+                  "description": "sha256 is the lowercase hexadecimal SHA-256 of the raw WASM bytes\nserved at url. It must be set together with url.",
+                  "maxLength": 64,
+                  "minLength": 64,
+                  "type": "string"
+                },
+                "url": {
+                  "description": "url is an HTTPS URL serving raw WASM bytes. It must be set together\nwith sha256. When both url and sha256 are omitted, the operator uses its\nbundled module.",
+                  "maxLength": 2048,
+                  "minLength": 1,
+                  "type": "string"
                 }
               },
               "type": "object",
               "x-kubernetes-validations": [
                 {
-                  "message": "exactly one integration mechanism (Wasm, etc) must be specified",
-                  "rule": "[has(self.wasm)].filter(x, x).size() == 1"
+                  "message": "url and sha256 must be set together; omit both to use the bundled module",
+                  "rule": "(has(self.url) && has(self.sha256)) || (!has(self.url) && !has(self.sha256))"
+                },
+                {
+                  "message": "url must be an https URL without userinfo, query, or fragment",
+                  "rule": "!has(self.url) || (self.url.matches('^https://[^/@]+(/|$)') && !self.url.contains('?') && !self.url.contains('#'))"
+                },
+                {
+                  "message": "sha256 must be 64 lowercase hexadecimal characters",
+                  "rule": "!has(self.sha256) || self.sha256.matches('^[0-9a-f]{64}$')"
                 }
               ],
               "additionalProperties": false
             }
           },
+          "required": [
+            "type"
+          ],
           "type": "object",
           "x-kubernetes-validations": [
             {
-              "message": "exactly one driver must be specified",
-              "rule": "[has(self.istio)].filter(x, x).size() == 1"
+              "message": "wasm config is required when type is wasm",
+              "rule": "self.type == 'wasm' ? has(self.wasm) : true"
             }
           ],
           "additionalProperties": false
@@ -149,11 +82,30 @@
           ],
           "type": "string"
         },
+        "observability": {
+          "description": "observability configures WAF dataplane observability independently of the\ndriver used to deploy the Engine. The operator translates this intent into\ndriver-specific settings.",
+          "properties": {
+            "mode": {
+              "description": "mode controls whether WAF dataplane telemetry is available to the target\nplatform's observability pipeline.",
+              "enum": [
+                "Enabled",
+                "Disabled"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
         "ruleSet": {
           "description": "ruleSet specifies the RuleSet resource that will be used to load rules\ninto the Engine. The referenced RuleSet must be in the same namespace\nas the Engine.",
           "properties": {
             "name": {
               "description": "name is the name of the RuleSet in the same namespace as the Engine.",
+              "maxLength": 253,
               "minLength": 1,
               "type": "string"
             }
@@ -163,25 +115,221 @@
           ],
           "type": "object",
           "additionalProperties": false
+        },
+        "ruleSetCacheServer": {
+          "description": "ruleSetCacheServer is deprecated and ignored. The operator distributes\nrules through ECDS and does not start the legacy HTTP rule server, so\nthis field has no effect.",
+          "minProperties": 0,
+          "properties": {
+            "pollIntervalSeconds": {
+              "default": 15,
+              "description": "pollIntervalSeconds specifies how often the WAF should check for\nconfiguration updates. The value is specified in seconds.\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\nThe current default is 15 seconds.",
+              "format": "int32",
+              "maximum": 3600,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
+        "target": {
+          "description": "target identifies the workload that the Engine protects. The operator\nderives the workload selector from this reference (e.g., for Gateway\ntargets, the GEP-1762 gateway-name label is used).",
+          "properties": {
+            "name": {
+              "description": "name is the name of the target resource in the same namespace as the\nEngine. For Gateway targets, the operator derives the workload selector\nfrom this name using the GEP-1762 convention\n(gateway.networking.k8s.io/gateway-name label).\n\nMust conform to RFC 1035 label syntax: lowercase alphanumeric or\nhyphens, must start with a letter and end with an alphanumeric\n(e.g. \"my-gateway\", \"gw1\"). This matches Kubernetes Service naming\nrules and ensures compatibility with Gateway implementations that\nderive Service names from the Gateway name.",
+              "maxLength": 63,
+              "minLength": 1,
+              "type": "string",
+              "x-kubernetes-validations": [
+                {
+                  "message": "name must be a valid DNS-1035 label (lowercase, starts with a letter)",
+                  "rule": "!format.dns1035Label().validate(self).hasValue()"
+                }
+              ]
+            },
+            "provider": {
+              "default": "Istio",
+              "description": "provider identifies the infrastructure provider that manages the\ntarget workload. The provider determines which driver types are\nvalid for the Engine.\n\nThis field is immutable after creation. Changing providers requires\ncreating a new Engine resource so the controller does not need to\nclean up and recreate child resources from the previous driver.\n\nCurrently supported providers and their allowed driver types:\n- \"Istio\": supports \"wasm\" driver type.\n\nFuture providers may support different driver types. For example,\n\"EnvoyGateway\" will only support \"dynamicModule\" once implemented.\n\nWhen omitted, this means the user has no opinion and the platform\nwill choose a reasonable default, which is subject to change over time.\n\nThe current default is Istio.",
+              "enum": [
+                "Istio"
+              ],
+              "type": "string",
+              "x-kubernetes-validations": [
+                {
+                  "message": "field is immutable",
+                  "rule": "self == oldSelf"
+                }
+              ]
+            },
+            "type": {
+              "description": "type is the type of resource being targeted.\n\nCurrently only supports \"Gateway\" mode, utilizing Gateway API resources.",
+              "enum": [
+                "Gateway"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "type"
+          ],
+          "type": "object",
+          "x-kubernetes-validations": [
+            {
+              "message": "field provider is immutable once set",
+              "rule": "!has(oldSelf.provider) || has(self.provider)"
+            },
+            {
+              "message": "name is required when type is Gateway",
+              "rule": "self.type == 'Gateway' ? has(self.name) : true"
+            },
+            {
+              "message": "provider \"Istio\" is only supported when target type is Gateway",
+              "rule": "self.provider == 'Istio' ? self.type == 'Gateway' : true"
+            }
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
-        "ruleSet"
+        "ruleSet",
+        "target"
       ],
       "type": "object",
       "x-kubernetes-validations": [
         {
-          "message": "driver is required",
-          "rule": "has(self.driver)"
+          "message": "driver type must be compatible with the target provider (Istio supports wasm)",
+          "rule": "!has(self.driver) || !has(self.driver.type) || (self.target.provider == 'Istio' && self.driver.type == 'wasm')"
         }
       ],
       "additionalProperties": false
     },
     "status": {
       "description": "status defines the observed state of Engine.",
+      "minProperties": 0,
       "properties": {
+        "acceptedConfiguration": {
+          "description": "acceptedConfiguration records the last accepted complete Engine\nconfiguration. It survives desired-input degradation and is not a payload\nstore.",
+          "properties": {
+            "binaryURL": {
+              "description": "binaryURL is the URL of the raw WASM binary used by the accepted\nconfiguration.",
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "driverType": {
+              "description": "driverType is the resolved driver type of the accepted configuration.\nPublication requires it; records written before this field existed\nmismatch and wait for re-acceptance.",
+              "enum": [
+                "wasm"
+              ],
+              "type": "string"
+            },
+            "emptyRulesPolicy": {
+              "description": "emptyRulesPolicy is the resolved empty-rules policy of the accepted\nconfiguration. Publication requires it; records written before this\nfield existed mismatch and wait for re-acceptance.",
+              "enum": [
+                "Reject",
+                "Allow"
+              ],
+              "type": "string"
+            },
+            "failurePolicy": {
+              "description": "failurePolicy is the failure policy of the accepted configuration.",
+              "enum": [
+                "fail",
+                "allow"
+              ],
+              "type": "string"
+            },
+            "filterStateLogs": {
+              "description": "filterStateLogs reports whether the accepted configuration renders WAF\nfilter-state logging. Publication requires it; records written before\nthis field existed mismatch and wait for re-acceptance.",
+              "enum": [
+                "Enabled",
+                "Disabled"
+              ],
+              "type": "string"
+            },
+            "observedGeneration": {
+              "description": "observedGeneration is the Engine generation whose configuration was\naccepted.",
+              "format": "int64",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "renderingSchemaVersion": {
+              "description": "renderingSchemaVersion is the schema version of the rendered runtime\nconfiguration.",
+              "format": "int32",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "ruleSetContentHash": {
+              "description": "ruleSetContentHash is the accepted RuleSet content hash, in the form\nsha256:<64 lowercase hexadecimal characters>.",
+              "maxLength": 71,
+              "minLength": 71,
+              "type": "string"
+            },
+            "ruleSetUID": {
+              "description": "ruleSetUID is the UID of the RuleSet used for the accepted configuration.",
+              "maxLength": 36,
+              "minLength": 36,
+              "type": "string"
+            },
+            "version": {
+              "description": "version is the content-addressed version of the accepted configuration,\nin the form sha256:<64 lowercase hexadecimal characters>.",
+              "maxLength": 71,
+              "minLength": 71,
+              "type": "string"
+            },
+            "vm": {
+              "description": "vm records the resolved WASM VM settings of the accepted configuration.\nPublication requires it; records written before this field existed\nmismatch and wait for re-acceptance.",
+              "properties": {
+                "codeTimeout": {
+                  "description": "codeTimeout is the resolved WASM code fetch and execution timeout of\nthe accepted configuration, as a Go duration string (for example\n\"10s\").",
+                  "maxLength": 32,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "runtime": {
+                  "description": "runtime is the resolved WASM runtime of the accepted configuration.",
+                  "maxLength": 253,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "vmID": {
+                  "description": "vmID is the resolved WASM VM ID of the accepted configuration.",
+                  "maxLength": 253,
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "codeTimeout",
+                "runtime",
+                "vmID"
+              ],
+              "type": "object",
+              "additionalProperties": false
+            },
+            "wasmSHA256": {
+              "description": "wasmSHA256 is the lowercase hexadecimal SHA-256 of the WASM binary used\nby the accepted configuration.",
+              "maxLength": 64,
+              "minLength": 64,
+              "type": "string"
+            }
+          },
+          "required": [
+            "binaryURL",
+            "failurePolicy",
+            "observedGeneration",
+            "renderingSchemaVersion",
+            "ruleSetContentHash",
+            "ruleSetUID",
+            "version",
+            "wasmSHA256"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
         "conditions": {
-          "description": "conditions represent the current state of the Engine resource.\nEach condition has a unique type and reflects the status of a specific\naspect of the resource.\n\nStandard condition types include:\n- \"Ready\": the engine has been successfully deployed and is operational\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n\nThe status of each condition is one of True, False, or Unknown.",
+          "description": "conditions represent the current state of the Engine resource.\nEach condition has a unique type and reflects the status of a specific\naspect of the resource.\n\nStandard condition types include:\n- \"Accepted\": the target is valid and not contested by another Engine.\n   Reasons: \"Accepted\", \"TargetNotFound\", \"TargetConflict\"\n- \"Ready\": the engine has been successfully deployed and is operational\n- \"Progressing\": the resource is being created or updated\n- \"Degraded\": the resource failed to reach or maintain its desired state\n- \"ObservabilityReady\": optional Telemetry was created and is available\n\nThe status of each condition is one of True, False, or Unknown.",
           "items": {
             "description": "Condition contains details for one aspect of the current state of this API Resource.",
             "properties": {
@@ -234,32 +382,11 @@
             "type": "object",
             "additionalProperties": false
           },
+          "maxItems": 16,
+          "minItems": 1,
           "type": "array",
           "x-kubernetes-list-map-keys": [
             "type"
-          ],
-          "x-kubernetes-list-type": "map"
-        },
-        "gateways": {
-          "description": "gateways is the list of Gateways in the same namespace that match\nthe Engine's workload selector.",
-          "items": {
-            "description": "GatewayReference is a reference to a Gateway resource in the same namespace\nas the Engine.",
-            "properties": {
-              "name": {
-                "description": "name is the name of the Gateway in the same namespace as the Engine.",
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "required": [
-              "name"
-            ],
-            "type": "object",
-            "additionalProperties": false
-          },
-          "type": "array",
-          "x-kubernetes-list-map-keys": [
-            "name"
           ],
           "x-kubernetes-list-type": "map"
         }
